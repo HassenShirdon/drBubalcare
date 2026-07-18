@@ -25,16 +25,41 @@ Every case closes with a human-signed written opinion. AI pre-screens, routes, a
 
 ---
 
-## 2. Multi-Agent Topology
+## 2. User Roles & Portals
 
-The platform utilizes a hierarchical agent pattern. A central Supervisor Agent routes tasks to specialized Worker Agents based on the user's intent and uploaded payloads.
+Dr. Bubal Care serves three user roles, each with a dedicated portal and clear journey.
 
-| Agent Name | Role | Primary Tools & Capabilities |
-| --- | --- | --- |
-| **Supervisor (Triage)** | Orchestrator | Intent classification, DB querying (`users`, `appointments`), Agent routing. |
-| **Lab Analysis Agent** | Diagnostic Extractor | Vision-Language Model (VLM), OCR, Biomarker mapping, Risk flagging. |
-| **Dossier Synthesizer** | Clinical Summarizer | NLP summarization, Medical terminology normalization, Translation (if required). |
-| **Nutrition & Lifestyle** | Preventative Care | RAG (Dietary guidelines), Personalized plan generation based on `lab_tests`. |
+| Role | Portal | Description |
+|------|--------|-------------|
+| **Patient** | `patient.drbubalcare.com` | Register, start cases, upload records, receive opinions, ask follow-ups, track trends |
+| **Specialist (Doctor)** | `doctor.drbubalcare.com` | Review assigned cases, write opinions, access AI pre-screening, manage availability |
+| **Admin** | `admin.drbubalcare.com` | Case routing oversight, system health, analytics, dispute resolution |
+
+### Patient Journey
+
+1. **Register** — Name, email, country, password. Under 2 minutes.
+2. **Start a case** — Select review type (image review, result interpretation, direct consultation). Upload slides, DICOM scans, or lab reports. Files encrypted on upload.
+3. **Choose a service and pay** — Single-expert or panel review. See exact price before confirming.
+4. **AI pre-screening** — Reviews clinical notes, flags key findings for incoming specialist. Takes a few minutes.
+5. **Specialist reviews** — Board-certified specialist matched by subspecialty reviews materials alongside AI pre-screen. Target: 24-48 hours.
+6. **Receive report** — Structured written opinion — clinical findings, impression, recommended next steps. Plain-language summary included.
+7. **Follow-up** — Ask questions via AI assistant (within scope of written opinion). Or book direct consultation.
+
+### Specialist Journey
+
+1. **Register & verify** — Provide credentials and medical registration number. Verification within 24-48 hours.
+2. **Set availability** — Subspecialties, available hours, case capacity.
+3. **Receive cases** — AI-routed cases arrive with pre-screening attached.
+4. **Write opinion** — Structured format — findings, clinical impression, recommended next steps.
+5. **Sign and submit** — Human signature closes the case. AI never signs.
+
+### Admin Oversight
+
+* Monitor case routing accuracy and specialist response times
+* Handle urgent/critical findings (immediate phone/WhatsApp contact)
+* Review disputes and assign peer reviews
+* Manage specialist onboarding and verification
+* System health dashboards and compliance audit reviews
 
 ---
 
