@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { Stethoscope, LayoutDashboard, Users, Calendar, FlaskConical, Plus, HelpCircle, LogOut, Menu, Bell } from 'lucide-react';
+import { Stethoscope, LayoutDashboard, Users, Calendar, FlaskConical, Plus, HelpCircle, LogOut, Menu, Bell, Briefcase } from 'lucide-react';
 
 export function DoctorLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -25,6 +25,12 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
             <Link href="/doctor" className="flex items-center space-x-2.5 px-3 py-2 text-clinical-navy font-semibold border-r-2 border-clinical-navy font-label-md text-sm bg-evidence-blue-light/50 rounded-l-lg transition-all">
               <LayoutDashboard className="size-4" />
               <span>Dashboard</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/doctor/cases" className="flex items-center space-x-2.5 px-3 py-2 text-on-surface-variant font-label-md text-sm hover:bg-surface-container-low hover:text-clinical-navy rounded-lg transition-colors">
+              <Briefcase className="size-4" />
+              <span>My Cases</span>
             </Link>
           </li>
           <li>
