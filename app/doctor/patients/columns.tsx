@@ -18,11 +18,15 @@ export const columns: ColumnDef<DoctorPatient>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Patient" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        {row.original.image && (
-          <img src={row.original.image} alt="" className="size-8 rounded-full" />
+        {row.original.image ? (
+          <img src={row.original.image} alt="" className="size-9 rounded-full" />
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-semibold text-xs shrink-0">
+            {row.original.name.charAt(0)}
+          </div>
         )}
         <div>
-          <p className="font-medium text-text-medical-black">{row.original.name}</p>
+          <p className="font-medium text-text-medical-black text-sm">{row.original.name}</p>
           <p className="text-xs text-on-surface-variant">{row.original.email}</p>
         </div>
       </div>
@@ -39,7 +43,7 @@ export const columns: ColumnDef<DoctorPatient>[] = [
     accessorKey: "appointmentCount",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Appointments" />,
     cell: ({ row }) => (
-      <span className="inline-flex items-center justify-center size-6 rounded-full bg-clinical-navy/10 text-clinical-navy text-xs font-bold">
+      <span className="inline-flex items-center justify-center size-7 rounded-full bg-clinical-navy/10 text-clinical-navy text-xs font-medium">
         {row.original.appointmentCount}
       </span>
     ),
