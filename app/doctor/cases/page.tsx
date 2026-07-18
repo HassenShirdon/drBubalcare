@@ -19,25 +19,35 @@ export default function DoctorCasesPage() {
     return true
   })
 
+  const allCount = cases?.length ?? 0
+  const pendingCount = (cases as DoctorCase[] | undefined)?.filter((c) => !c.opinions?.length || c.opinions.every((o) => o.status === "DRAFT")).length ?? 0
+  const opinionCount = (cases as DoctorCase[] | undefined)?.filter((c) => c.opinions?.some((o) => o.status !== "DRAFT")).length ?? 0
+
+  const tabs: { key: TabFilter; label: string; count: number }[] = [
+    { key: "all", label: "All", count: allCount },
+    { key: "pending", label: "Pending", count: pendingCount },
+    { key: "opinion_written", label: "Opinion Written", count: opinionCount },
+  ]
+
   return (
-    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-5">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-on-surface-variant text-sm mb-1">Doctor Portal</p>
-        <h1 className="text-clinical-navy font-bold text-2xl md:text-3xl">My Cases</h1>
+        <h1 className="text-clinical-navy font-headline-md font-semibold text-xl">My Cases</h1>
+        <p className="text-sm text-on-surface-variant mt-0.5">View and manage your assigned diagnostic cases</p>
       </motion.div>
 
       <div className="flex gap-2">
-        {(["all", "pending", "opinion_written"] as const).map((tab) => (
+        {tabs.map((tab) => (
           <button
-            key={tab}
-            onClick={() => setTabFilter(tab)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              tabFilter === tab
-                ? "bg-clinical-navy text-white"
-                : "bg-surface text-on-surface-variant hover:bg-surface-container-low"
+            key={tab.key}
+            onClick={() => setTabFilter(tab.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              tabFilter === tab.key
+                ? "bg-clinical-navy text-white shadow-sm"
+                : "bg-surface-container text-on-surface-variant hover:bg-surface-container-low"
             }`}
           >
-            {tab === "all" ? "All" : tab === "pending" ? "Pending" : "Opinion Written"}
+            {tab.label} ({tab.count})
           </button>
         ))}
       </div>
