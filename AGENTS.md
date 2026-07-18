@@ -187,3 +187,20 @@ Register → Verify Credentials → Set Availability → Receive Cases → Write
 **Admin:**
 * Read: All `cases`, `audit_logs`, platform metrics
 * Write: Case status overrides, dispute resolution, specialist verification
+
+---
+
+## 7. Security & Compliance (GDPR + HIPAA)
+
+| Principle | Implementation |
+|-----------|---------------|
+| **PHI-safe Prompting** | Strip all identifiable data (names, DOB, MRN) before any LLM call. Clinical content only reaches the model. |
+| **Audit Logging** | Every read/write to patient data logged with `AuditLog` — who, what, when, which resource. |
+| **Data Minimization** | AI features process only the clinical data needed for the specific task. |
+| **Encryption at rest** | Supabase/PostgreSQL encryption for stored PHI. |
+| **Encryption in transit** | TLS 1.3 for all data transmission. |
+| **Signed URLs** | Short-lived, expiring URLs for file access — expire immediately after extraction task completes. |
+| **Right to erasure** | GDPR Article 17 — patients can request full data deletion via admin. |
+| **Consent management** | Explicit consent for AI processing, stored in database. |
+| **Incident response** | Breach notification within 72 hours (GDPR) / without unreasonable delay (HIPAA). |
+| **Access controls** | Row-level security in Supabase. Users can only access their own data (or assigned cases for specialists). |
