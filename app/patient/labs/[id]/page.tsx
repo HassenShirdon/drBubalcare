@@ -78,7 +78,7 @@ export default function LabResultDetails() {
                         <span className="text-on-surface-variant text-sm ml-1">{metric.unit}</span>
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusColor[metric.status] || 'bg-healing-teal/10 text-healing-teal'}`}>
-                        {metric.status === 'REVIEW_NEEDED' ? 'Review Needed' : metric.status === 'HIGH' ? 'High' : metric.status === 'LOW' ? 'Low' : 'Normal'}
+                        {metric.status === 'HIGH' ? 'High' : metric.status === 'LOW' ? 'Low' : 'Normal'}
                       </span>
                     </div>
                   </div>

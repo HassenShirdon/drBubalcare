@@ -52,5 +52,21 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // After sign-in, redirect to the correct portal based on role
+      try {
+        const parsedUrl = new URL(url, baseUrl);
+        // If URL is already within a portal path, respect it
+        if (parsedUrl.pathname.startsWith('/patient') ||
+            parsedUrl.pathname.startsWith('/doctor') ||
+            parsedUrl.pathname.startsWith('/admin')) {
+          return parsedUrl.href;
+        }
+      } catch {
+        // invalid URL, fall through
+      }
+      // Default: stay on the same origin
+      return baseUrl;
+    },
   },
 };

@@ -59,7 +59,7 @@ export default function LabsPortal() {
                 <Loader2 className="animate-spin text-healing-teal" size={24} />
               </div>
             ) : filtered && filtered.length > 0 ? (
-              filtered.map((lab) => (
+              filtered.map((lab: { id: string; name: string; date: string; doctor: string; status: LabStatus; icon: string }) => (
                 <Link href={`/patient/labs/${lab.id}`} key={lab.id} className="p-4 flex items-center justify-between hover:bg-surface-container-low transition-colors group block">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-evidence-blue-light/50 group-hover:text-clinical-navy transition-colors shrink-0">

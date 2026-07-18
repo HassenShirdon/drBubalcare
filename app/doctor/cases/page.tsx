@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { motion } from "motion/react"
-import { Loader2 } from "lucide-react"
 import { DataTable } from "@/components/ui/data-table"
+import { TableSkeleton } from "@/components/ui/table-skeleton"
 import { useDoctorCases } from "@/lib/hooks/use-doctor-cases"
 import { columns, type DoctorCase } from "./columns"
 
@@ -43,9 +43,7 @@ export default function DoctorCasesPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="animate-spin text-healing-teal" size={32} />
-        </div>
+        <TableSkeleton columns={5} search />
       ) : (
         <DataTable
           columns={columns}

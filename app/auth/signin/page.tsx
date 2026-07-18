@@ -1,17 +1,14 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { signInSchema, type SignInInput } from '@/lib/schemas/auth.schema';
 
-export default function SignInPage() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
-
+function SignInForm() {
   const {
     register,
     handleSubmit,
@@ -26,13 +23,23 @@ export default function SignInPage() {
       email: data.email,
       password: data.password,
       redirect: false,
-      callbackUrl,
     });
 
     if (res?.error) {
       setError('root', { message: 'Invalid email or password' });
-    } else if (res?.url) {
-      window.location.href = res.url;
+    } else {
+      // Fetch the session to get the user's role, then redirect to the correct portal
+      const sessionRes = await fetch('/api/auth/session');
+      const session = await sessionRes.json();
+      const role = session?.user?.role;
+
+      if (role === 'ADMIN') {
+        window.location.href = '/admin';
+      } else if (role === 'DOCTOR') {
+        window.location.href = '/doctor';
+      } else {
+        window.location.href = '/patient';
+      }
     }
   }
 
@@ -127,5 +134,17 @@ export default function SignInPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-surface flex items-center justify-center">
+        <Loader2 className="animate-spin text-healing-teal" size={32} />
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 }
