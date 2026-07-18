@@ -74,33 +74,25 @@ Dr. Bubal Care serves three user roles, each with a dedicated portal and clear j
 
 ---
 
-## 4. Database Integration & State Management
+## 4. AI Feature Layer
 
-Agents require robust access control and state persistence. The system interfaces directly with the PostgreSQL/Supabase schema defined in the core PRD.
+The platform includes six AI features that assist real specialists — not replace them. All AI outputs are logged, versioned, and auditable. Every output is watermarked as "AI-Generated Draft" and requires human specialist sign-off.
 
-### Role-Based Data Access (RBA)
+| # | Feature | Description | Status |
+|---|---------|-------------|--------|
+| 1 | **Intelligent Case Routing** | Analyzes case metadata (diagnosis type, tissue site, urgency flags) and matches to most appropriate specialist by subspecialty and current availability. Eliminates manual triage. | `Planned` |
+| 2 | **AI Pre-screening** | Before specialist opens case, reads clinical notes and prior reports. Produces structured pre-screen: key findings, differentials to consider, urgent flags. Specialist reviews human record; AI surfaces what matters first. | `Planned` |
+| 3 | **Plain-language Summary** | Translates specialist's written opinion into patient-friendly language. No medical jargon. Written as if by a trusted GP. | `Planned` |
+| 4 | **Multi-opinion Synthesis** | When case receives opinions from 2-4 specialists, synthesizes areas of agreement and disagreement into consensus summary. Saves patient from manually reconciling conflicting reports. | `Planned` |
+| 5 | **Follow-up Q&A** | After report delivery, patient asks questions. AI answers within documented scope of written opinion. Reduces support load, gives patients clarity faster. | `Planned` |
+| 6 | **Result Trend Analysis** | For patients with repeat lab tests, tracks longitudinal trends and flags statistically significant changes. Early-warning signal for coordinators and physicians. | `Planned` |
 
-* **Patients (`role = 'patient'`):**
-* Agents can read: `patients` profile, own `appointments`, `medical_records`, `lab_tests`, `second_opinions`.
-* Agents can write: New `medical_records` (uploads), initial `appointments` booking requests.
+### AI Safety Principles
 
-
-* **Doctors (`role = 'doctor'`):**
-* Agents can read: Assigned patient dossiers, `appointments`, `medical_records`.
-* Agents can write: Updates to `lab_tests` (confirming interpretations), `second_opinions` (submitting recommendations).
-
-
-* **Admins (`role = 'admin'`):**
-* Agents can read/write: Global platform metrics, `blog_posts` generation, system health.
-
-
-
-### Agent State Transitions
-
-Agents track their task progress by updating the `status` enums in the database:
-
-* `appointments.status`: Transitions from `pending` ➔ `confirmed` (via Supervisor Agent scheduling).
-* `second_opinions.status`: Transitions from `submitted` ➔ `under_review` (via Dossier Agent).
+* **PHI-safe Prompting:** Identifiable data (names, DOB, MRN) is stripped before any LLM call. Clinical content only reaches the model.
+* **Documented Reasoning:** All AI outputs are logged, versioned, and auditable — meeting clinical governance standards.
+* **Human Sign-off:** Every case closes with a human-signed written opinion. AI surfaces; specialists decide.
+* **No Clinical Diagnosis:** AI is strictly forbidden from offering definitive clinical diagnoses. All outputs are watermarked as "AI-Generated Drafts."
 
 ---
 
