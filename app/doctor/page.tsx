@@ -90,90 +90,95 @@ export default async function DoctorDashboard() {
   const pendingReviewCount = pendingReviews.length;
 
   return (
-    <div className="p-4 md:p-6 space-y-5">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
+      {/* Header */}
       <div>
-        <h1 className="font-headline-md text-xl md:text-2xl font-semibold text-text-medical-black">
-          Welcome, {doctor.user.name ?? 'Doctor'}
+        <h1 className="font-headline-md text-lg font-semibold text-text-medical-black">
+          Welcome back, Dr. {doctor.user.name ?? 'Doctor'}
         </h1>
-        <p className="text-on-surface-variant mt-0.5 text-xs">
+        <p className="text-sm text-on-surface-variant mt-0.5">
           {doctor.specialty} &middot; {doctor.experience}
         </p>
       </div>
 
+      {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5 hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy">
-              <Calendar className="size-4" />
+            <div className="w-10 h-10 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy">
+              <Calendar className="size-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{appointmentCount}</p>
-              <p className="text-[11px] text-on-surface-variant">Total Appointments</p>
+              <p className="text-2xl font-bold text-text-medical-black">{appointmentCount}</p>
+              <p className="text-xs text-on-surface-variant">Total Appointments</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5 hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy">
-              <Users className="size-4" />
+            <div className="w-10 h-10 rounded-lg bg-healing-teal/10 flex items-center justify-center text-healing-teal">
+              <Users className="size-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{patientCount}</p>
-              <p className="text-[11px] text-on-surface-variant">Total Patients</p>
+              <p className="text-2xl font-bold text-text-medical-black">{patientCount}</p>
+              <p className="text-xs text-on-surface-variant">Total Patients</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5 hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
-              <FlaskConical className="size-4" />
+            <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+              <FlaskConical className="size-5" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{pendingReviewCount}</p>
-              <p className="text-[11px] text-on-surface-variant">Pending Reviews</p>
+              <p className="text-2xl font-bold text-text-medical-black">{pendingReviewCount}</p>
+              <p className="text-xs text-on-surface-variant">Pending Reviews</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-5">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Today's Schedule */}
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-headline-md font-semibold text-sm text-text-medical-black flex items-center gap-2">
-              <Calendar className="size-3.5 text-clinical-navy" />
+              <Calendar className="size-4 text-clinical-navy" />
               Today&apos;s Schedule
             </h2>
-            <span className="text-[11px] text-on-surface-variant">{formatDate(new Date())}</span>
+            <span className="text-xs text-on-surface-variant">{formatDate(new Date())}</span>
           </div>
 
           {appointments.length === 0 ? (
-            <div className="text-center py-8">
-              <Calendar className="size-8 text-on-surface-variant/30 mx-auto mb-2" />
-              <p className="text-on-surface-variant text-xs">No appointments scheduled today</p>
+            <div className="text-center py-12">
+              <Calendar className="size-12 text-on-surface-variant/30 mx-auto mb-3" />
+              <p className="text-sm font-semibold text-text-medical-black">No appointments today</p>
+              <p className="text-xs text-on-surface-variant mt-1">Your schedule will appear here</p>
             </div>
           ) : (
             <ul className="space-y-2">
               {appointments.map((apt) => (
                 <li
                   key={apt.id}
-                  className="flex items-center gap-3 p-2.5 rounded-lg bg-surface hover:bg-surface-container-low transition-colors"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container-low transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-semibold text-xs shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-semibold text-xs shrink-0">
                     {apt.patient.name?.charAt(0) ?? 'P'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-text-medical-black text-xs truncate">
+                    <p className="font-medium text-text-medical-black text-sm truncate">
                       {apt.patient.name ?? 'Unknown Patient'}
                     </p>
-                    <p className="text-on-surface-variant text-[11px] flex items-center gap-1">
+                    <p className="text-on-surface-variant text-xs flex items-center gap-1">
                       <Clock className="size-3" />
                       {formatTime(apt.time)}
                     </p>
                   </div>
                   <span
-                    className={`text-[11px] font-medium px-2 py-0.5 rounded-full capitalize ${
+                    className={`text-xs font-medium px-2.5 py-0.5 rounded-full capitalize ${
                       apt.status === 'CONFIRMED'
                         ? 'text-healing-teal bg-healing-teal/10'
                         : apt.status === 'SCHEDULED'
@@ -189,10 +194,11 @@ export default async function DoctorDashboard() {
           )}
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-5">
+        {/* Pending Lab Reviews */}
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-headline-md font-semibold text-sm text-text-medical-black flex items-center gap-2">
-              <FlaskConical className="size-3.5 text-clinical-navy" />
+              <FlaskConical className="size-4 text-clinical-navy" />
               Pending Lab Reviews
             </h2>
             <Link
@@ -204,25 +210,26 @@ export default async function DoctorDashboard() {
           </div>
 
           {pendingReviews.length === 0 ? (
-            <div className="text-center py-8">
-              <CheckCircle2 className="size-8 text-healing-teal/50 mx-auto mb-2" />
-              <p className="text-on-surface-variant text-xs">All labs reviewed</p>
+            <div className="text-center py-12">
+              <CheckCircle2 className="size-12 text-healing-teal/50 mx-auto mb-3" />
+              <p className="text-sm font-semibold text-text-medical-black">All labs reviewed</p>
+              <p className="text-xs text-on-surface-variant mt-1">No pending reviews at this time</p>
             </div>
           ) : (
             <ul className="space-y-2">
               {pendingReviews.map((lab) => (
-                <li key={lab.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-surface hover:bg-surface-container-low transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
+                <li key={lab.id} className="flex items-center gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container-low transition-colors">
+                  <div className="w-9 h-9 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
                     <AlertCircle className="size-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-text-medical-black text-xs truncate">{lab.name}</p>
-                    <p className="text-on-surface-variant text-[11px]">
+                    <p className="font-medium text-text-medical-black text-sm truncate">{lab.name}</p>
+                    <p className="text-on-surface-variant text-xs">
                       {lab.patient.name ?? 'Unknown'} &middot; {formatDate(lab.date)}
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[11px] font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-medium text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full">
                       {lab.metrics.filter((m) => m.status !== 'NORMAL').length} flag
                       {lab.metrics.filter((m) => m.status !== 'NORMAL').length !== 1 ? 's' : ''}
                     </span>
