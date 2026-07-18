@@ -74,7 +74,7 @@ export const SPECIALIZATIONS: {
     description: 'Diabetes, hypertension, long-term monitoring',
     icon: Activity,
   },
-] as const;
+];
 
 export const TRUST_POINTS: {
   title: string;
@@ -101,14 +101,14 @@ export const TRUST_POINTS: {
     description: 'Most cases reviewed within 2 days. Urgent cases get priority.',
     icon: Clock,
   },
-] as const;
+];
 
 export const STATS: { value: string; label: string }[] = [
   { value: '10+', label: 'Specialist Disciplines' },
   { value: '24-48h', label: 'Average Turnaround' },
   { value: 'Encrypted', label: 'Data Security' },
   { value: 'East Africa', label: 'Primary Coverage' },
-] as const;
+];
 
 export const STEPS: { num: string; title: string; description: string }[] = [
   {
@@ -135,7 +135,7 @@ export const STEPS: { num: string; title: string; description: string }[] = [
     description:
       'You receive a structured report with a plain-language summary. No jargon.',
   },
-] as const;
+];
 
 export const SERVICES: {
   title: string;
@@ -171,4 +171,4 @@ export const SERVICES: {
     icon: TrendingUp,
     category: 'Trends',
   },
-] as const;
+];
