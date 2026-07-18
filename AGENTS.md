@@ -96,10 +96,38 @@ The platform includes six AI features that assist real specialists — not repla
 
 ---
 
-## 5. Security & Compliance Guardrails
+## 5. Core Workflows
 
-As a health-tech platform handling sensitive Protected Health Information (PHI), the agent architecture enforces strict data handling protocols:
+### 5.1 Patient Case Workflow (Specialist Opinion)
 
-* **Zero-Retention Memory:** Worker agents are instantiated amnesic. They fetch context directly from secure Supabase queries per session and do not retain cross-session memory in the LLM context window.
-* **Hallucination Mitigation (Grounding):** The Lab Analysis Agent is strictly forbidden from offering definitive clinical diagnoses. All agent outputs are explicitly watermarked as "AI-Generated Drafts" requiring human physician sign-off (HITL).
-* **Encrypted Payloads:** When passing file URLs (S3/Supabase Buckets) to the Vision Model for extraction, the system utilizes short-lived, signed URLs that expire immediately after the extraction task is complete.
+```
+Register → Start Case → Upload Records → Pay → AI Pre-screening → Specialist Reviews → Written Report Delivered → Follow-up Q&A
+```
+
+1. **Register:** Name, email, country, password. Under 2 minutes.
+2. **Start case:** Select review type (image review, result interpretation, direct consultation). Upload slides, DICOM scans, or lab reports. Files encrypted on upload.
+3. **Choose service and pay:** Single-expert or panel review. Pay by card (USD) or local payment method. See exact price before confirming.
+4. **AI pre-screening:** Reviews clinical notes, flags key findings for incoming specialist. Takes a few minutes.
+5. **Specialist reviews:** Board-certified specialist matched by subspecialty reviews materials alongside AI pre-screen. Target: 24-48 hours.
+6. **Receive report:** Structured written opinion in portal — clinical findings, impression, recommended next steps. Plain-language summary included.
+7. **Follow-up:** Ask questions about report via AI assistant. Or book direct consultation for live conversation.
+
+### 5.2 Specialist Review Workflow
+
+```
+Register → Verify Credentials → Set Availability → Receive Cases → Write Opinion → Sign & Submit
+```
+
+1. **Register:** Provide credentials and medical registration number. Verification within 24-48 hours.
+2. **Set availability:** Subspecialties, available hours, case capacity.
+3. **Receive cases:** AI-routed cases arrive with pre-screening attached.
+4. **Write opinion:** Structured format — findings, clinical impression, recommended next steps.
+5. **Sign and submit:** Human signature closes the case. AI never signs.
+
+### 5.3 Admin Oversight Workflow
+
+* Monitor case routing accuracy and specialist response times
+* Handle urgent/critical findings (immediate phone/WhatsApp contact)
+* Review disputes and assign peer reviews
+* Manage specialist onboarding and verification
+* System health dashboards and compliance audit reviews
