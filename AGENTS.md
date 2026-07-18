@@ -204,3 +204,49 @@ Register → Verify Credentials → Set Availability → Receive Cases → Write
 | **Consent management** | Explicit consent for AI processing, stored in database. |
 | **Incident response** | Breach notification within 72 hours (GDPR) / without unreasonable delay (HIPAA). |
 | **Access controls** | Row-level security in Supabase. Users can only access their own data (or assigned cases for specialists). |
+
+---
+
+## 8. Edge Case Handling
+
+| Scenario | Handling |
+|----------|----------|
+| **Urgent/critical findings** | Specialist identifies critical finding → immediate phone/WhatsApp contact, not just portal notification. Admin alerted. |
+| **No specialist matched** | If no specialist matched within 4 hours → admin alerted, patient notified with revised ETA. |
+| **Incomplete upload** | Files unreadable or insufficient → specialist flags case, patient notified with specific instructions on what's missing. |
+| **Dispute resolution** | Patient not satisfied with opinion → admin reviews case, peer review assigned at no extra cost. |
+| **AI hallucination risk** | All AI outputs watermarked as "AI-Generated Drafts" — never presented as clinical diagnosis. Specialist must review and sign. |
+| **Specialist unavailability** | Backup matching queue — if primary specialist unavailable, auto-route to next available specialist in same subspecialty. |
+| **Payment failure** | Case not initiated until payment confirmed. Patient notified with retry options. |
+
+---
+
+## Implementation Phases
+
+### Phase 1: Foundation
+* Database schema updates (new models and enums)
+* Patient registration and case creation
+* File upload with encryption
+* Basic case status tracking
+
+### Phase 2: Specialist Portal
+* Specialist registration and verification
+* Case routing (manual first, then AI)
+* Opinion writing and signing
+* Report delivery
+
+### Phase 3: AI Features
+* Intelligent case routing
+* AI pre-screening
+* Plain-language summary generation
+
+### Phase 4: Advanced AI
+* Multi-opinion synthesis
+* Follow-up Q&A
+* Result trend analysis
+
+### Phase 5: Compliance & Scale
+* Full audit logging
+* GDPR/HIPAA compliance controls
+* Dispute resolution workflow
+* Edge case handling automation
