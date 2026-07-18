@@ -1,6 +1,7 @@
 "use client"
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Stethoscope, LayoutDashboard, Users, Calendar, FlaskConical, Plus, HelpCircle, LogOut, Menu, Bell, Briefcase, X } from 'lucide-react';
 
@@ -8,6 +9,7 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const user = session?.user;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { href: '/doctor', label: 'Dashboard', icon: LayoutDashboard },
@@ -25,18 +27,20 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
     { href: '/api/auth/signout', label: 'Logout', icon: LogOut, danger: true },
   ];
 
-  const SidebarContent = () => (
-    <nav className="bg-white h-full w-64 flex flex-col py-4 px-3">
+  const SidebarContent = ({ showLogo = true }: { showLogo?: boolean }) => (
+    <nav className="bg-white h-full w-full flex flex-col py-4 px-3">
       {/* Logo */}
-      <div className="mb-6 px-2 flex items-center space-x-2.5">
-        <div className="w-9 h-9 rounded-lg bg-clinical-navy flex items-center justify-center text-white shrink-0">
-          <Stethoscope className="size-4" />
+      {showLogo && (
+        <div className="mb-6 px-2 flex items-center space-x-2.5">
+          <div className="w-9 h-9 rounded-lg bg-clinical-navy flex items-center justify-center text-white shrink-0">
+            <Stethoscope className="size-4" />
+          </div>
+          <div>
+            <h1 className="font-headline-md text-clinical-navy font-semibold text-sm">Dr Bubal Care</h1>
+            <p className="font-label-md text-on-surface-variant text-[11px]">Clinical Portal</p>
+          </div>
         </div>
-        <div>
-          <h1 className="font-headline-md text-clinical-navy font-semibold text-sm">Dr Bubal Care</h1>
-          <p className="font-label-md text-on-surface-variant text-[11px]">Clinical Portal</p>
-        </div>
-      </div>
+      )}
       
       {/* Main Navigation */}
       <div className="mb-2">
@@ -44,13 +48,17 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
         <ul className="space-y-1">
           {navItems.map((item) => {
             const isActive = item.href === '/doctor' 
-              ? true // Dashboard is active by default when on /doctor
-              : false; // Will be handled by active state logic
+              ? pathname === '/doctor'
+              : pathname.startsWith(item.href);
             return (
               <li key={item.href}>
                 <Link 
                   href={item.href} 
-                  className="flex items-center space-x-2.5 px-3 py-2 text-on-surface-variant font-label-md text-[13px] font-medium hover:bg-surface-container-low hover:text-clinical-navy rounded-lg transition-colors duration-150"
+                  className={`flex items-center space-x-2.5 px-3 py-2 font-label-md text-[13px] font-medium rounded-lg transition-colors duration-150 ${
+                    isActive 
+                      ? 'bg-surface-container-low text-clinical-navy'
+                      : 'text-on-surface-variant hover:bg-surface-container-low hover:text-clinical-navy'
+                  }`}
                 >
                   <item.icon className="size-[18px]" />
                   <span>{item.label}</span>
@@ -144,7 +152,7 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto">
-              <SidebarContent />
+        <SidebarContent showLogo={false} />
             </div>
           </aside>
         </div>
