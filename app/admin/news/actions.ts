@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 function slugify(text: string): string {
@@ -50,6 +50,7 @@ export async function createPost(formData: FormData) {
   revalidatePath('/admin/news');
   revalidatePath('/news');
   revalidatePath('/');
+  revalidateTag('news');
   redirect('/admin/news');
 }
 
@@ -89,6 +90,7 @@ export async function updatePost(postId: string, formData: FormData) {
   revalidatePath('/admin/news');
   revalidatePath('/news');
   revalidatePath('/');
+  revalidateTag('news');
   redirect('/admin/news');
 }
 
@@ -109,4 +111,5 @@ export async function togglePublishPost(postId: string, published: boolean) {
   revalidatePath('/admin/news');
   revalidatePath('/news');
   revalidatePath('/');
+  revalidateTag('news');
 }
