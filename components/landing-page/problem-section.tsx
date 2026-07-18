@@ -13,19 +13,19 @@ const cards = [
     icon: Users,
     stat: '1 specialist per 100,000+ people',
     description:
-      "Most hospitals in the region don't have a single board-certified pathologist or radiologist on staff.",
+      "Most hospitals in the region lack board-certified specialists — whether you need a pathologist, radiologist, or consultant.",
   },
   {
     icon: Plane,
     stat: 'Avg. 6-8 hours travel',
     description:
-      'Patients and their families travel for hours — sometimes across borders — just to get a second opinion.',
+      "Patients and families travel for hours — sometimes across borders — just to see a specialist or get a second opinion.",
   },
   {
     icon: Clock,
     stat: 'Weeks to months wait',
     description:
-      "By the time results reach a specialist, critical time has been lost. Early detection shouldn't be a luxury.",
+      "By the time you get an appointment, critical time has been lost. Specialist access shouldn't be a luxury.",
   },
 ]
 
@@ -47,11 +47,12 @@ export default function ProblemSection() {
           className="text-center max-w-3xl mx-auto space-y-3"
         >
           <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
-            The gap between test and answer
+            Getting specialist care shouldn&apos;t be this hard
           </h2>
           <p className="font-body-lg text-base text-on-surface-variant/80">
-            In East Africa, getting a specialist opinion shouldn&apos;t require
-            a plane ticket.
+            In East Africa, accessing a qualified specialist — for lab reviews,
+            second opinions, or consultations — means travel, long waits, and
+            uncertainty.
           </p>
         </motion.div>
 

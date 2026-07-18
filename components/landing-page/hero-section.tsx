@@ -31,16 +31,16 @@ export default function HeroSection() {
           </div>
 
           <h1 className="font-headline-md text-4xl md:text-5xl text-text-medical-black tracking-tight font-semibold leading-tight text-balance">
-            Your lab results are in.
+            World-class specialists.
             <br />
-            Now what?
+            One platform.
           </h1>
 
           <p className="font-body-lg text-base md:text-lg text-on-surface-variant/80 leading-relaxed max-w-xl mx-auto">
-            You shouldn&apos;t have to travel across the country — or the continent —
-            to understand what your results mean. Dr. Bubal Care connects you with
-            board-certified specialists who review your case and deliver clear,
-            plain-language answers. From your phone.
+            Connect with board-certified specialists from leading hospitals —
+            for lab reviews, second opinions, and consultations. Upload your
+            records, get matched, and receive clear answers. All from your phone,
+            with minimum effort.
           </p>
 
           <div className="pt-2 flex items-center justify-center gap-3">

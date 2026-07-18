@@ -113,9 +113,9 @@ export const STATS: { value: string; label: string }[] = [
 export const STEPS: { num: string; title: string; description: string }[] = [
   {
     num: '01',
-    title: 'Upload your records',
+    title: 'Start your case',
     description:
-      'Lab reports, scans, slides — upload anything. Takes under 5 minutes.',
+      'Upload records — lab reports, scans, slides — or book a consultation. Takes under 5 minutes.',
   },
   {
     num: '02',

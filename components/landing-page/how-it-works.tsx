@@ -28,7 +28,7 @@ export default function HowItWorks() {
             How it works
           </h2>
           <p className="font-body-lg text-base text-on-surface-variant/80">
-            From upload to answer in four simple steps.
+            From first contact to specialist answers — we handle the coordination.
           </p>
         </div>
 
