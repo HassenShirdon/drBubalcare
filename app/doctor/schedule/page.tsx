@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { authOptions } from '@/lib/auth';
-import { Calendar, Clock, Users } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 
 async function getDoctor(userId: string) {
   return prisma.doctor.findUnique({ where: { userId } });
@@ -61,30 +61,34 @@ export default async function SchedulePage() {
   const grouped = groupByDate(appointments);
 
   return (
-    <div className="p-4 md:p-8 space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-text-medical-black">Schedule</h1>
-        <p className="text-on-surface-variant mt-1 text-sm">{appointments.length} appointment{appointments.length !== 1 ? 's' : ''}</p>
+        <h1 className="font-headline-md text-xl font-semibold text-clinical-navy">Schedule</h1>
+        <p className="text-sm text-on-surface-variant mt-0.5">
+          {appointments.length} upcoming appointment{appointments.length !== 1 ? 's' : ''}
+        </p>
       </div>
 
       {appointments.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-12 text-center">
+        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-12 text-center">
           <Calendar className="size-12 text-on-surface-variant/30 mx-auto mb-3" />
-          <h2 className="text-lg font-semibold text-text-medical-black mb-1">No appointments</h2>
-          <p className="text-on-surface-variant text-sm">Your schedule will appear here once appointments are booked</p>
+          <p className="text-base font-semibold text-text-medical-black">No appointments</p>
+          <p className="text-sm text-on-surface-variant mt-1">Your schedule will appear here once appointments are booked</p>
         </div>
       ) : (
         <div className="space-y-8">
           {Array.from(grouped.entries()).map(([dateKey, dayAppts]) => (
             <div key={dateKey}>
-              <h2 className="font-semibold text-text-medical-black mb-3 text-base">{formatDate(new Date(dateKey + 'T00:00:00'))}</h2>
+              <h2 className="font-semibold text-text-medical-black mb-3 text-sm pb-2 border-b border-surface-gray/60">
+                {formatDate(new Date(dateKey + 'T00:00:00'))}
+              </h2>
               <div className="space-y-2">
                 {dayAppts.map((apt) => (
                   <div
                     key={apt.id}
-                    className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-4 flex items-center gap-4"
+                    className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
                   >
-                    <div className="size-10 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-bold text-sm shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-bold text-sm shrink-0">
                       {apt.patient.name?.charAt(0) ?? 'P'}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -94,7 +98,7 @@ export default async function SchedulePage() {
                         {formatTime(apt.time)}
                       </p>
                     </div>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusColors[apt.status] ?? 'text-on-surface-variant bg-surface-gray/50'}`}>
+                    <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full capitalize ${statusColors[apt.status] ?? 'text-on-surface-variant bg-surface-gray/50'}`}>
                       {apt.status.toLowerCase()}
                     </span>
                   </div>
