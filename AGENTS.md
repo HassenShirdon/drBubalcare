@@ -131,3 +131,59 @@ Register → Verify Credentials → Set Availability → Receive Cases → Write
 * Review disputes and assign peer reviews
 * Manage specialist onboarding and verification
 * System health dashboards and compliance audit reviews
+
+---
+
+## 6. Database Schema & State Management
+
+### Existing Models (from Prisma schema)
+
+* `User` — Base user with role (PATIENT, DOCTOR, ADMIN)
+* `Doctor` — Specialist profile (specialty, experience, rating, bio)
+* `DoctorService` — Services offered by a doctor
+* `LabResult` — Patient lab results with metrics and trends
+* `LabMetric` — Individual lab test values with reference ranges
+* `LabTrendPoint` — Longitudinal lab data points
+* `Appointment` — Patient-doctor appointments
+* `Post` — Blog/news posts
+* `Service` — Platform service definitions
+
+### New Models (to be added)
+
+| Model | Purpose | Key Fields |
+|-------|---------|-----------|
+| `Case` | A patient's diagnostic case | `id`, `patientId`, `serviceType`, `status` (CaseStatus), `createdAt`, `updatedAt` |
+| `CaseRecord` | Uploaded files (slides, scans, reports) | `id`, `caseId`, `fileUrl`, `fileType`, `fileName`, `uploadedAt` |
+| `SpecialistOpinion` | Written opinion from specialist | `id`, `caseId`, `specialistId`, `content`, `status` (OpinionStatus), `signedAt`, `createdAt` |
+| `AIPrescreen` | AI pre-screening output | `id`, `caseId`, `findings`, `differentials`, `urgentFlags`, `generatedAt` |
+| `PlainLanguageSummary` | Patient-friendly translation | `id`, `opinionId`, `content`, `generatedAt` |
+| `FollowUpQuestion` | Patient follow-up Q&A | `id`, `opinionId`, `question`, `answer`, `scopeNote`, `createdAt` |
+| `AuditLog` | HIPAA/GDPR compliance logging | `id`, `userId`, `action`, `resourceType`, `resourceId`, `metadata`, `timestamp` |
+
+### New Enums
+
+| Enum | Values |
+|------|--------|
+| `CaseStatus` | `OPEN`, `AI_PRE_SCREENED`, `UNDER_REVIEW`, `OPINION_READY`, `CLOSED`, `DISPUTED` |
+| `OpinionStatus` | `DRAFT`, `SIGNED`, `DELIVERED`, `DISPUTED` |
+| `ServiceType` | `SPECIALIST_OPINION`, `RESULT_INTERPRETATION`, `FOLLOW_UP`, `TREND_ANALYSIS` |
+
+### State Transitions
+
+* `Case.status`: `OPEN` → `AI_PRE_SCREENED` → `UNDER_REVIEW` → `OPINION_READY` → `CLOSED`
+* `Case.status`: Any → `DISPUTED` (if patient raises dispute)
+* `SpecialistOpinion.status`: `DRAFT` → `SIGNED` → `DELIVERED`
+
+### Role-Based Data Access
+
+**Patient:**
+* Read: Own `cases`, `case_records`, `specialist_opinions`, `plain_language_summaries`, `follow_up_questions`
+* Write: New `cases`, `case_records`, `follow_up_questions`
+
+**Specialist (Doctor):**
+* Read: Assigned `cases`, `case_records`, `ai_prescreens`
+* Write: `specialist_opinions` (draft → sign)
+
+**Admin:**
+* Read: All `cases`, `audit_logs`, platform metrics
+* Write: Case status overrides, dispute resolution, specialist verification
