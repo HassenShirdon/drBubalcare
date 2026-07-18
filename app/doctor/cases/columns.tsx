@@ -22,9 +22,14 @@ export const columns: ColumnDef<DoctorCase>[] = [
     cell: ({ row }) => {
       const patient = row.original.patient
       return (
-        <div>
-          <p className="font-medium text-text-medical-black">{patient.name ?? "Unknown"}</p>
-          <p className="text-xs text-on-surface-variant">{patient.email}</p>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-semibold text-xs shrink-0">
+            {patient.name?.charAt(0) ?? "P"}
+          </div>
+          <div>
+            <p className="font-medium text-text-medical-black text-sm">{patient.name ?? "Unknown"}</p>
+            <p className="text-xs text-on-surface-variant">{patient.email}</p>
+          </div>
         </div>
       )
     },
@@ -52,7 +57,7 @@ export const columns: ColumnDef<DoctorCase>[] = [
     cell: ({ row }) => {
       const config = CASE_STATUS_CONFIG[row.original.status] ?? { label: row.original.status, color: "" }
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${config.color}`}>
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
           {config.label}
         </span>
       )
@@ -67,7 +72,7 @@ export const columns: ColumnDef<DoctorCase>[] = [
       const status = opinion?.status ?? "NONE"
       const config = OPINION_STATUS_CONFIG[status] ?? { label: "Not Started", color: "bg-gray-100 text-gray-500" }
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${config.color}`}>
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
           {config.label}
         </span>
       )
@@ -92,7 +97,7 @@ export const columns: ColumnDef<DoctorCase>[] = [
     cell: ({ row }) => (
       <Link
         href={`/doctor/cases/${row.original.id}`}
-        className="text-clinical-navy hover:text-healing-teal"
+        className="text-clinical-navy hover:text-healing-teal transition-colors"
       >
         <ArrowRight className="size-4" />
       </Link>
