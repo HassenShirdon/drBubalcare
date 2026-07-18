@@ -34,6 +34,42 @@ function formatDate(date: string) {
   });
 }
 
+function parseOpinionSections(content: string): { title: string; body: string }[] {
+  const lines = content.split('\n');
+  const sections: { title: string; body: string }[] = [];
+  let currentTitle = '';
+  let currentBody: string[] = [];
+
+  for (const line of lines) {
+    const headerMatch = line.match(/^(#{1,3}\s+.+|[A-Z][A-Za-z\s]+:)\s*$/);
+    if (headerMatch) {
+      if (currentTitle || currentBody.length > 0) {
+        sections.push({
+          title: currentTitle.replace(/^#+\s*/, '').replace(/:$/, ''),
+          body: currentBody.join('\n').trim(),
+        });
+      }
+      currentTitle = headerMatch[1];
+      currentBody = [];
+    } else {
+      currentBody.push(line);
+    }
+  }
+
+  if (currentTitle || currentBody.length > 0) {
+    sections.push({
+      title: currentTitle.replace(/^#+\s*/, '').replace(/:$/, ''),
+      body: currentBody.join('\n').trim(),
+    });
+  }
+
+  if (sections.length === 0 && content.trim()) {
+    sections.push({ title: '', body: content.trim() });
+  }
+
+  return sections;
+}
+
 export default function CaseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data: caseData, isLoading } = useCase(id);
@@ -164,43 +200,33 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
         </motion.div>
       )}
 
-      {/* Opinions */}
+      {/* Specialist Opinion */}
       {caseData.opinions && caseData.opinions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="space-y-4"
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-6"
         >
-          <h2 className="font-semibold text-text-medical-black flex items-center gap-2">
-            <CheckCircle2 className="size-4 text-clinical-navy" />
-            Specialist Opinions
+          <h2 className="font-semibold text-text-medical-black mb-4 flex items-center gap-2">
+            <CheckCircle2 className="size-4 text-healing-teal" />
+            Specialist Opinion
           </h2>
-          {caseData.opinions.map((opinion: any) => (
-            <div key={opinion.id} className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-6">
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-sm font-medium text-clinical-navy">{opinion.specialist?.name}</p>
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                    opinion.status === 'DELIVERED' ? 'bg-healing-teal/10 text-healing-teal' :
-                    opinion.status === 'SIGNED' ? 'bg-blue-50 text-blue-600' :
-                    'bg-gray-100 text-gray-500'
-                  }`}>
-                    {opinion.status}
-                  </span>
-                  {opinion.signedAt && (
-                    <span className="text-xs text-on-surface-variant flex items-center gap-1">
-                      <Calendar className="size-3" />
-                      {formatDate(opinion.signedAt)}
-                    </span>
-                  )}
-                </div>
+          <div className="flex items-center gap-2 mb-4 text-xs text-on-surface-variant">
+            <User className="size-3" />
+            {caseData.opinions[0].specialist.name}
+            <span className="text-on-surface-variant/50">&middot;</span>
+            <Calendar className="size-3" />
+            {formatDate(caseData.opinions[0].signedAt || caseData.opinions[0].createdAt)}
+          </div>
+          <div className="space-y-4">
+            {parseOpinionSections(caseData.opinions[0].content).map((section, i) => (
+              <div key={i}>
+                {section.title && <h3 className="text-sm font-semibold text-clinical-navy mb-1">{section.title}</h3>}
+                <p className="text-sm text-on-surface leading-relaxed whitespace-pre-wrap">{section.body}</p>
               </div>
-              <div className="text-sm text-on-surface leading-relaxed whitespace-pre-wrap">
-                {opinion.content}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </motion.div>
       )}
     </div>

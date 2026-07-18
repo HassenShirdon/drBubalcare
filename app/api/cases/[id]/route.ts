@@ -21,8 +21,10 @@ export async function GET(
       specialist: { select: { name: true, email: true } },
       records: true,
       opinions: {
+        where: { status: { in: ['SIGNED', 'DELIVERED'] } },
         include: { specialist: { select: { name: true } } },
         orderBy: { createdAt: 'desc' },
+        take: 1,
       },
       aiPrescreens: {
         orderBy: { generatedAt: 'desc' },
