@@ -52,7 +52,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   const existingOpinion = caseData?.opinions?.[0];
   const isSigned = existingOpinion?.status === 'SIGNED' || existingOpinion?.status === 'DELIVERED';
-  // Load existing draft into form
+  
   useEffect(() => {
     if (existingOpinion?.content) {
       const sections = parseOpinionSections(existingOpinion.content);
@@ -87,7 +87,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   if (isLoading) {
     return (
-      <div className="p-4 md:p-6 max-w-4xl mx-auto flex items-center justify-center py-20">
+      <div className="p-6 max-w-4xl mx-auto flex items-center justify-center py-20">
         <Loader2 className="animate-spin text-healing-teal" size={32} />
       </div>
     );
@@ -95,7 +95,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   if (!caseData) {
     return (
-      <div className="p-4 md:p-6 max-w-4xl mx-auto text-center py-20">
+      <div className="p-6 max-w-4xl mx-auto text-center py-20">
         <p className="text-on-surface-variant">Case not found</p>
         <Link href="/doctor/cases" className="text-clinical-navy text-sm mt-2 inline-block hover:text-healing-teal">
           Back to cases
@@ -107,7 +107,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
   const status = statusConfig[caseData.status] || statusConfig.OPEN;
 
   return (
-    <div className="p-4 md:p-6 max-w-4xl mx-auto pb-24 md:pb-8 space-y-5">
+    <div className="p-6 max-w-4xl mx-auto pb-24 md:pb-8 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link
           href="/doctor/cases"
@@ -118,14 +118,14 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
         </Link>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="font-headline-md text-xl md:text-2xl font-semibold text-text-medical-black">
+            <h1 className="font-headline-md text-xl font-semibold text-clinical-navy">
               {serviceTypeLabels[caseData.serviceType] || caseData.serviceType}
             </h1>
-            <p className="text-on-surface-variant text-sm mt-1">
+            <p className="text-sm text-on-surface-variant mt-1">
               Patient: {caseData.patient.name ?? 'Unknown'} &middot; Created {formatDate(caseData.createdAt)}
             </p>
           </div>
-          <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold ${status.color}`}>
+          <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium ${status.color}`}>
             {status.label}
           </span>
         </div>
@@ -136,9 +136,9 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-6"
+        className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-5"
       >
-        <h2 className="font-semibold text-text-medical-black mb-3 flex items-center gap-2">
+        <h2 className="font-semibold text-text-medical-black mb-3 flex items-center gap-2 text-sm">
           <FileText className="size-4 text-clinical-navy" />
           Uploaded Records ({caseData.records?.length || 0})
         </h2>
@@ -173,9 +173,9 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="bg-gradient-to-br from-evidence-blue-light/30 to-surface border border-evidence-blue-light/60 rounded-2xl shadow-sm p-6"
+          className="bg-gradient-to-br from-evidence-blue-light/30 to-surface border border-evidence-blue-light/60 rounded-xl shadow-sm p-5"
         >
-          <h2 className="font-semibold text-text-medical-black mb-2 flex items-center gap-2">
+          <h2 className="font-semibold text-text-medical-black mb-2 flex items-center gap-2 text-sm">
             <span className="size-2 bg-clinical-navy rounded-full" />
             AI Pre-screen
           </h2>
@@ -197,9 +197,9 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-6"
+          className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-6"
         >
-          <h2 className="font-semibold text-text-medical-black mb-4 flex items-center gap-2">
+          <h2 className="font-semibold text-text-medical-black mb-4 flex items-center gap-2 text-sm">
             <CheckCircle2 className="size-4 text-healing-teal" />
             Signed Opinion
           </h2>
@@ -221,9 +221,9 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl border border-surface-gray/60 shadow-sm p-6 space-y-5"
+          className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-6 space-y-5"
         >
-          <h2 className="font-semibold text-text-medical-black flex items-center gap-2">
+          <h2 className="font-semibold text-text-medical-black flex items-center gap-2 text-sm">
             <FileText className="size-4 text-clinical-navy" />
             Write Your Opinion
           </h2>
@@ -236,7 +236,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
               value={findings}
               onChange={(e) => setFindings(e.target.value)}
               rows={4}
-              className="w-full px-3 py-2 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
+              className="w-full px-3 py-2.5 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
               placeholder="Describe your clinical findings from the reviewed materials..."
             />
           </div>
@@ -249,7 +249,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
               value={impression}
               onChange={(e) => setImpression(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
+              className="w-full px-3 py-2.5 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
               placeholder="Your clinical impression and assessment..."
             />
           </div>
@@ -262,7 +262,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
               value={nextSteps}
               onChange={(e) => setNextSteps(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
+              className="w-full px-3 py-2.5 text-sm border border-surface-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy resize-none"
               placeholder="Recommended next steps for the patient..."
             />
           </div>
