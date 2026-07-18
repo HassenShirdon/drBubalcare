@@ -8,6 +8,7 @@ export function useLabResults() {
       if (!res.ok) throw new Error('Failed to fetch lab results');
       return res.json();
     },
+    staleTime: 2 * 60 * 1000,
   });
 }
 
@@ -20,5 +21,6 @@ export function useLabResult(id: string) {
       return res.json();
     },
     enabled: !!id,
+    staleTime: 2 * 60 * 1000,
   });
 }

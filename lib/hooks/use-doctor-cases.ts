@@ -8,6 +8,7 @@ export function useDoctorCases() {
       if (!res.ok) throw new Error('Failed to fetch cases');
       return res.json();
     },
+    staleTime: 60 * 1000,
   });
 }
 
@@ -20,6 +21,7 @@ export function useDoctorCase(id: string) {
       return res.json();
     },
     enabled: !!id,
+    staleTime: 60 * 1000,
   });
 }
 

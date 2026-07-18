@@ -8,6 +8,7 @@ export function usePosts() {
       if (!res.ok) throw new Error('Failed to fetch posts');
       return res.json();
     },
+    staleTime: 30 * 60 * 1000,
   });
 }
 
@@ -20,5 +21,6 @@ export function usePost(slug: string) {
       return res.json();
     },
     enabled: !!slug,
+    staleTime: 30 * 60 * 1000,
   });
 }

@@ -50,6 +50,7 @@ export default function AdminCasesPage() {
       if (!res.ok) throw new Error('Failed to fetch');
       return res.json();
     },
+    staleTime: 60 * 1000,
   });
 
   const { data: doctors } = useQuery({
@@ -59,6 +60,7 @@ export default function AdminCasesPage() {
       if (!res.ok) throw new Error('Failed to fetch');
       return res.json();
     },
+    staleTime: 60 * 1000,
   });
 
   const assignMutation = useMutation({

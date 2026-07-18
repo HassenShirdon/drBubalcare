@@ -8,6 +8,7 @@ export function useDoctors() {
       if (!res.ok) throw new Error('Failed to fetch doctors');
       return res.json();
     },
+    staleTime: 15 * 60 * 1000,
   });
 }
 
@@ -20,5 +21,6 @@ export function useDoctor(id: string) {
       return res.json();
     },
     enabled: !!id,
+    staleTime: 15 * 60 * 1000,
   });
 }
