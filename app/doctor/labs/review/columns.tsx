@@ -19,9 +19,14 @@ export const columns: ColumnDef<LabReview>[] = [
     cell: ({ row }) => {
       const patient = row.original.patient
       return (
-        <div>
-          <p className="font-medium text-text-medical-black">{patient.name ?? "Unknown"}</p>
-          <p className="text-xs text-on-surface-variant">{patient.email}</p>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-semibold text-xs shrink-0">
+            {patient.name?.charAt(0) ?? "P"}
+          </div>
+          <div>
+            <p className="font-medium text-text-medical-black text-sm">{patient.name ?? "Unknown"}</p>
+            <p className="text-xs text-on-surface-variant">{patient.email}</p>
+          </div>
         </div>
       )
     },
@@ -37,6 +42,9 @@ export const columns: ColumnDef<LabReview>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Lab Test" />,
+    cell: ({ row }) => (
+      <span className="text-sm font-medium text-text-medical-black">{row.original.name}</span>
+    ),
   },
   {
     accessorKey: "date",
@@ -58,7 +66,7 @@ export const columns: ColumnDef<LabReview>[] = [
     cell: ({ row }) => {
       const count = row.original.metrics.filter((m) => m.status !== "NORMAL").length
       return count > 0 ? (
-        <span className="inline-flex items-center justify-center size-6 rounded-full bg-error/10 text-error text-xs font-bold">
+        <span className="inline-flex items-center justify-center size-7 rounded-full bg-error/10 text-error text-xs font-medium">
           {count}
         </span>
       ) : (
@@ -70,10 +78,10 @@ export const columns: ColumnDef<LabReview>[] = [
     accessorKey: "status",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
         row.original.status === "REVIEW_NEEDED" ? "bg-error/10 text-error" : "bg-healing-teal/10 text-healing-teal"
       }`}>
-        {row.original.status === "REVIEW_NEEDED" ? "Review Needed" : "Normal"}
+        {row.original.status === "REVIEW_NEEDED" ? "Review Needed" : "Reviewed"}
       </span>
     ),
   },
