@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { LogOut, Newspaper } from 'lucide-react';
+import { LogOut, Newspaper, Shield, Briefcase } from 'lucide-react';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -24,6 +24,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           >
             <Newspaper className="size-4" />
             News
+          </Link>
+          <Link
+            href="/admin/specialists"
+            className="text-white/80 hover:text-white text-sm flex items-center gap-1.5"
+          >
+            <Shield className="size-4" />
+            Specialists
+          </Link>
+          <Link
+            href="/admin/cases"
+            className="text-white/80 hover:text-white text-sm flex items-center gap-1.5"
+          >
+            <Briefcase className="size-4" />
+            Cases
           </Link>
         </div>
         <div className="flex items-center gap-4">
