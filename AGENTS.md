@@ -63,26 +63,14 @@ Dr. Bubal Care serves three user roles, each with a dedicated portal and clear j
 
 ---
 
-## 3. Core Workflows
+## 3. Core Services
 
-### 3.1 Lab Test Analysis & Risk Flagging
-
-When a patient uploads a lab report via `/lab-analysis`, the system executes an automated extraction and interpretation pipeline.
-
-1. **Ingestion:** Document is uploaded and logged in `medical_records` with `status = 'pending_extraction'`.
-2. **Extraction (Lab Agent):** The agent reads the PDF/Image, extracts tabular data (Test Name, Value, Normal Range).
-3. **Risk Flagging (Lab Agent):** Compares `result_value` against `normal_range`. If the value falls outside parameters, the agent sets `is_abnormal = TRUE`.
-4. **Drafting:** Generates a patient-friendly interpretation (e.g., *"Your HbA1c is 7.2% – above normal range"*).
-5. **Human-in-the-Loop (HITL):** The extracted structured data and drafted interpretation are routed to the Doctor Dashboard for one-click approval before saving to the `lab_tests` table.
-
-### 3.2 The Intelligent Dossier (Second Opinions)
-
-To facilitate seamless global second opinions without administrative bloat, the system automatically prepares the case for the reviewing doctor.
-
-1. **Aggregation:** The Dossier Synthesizer collects the original diagnosis, all uploaded `medical_records`, and patient history from the database.
-2. **Normalization:** Messy, unstructured doctor notes are translated and structured into a standard chronological medical timeline.
-3. **Smart Matching:** Based on the synthesized summary, the system queries the `doctors` table to recommend the best match (e.g., `specialization = 'Cardiology'` AND `is_global_network = TRUE`).
-4. **Delivery:** The generated "Intelligent Dossier" is attached to the `second_opinions` record with `status = 'under_review'`, ready for the specialist.
+| Service | Description | Status |
+|---------|-------------|--------|
+| **Specialist Opinions** | Submit slides, scans, or reports → matched to board-certified specialist → written opinion within 24-48h | `Planned` |
+| **Result Interpretation** | Already have results but unclear → plain-language written explanation from qualified specialist | `Planned` |
+| **Follow-up Consultations** | After receiving report, patient asks questions → AI answers within scope, or book live consultation | `Planned` |
+| **Lab Test Trend Analysis** | Repeat lab tests tracked longitudinally → AI flags statistically significant changes over time | `Planned` |
 
 ---
 
