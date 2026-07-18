@@ -25,7 +25,11 @@ export async function GET() {
       },
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(cases);
+    return NextResponse.json(cases, {
+      headers: {
+        'Cache-Control': 'private, no-store',
+      },
+    });
   }
 
   if (role === 'DOCTOR') {
@@ -41,7 +45,11 @@ export async function GET() {
       },
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(cases);
+    return NextResponse.json(cases, {
+      headers: {
+        'Cache-Control': 'private, no-store',
+      },
+    });
   }
 
   if (role === 'ADMIN') {
@@ -53,7 +61,11 @@ export async function GET() {
       },
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(cases);
+    return NextResponse.json(cases, {
+      headers: {
+        'Cache-Control': 'private, no-store',
+      },
+    });
   }
 
   return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -85,5 +97,10 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(caseRecord, { status: 201 });
+  return NextResponse.json(caseRecord, {
+    status: 201,
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
 }

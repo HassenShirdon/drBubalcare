@@ -17,5 +17,9 @@ export async function GET() {
     },
   });
 
-  return NextResponse.json(posts);
+  return NextResponse.json(posts, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+    },
+  });
 }

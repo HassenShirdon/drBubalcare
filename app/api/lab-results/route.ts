@@ -13,5 +13,9 @@ export async function GET() {
     orderBy: { date: 'desc' },
   });
 
-  return NextResponse.json(results);
+  return NextResponse.json(results, {
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
 }

@@ -32,5 +32,9 @@ export async function GET(
 
   if (!caseRecord) return NextResponse.json({ error: 'Case not found' }, { status: 404 });
 
-  return NextResponse.json(caseRecord);
+  return NextResponse.json(caseRecord, {
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
 }

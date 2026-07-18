@@ -8,5 +8,9 @@ export async function GET() {
     orderBy: { publishedAt: 'desc' },
   });
 
-  return NextResponse.json(posts);
+  return NextResponse.json(posts, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200',
+    },
+  });
 }

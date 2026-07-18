@@ -13,5 +13,9 @@ export async function GET(
 
   if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  return NextResponse.json(post);
+  return NextResponse.json(post, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200',
+    },
+  });
 }

@@ -45,5 +45,9 @@ export async function GET(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  return NextResponse.json(caseRecord);
+  return NextResponse.json(caseRecord, {
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
 }

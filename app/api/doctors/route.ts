@@ -6,5 +6,9 @@ export async function GET() {
     include: { services: true, user: { select: { name: true, image: true } } },
   });
 
-  return NextResponse.json(doctors);
+  return NextResponse.json(doctors, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
+    },
+  });
 }
