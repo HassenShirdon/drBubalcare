@@ -58,6 +58,14 @@ export const columns: ColumnDef<AuditLogEntry>[] = [
         <p className="text-xs text-on-surface-variant">{row.original.user.email}</p>
       </div>
     ),
+    filterFn: (row, id, value) => {
+      const user = row.original.user
+      const search = (value as string).toLowerCase()
+      return (
+        (user.name?.toLowerCase().includes(search) ?? false) ||
+        user.email.toLowerCase().includes(search)
+      )
+    },
   },
   {
     accessorKey: "action",
