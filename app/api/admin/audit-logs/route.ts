@@ -11,8 +11,8 @@ export async function GET(request: Request) {
   if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const { searchParams } = new URL(request.url);
-  const limit = Math.min(parseInt(searchParams.get('limit') ?? '50'), 100);
-  const offset = parseInt(searchParams.get('offset') ?? '0');
+  const limit = Math.min(parseInt(searchParams.get('limit') ?? '50') || 50, 100);
+  const offset = parseInt(searchParams.get('offset') ?? '0') || 0;
   const action = searchParams.get('action') ?? undefined;
   const resourceType = searchParams.get('resourceType') ?? undefined;
   const userId = searchParams.get('userId') ?? undefined;

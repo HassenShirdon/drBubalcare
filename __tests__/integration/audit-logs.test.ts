@@ -64,6 +64,18 @@ describe('Audit Logs API', () => {
     expect(body).toHaveProperty('total');
   });
 
+  it('falls back to safe defaults for malformed limit/offset', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+    vi.mocked(prisma.auditLog.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.auditLog.count).mockResolvedValue(0);
+
+    const res = await GET(new Request('http://localhost?limit=abc&offset=xyz'));
+    expect(res.status).toBe(200);
+    expect(prisma.auditLog.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ take: 50, skip: 0 })
+    );
+  });
+
   it('filters by action', async () => {
     vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
     vi.mocked(prisma.auditLog.findMany).mockResolvedValue([]);
