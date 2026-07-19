@@ -100,13 +100,11 @@ export async function generateTrendAnalysis(patientId: string) {
         schema: trendAnalysisSchema,
         system: trendAnalysisSystemPrompt,
         prompt: `Analyze this trend for metric "${metricName}":\nTrend: ${trend}\nData points: ${JSON.stringify(dataPoints)}`,
-        onFinish: async ({ object }) => {
-          if (object) {
-            summary = object.summary;
-          }
-        },
       });
-      await result.consumeStream();
+      const object = await result.object;
+      if (object) {
+        summary = object.summary;
+      }
     } else {
       summary = `Your ${metricName.toLowerCase()} levels have remained stable.`;
     }
