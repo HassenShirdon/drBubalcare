@@ -162,40 +162,48 @@ export default function AdminDisputeDetailPage() {
 }
 
 function PeerReviewAssignment({ disputeId }: { disputeId: string }) {
+  const queryClient = useQueryClient()
   const [candidates, setCandidates] = useState<PeerCandidate[]>([])
   const [loading, setLoading] = useState(false)
-  const [assigning, setAssigning] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
-  async function loadCandidates() {
-    if (candidates.length > 0) return
-    setLoading(true)
-    try {
-      const res = await fetch(`/api/admin/disputes/${disputeId}/peer-review-candidates`)
-      if (res.ok) setCandidates(await res.json())
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function assign(specialistId: string) {
-    setAssigning(specialistId)
-    try {
+  const assignMutation = useMutation({
+    mutationFn: async (specialistId: string) => {
       const res = await fetch(`/api/admin/disputes/${disputeId}/assign-peer-review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ specialistId }),
       })
-      if (res.ok) window.location.reload()
+      if (!res.ok) throw new Error("Failed to assign specialist")
+      return res.json()
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-dispute", disputeId] }),
+  })
+
+  async function loadCandidates() {
+    if (candidates.length > 0) return
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`/api/admin/disputes/${disputeId}/peer-review-candidates`)
+      if (!res.ok) throw new Error("Failed to load candidates")
+      const data = await res.json()
+      setCandidates(data.candidates)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load candidates")
     } finally {
-      setAssigning(null)
+      setLoading(false)
     }
   }
 
   return (
     <div onMouseEnter={loadCandidates}>
+      {error && (
+        <p className="text-sm text-red-600">{error}</p>
+      )}
       {loading ? (
         <p className="text-sm text-on-surface-variant">Loading candidates...</p>
-      ) : candidates.length === 0 ? (
+      ) : candidates.length === 0 && !error ? (
         <p className="text-sm text-on-surface-variant">No matching specialists found</p>
       ) : (
         <div className="space-y-2">
@@ -208,11 +216,11 @@ function PeerReviewAssignment({ disputeId }: { disputeId: string }) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => assign(c.userId)}
-                disabled={assigning === c.userId}
+                onClick={() => assignMutation.mutate(c.userId)}
+                disabled={assignMutation.isPending}
               >
                 <UserPlus className="size-3 mr-1" />
-                {assigning === c.userId ? "Assigning..." : "Assign"}
+                {assignMutation.isPending ? "Assigning..." : "Assign"}
               </Button>
             </div>
           ))}
