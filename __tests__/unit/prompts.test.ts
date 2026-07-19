@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { prescreenSchema } from "@/lib/ai/prompts/prescreen";
 import { summarySchema } from "@/lib/ai/prompts/summary";
 import { routingSchema } from "@/lib/ai/prompts/routing";
+import { synthesisSchema } from "@/lib/ai/prompts/synthesis";
 
 describe("Prescreen Schema", () => {
   it("validates a correct prescreen output", () => {
@@ -62,5 +63,47 @@ describe("Routing Schema", () => {
       matchedSpecialistId: "", reasoning: "test", confidence: "medium", alternatives: [],
     });
     expect(result.success).toBe(false);
+  });
+});
+
+describe("Synthesis Schema", () => {
+  it("validates a correct synthesis output", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "Both specialists agree on the primary findings of mild cardiomegaly.",
+      agreements: ["Mild cardiomegaly present", "No pleural effusion"],
+      disagreements: ["Specialist A noted hypertension, Specialist B did not mention it"],
+      confidence: "high",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects empty agreements array", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "test summary here for minimum length requirement",
+      agreements: [],
+      disagreements: [],
+      confidence: "medium",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects invalid confidence level", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "test summary here for minimum length requirement",
+      agreements: ["test"],
+      disagreements: [],
+      confidence: "very_high",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("allows empty disagreements array", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "All specialists agree on the findings and recommendations.",
+      agreements: ["Finding 1", "Finding 2"],
+      disagreements: [],
+      confidence: "high",
+    });
+    expect(result.success).toBe(true);
   });
 });
