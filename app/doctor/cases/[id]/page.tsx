@@ -168,24 +168,64 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
       </motion.div>
 
       {/* AI Pre-screen */}
-      {caseData.aiPrescreens && caseData.aiPrescreens.length > 0 && (
+      {caseData.aiPrescreens && caseData.aiPrescreens[0] && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="bg-gradient-to-br from-evidence-blue-light/30 to-surface border border-evidence-blue-light/60 rounded-xl shadow-sm p-5"
+          className="bg-gray-50 border border-gray-200 rounded-xl p-5"
         >
-          <h2 className="font-semibold text-text-medical-black mb-2 flex items-center gap-2 text-sm">
-            <span className="size-2 bg-clinical-navy rounded-full" />
-            AI Pre-screen
-          </h2>
-          <p className="text-sm text-on-surface-variant leading-relaxed whitespace-pre-wrap">
-            {caseData.aiPrescreens[0].findings}
-          </p>
+          <h3 className="text-sm font-semibold text-gray-800 mb-3">AI Pre-Screen</h3>
+
+          {/* Watermark */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+            <p className="text-xs text-blue-700 font-medium">
+              AI-Generated Pre-Screen — for specialist review only. Verify all findings before use.
+            </p>
+          </div>
+
+          {/* Key Findings */}
+          {caseData.aiPrescreens[0].findings && (
+            <div className="mb-4">
+              <h4 className="text-xs font-medium text-gray-600 mb-2">Key Findings</h4>
+              <ul className="space-y-1">
+                {caseData.aiPrescreens[0].findings.split('\n').filter(Boolean).map((finding: string, i: number) => (
+                  <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-blue-500 mt-1">•</span>
+                    {finding}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Differentials */}
+          {caseData.aiPrescreens[0].differentials && (
+            <div className="mb-4">
+              <h4 className="text-xs font-medium text-gray-600 mb-2">Differentials to Consider</h4>
+              <ul className="space-y-1">
+                {caseData.aiPrescreens[0].differentials.split('\n').filter(Boolean).map((diff: string, i: number) => (
+                  <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-amber-500 mt-1">⚠</span>
+                    {diff}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Urgent Flags */}
           {caseData.aiPrescreens[0].urgentFlags && (
-            <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-              <p className="text-amber-700 text-sm font-medium">Urgent Flags</p>
-              <p className="text-amber-600 text-sm mt-1">{caseData.aiPrescreens[0].urgentFlags}</p>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <h4 className="text-xs font-medium text-red-700 mb-2">Urgent Flags</h4>
+              <ul className="space-y-1">
+                {caseData.aiPrescreens[0].urgentFlags.split('\n').filter(Boolean).map((flag: string, i: number) => (
+                  <li key={i} className="text-sm text-red-700 flex items-start gap-2">
+                    <span className="text-red-500 mt-1">🚨</span>
+                    {flag}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </motion.div>
