@@ -1,42 +1,32 @@
-# Task 1 Report: Build Reusable DataTable Components
+# Task 1: Rewrite Problem Section — Report
 
-## What Was Implemented
+## What You Implemented
 
-Created 4 reusable DataTable component files in `components/ui/`:
+Full rewrite of `components/landing-page/problem-section.tsx`:
+- Removed 3-card grid layout with lucide-react icons (Users, Plane, Clock)
+- Replaced with vertical timeline layout using alternating left/right content on desktop, stacked on mobile
+- Vertical line centered with teal circle nodes at each stat
+- 3 data nodes with globally-relevant stats and descriptions (not East Africa-specific)
+- Heading: "Getting specialist care shouldn't be this hard"
+- Subheading: "Whether you're in Nairobi or New York, seeing a specialist means travel, long waits, and uncertainty."
+- Section: `py-20`, container: `max-w-4xl`, node spacing: `space-y-12`
+- motion/react animations retained (staggerChildren, fadeInUp variants)
 
-1. **`data-table-column-header.tsx`** — Sortable column header with sort direction toggle (asc/desc) and hide column option
-2. **`data-table-pagination.tsx`** — Pagination controls with page size selector (10/20/25/50), first/prev/next/last page buttons
-3. **`data-table-view-options.tsx`** — Column visibility toggle dropdown listing all hideable columns
-4. **`data-table.tsx`** — Reusable generic `<DataTable columns={columns} data={data} />` component with sorting, column filtering, pagination, column visibility, row selection, and optional search input
+## What You Verified and Results
 
-All components use `@tanstack/react-table` v8 with `@base-ui/react` (shadcn/ui base-ui variant).
-
-## Adaptation from Plan
-
-The plan code assumed Radix UI's `asChild` prop on `DropdownMenuTrigger`. This project uses `@base-ui/react/menu` instead, which uses the `render` prop pattern. Two files were adapted:
-
-- **`data-table-column-header.tsx`**: Changed `<DropdownMenuTrigger asChild><Button ...>` to `<DropdownMenuTrigger render={<Button ... />}>` and removed the closing `</Button>` tag
-- **`data-table-view-options.tsx`**: Same `asChild` → `render` adaptation
-
-These are the only deviations from the plan — all other code is transcribed exactly.
-
-## Build Verification
-
-```
-npx tsc --noEmit
-```
-
-**Result:** ✅ Clean — zero errors, zero warnings.
+- **File read-back**: Confirmed no lucide-react imports, vertical timeline structure, 3 nodes with correct stats, alternating layout, teal nodes, correct spacing/sizing classes
+- **Lint**: `npm run lint` — 0 new errors or warnings in `problem-section.tsx` (55 pre-existing issues in other files, none related)
 
 ## Files Changed
 
-| File | Status |
+| File | Change |
 |------|--------|
-| `components/ui/data-table-column-header.tsx` | Created |
-| `components/ui/data-table-pagination.tsx` | Created |
-| `components/ui/data-table-view-options.tsx` | Created |
-| `components/ui/data-table.tsx` | Created |
+| `components/landing-page/problem-section.tsx` | Full rewrite (52 insertions, 34 deletions) |
 
-## Concerns
+## Self-Review Findings
 
-None. Build passes cleanly. Components follow existing project conventions (base-ui, Tailwind v4, lucide-react icons, cn utility).
+None. File matches task brief spec exactly.
+
+## Commit
+
+- `fff41ff` — `style: redesign problem section — vertical timeline with global content`

@@ -93,6 +93,7 @@ export async function POST(request: Request) {
     data: {
       patientId: userId,
       serviceType: parsed.data.serviceType,
+      description: parsed.data.description,
       status: 'OPEN',
     },
   });

@@ -189,6 +189,7 @@ model Case {
   specialistId String?
   serviceType  ServiceType
   status       CaseStatus         @default(OPEN)
+  description  String?            @db.Text
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
 
