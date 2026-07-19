@@ -10,6 +10,8 @@ import { Switch } from "@/components/ui/switch"
 export default function PatientPrivacyPage() {
   const queryClient = useQueryClient()
   const [deleting, setDeleting] = useState(false)
+  const [deletionRequested, setDeletionRequested] = useState(false)
+  const [exportError, setExportError] = useState<string | null>(null)
 
   const { data: consent } = useQuery<{ consentType: string; granted: boolean }[]>({
     queryKey: ["patient-consent"],
@@ -33,16 +35,21 @@ export default function PatientPrivacyPage() {
 
   const exportMutation = useMutation({
     mutationFn: async () => {
+      setExportError(null)
       const res = await fetch("/api/patient/data-export", { method: "POST" })
       if (!res.ok) throw new Error("Export failed")
       const data = await res.json()
-      const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: "application/json" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `drbubalcare-data-export-${new Date().toISOString().slice(0, 10)}.json`
-      a.click()
-      URL.revokeObjectURL(url)
+      try {
+        const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = `drbubalcare-data-export-${new Date().toISOString().slice(0, 10)}.json`
+        a.click()
+        URL.revokeObjectURL(url)
+      } catch (err) {
+        setExportError(err instanceof Error ? err.message : "Failed to download export")
+      }
     },
   })
 
@@ -55,7 +62,10 @@ export default function PatientPrivacyPage() {
       }
       return res.json()
     },
-    onSuccess: () => setDeleting(false),
+    onSuccess: () => {
+      setDeleting(false)
+      setDeletionRequested(true)
+    },
   })
 
   const aiProcessing = consent?.find((c) => c.consentType === "AI_PROCESSING")?.granted ?? false
@@ -104,6 +114,7 @@ export default function PatientPrivacyPage() {
           <Download className="size-4 mr-2" />
           {exportMutation.isPending ? "Exporting..." : "Export My Data"}
         </Button>
+        {exportError && <p className="text-sm text-error mt-2">{exportError}</p>}
       </div>
 
       <div className="border border-error/20 rounded-lg p-5 space-y-4">
@@ -112,11 +123,15 @@ export default function PatientPrivacyPage() {
           <h2 className="font-semibold text-error">Danger Zone</h2>
         </div>
 
-        {!deleting ? (
+        {!deleting && !deletionRequested ? (
           <Button variant="outline" onClick={() => setDeleting(true)}>
             <Trash2 className="size-4 mr-2" />
             Request Data Deletion
           </Button>
+        ) : deletionRequested ? (
+          <p className="text-sm text-on-surface-variant">
+            Deletion requested — your data will be deleted after 30 days. You can cancel within that time.
+          </p>
         ) : (
           <div className="space-y-3">
             <p className="text-sm text-on-surface-variant">
