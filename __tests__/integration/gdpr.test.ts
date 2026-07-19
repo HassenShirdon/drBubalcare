@@ -41,6 +41,7 @@ vi.mock('@/lib/audit/logger', () => ({
 }));
 
 import { GET as consentGet, POST as consentPost } from '@/app/api/patient/consent/route';
+import { POST as dataExportPost } from '@/app/api/patient/data-export/route';
 import { POST as deletionPost } from '@/app/api/patient/data-deletion/route';
 import { POST as confirmPost } from '@/app/api/patient/data-deletion/confirm/route';
 import { POST as cancelPost } from '@/app/api/patient/data-deletion/cancel/route';
@@ -174,6 +175,50 @@ describe('GDPR API Routes', () => {
       vi.mocked(cancelDeletion).mockRejectedValue(new Error('No pending deletion request'));
       const res = await cancelPost({ json: async () => ({}) } as Request);
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('Data Export', () => {
+    it('POST returns 401 without session', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(null);
+      const res = await dataExportPost();
+      expect(res.status).toBe(401);
+    });
+
+    it('POST returns patient data with audit log', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'p-1'));
+      vi.mocked(prisma.user.findUnique).mockResolvedValue({
+        name: 'Test Patient',
+        email: 'test@example.com',
+        createdAt: new Date(),
+        cases: [],
+        labResults: [],
+        consentRecords: [],
+      } as any);
+      vi.mocked(logAuditEvent).mockResolvedValue();
+
+      const res = await dataExportPost();
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.format).toBe('json');
+      expect(body.data).toHaveProperty('name');
+      expect(body.data).toHaveProperty('email');
+      expect(logAuditEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userId: 'p-1',
+          action: 'DATA_EXPORT_REQUESTED',
+          resourceType: 'User',
+          resourceId: 'p-1',
+        })
+      );
+    });
+
+    it('POST returns 404 when patient not found', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'p-1'));
+      vi.mocked(prisma.user.findUnique).mockResolvedValue(null);
+
+      const res = await dataExportPost();
+      expect(res.status).toBe(404);
     });
   });
 
