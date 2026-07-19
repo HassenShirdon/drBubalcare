@@ -82,6 +82,14 @@ export async function POST(
       where: { id },
       data: { status: 'OPINION_READY' },
     });
+
+    // Trigger plain-language summary generation after opinion signing (fire and forget)
+    fetch(`${process.env.NEXTAUTH_URL}/api/ai/summary/${opinion.id}`, {
+      method: "POST",
+      headers: {
+        "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+      },
+    }).catch((err) => console.error("Summary generation trigger failed:", err));
   }
 
   return NextResponse.json(opinion);
