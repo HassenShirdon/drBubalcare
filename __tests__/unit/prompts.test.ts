@@ -3,6 +3,7 @@ import { prescreenSchema } from "@/lib/ai/prompts/prescreen";
 import { summarySchema } from "@/lib/ai/prompts/summary";
 import { routingSchema } from "@/lib/ai/prompts/routing";
 import { synthesisSchema } from "@/lib/ai/prompts/synthesis";
+import { followupSchema } from "@/lib/ai/prompts/followup";
 
 describe("Prescreen Schema", () => {
   it("validates a correct prescreen output", () => {
@@ -105,5 +106,47 @@ describe("Synthesis Schema", () => {
       confidence: "high",
     });
     expect(result.success).toBe(true);
+  });
+});
+
+describe("Follow-up Schema", () => {
+  it("validates a correct follow-up output", () => {
+    const result = followupSchema.safeParse({
+      answer: "Based on the specialist's report, your heart size is slightly larger than normal.",
+      scopeNote: null,
+      confidence: "high",
+      inScope: true,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("validates out-of-scope response", () => {
+    const result = followupSchema.safeParse({
+      answer: "I cannot provide information about treatment options.",
+      scopeNote: "This question requires clinical judgment beyond the documented findings.",
+      confidence: "high",
+      inScope: false,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects empty answer", () => {
+    const result = followupSchema.safeParse({
+      answer: "",
+      scopeNote: null,
+      confidence: "medium",
+      inScope: true,
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects invalid confidence level", () => {
+    const result = followupSchema.safeParse({
+      answer: "This is a valid answer with enough length.",
+      scopeNote: null,
+      confidence: "very_high",
+      inScope: true,
+    });
+    expect(result.success).toBe(false);
   });
 });
