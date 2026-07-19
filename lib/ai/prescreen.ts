@@ -55,6 +55,14 @@ export async function generatePrescreen(caseId: string) {
           where: { id: caseId },
           data: { status: "AI_PRE_SCREENED" },
         });
+
+        // Trigger intelligent routing after pre-screening completes (fire and forget)
+        fetch(`${process.env.NEXTAUTH_URL}/api/ai/route/${caseId}`, {
+          method: "POST",
+          headers: {
+            "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+          },
+        }).catch((err) => console.error("Routing trigger failed:", err));
       }
     },
   });
