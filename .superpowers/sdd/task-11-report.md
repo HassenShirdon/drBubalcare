@@ -1,31 +1,53 @@
-## Task 11: Trends API Route — Report
+# Task 11: Dispute API Routes (Admin Operations) — Report
 
-### What I Implemented
+## What I Implemented
 
-Created `app/api/ai/trends/[patientId]/route.ts` — a patient-facing GET endpoint that fetches trend analysis data for the authenticated patient.
+Six admin-facing dispute management API routes:
 
-**Route behavior:**
-- Session-based auth via `getServerSession(authOptions)`
-- Returns 401 if no session, 403 if patient ID doesn't match session user
-- Queries `prisma.trendAnalysis.findMany` filtered by `patientId`, ordered by `generatedAt` desc
-- Returns JSON with `Cache-Control: private, no-store` header
-- Catches errors and returns 500 with message
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `app/api/admin/disputes/route.ts` | GET | List all disputes (optional `?status=` filter) |
+| `app/api/admin/disputes/[id]/route.ts` | GET | Dispute detail with case, patient, opinion, peer review |
+| `app/api/admin/disputes/[id]/triage/route.ts` | POST | Triage dispute (valid/dismiss + admin notes) |
+| `app/api/admin/disputes/[id]/peer-review-candidates/route.ts` | GET | Get matching peer review specialist candidates |
+| `app/api/admin/disputes/[id]/assign-peer-review/route.ts` | POST | Assign a peer reviewer |
+| `app/api/admin/disputes/[id]/resolve/route.ts` | POST | Resolve dispute with resolution text |
 
-### Test Results
+All routes enforce:
+- Session required (401 if missing)
+- Admin-only access (403 if non-admin)
+- Zod input validation on POST routes (400 if invalid)
 
-- TypeScript compiles clean — no errors in `app/api/ai/trends/[patientId]/route.ts`
-- Pre-existing TS error in `lib/ai/trends.ts` (`consumeStream` type mismatch) is from Task 10's work, unrelated
+## TDD Evidence
 
-### Files Changed
+### RED
+```
+FAIL  __tests__/integration/disputes-admin.test.ts
+Error: Cannot find package '@/app/api/admin/disputes/route' imported from disputes-admin.test.ts
+```
+Expected failure — route modules didn't exist yet.
 
-- **Created:** `app/api/ai/trends/[patientId]/route.ts`
+### GREEN
+```
+Test Files  1 passed (1)
+     Tests  19 passed (19)
+```
+All 19 tests pass after implementation.
 
-### Self-Review
+## Files Created
 
-- **Completeness:** Fully implements task spec — session auth, ownership check, ordered query, error handling, cache header
-- **Quality:** Clean, minimal code following established patterns
-- **Discipline:** No overbuilding — exactly what the brief requested, nothing more
+- `app/api/admin/disputes/route.ts` (list)
+- `app/api/admin/disputes/[id]/route.ts` (detail)
+- `app/api/admin/disputes/[id]/triage/route.ts`
+- `app/api/admin/disputes/[id]/peer-review-candidates/route.ts`
+- `app/api/admin/disputes/[id]/assign-peer-review/route.ts`
+- `app/api/admin/disputes/[id]/resolve/route.ts`
+- `__tests__/integration/disputes-admin.test.ts`
 
-### Concerns
+## Self-Review
 
-None. Task completed as specified.
+**Completeness:** All 6 routes from the plan implemented. Auth checks, role guards, input validation, and service delegation all in place.
+
+**Quality:** Consistent with existing route patterns (Task 10, audit-logs, edge-cases). Clean, no over-engineering.
+
+**Testing:** 19 tests covering auth (401), role (403), input validation (400), happy paths, and edge cases (missing dispute → 404, status filter). Full suite: 119/121 passing (2 pre-existing E2E failures unrelated to this task).
