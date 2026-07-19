@@ -31,3 +31,18 @@ export const METRIC_STATUS_CONFIG: Record<string, { label: string; color: string
   HIGH: { label: 'High', color: 'text-error' },
   LOW: { label: 'Low', color: 'text-error' },
 }
+
+export const DISPUTE_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  PENDING: { label: 'Pending', color: 'bg-amber-50 text-amber-600' },
+  UNDER_REVIEW: { label: 'Under Review', color: 'bg-blue-50 text-blue-600' },
+  PEER_REVIEW_ASSIGNED: { label: 'Peer Review', color: 'bg-purple-50 text-purple-600' },
+  RESOLVED: { label: 'Resolved', color: 'bg-healing-teal/10 text-healing-teal' },
+  DISMISSED: { label: 'Dismissed', color: 'bg-gray-100 text-gray-500' },
+}
+
+export const DELETION_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  PENDING: { label: 'Pending', color: 'bg-amber-50 text-amber-600' },
+  CONFIRMED: { label: 'Confirmed', color: 'bg-blue-50 text-blue-600' },
+  COMPLETED: { label: 'Completed', color: 'bg-healing-teal/10 text-healing-teal' },
+  CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 text-gray-500' },
+}
