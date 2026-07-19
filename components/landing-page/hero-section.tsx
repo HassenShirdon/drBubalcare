@@ -24,12 +24,7 @@ export default function HeroSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-healing-teal/5 blur-3xl -z-10" />
 
       <div className="relative z-10 max-w-4xl mx-auto w-full">
-        <div className="text-center max-w-2xl mx-auto space-y-5">
-          <div className="inline-flex items-center space-x-2 bg-evidence-blue-light px-3 py-1 rounded-full text-clinical-navy text-xs font-medium border border-clinical-navy/10">
-            <span className="w-1.5 h-1.5 rounded-full bg-healing-teal" aria-hidden="true" />
-            <span>AI-Assisted Specialist Care</span>
-          </div>
-
+        <div className="text-center max-w-2xl mx-auto space-y-6">
           <h1 className="font-headline-md text-4xl md:text-5xl text-text-medical-black tracking-tight font-semibold leading-tight text-balance">
             World-class specialists.
             <br />
@@ -37,10 +32,8 @@ export default function HeroSection() {
           </h1>
 
           <p className="font-body-lg text-base md:text-lg text-on-surface-variant/80 leading-relaxed max-w-xl mx-auto">
-            Connect with board-certified specialists from leading hospitals —
-            for lab reviews, second opinions, and consultations. Upload your
-            records, get matched, and receive clear answers. All from your phone,
-            with minimum effort.
+            Connect with board-certified specialists for lab reviews, second
+            opinions, and consultations. Clear answers, from your phone.
           </p>
 
           <div className="pt-2 flex items-center justify-center gap-3">
