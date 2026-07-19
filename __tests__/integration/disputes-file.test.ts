@@ -64,4 +64,15 @@ describe('File Dispute API', () => {
     expect(res.status).toBe(201);
     expect(fileDispute).toHaveBeenCalled();
   });
+
+  it('passes opinionId through when provided', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'patient-1'));
+    vi.mocked(fileDispute).mockResolvedValue({ id: 'dispute-2' } as any);
+    const req = { json: async () => ({ reason: 'This is a detailed dispute reason that meets the minimum length requirement', opinionId: 'opinion-abc' }) };
+    const res = await POST(req as Request, { params: Promise.resolve({ id: 'case-1' }) });
+    expect(res.status).toBe(201);
+    expect(fileDispute).toHaveBeenCalledWith(
+      expect.objectContaining({ opinionId: 'opinion-abc' })
+    );
+  });
 });

@@ -1,7 +1,7 @@
 export interface FileDisputeParams {
   caseId: string;
   patientId: string;
-  opinionId: string;
+  opinionId?: string;
   reason: string;
 }
 

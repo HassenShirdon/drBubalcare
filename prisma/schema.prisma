@@ -331,7 +331,7 @@ model Dispute {
   id              String   @id @default(cuid())
   caseId          String
   patientId       String
-  opinionId       String   @unique
+  opinionId       String?  @unique
   reason          String   @db.Text
   status          DisputeStatus @default(PENDING)
   adminNotes      String?  @db.Text
@@ -342,7 +342,7 @@ model Dispute {
 
   case            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
   patient         User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  opinion         SpecialistOpinion @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
+  opinion         SpecialistOpinion? @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
   peerReviewOpinion SpecialistOpinion? @relation("PeerReviewOpinion", fields: [peerReviewOpinionId], references: [id], onDelete: SetNull)
 }
 

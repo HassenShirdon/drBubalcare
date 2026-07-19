@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const fileDisputeSchema = z.object({
   reason: z.string().min(20, 'Please provide a detailed reason (minimum 20 characters)').max(2000),
+  opinionId: z.string().optional(),
 });
 
 export type FileDisputeInput = z.infer<typeof fileDisputeSchema>;

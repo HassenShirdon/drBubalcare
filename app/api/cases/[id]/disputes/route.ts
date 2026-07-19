@@ -27,7 +27,7 @@ export async function POST(
   const dispute = await fileDispute({
     caseId: id,
     patientId: userId,
-    opinionId: body.opinionId,
+    opinionId: parsed.data.opinionId,
     reason: parsed.data.reason,
   });
 
