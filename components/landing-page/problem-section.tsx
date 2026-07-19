@@ -1,31 +1,27 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { Users, Plane, Clock } from 'lucide-react'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 }
 
-const cards = [
+const nodes = [
   {
-    icon: Users,
-    stat: '1 specialist per 100,000+ people',
+    stat: '1 specialist per 100,000+',
     description:
-      "Most hospitals in the region lack board-certified specialists — whether you need a pathologist, radiologist, or consultant.",
+      'Most communities \u2014 rich or poor \u2014 lack board-certified specialists nearby. In Sub-Saharan Africa, the ratio is 1:1,000,000. Even in the US, rural counties average 1 specialist per 50,000+.',
   },
   {
-    icon: Plane,
-    stat: 'Avg. 6-8 hours travel',
+    stat: '6+ hours avg. travel',
     description:
-      "Patients and families travel for hours — sometimes across borders — just to see a specialist or get a second opinion.",
+      "Patients travel for hours \u2014 sometimes across borders \u2014 just for a consultation. In developing nations, it's days. In the US, rural patients drive 4x further than urban peers.",
   },
   {
-    icon: Clock,
     stat: 'Weeks to months wait',
     description:
-      "By the time you get an appointment, critical time has been lost. Specialist access shouldn't be a luxury.",
+      "By the time you get an appointment, critical time has been lost. Specialist access shouldn't be a luxury \u2014 but everywhere, it is.",
   },
 ]
 
@@ -39,41 +35,63 @@ export default function ProblemSection() {
         hidden: {},
         visible: { transition: { staggerChildren: 0.15 } },
       }}
-      className="py-16 bg-white border-y border-surface-gray/50"
+      className="py-20 bg-white"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-16 space-y-10">
+      <div className="max-w-4xl mx-auto px-6 md:px-16">
         <motion.div
           variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto space-y-3"
+          className="text-center max-w-3xl mx-auto space-y-3 mb-16"
         >
           <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
             Getting specialist care shouldn&apos;t be this hard
           </h2>
           <p className="font-body-lg text-base text-on-surface-variant/80">
-            In East Africa, accessing a qualified specialist — for lab reviews,
-            second opinions, or consultations — means travel, long waits, and
-            uncertainty.
+            Whether you&apos;re in Nairobi or New York, seeing a specialist
+            means travel, long waits, and uncertainty.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {cards.map((card) => (
-            <motion.div
-              key={card.stat}
-              variants={fadeInUp}
-              className="bg-white rounded-2xl p-6 border border-surface-gray/60 shadow hover:shadow-md transition-all duration-300"
-            >
-              <div className="w-10 h-10 rounded-lg bg-healing-teal/10 flex items-center justify-center text-healing-teal mb-4">
-                <card.icon className="w-5 h-5" />
-              </div>
-              <p className="font-headline-md text-2xl font-bold text-clinical-navy mb-2">
-                {card.stat}
-              </p>
-              <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
-                {card.description}
-              </p>
-            </motion.div>
-          ))}
+        <div className="relative">
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-surface-gray/60 -translate-x-1/2" />
+
+          <div className="space-y-12">
+            {nodes.map((node, i) => {
+              const isLeft = i % 2 === 0
+              return (
+                <motion.div
+                  key={node.stat}
+                  variants={fadeInUp}
+                  className={`relative flex items-start gap-8 md:gap-0 ${
+                    isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
+                >
+                  <div
+                    className={`hidden md:block md:w-1/2 ${
+                      isLeft ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'
+                    }`}
+                  >
+                    <p className="font-headline-md text-3xl font-bold text-clinical-navy mb-2">
+                      {node.stat}
+                    </p>
+                    <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
+                      {node.description}
+                    </p>
+                  </div>
+
+                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-healing-teal ring-4 ring-white z-10 mt-1" />
+
+                  <div className="md:hidden pl-10">
+                    <p className="font-headline-md text-3xl font-bold text-clinical-navy mb-2">
+                      {node.stat}
+                    </p>
+                    <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
+                      {node.description}
+                    </p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </motion.section>
