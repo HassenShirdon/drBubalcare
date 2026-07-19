@@ -55,6 +55,12 @@ enum ServiceType {
   TREND_ANALYSIS
 }
 
+enum SynthesisStatus {
+  PENDING
+  GENERATED
+  DELIVERED
+}
+
 model User {
   id         String   @id @default(cuid())
   name       String?
@@ -74,6 +80,7 @@ model User {
   specialistCases   Case[]         @relation("SpecialistCases")
   specialistOpinions SpecialistOpinion[]
   auditLogs         AuditLog[]
+  trendAnalyses     TrendAnalysis[]
 }
 
 model Post {
@@ -198,6 +205,7 @@ model Case {
   records      CaseRecord[]
   opinions     SpecialistOpinion[]
   aiPrescreens AIPrescreen[]
+  synthesis    OpinionSynthesis?
 }
 
 model CaseRecord {
@@ -235,6 +243,33 @@ model AIPrescreen {
   generatedAt  DateTime @default(now())
 
   case         Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+}
+
+model OpinionSynthesis {
+  id            String           @id @default(cuid())
+  caseId        String           @unique
+  content       String           @db.Text
+  agreements    String[]
+  disagreements String[]
+  status        SynthesisStatus  @default(PENDING)
+  generatedAt   DateTime         @default(now())
+
+  case          Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+}
+
+model TrendAnalysis {
+  id          String   @id @default(cuid())
+  patientId   String
+  metricName  String
+  dataPoints  Json
+  trend       String
+  significant Boolean  @default(false)
+  summary     String
+  generatedAt DateTime @default(now())
+
+  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@unique([patientId, metricName])
 }
 
 model PlainLanguageSummary {
