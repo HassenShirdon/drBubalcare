@@ -4,6 +4,7 @@ import { summarySchema } from "@/lib/ai/prompts/summary";
 import { routingSchema } from "@/lib/ai/prompts/routing";
 import { synthesisSchema } from "@/lib/ai/prompts/synthesis";
 import { followupSchema } from "@/lib/ai/prompts/followup";
+import { trendAnalysisSchema } from "@/lib/ai/prompts/trends";
 
 describe("Prescreen Schema", () => {
   it("validates a correct prescreen output", () => {
@@ -146,6 +147,58 @@ describe("Follow-up Schema", () => {
       scopeNote: null,
       confidence: "very_high",
       inScope: true,
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("Trend Analysis Schema", () => {
+  it("validates a correct trend analysis output", () => {
+    const result = trendAnalysisSchema.safeParse({
+      metricName: "Glucose",
+      trend: "rising",
+      significant: true,
+      summary: "Your glucose levels have been rising over the last 3 tests.",
+      dataPoints: [
+        { date: "2026-01-01", value: 95, unit: "mg/dL", referenceRange: "70-100", status: "NORMAL" },
+        { date: "2026-03-01", value: 110, unit: "mg/dL", referenceRange: "70-100", status: "HIGH" },
+        { date: "2026-06-01", value: 125, unit: "mg/dL", referenceRange: "70-100", status: "HIGH" },
+      ],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("validates stable trend", () => {
+    const result = trendAnalysisSchema.safeParse({
+      metricName: "Creatinine",
+      trend: "stable",
+      significant: false,
+      summary: "Your creatinine levels have remained stable.",
+      dataPoints: [
+        { date: "2026-01-01", value: 1.0, unit: "mg/dL", referenceRange: "0.7-1.3", status: "NORMAL" },
+        { date: "2026-06-01", value: 1.1, unit: "mg/dL", referenceRange: "0.7-1.3", status: "NORMAL" },
+      ],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects invalid trend value", () => {
+    const result = trendAnalysisSchema.safeParse({
+      metricName: "Glucose",
+      trend: "increasing",
+      significant: true,
+      summary: "test summary",
+      dataPoints: [],
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects missing metricName", () => {
+    const result = trendAnalysisSchema.safeParse({
+      trend: "stable",
+      significant: false,
+      summary: "test",
+      dataPoints: [],
     });
     expect(result.success).toBe(false);
   });

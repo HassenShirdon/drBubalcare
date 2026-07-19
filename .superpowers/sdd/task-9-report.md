@@ -1,38 +1,40 @@
-# Task 9: Doctor Case Review Page — Report
+# Task 9: Trends Schema + Prompt
 
-## Status: DONE
+## Status
+✅ Completed
 
-## Summary
+## Commit SHA
+`pending`
 
-Created `app/doctor/cases/[id]/page.tsx` — the doctor case review page where specialists can view case details and write structured opinions.
+## What Changed
 
-## What was built
+Created Zod schema and system prompt for lab result trend analysis.
 
-- **Case header** with back link, service type label, patient name, creation date, and status badge
-- **Uploaded Records section** listing all case records with file name, type, upload date, and view link
-- **AI Pre-screen section** displaying AI findings and urgent flags (conditionally rendered)
-- **Opinion form** with three structured fields: Clinical Findings, Impression, Recommended Next Steps
-- **Save as Draft** button using `useSubmitOpinion` with `sign: false`
-- **Sign & Submit** button with two-step confirmation flow using `sign: true`
-- **Signed opinion display** — when opinion is already signed/delivered, shows read-only formatted opinion with section headers
-- **Draft loading** — existing drafts are parsed from markdown sections and loaded into form fields via `useEffect`
-- Loading spinner and "Case not found" empty state
+**Files:**
+- Created: `lib/ai/prompts/trends.ts`
+- Modified: `__tests__/unit/prompts.test.ts` (added 4 test cases)
 
-## Files
+**Implementation:**
+- `trendAnalysisSchema`: Zod schema for trend analysis output with fields:
+  - `metricName`: String (lab metric name)
+  - `trend`: Enum ["rising", "falling", "stable", "fluctuating"]
+  - `significant`: Boolean (clinically significant flag)
+  - `summary`: String (plain-language explanation)
+  - `dataPoints`: Array of data point objects (date, value, unit, referenceRange, status)
+- `TrendAnalysisResult`: TypeScript type inferred from schema
+- `trendAnalysisSystemPrompt`: System prompt for LLM with rules for trend classification and output format
 
-- **Created:** `app/doctor/cases/[id]/page.tsx` (317 lines)
+## Test Results
 
-## Verification
+**RED Phase:** Test failed with `Cannot find package '@/lib/ai/prompts/trends'` (expected)
 
-- `npx next lint --file app/doctor/cases/[id]/page.tsx` — **0 warnings, 0 errors**
-- `npx tsc --noEmit` — **0 errors in this file** (2 pre-existing errors in unrelated patient lab pages)
+**GREEN Phase:** 19/19 tests passing (15 existing + 4 new trend analysis tests)
 
-## Commit
-
-```
-c1cce75 feat: add doctor case review page with structured opinion form
-```
+**Test Cases:**
+1. ✅ Validates correct trend analysis output (rising trend)
+2. ✅ Validates stable trend
+3. ✅ Rejects invalid trend value ("increasing" not in enum)
+4. ✅ Rejects missing metricName
 
 ## Concerns
-
-None. All pre-existing tsc errors are in unrelated files (`app/patient/labs/[id]/page.tsx` and `app/patient/labs/page.tsx`).
+None — implementation follows existing patterns in codebase (prescreen.ts, summary.ts, etc.)
