@@ -68,7 +68,10 @@ export const ModelName = {
   TrendAnalysis: 'TrendAnalysis',
   PlainLanguageSummary: 'PlainLanguageSummary',
   FollowUpQuestion: 'FollowUpQuestion',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  Dispute: 'Dispute',
+  ConsentRecord: 'ConsentRecord',
+  DataDeletionRequest: 'DataDeletionRequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -320,11 +323,54 @@ export const AuditLogScalarFieldEnum = {
   action: 'action',
   resourceType: 'resourceType',
   resourceId: 'resourceId',
+  before: 'before',
+  after: 'after',
   metadata: 'metadata',
   timestamp: 'timestamp'
 } as const
 
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const DisputeScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  patientId: 'patientId',
+  opinionId: 'opinionId',
+  reason: 'reason',
+  status: 'status',
+  adminNotes: 'adminNotes',
+  resolution: 'resolution',
+  peerReviewOpinionId: 'peerReviewOpinionId',
+  createdAt: 'createdAt',
+  resolvedAt: 'resolvedAt'
+} as const
+
+export type DisputeScalarFieldEnum = (typeof DisputeScalarFieldEnum)[keyof typeof DisputeScalarFieldEnum]
+
+
+export const ConsentRecordScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  consentType: 'consentType',
+  granted: 'granted',
+  grantedAt: 'grantedAt',
+  revokedAt: 'revokedAt'
+} as const
+
+export type ConsentRecordScalarFieldEnum = (typeof ConsentRecordScalarFieldEnum)[keyof typeof ConsentRecordScalarFieldEnum]
+
+
+export const DataDeletionRequestScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  executeAt: 'executeAt',
+  completedAt: 'completedAt'
+} as const
+
+export type DataDeletionRequestScalarFieldEnum = (typeof DataDeletionRequestScalarFieldEnum)[keyof typeof DataDeletionRequestScalarFieldEnum]
 
 
 export const SortOrder = {

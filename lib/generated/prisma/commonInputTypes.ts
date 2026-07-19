@@ -440,6 +440,40 @@ export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonNullableFilter<$PrismaModel>
 }
 
+export type EnumDisputeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DisputeStatus | Prisma.EnumDisputeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel> | $Enums.DisputeStatus
+}
+
+export type EnumDisputeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DisputeStatus | Prisma.EnumDisputeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDisputeStatusWithAggregatesFilter<$PrismaModel> | $Enums.DisputeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel>
+}
+
+export type EnumDeletionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionStatus | Prisma.EnumDeletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel> | $Enums.DeletionStatus
+}
+
+export type EnumDeletionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionStatus | Prisma.EnumDeletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeletionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -812,6 +846,40 @@ export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   gte?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumDisputeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DisputeStatus | Prisma.EnumDisputeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel> | $Enums.DisputeStatus
+}
+
+export type NestedEnumDisputeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DisputeStatus | Prisma.EnumDisputeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DisputeStatus[] | Prisma.ListEnumDisputeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDisputeStatusWithAggregatesFilter<$PrismaModel> | $Enums.DisputeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDisputeStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDeletionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionStatus | Prisma.EnumDeletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel> | $Enums.DeletionStatus
+}
+
+export type NestedEnumDeletionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionStatus | Prisma.EnumDeletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionStatus[] | Prisma.ListEnumDeletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeletionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeletionStatusFilter<$PrismaModel>
 }
 
 

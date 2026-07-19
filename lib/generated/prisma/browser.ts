@@ -107,3 +107,18 @@ export type FollowUpQuestion = Prisma.FollowUpQuestionModel
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model Dispute
+ * 
+ */
+export type Dispute = Prisma.DisputeModel
+/**
+ * Model ConsentRecord
+ * 
+ */
+export type ConsentRecord = Prisma.ConsentRecordModel
+/**
+ * Model DataDeletionRequest
+ * 
+ */
+export type DataDeletionRequest = Prisma.DataDeletionRequestModel

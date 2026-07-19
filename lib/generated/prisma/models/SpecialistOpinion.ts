@@ -202,6 +202,8 @@ export type SpecialistOpinionWhereInput = {
   specialist?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   plainSummary?: Prisma.XOR<Prisma.PlainLanguageSummaryNullableScalarRelationFilter, Prisma.PlainLanguageSummaryWhereInput> | null
   followUps?: Prisma.FollowUpQuestionListRelationFilter
+  dispute?: Prisma.XOR<Prisma.DisputeNullableScalarRelationFilter, Prisma.DisputeWhereInput> | null
+  peerReviewFor?: Prisma.XOR<Prisma.DisputeNullableScalarRelationFilter, Prisma.DisputeWhereInput> | null
 }
 
 export type SpecialistOpinionOrderByWithRelationInput = {
@@ -216,6 +218,8 @@ export type SpecialistOpinionOrderByWithRelationInput = {
   specialist?: Prisma.UserOrderByWithRelationInput
   plainSummary?: Prisma.PlainLanguageSummaryOrderByWithRelationInput
   followUps?: Prisma.FollowUpQuestionOrderByRelationAggregateInput
+  dispute?: Prisma.DisputeOrderByWithRelationInput
+  peerReviewFor?: Prisma.DisputeOrderByWithRelationInput
 }
 
 export type SpecialistOpinionWhereUniqueInput = Prisma.AtLeast<{
@@ -233,6 +237,8 @@ export type SpecialistOpinionWhereUniqueInput = Prisma.AtLeast<{
   specialist?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   plainSummary?: Prisma.XOR<Prisma.PlainLanguageSummaryNullableScalarRelationFilter, Prisma.PlainLanguageSummaryWhereInput> | null
   followUps?: Prisma.FollowUpQuestionListRelationFilter
+  dispute?: Prisma.XOR<Prisma.DisputeNullableScalarRelationFilter, Prisma.DisputeWhereInput> | null
+  peerReviewFor?: Prisma.XOR<Prisma.DisputeNullableScalarRelationFilter, Prisma.DisputeWhereInput> | null
 }, "id">
 
 export type SpecialistOpinionOrderByWithAggregationInput = {
@@ -271,6 +277,8 @@ export type SpecialistOpinionCreateInput = {
   specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
   plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUncheckedCreateInput = {
@@ -283,6 +291,8 @@ export type SpecialistOpinionUncheckedCreateInput = {
   createdAt?: Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUpdateInput = {
@@ -295,6 +305,8 @@ export type SpecialistOpinionUpdateInput = {
   specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
   plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateInput = {
@@ -307,6 +319,8 @@ export type SpecialistOpinionUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionCreateManyInput = {
@@ -380,6 +394,11 @@ export type SpecialistOpinionMinOrderByAggregateInput = {
 export type SpecialistOpinionScalarRelationFilter = {
   is?: Prisma.SpecialistOpinionWhereInput
   isNot?: Prisma.SpecialistOpinionWhereInput
+}
+
+export type SpecialistOpinionNullableScalarRelationFilter = {
+  is?: Prisma.SpecialistOpinionWhereInput | null
+  isNot?: Prisma.SpecialistOpinionWhereInput | null
 }
 
 export type SpecialistOpinionCreateNestedManyWithoutSpecialistInput = {
@@ -498,6 +517,36 @@ export type SpecialistOpinionUpdateOneRequiredWithoutFollowUpsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SpecialistOpinionUpdateToOneWithWhereWithoutFollowUpsInput, Prisma.SpecialistOpinionUpdateWithoutFollowUpsInput>, Prisma.SpecialistOpinionUncheckedUpdateWithoutFollowUpsInput>
 }
 
+export type SpecialistOpinionCreateNestedOneWithoutDisputeInput = {
+  create?: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedCreateWithoutDisputeInput>
+  connectOrCreate?: Prisma.SpecialistOpinionCreateOrConnectWithoutDisputeInput
+  connect?: Prisma.SpecialistOpinionWhereUniqueInput
+}
+
+export type SpecialistOpinionCreateNestedOneWithoutPeerReviewForInput = {
+  create?: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedCreateWithoutPeerReviewForInput>
+  connectOrCreate?: Prisma.SpecialistOpinionCreateOrConnectWithoutPeerReviewForInput
+  connect?: Prisma.SpecialistOpinionWhereUniqueInput
+}
+
+export type SpecialistOpinionUpdateOneRequiredWithoutDisputeNestedInput = {
+  create?: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedCreateWithoutDisputeInput>
+  connectOrCreate?: Prisma.SpecialistOpinionCreateOrConnectWithoutDisputeInput
+  upsert?: Prisma.SpecialistOpinionUpsertWithoutDisputeInput
+  connect?: Prisma.SpecialistOpinionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SpecialistOpinionUpdateToOneWithWhereWithoutDisputeInput, Prisma.SpecialistOpinionUpdateWithoutDisputeInput>, Prisma.SpecialistOpinionUncheckedUpdateWithoutDisputeInput>
+}
+
+export type SpecialistOpinionUpdateOneWithoutPeerReviewForNestedInput = {
+  create?: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedCreateWithoutPeerReviewForInput>
+  connectOrCreate?: Prisma.SpecialistOpinionCreateOrConnectWithoutPeerReviewForInput
+  upsert?: Prisma.SpecialistOpinionUpsertWithoutPeerReviewForInput
+  disconnect?: Prisma.SpecialistOpinionWhereInput | boolean
+  delete?: Prisma.SpecialistOpinionWhereInput | boolean
+  connect?: Prisma.SpecialistOpinionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SpecialistOpinionUpdateToOneWithWhereWithoutPeerReviewForInput, Prisma.SpecialistOpinionUpdateWithoutPeerReviewForInput>, Prisma.SpecialistOpinionUncheckedUpdateWithoutPeerReviewForInput>
+}
+
 export type SpecialistOpinionCreateWithoutSpecialistInput = {
   id?: string
   content: string
@@ -507,6 +556,8 @@ export type SpecialistOpinionCreateWithoutSpecialistInput = {
   case: Prisma.CaseCreateNestedOneWithoutOpinionsInput
   plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUncheckedCreateWithoutSpecialistInput = {
@@ -518,6 +569,8 @@ export type SpecialistOpinionUncheckedCreateWithoutSpecialistInput = {
   createdAt?: Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionCreateOrConnectWithoutSpecialistInput = {
@@ -568,6 +621,8 @@ export type SpecialistOpinionCreateWithoutCaseInput = {
   specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
   plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUncheckedCreateWithoutCaseInput = {
@@ -579,6 +634,8 @@ export type SpecialistOpinionUncheckedCreateWithoutCaseInput = {
   createdAt?: Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
   followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionCreateOrConnectWithoutCaseInput = {
@@ -616,6 +673,8 @@ export type SpecialistOpinionCreateWithoutPlainSummaryInput = {
   case: Prisma.CaseCreateNestedOneWithoutOpinionsInput
   specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
   followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUncheckedCreateWithoutPlainSummaryInput = {
@@ -627,6 +686,8 @@ export type SpecialistOpinionUncheckedCreateWithoutPlainSummaryInput = {
   signedAt?: Date | string | null
   createdAt?: Date | string
   followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionCreateOrConnectWithoutPlainSummaryInput = {
@@ -654,6 +715,8 @@ export type SpecialistOpinionUpdateWithoutPlainSummaryInput = {
   case?: Prisma.CaseUpdateOneRequiredWithoutOpinionsNestedInput
   specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
   followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateWithoutPlainSummaryInput = {
@@ -665,6 +728,8 @@ export type SpecialistOpinionUncheckedUpdateWithoutPlainSummaryInput = {
   signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionCreateWithoutFollowUpsInput = {
@@ -676,6 +741,8 @@ export type SpecialistOpinionCreateWithoutFollowUpsInput = {
   case: Prisma.CaseCreateNestedOneWithoutOpinionsInput
   specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
   plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionUncheckedCreateWithoutFollowUpsInput = {
@@ -687,6 +754,8 @@ export type SpecialistOpinionUncheckedCreateWithoutFollowUpsInput = {
   signedAt?: Date | string | null
   createdAt?: Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
 }
 
 export type SpecialistOpinionCreateOrConnectWithoutFollowUpsInput = {
@@ -714,6 +783,8 @@ export type SpecialistOpinionUpdateWithoutFollowUpsInput = {
   case?: Prisma.CaseUpdateOneRequiredWithoutOpinionsNestedInput
   specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
   plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateWithoutFollowUpsInput = {
@@ -725,6 +796,144 @@ export type SpecialistOpinionUncheckedUpdateWithoutFollowUpsInput = {
   signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
+}
+
+export type SpecialistOpinionCreateWithoutDisputeInput = {
+  id?: string
+  content: string
+  status?: $Enums.OpinionStatus
+  signedAt?: Date | string | null
+  createdAt?: Date | string
+  case: Prisma.CaseCreateNestedOneWithoutOpinionsInput
+  specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
+  plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
+  followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeCreateNestedOneWithoutPeerReviewOpinionInput
+}
+
+export type SpecialistOpinionUncheckedCreateWithoutDisputeInput = {
+  id?: string
+  caseId: string
+  specialistId: string
+  content: string
+  status?: $Enums.OpinionStatus
+  signedAt?: Date | string | null
+  createdAt?: Date | string
+  plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
+  followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  peerReviewFor?: Prisma.DisputeUncheckedCreateNestedOneWithoutPeerReviewOpinionInput
+}
+
+export type SpecialistOpinionCreateOrConnectWithoutDisputeInput = {
+  where: Prisma.SpecialistOpinionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedCreateWithoutDisputeInput>
+}
+
+export type SpecialistOpinionCreateWithoutPeerReviewForInput = {
+  id?: string
+  content: string
+  status?: $Enums.OpinionStatus
+  signedAt?: Date | string | null
+  createdAt?: Date | string
+  case: Prisma.CaseCreateNestedOneWithoutOpinionsInput
+  specialist: Prisma.UserCreateNestedOneWithoutSpecialistOpinionsInput
+  plainSummary?: Prisma.PlainLanguageSummaryCreateNestedOneWithoutOpinionInput
+  followUps?: Prisma.FollowUpQuestionCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeCreateNestedOneWithoutOpinionInput
+}
+
+export type SpecialistOpinionUncheckedCreateWithoutPeerReviewForInput = {
+  id?: string
+  caseId: string
+  specialistId: string
+  content: string
+  status?: $Enums.OpinionStatus
+  signedAt?: Date | string | null
+  createdAt?: Date | string
+  plainSummary?: Prisma.PlainLanguageSummaryUncheckedCreateNestedOneWithoutOpinionInput
+  followUps?: Prisma.FollowUpQuestionUncheckedCreateNestedManyWithoutOpinionInput
+  dispute?: Prisma.DisputeUncheckedCreateNestedOneWithoutOpinionInput
+}
+
+export type SpecialistOpinionCreateOrConnectWithoutPeerReviewForInput = {
+  where: Prisma.SpecialistOpinionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedCreateWithoutPeerReviewForInput>
+}
+
+export type SpecialistOpinionUpsertWithoutDisputeInput = {
+  update: Prisma.XOR<Prisma.SpecialistOpinionUpdateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedUpdateWithoutDisputeInput>
+  create: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedCreateWithoutDisputeInput>
+  where?: Prisma.SpecialistOpinionWhereInput
+}
+
+export type SpecialistOpinionUpdateToOneWithWhereWithoutDisputeInput = {
+  where?: Prisma.SpecialistOpinionWhereInput
+  data: Prisma.XOR<Prisma.SpecialistOpinionUpdateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedUpdateWithoutDisputeInput>
+}
+
+export type SpecialistOpinionUpdateWithoutDisputeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumOpinionStatusFieldUpdateOperationsInput | $Enums.OpinionStatus
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  case?: Prisma.CaseUpdateOneRequiredWithoutOpinionsNestedInput
+  specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
+  plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
+  followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
+}
+
+export type SpecialistOpinionUncheckedUpdateWithoutDisputeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
+  specialistId?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumOpinionStatusFieldUpdateOperationsInput | $Enums.OpinionStatus
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
+  followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
+}
+
+export type SpecialistOpinionUpsertWithoutPeerReviewForInput = {
+  update: Prisma.XOR<Prisma.SpecialistOpinionUpdateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedUpdateWithoutPeerReviewForInput>
+  create: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedCreateWithoutPeerReviewForInput>
+  where?: Prisma.SpecialistOpinionWhereInput
+}
+
+export type SpecialistOpinionUpdateToOneWithWhereWithoutPeerReviewForInput = {
+  where?: Prisma.SpecialistOpinionWhereInput
+  data: Prisma.XOR<Prisma.SpecialistOpinionUpdateWithoutPeerReviewForInput, Prisma.SpecialistOpinionUncheckedUpdateWithoutPeerReviewForInput>
+}
+
+export type SpecialistOpinionUpdateWithoutPeerReviewForInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumOpinionStatusFieldUpdateOperationsInput | $Enums.OpinionStatus
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  case?: Prisma.CaseUpdateOneRequiredWithoutOpinionsNestedInput
+  specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
+  plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
+  followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+}
+
+export type SpecialistOpinionUncheckedUpdateWithoutPeerReviewForInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
+  specialistId?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumOpinionStatusFieldUpdateOperationsInput | $Enums.OpinionStatus
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
+  followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
 }
 
 export type SpecialistOpinionCreateManySpecialistInput = {
@@ -745,6 +954,8 @@ export type SpecialistOpinionUpdateWithoutSpecialistInput = {
   case?: Prisma.CaseUpdateOneRequiredWithoutOpinionsNestedInput
   plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateWithoutSpecialistInput = {
@@ -756,6 +967,8 @@ export type SpecialistOpinionUncheckedUpdateWithoutSpecialistInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateManyWithoutSpecialistInput = {
@@ -785,6 +998,8 @@ export type SpecialistOpinionUpdateWithoutCaseInput = {
   specialist?: Prisma.UserUpdateOneRequiredWithoutSpecialistOpinionsNestedInput
   plainSummary?: Prisma.PlainLanguageSummaryUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateWithoutCaseInput = {
@@ -796,6 +1011,8 @@ export type SpecialistOpinionUncheckedUpdateWithoutCaseInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   plainSummary?: Prisma.PlainLanguageSummaryUncheckedUpdateOneWithoutOpinionNestedInput
   followUps?: Prisma.FollowUpQuestionUncheckedUpdateManyWithoutOpinionNestedInput
+  dispute?: Prisma.DisputeUncheckedUpdateOneWithoutOpinionNestedInput
+  peerReviewFor?: Prisma.DisputeUncheckedUpdateOneWithoutPeerReviewOpinionNestedInput
 }
 
 export type SpecialistOpinionUncheckedUpdateManyWithoutCaseInput = {
@@ -850,6 +1067,8 @@ export type SpecialistOpinionSelect<ExtArgs extends runtime.Types.Extensions.Int
   specialist?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plainSummary?: boolean | Prisma.SpecialistOpinion$plainSummaryArgs<ExtArgs>
   followUps?: boolean | Prisma.SpecialistOpinion$followUpsArgs<ExtArgs>
+  dispute?: boolean | Prisma.SpecialistOpinion$disputeArgs<ExtArgs>
+  peerReviewFor?: boolean | Prisma.SpecialistOpinion$peerReviewForArgs<ExtArgs>
   _count?: boolean | Prisma.SpecialistOpinionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["specialistOpinion"]>
 
@@ -893,6 +1112,8 @@ export type SpecialistOpinionInclude<ExtArgs extends runtime.Types.Extensions.In
   specialist?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plainSummary?: boolean | Prisma.SpecialistOpinion$plainSummaryArgs<ExtArgs>
   followUps?: boolean | Prisma.SpecialistOpinion$followUpsArgs<ExtArgs>
+  dispute?: boolean | Prisma.SpecialistOpinion$disputeArgs<ExtArgs>
+  peerReviewFor?: boolean | Prisma.SpecialistOpinion$peerReviewForArgs<ExtArgs>
   _count?: boolean | Prisma.SpecialistOpinionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SpecialistOpinionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -911,6 +1132,8 @@ export type $SpecialistOpinionPayload<ExtArgs extends runtime.Types.Extensions.I
     specialist: Prisma.$UserPayload<ExtArgs>
     plainSummary: Prisma.$PlainLanguageSummaryPayload<ExtArgs> | null
     followUps: Prisma.$FollowUpQuestionPayload<ExtArgs>[]
+    dispute: Prisma.$DisputePayload<ExtArgs> | null
+    peerReviewFor: Prisma.$DisputePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1318,6 +1541,8 @@ export interface Prisma__SpecialistOpinionClient<T, Null = never, ExtArgs extend
   specialist<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   plainSummary<T extends Prisma.SpecialistOpinion$plainSummaryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SpecialistOpinion$plainSummaryArgs<ExtArgs>>): Prisma.Prisma__PlainLanguageSummaryClient<runtime.Types.Result.GetResult<Prisma.$PlainLanguageSummaryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   followUps<T extends Prisma.SpecialistOpinion$followUpsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SpecialistOpinion$followUpsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FollowUpQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dispute<T extends Prisma.SpecialistOpinion$disputeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SpecialistOpinion$disputeArgs<ExtArgs>>): Prisma.Prisma__DisputeClient<runtime.Types.Result.GetResult<Prisma.$DisputePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  peerReviewFor<T extends Prisma.SpecialistOpinion$peerReviewForArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SpecialistOpinion$peerReviewForArgs<ExtArgs>>): Prisma.Prisma__DisputeClient<runtime.Types.Result.GetResult<Prisma.$DisputePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1795,6 +2020,44 @@ export type SpecialistOpinion$followUpsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.FollowUpQuestionScalarFieldEnum | Prisma.FollowUpQuestionScalarFieldEnum[]
+}
+
+/**
+ * SpecialistOpinion.dispute
+ */
+export type SpecialistOpinion$disputeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Dispute
+   */
+  select?: Prisma.DisputeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Dispute
+   */
+  omit?: Prisma.DisputeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DisputeInclude<ExtArgs> | null
+  where?: Prisma.DisputeWhereInput
+}
+
+/**
+ * SpecialistOpinion.peerReviewFor
+ */
+export type SpecialistOpinion$peerReviewForArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Dispute
+   */
+  select?: Prisma.DisputeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Dispute
+   */
+  omit?: Prisma.DisputeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DisputeInclude<ExtArgs> | null
+  where?: Prisma.DisputeWhereInput
 }
 
 /**

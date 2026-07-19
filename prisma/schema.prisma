@@ -61,6 +61,21 @@ enum SynthesisStatus {
   DELIVERED
 }
 
+enum DisputeStatus {
+  PENDING
+  UNDER_REVIEW
+  PEER_REVIEW_ASSIGNED
+  RESOLVED
+  DISMISSED
+}
+
+enum DeletionStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id         String   @id @default(cuid())
   name       String?
@@ -81,6 +96,9 @@ model User {
   specialistOpinions SpecialistOpinion[]
   auditLogs         AuditLog[]
   trendAnalyses     TrendAnalysis[]
+  disputes         Dispute[]
+  consentRecords   ConsentRecord[]
+  deletionRequests DataDeletionRequest[]
 }
 
 model Post {
@@ -206,6 +224,7 @@ model Case {
   opinions     SpecialistOpinion[]
   aiPrescreens AIPrescreen[]
   synthesis    OpinionSynthesis?
+  disputes     Dispute[]
 }
 
 model CaseRecord {
@@ -232,6 +251,8 @@ model SpecialistOpinion {
   specialist   User                 @relation(fields: [specialistId], references: [id], onDelete: Cascade)
   plainSummary PlainLanguageSummary?
   followUps    FollowUpQuestion[]
+  dispute          Dispute?           @relation("DisputeOpinion")
+  peerReviewFor    Dispute?           @relation("PeerReviewOpinion")
 }
 
 model AIPrescreen {
@@ -298,8 +319,53 @@ model AuditLog {
   action       String
   resourceType String
   resourceId   String
+  before       Json?
+  after        Json?
   metadata     Json?
   timestamp    DateTime @default(now())
 
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Dispute {
+  id              String   @id @default(cuid())
+  caseId          String
+  patientId       String
+  opinionId       String   @unique
+  reason          String   @db.Text
+  status          DisputeStatus @default(PENDING)
+  adminNotes      String?  @db.Text
+  resolution      String?  @db.Text
+  peerReviewOpinionId String? @unique
+  createdAt       DateTime @default(now())
+  resolvedAt      DateTime?
+
+  case            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  patient         User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  opinion         SpecialistOpinion @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
+  peerReviewOpinion SpecialistOpinion? @relation("PeerReviewOpinion", fields: [peerReviewOpinionId], references: [id], onDelete: SetNull)
+}
+
+model ConsentRecord {
+  id          String   @id @default(cuid())
+  patientId   String
+  consentType String
+  granted     Boolean
+  grantedAt   DateTime?
+  revokedAt   DateTime?
+
+  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@unique([patientId, consentType])
+}
+
+model DataDeletionRequest {
+  id          String   @id @default(cuid())
+  patientId   String
+  status      DeletionStatus @default(PENDING)
+  requestedAt DateTime
+  executeAt   DateTime
+  completedAt DateTime?
+
+  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }

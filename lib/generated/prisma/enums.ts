@@ -85,3 +85,24 @@ export const SynthesisStatus = {
 } as const
 
 export type SynthesisStatus = (typeof SynthesisStatus)[keyof typeof SynthesisStatus]
+
+
+export const DisputeStatus = {
+  PENDING: 'PENDING',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  PEER_REVIEW_ASSIGNED: 'PEER_REVIEW_ASSIGNED',
+  RESOLVED: 'RESOLVED',
+  DISMISSED: 'DISMISSED'
+} as const
+
+export type DisputeStatus = (typeof DisputeStatus)[keyof typeof DisputeStatus]
+
+
+export const DeletionStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type DeletionStatus = (typeof DeletionStatus)[keyof typeof DeletionStatus]

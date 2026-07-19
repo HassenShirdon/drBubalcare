@@ -223,6 +223,9 @@ export type UserWhereInput = {
   specialistOpinions?: Prisma.SpecialistOpinionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   trendAnalyses?: Prisma.TrendAnalysisListRelationFilter
+  disputes?: Prisma.DisputeListRelationFilter
+  consentRecords?: Prisma.ConsentRecordListRelationFilter
+  deletionRequests?: Prisma.DataDeletionRequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -244,6 +247,9 @@ export type UserOrderByWithRelationInput = {
   specialistOpinions?: Prisma.SpecialistOpinionOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   trendAnalyses?: Prisma.TrendAnalysisOrderByRelationAggregateInput
+  disputes?: Prisma.DisputeOrderByRelationAggregateInput
+  consentRecords?: Prisma.ConsentRecordOrderByRelationAggregateInput
+  deletionRequests?: Prisma.DataDeletionRequestOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +274,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   specialistOpinions?: Prisma.SpecialistOpinionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   trendAnalyses?: Prisma.TrendAnalysisListRelationFilter
+  disputes?: Prisma.DisputeListRelationFilter
+  consentRecords?: Prisma.ConsentRecordListRelationFilter
+  deletionRequests?: Prisma.DataDeletionRequestListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -319,6 +328,9 @@ export type UserCreateInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -340,6 +352,9 @@ export type UserUncheckedCreateInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserUpdateInput = {
@@ -361,6 +376,9 @@ export type UserUpdateInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -382,6 +400,9 @@ export type UserUncheckedUpdateInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -614,6 +635,48 @@ export type UserUpdateOneRequiredWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
+export type UserCreateNestedOneWithoutDisputesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDisputesInput, Prisma.UserUncheckedCreateWithoutDisputesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDisputesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDisputesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDisputesInput, Prisma.UserUncheckedCreateWithoutDisputesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDisputesInput
+  upsert?: Prisma.UserUpsertWithoutDisputesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDisputesInput, Prisma.UserUpdateWithoutDisputesInput>, Prisma.UserUncheckedUpdateWithoutDisputesInput>
+}
+
+export type UserCreateNestedOneWithoutConsentRecordsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsentRecordsInput, Prisma.UserUncheckedCreateWithoutConsentRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsentRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutConsentRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsentRecordsInput, Prisma.UserUncheckedCreateWithoutConsentRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsentRecordsInput
+  upsert?: Prisma.UserUpsertWithoutConsentRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConsentRecordsInput, Prisma.UserUpdateWithoutConsentRecordsInput>, Prisma.UserUncheckedUpdateWithoutConsentRecordsInput>
+}
+
+export type UserCreateNestedOneWithoutDeletionRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDeletionRequestsInput, Prisma.UserUncheckedCreateWithoutDeletionRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDeletionRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDeletionRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDeletionRequestsInput, Prisma.UserUncheckedCreateWithoutDeletionRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDeletionRequestsInput
+  upsert?: Prisma.UserUpsertWithoutDeletionRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDeletionRequestsInput, Prisma.UserUpdateWithoutDeletionRequestsInput>, Prisma.UserUncheckedUpdateWithoutDeletionRequestsInput>
+}
+
 export type UserCreateWithoutPostsInput = {
   id?: string
   name?: string | null
@@ -632,6 +695,9 @@ export type UserCreateWithoutPostsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -652,6 +718,9 @@ export type UserUncheckedCreateWithoutPostsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -688,6 +757,9 @@ export type UserUpdateWithoutPostsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -708,6 +780,9 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutDoctorProfileInput = {
@@ -728,6 +803,9 @@ export type UserCreateWithoutDoctorProfileInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutDoctorProfileInput = {
@@ -748,6 +826,9 @@ export type UserUncheckedCreateWithoutDoctorProfileInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutDoctorProfileInput = {
@@ -784,6 +865,9 @@ export type UserUpdateWithoutDoctorProfileInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDoctorProfileInput = {
@@ -804,6 +888,9 @@ export type UserUncheckedUpdateWithoutDoctorProfileInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutLabResultsInput = {
@@ -824,6 +911,9 @@ export type UserCreateWithoutLabResultsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutLabResultsInput = {
@@ -844,6 +934,9 @@ export type UserUncheckedCreateWithoutLabResultsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutLabResultsInput = {
@@ -880,6 +973,9 @@ export type UserUpdateWithoutLabResultsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLabResultsInput = {
@@ -900,6 +996,9 @@ export type UserUncheckedUpdateWithoutLabResultsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutPatientAppointmentsInput = {
@@ -920,6 +1019,9 @@ export type UserCreateWithoutPatientAppointmentsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutPatientAppointmentsInput = {
@@ -940,6 +1042,9 @@ export type UserUncheckedCreateWithoutPatientAppointmentsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutPatientAppointmentsInput = {
@@ -976,6 +1081,9 @@ export type UserUpdateWithoutPatientAppointmentsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientAppointmentsInput = {
@@ -996,6 +1104,9 @@ export type UserUncheckedUpdateWithoutPatientAppointmentsInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutCasesInput = {
@@ -1016,6 +1127,9 @@ export type UserCreateWithoutCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutCasesInput = {
@@ -1036,6 +1150,9 @@ export type UserUncheckedCreateWithoutCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutCasesInput = {
@@ -1061,6 +1178,9 @@ export type UserCreateWithoutSpecialistCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutSpecialistCasesInput = {
@@ -1081,6 +1201,9 @@ export type UserUncheckedCreateWithoutSpecialistCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutSpecialistCasesInput = {
@@ -1117,6 +1240,9 @@ export type UserUpdateWithoutCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCasesInput = {
@@ -1137,6 +1263,9 @@ export type UserUncheckedUpdateWithoutCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUpsertWithoutSpecialistCasesInput = {
@@ -1168,6 +1297,9 @@ export type UserUpdateWithoutSpecialistCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSpecialistCasesInput = {
@@ -1188,6 +1320,9 @@ export type UserUncheckedUpdateWithoutSpecialistCasesInput = {
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutSpecialistOpinionsInput = {
@@ -1208,6 +1343,9 @@ export type UserCreateWithoutSpecialistOpinionsInput = {
   specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutSpecialistOpinionsInput = {
@@ -1228,6 +1366,9 @@ export type UserUncheckedCreateWithoutSpecialistOpinionsInput = {
   specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutSpecialistOpinionsInput = {
@@ -1264,6 +1405,9 @@ export type UserUpdateWithoutSpecialistOpinionsInput = {
   specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSpecialistOpinionsInput = {
@@ -1284,6 +1428,9 @@ export type UserUncheckedUpdateWithoutSpecialistOpinionsInput = {
   specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutTrendAnalysesInput = {
@@ -1304,6 +1451,9 @@ export type UserCreateWithoutTrendAnalysesInput = {
   specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutTrendAnalysesInput = {
@@ -1324,6 +1474,9 @@ export type UserUncheckedCreateWithoutTrendAnalysesInput = {
   specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutTrendAnalysesInput = {
@@ -1360,6 +1513,9 @@ export type UserUpdateWithoutTrendAnalysesInput = {
   specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrendAnalysesInput = {
@@ -1380,6 +1536,9 @@ export type UserUncheckedUpdateWithoutTrendAnalysesInput = {
   specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -1400,6 +1559,9 @@ export type UserCreateWithoutAuditLogsInput = {
   specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
   specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1420,6 +1582,9 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1456,6 +1621,9 @@ export type UserUpdateWithoutAuditLogsInput = {
   specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
   specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1476,6 +1644,333 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
   specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+}
+
+export type UserCreateWithoutDisputesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+}
+
+export type UserUncheckedCreateWithoutDisputesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseUncheckedCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+}
+
+export type UserCreateOrConnectWithoutDisputesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDisputesInput, Prisma.UserUncheckedCreateWithoutDisputesInput>
+}
+
+export type UserUpsertWithoutDisputesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDisputesInput, Prisma.UserUncheckedUpdateWithoutDisputesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDisputesInput, Prisma.UserUncheckedCreateWithoutDisputesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDisputesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDisputesInput, Prisma.UserUncheckedUpdateWithoutDisputesInput>
+}
+
+export type UserUpdateWithoutDisputesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDisputesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUncheckedUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+}
+
+export type UserCreateWithoutConsentRecordsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+}
+
+export type UserUncheckedCreateWithoutConsentRecordsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseUncheckedCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+}
+
+export type UserCreateOrConnectWithoutConsentRecordsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsentRecordsInput, Prisma.UserUncheckedCreateWithoutConsentRecordsInput>
+}
+
+export type UserUpsertWithoutConsentRecordsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConsentRecordsInput, Prisma.UserUncheckedUpdateWithoutConsentRecordsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsentRecordsInput, Prisma.UserUncheckedCreateWithoutConsentRecordsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConsentRecordsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConsentRecordsInput, Prisma.UserUncheckedUpdateWithoutConsentRecordsInput>
+}
+
+export type UserUpdateWithoutConsentRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConsentRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUncheckedUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+}
+
+export type UserCreateWithoutDeletionRequestsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+}
+
+export type UserUncheckedCreateWithoutDeletionRequestsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseUncheckedCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+}
+
+export type UserCreateOrConnectWithoutDeletionRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDeletionRequestsInput, Prisma.UserUncheckedCreateWithoutDeletionRequestsInput>
+}
+
+export type UserUpsertWithoutDeletionRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDeletionRequestsInput, Prisma.UserUncheckedUpdateWithoutDeletionRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDeletionRequestsInput, Prisma.UserUncheckedCreateWithoutDeletionRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDeletionRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDeletionRequestsInput, Prisma.UserUncheckedUpdateWithoutDeletionRequestsInput>
+}
+
+export type UserUpdateWithoutDeletionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUncheckedUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
 }
 
 
@@ -1492,6 +1987,9 @@ export type UserCountOutputType = {
   specialistOpinions: number
   auditLogs: number
   trendAnalyses: number
+  disputes: number
+  consentRecords: number
+  deletionRequests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1503,6 +2001,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   specialistOpinions?: boolean | UserCountOutputTypeCountSpecialistOpinionsArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   trendAnalyses?: boolean | UserCountOutputTypeCountTrendAnalysesArgs
+  disputes?: boolean | UserCountOutputTypeCountDisputesArgs
+  consentRecords?: boolean | UserCountOutputTypeCountConsentRecordsArgs
+  deletionRequests?: boolean | UserCountOutputTypeCountDeletionRequestsArgs
 }
 
 /**
@@ -1571,6 +2072,27 @@ export type UserCountOutputTypeCountTrendAnalysesArgs<ExtArgs extends runtime.Ty
   where?: Prisma.TrendAnalysisWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDisputesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DisputeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountConsentRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConsentRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDeletionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DataDeletionRequestWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1591,6 +2113,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   specialistOpinions?: boolean | Prisma.User$specialistOpinionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   trendAnalyses?: boolean | Prisma.User$trendAnalysesArgs<ExtArgs>
+  disputes?: boolean | Prisma.User$disputesArgs<ExtArgs>
+  consentRecords?: boolean | Prisma.User$consentRecordsArgs<ExtArgs>
+  deletionRequests?: boolean | Prisma.User$deletionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1641,6 +2166,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   specialistOpinions?: boolean | Prisma.User$specialistOpinionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   trendAnalyses?: boolean | Prisma.User$trendAnalysesArgs<ExtArgs>
+  disputes?: boolean | Prisma.User$disputesArgs<ExtArgs>
+  consentRecords?: boolean | Prisma.User$consentRecordsArgs<ExtArgs>
+  deletionRequests?: boolean | Prisma.User$deletionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1658,6 +2186,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     specialistOpinions: Prisma.$SpecialistOpinionPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     trendAnalyses: Prisma.$TrendAnalysisPayload<ExtArgs>[]
+    disputes: Prisma.$DisputePayload<ExtArgs>[]
+    consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
+    deletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2072,6 +2603,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   specialistOpinions<T extends Prisma.User$specialistOpinionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$specialistOpinionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SpecialistOpinionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trendAnalyses<T extends Prisma.User$trendAnalysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trendAnalysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrendAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  disputes<T extends Prisma.User$disputesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$disputesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DisputePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  consentRecords<T extends Prisma.User$consentRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deletionRequests<T extends Prisma.User$deletionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2711,6 +3245,78 @@ export type User$trendAnalysesArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TrendAnalysisScalarFieldEnum | Prisma.TrendAnalysisScalarFieldEnum[]
+}
+
+/**
+ * User.disputes
+ */
+export type User$disputesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Dispute
+   */
+  select?: Prisma.DisputeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Dispute
+   */
+  omit?: Prisma.DisputeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DisputeInclude<ExtArgs> | null
+  where?: Prisma.DisputeWhereInput
+  orderBy?: Prisma.DisputeOrderByWithRelationInput | Prisma.DisputeOrderByWithRelationInput[]
+  cursor?: Prisma.DisputeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DisputeScalarFieldEnum | Prisma.DisputeScalarFieldEnum[]
+}
+
+/**
+ * User.consentRecords
+ */
+export type User$consentRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConsentRecord
+   */
+  select?: Prisma.ConsentRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConsentRecord
+   */
+  omit?: Prisma.ConsentRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConsentRecordInclude<ExtArgs> | null
+  where?: Prisma.ConsentRecordWhereInput
+  orderBy?: Prisma.ConsentRecordOrderByWithRelationInput | Prisma.ConsentRecordOrderByWithRelationInput[]
+  cursor?: Prisma.ConsentRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConsentRecordScalarFieldEnum | Prisma.ConsentRecordScalarFieldEnum[]
+}
+
+/**
+ * User.deletionRequests
+ */
+export type User$deletionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DataDeletionRequest
+   */
+  select?: Prisma.DataDeletionRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DataDeletionRequest
+   */
+  omit?: Prisma.DataDeletionRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DataDeletionRequestInclude<ExtArgs> | null
+  where?: Prisma.DataDeletionRequestWhereInput
+  orderBy?: Prisma.DataDeletionRequestOrderByWithRelationInput | Prisma.DataDeletionRequestOrderByWithRelationInput[]
+  cursor?: Prisma.DataDeletionRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DataDeletionRequestScalarFieldEnum | Prisma.DataDeletionRequestScalarFieldEnum[]
 }
 
 /**

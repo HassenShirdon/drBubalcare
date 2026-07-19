@@ -212,6 +212,7 @@ export type CaseWhereInput = {
   opinions?: Prisma.SpecialistOpinionListRelationFilter
   aiPrescreens?: Prisma.AIPrescreenListRelationFilter
   synthesis?: Prisma.XOR<Prisma.OpinionSynthesisNullableScalarRelationFilter, Prisma.OpinionSynthesisWhereInput> | null
+  disputes?: Prisma.DisputeListRelationFilter
 }
 
 export type CaseOrderByWithRelationInput = {
@@ -229,6 +230,7 @@ export type CaseOrderByWithRelationInput = {
   opinions?: Prisma.SpecialistOpinionOrderByRelationAggregateInput
   aiPrescreens?: Prisma.AIPrescreenOrderByRelationAggregateInput
   synthesis?: Prisma.OpinionSynthesisOrderByWithRelationInput
+  disputes?: Prisma.DisputeOrderByRelationAggregateInput
 }
 
 export type CaseWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +251,7 @@ export type CaseWhereUniqueInput = Prisma.AtLeast<{
   opinions?: Prisma.SpecialistOpinionListRelationFilter
   aiPrescreens?: Prisma.AIPrescreenListRelationFilter
   synthesis?: Prisma.XOR<Prisma.OpinionSynthesisNullableScalarRelationFilter, Prisma.OpinionSynthesisWhereInput> | null
+  disputes?: Prisma.DisputeListRelationFilter
 }, "id">
 
 export type CaseOrderByWithAggregationInput = {
@@ -292,6 +295,7 @@ export type CaseCreateInput = {
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateInput = {
@@ -307,6 +311,7 @@ export type CaseUncheckedCreateInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUpdateInput = {
@@ -322,6 +327,7 @@ export type CaseUpdateInput = {
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateInput = {
@@ -337,6 +343,7 @@ export type CaseUncheckedUpdateInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseCreateManyInput = {
@@ -566,6 +573,20 @@ export type CaseUpdateOneRequiredWithoutSynthesisNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutSynthesisInput, Prisma.CaseUpdateWithoutSynthesisInput>, Prisma.CaseUncheckedUpdateWithoutSynthesisInput>
 }
 
+export type CaseCreateNestedOneWithoutDisputesInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutDisputesInput, Prisma.CaseUncheckedCreateWithoutDisputesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutDisputesInput
+  connect?: Prisma.CaseWhereUniqueInput
+}
+
+export type CaseUpdateOneRequiredWithoutDisputesNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutDisputesInput, Prisma.CaseUncheckedCreateWithoutDisputesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutDisputesInput
+  upsert?: Prisma.CaseUpsertWithoutDisputesInput
+  connect?: Prisma.CaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutDisputesInput, Prisma.CaseUpdateWithoutDisputesInput>, Prisma.CaseUncheckedUpdateWithoutDisputesInput>
+}
+
 export type CaseCreateWithoutPatientInput = {
   id?: string
   serviceType: $Enums.ServiceType
@@ -578,6 +599,7 @@ export type CaseCreateWithoutPatientInput = {
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutPatientInput = {
@@ -592,6 +614,7 @@ export type CaseUncheckedCreateWithoutPatientInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutPatientInput = {
@@ -616,6 +639,7 @@ export type CaseCreateWithoutSpecialistInput = {
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutSpecialistInput = {
@@ -630,6 +654,7 @@ export type CaseUncheckedCreateWithoutSpecialistInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutSpecialistInput = {
@@ -700,6 +725,7 @@ export type CaseCreateWithoutRecordsInput = {
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutRecordsInput = {
@@ -714,6 +740,7 @@ export type CaseUncheckedCreateWithoutRecordsInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutRecordsInput = {
@@ -744,6 +771,7 @@ export type CaseUpdateWithoutRecordsInput = {
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutRecordsInput = {
@@ -758,6 +786,7 @@ export type CaseUncheckedUpdateWithoutRecordsInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseCreateWithoutOpinionsInput = {
@@ -772,6 +801,7 @@ export type CaseCreateWithoutOpinionsInput = {
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutOpinionsInput = {
@@ -786,6 +816,7 @@ export type CaseUncheckedCreateWithoutOpinionsInput = {
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutOpinionsInput = {
@@ -816,6 +847,7 @@ export type CaseUpdateWithoutOpinionsInput = {
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutOpinionsInput = {
@@ -830,6 +862,7 @@ export type CaseUncheckedUpdateWithoutOpinionsInput = {
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseCreateWithoutAiPrescreensInput = {
@@ -844,6 +877,7 @@ export type CaseCreateWithoutAiPrescreensInput = {
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutAiPrescreensInput = {
@@ -858,6 +892,7 @@ export type CaseUncheckedCreateWithoutAiPrescreensInput = {
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutAiPrescreensInput = {
@@ -888,6 +923,7 @@ export type CaseUpdateWithoutAiPrescreensInput = {
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutAiPrescreensInput = {
@@ -902,6 +938,7 @@ export type CaseUncheckedUpdateWithoutAiPrescreensInput = {
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseCreateWithoutSynthesisInput = {
@@ -916,6 +953,7 @@ export type CaseCreateWithoutSynthesisInput = {
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutSynthesisInput = {
@@ -930,6 +968,7 @@ export type CaseUncheckedCreateWithoutSynthesisInput = {
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutSynthesisInput = {
@@ -960,6 +999,7 @@ export type CaseUpdateWithoutSynthesisInput = {
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutSynthesisInput = {
@@ -974,6 +1014,83 @@ export type CaseUncheckedUpdateWithoutSynthesisInput = {
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseCreateWithoutDisputesInput = {
+  id?: string
+  serviceType: $Enums.ServiceType
+  status?: $Enums.CaseStatus
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  patient: Prisma.UserCreateNestedOneWithoutCasesInput
+  specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
+  records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
+  aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
+  synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+}
+
+export type CaseUncheckedCreateWithoutDisputesInput = {
+  id?: string
+  patientId: string
+  specialistId?: string | null
+  serviceType: $Enums.ServiceType
+  status?: $Enums.CaseStatus
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
+  aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
+  synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+}
+
+export type CaseCreateOrConnectWithoutDisputesInput = {
+  where: Prisma.CaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CaseCreateWithoutDisputesInput, Prisma.CaseUncheckedCreateWithoutDisputesInput>
+}
+
+export type CaseUpsertWithoutDisputesInput = {
+  update: Prisma.XOR<Prisma.CaseUpdateWithoutDisputesInput, Prisma.CaseUncheckedUpdateWithoutDisputesInput>
+  create: Prisma.XOR<Prisma.CaseCreateWithoutDisputesInput, Prisma.CaseUncheckedCreateWithoutDisputesInput>
+  where?: Prisma.CaseWhereInput
+}
+
+export type CaseUpdateToOneWithWhereWithoutDisputesInput = {
+  where?: Prisma.CaseWhereInput
+  data: Prisma.XOR<Prisma.CaseUpdateWithoutDisputesInput, Prisma.CaseUncheckedUpdateWithoutDisputesInput>
+}
+
+export type CaseUpdateWithoutDisputesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceType?: Prisma.EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+  status?: Prisma.EnumCaseStatusFieldUpdateOperationsInput | $Enums.CaseStatus
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
+  records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
+  aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
+  synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateWithoutDisputesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  specialistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceType?: Prisma.EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+  status?: Prisma.EnumCaseStatusFieldUpdateOperationsInput | $Enums.CaseStatus
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
+  aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
+  synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
 }
 
 export type CaseCreateManyPatientInput = {
@@ -1008,6 +1125,7 @@ export type CaseUpdateWithoutPatientInput = {
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutPatientInput = {
@@ -1022,6 +1140,7 @@ export type CaseUncheckedUpdateWithoutPatientInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateManyWithoutPatientInput = {
@@ -1046,6 +1165,7 @@ export type CaseUpdateWithoutSpecialistInput = {
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutSpecialistInput = {
@@ -1060,6 +1180,7 @@ export type CaseUncheckedUpdateWithoutSpecialistInput = {
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateManyWithoutSpecialistInput = {
@@ -1081,12 +1202,14 @@ export type CaseCountOutputType = {
   records: number
   opinions: number
   aiPrescreens: number
+  disputes: number
 }
 
 export type CaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   records?: boolean | CaseCountOutputTypeCountRecordsArgs
   opinions?: boolean | CaseCountOutputTypeCountOpinionsArgs
   aiPrescreens?: boolean | CaseCountOutputTypeCountAiPrescreensArgs
+  disputes?: boolean | CaseCountOutputTypeCountDisputesArgs
 }
 
 /**
@@ -1120,6 +1243,13 @@ export type CaseCountOutputTypeCountAiPrescreensArgs<ExtArgs extends runtime.Typ
   where?: Prisma.AIPrescreenWhereInput
 }
 
+/**
+ * CaseCountOutputType without action
+ */
+export type CaseCountOutputTypeCountDisputesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DisputeWhereInput
+}
+
 
 export type CaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1136,6 +1266,7 @@ export type CaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   opinions?: boolean | Prisma.Case$opinionsArgs<ExtArgs>
   aiPrescreens?: boolean | Prisma.Case$aiPrescreensArgs<ExtArgs>
   synthesis?: boolean | Prisma.Case$synthesisArgs<ExtArgs>
+  disputes?: boolean | Prisma.Case$disputesArgs<ExtArgs>
   _count?: boolean | Prisma.CaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["case"]>
 
@@ -1184,6 +1315,7 @@ export type CaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   opinions?: boolean | Prisma.Case$opinionsArgs<ExtArgs>
   aiPrescreens?: boolean | Prisma.Case$aiPrescreensArgs<ExtArgs>
   synthesis?: boolean | Prisma.Case$synthesisArgs<ExtArgs>
+  disputes?: boolean | Prisma.Case$disputesArgs<ExtArgs>
   _count?: boolean | Prisma.CaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1204,6 +1336,7 @@ export type $CasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     opinions: Prisma.$SpecialistOpinionPayload<ExtArgs>[]
     aiPrescreens: Prisma.$AIPrescreenPayload<ExtArgs>[]
     synthesis: Prisma.$OpinionSynthesisPayload<ExtArgs> | null
+    disputes: Prisma.$DisputePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1614,6 +1747,7 @@ export interface Prisma__CaseClient<T, Null = never, ExtArgs extends runtime.Typ
   opinions<T extends Prisma.Case$opinionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$opinionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SpecialistOpinionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   aiPrescreens<T extends Prisma.Case$aiPrescreensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$aiPrescreensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIPrescreenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   synthesis<T extends Prisma.Case$synthesisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$synthesisArgs<ExtArgs>>): Prisma.Prisma__OpinionSynthesisClient<runtime.Types.Result.GetResult<Prisma.$OpinionSynthesisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  disputes<T extends Prisma.Case$disputesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$disputesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DisputePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2159,6 +2293,30 @@ export type Case$synthesisArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.OpinionSynthesisInclude<ExtArgs> | null
   where?: Prisma.OpinionSynthesisWhereInput
+}
+
+/**
+ * Case.disputes
+ */
+export type Case$disputesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Dispute
+   */
+  select?: Prisma.DisputeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Dispute
+   */
+  omit?: Prisma.DisputeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DisputeInclude<ExtArgs> | null
+  where?: Prisma.DisputeWhereInput
+  orderBy?: Prisma.DisputeOrderByWithRelationInput | Prisma.DisputeOrderByWithRelationInput[]
+  cursor?: Prisma.DisputeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DisputeScalarFieldEnum | Prisma.DisputeScalarFieldEnum[]
 }
 
 /**
