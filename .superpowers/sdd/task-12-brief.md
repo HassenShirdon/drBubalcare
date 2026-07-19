@@ -1,37 +1,103 @@
-### Task 12: E2E Test
+### Task 12: Lab Result Creation + Trend Trigger
 
 **Files:**
-- Create: `__tests__/e2e/specialist-opinion-workflow.test.ts`
+- Modify: `app/api/lab-results/route.ts` (add POST handler)
+- Create: `app/api/ai/trends/[patientId]/analyze/route.ts` (trigger endpoint)
+- Consumes: `lib/ai/trends.ts`
 
-**Interfaces:**
-- Tests the full specialist opinion workflow across all API endpoints
+- [ ] **Step 1: Add POST handler to lab-results route**
 
-- [ ] **Step 1: Check existing test patterns**
+Add to `app/api/lab-results/route.ts` (after the existing GET handler):
 
-Read any existing test files in `__tests__/` to understand the test pattern.
+```typescript
+export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-- [ ] **Step 2: Create E2E test**
+  const userId = (session.user as { id: string }).id;
+  const body = await request.json();
 
-Create `__tests__/e2e/specialist-opinion-workflow.test.ts`:
+  const { name, date, doctor, metrics } = body;
 
-The test should:
-1. Admin creates a case for a patient (POST /api/cases)
-2. Admin verifies a doctor (PATCH /api/admin/specialists/[id]/verify)
-3. Admin assigns case to doctor (PATCH /api/admin/cases/[id]/assign)
-4. Doctor saves draft opinion (POST /api/doctor/cases/[id]/opinion)
-5. Doctor signs opinion (POST /api/doctor/cases/[id]/opinion with sign: true)
-6. Patient can view signed opinion (GET /api/cases/[id])
-7. Patient cannot see draft opinions
+  if (!name || !date || !doctor || !metrics || !Array.isArray(metrics)) {
+    return NextResponse.json(
+      { error: "name, date, doctor, and metrics array are required" },
+      { status: 400 }
+    );
+  }
 
-Use `vi.mock` for auth mocking. Use `describe`, `it`, `expect` from vitest.
+  const labResult = await prisma.labResult.create({
+    data: {
+      patientId: userId,
+      name,
+      date: new Date(date),
+      doctor,
+      icon: "lab",
+      metrics: {
+        create: metrics.map((m: { name: string; value: number; unit: string; referenceRange: string; status?: string }) => ({
+          name: m.name,
+          value: m.value,
+          unit: m.unit,
+          referenceRange: m.referenceRange,
+          status: (m.status || "NORMAL") as "NORMAL" | "HIGH" | "LOW",
+        })),
+      },
+    },
+    include: { metrics: true },
+  });
 
-- [ ] **Step 3: Run test**
+  // Trigger trend analysis (fire and forget)
+  fetch(`${process.env.NEXTAUTH_URL}/api/ai/trends/${userId}/analyze`, {
+    method: "POST",
+    headers: {
+      "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+    },
+  }).catch((err) => console.error("Trend analysis trigger failed:", err));
 
-Run: `npx vitest run __tests__/e2e/specialist-opinion-workflow.test.ts`
+  return NextResponse.json(labResult, { status: 201 });
+}
+```
+
+- [ ] **Step 2: Create trend analysis trigger endpoint**
+
+Create `app/api/ai/trends/[patientId]/analyze/route.ts`:
+
+```typescript
+import { NextResponse } from "next/server";
+import { generateTrendAnalysis } from "@/lib/ai/trends";
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ patientId: string }> }
+) {
+  const secret = request.headers.get("x-internal-secret");
+  if (secret !== process.env.INTERNAL_API_SECRET) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { patientId } = await params;
+
+  try {
+    const analyses = await generateTrendAnalysis(patientId);
+    return NextResponse.json({ analyzed: analyses.length });
+  } catch (error) {
+    console.error("Trend analysis failed:", error);
+    return NextResponse.json(
+      { error: "Trend analysis failed" },
+      { status: 500 }
+    );
+  }
+}
+```
+
+- [ ] **Step 3: Verify TypeScript compiles**
+
+Run: `npx tsc --noEmit`
+Expected: No errors
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git add __tests__/e2e/specialist-opinion-workflow.test.ts
-git commit -m "test: add E2E test for specialist opinion workflow"
+git add app/api/lab-results/route.ts app/api/ai/trends/[patientId]/analyze/route.ts
+git commit -m "feat: add lab result creation with trend analysis trigger"
 ```

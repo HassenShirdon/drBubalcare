@@ -1,44 +1,64 @@
-### Task 11: Navigation Updates
+### Task 11: Trends API Route
 
 **Files:**
-- Modify: `components/PatientLayout.tsx` (add Cases nav item)
-- Modify: `app/admin/layout.tsx` (add Cases nav item — may already exist)
+- Create: `app/api/ai/trends/[patientId]/route.ts`
+- Consumes: `lib/ai/trends.ts`
 
-**Interfaces:**
-- Consumes: existing layout navigation patterns
-- Produces: updated navigation with all Phase 2 sections
+- [ ] **Step 1: Create trends API route**
 
-- [ ] **Step 1: Check existing navigation**
+Create `app/api/ai/trends/[patientId]/route.ts`:
 
-Read `components/PatientLayout.tsx` — does it have a "My Cases" nav item?
-Read `app/admin/layout.tsx` — does it have a "Cases" nav item?
-Read `components/DoctorLayout.tsx` — does it have a "My Cases" nav item?
+```typescript
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-- [ ] **Step 2: Add "My Cases" to PatientLayout if missing**
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ patientId: string }> }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-```tsx
-{
-  href: "/patient/cases",
-  label: "My Cases",
-  icon: Briefcase,
+  const userId = (session.user as { id: string }).id;
+  const { patientId } = await params;
+
+  if (userId !== patientId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  try {
+    const trends = await prisma.trendAnalysis.findMany({
+      where: { patientId },
+      orderBy: { generatedAt: "desc" },
+    });
+
+    return NextResponse.json(trends, {
+      headers: {
+        "Cache-Control": "private, no-store",
+      },
+    });
+  } catch (error) {
+    console.error("Trend analysis fetch failed:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch trend analyses" },
+      { status: 500 }
+    );
+  }
 }
 ```
 
-Add `Briefcase` to the lucide-react imports.
+- [ ] **Step 2: Verify TypeScript compiles**
 
-- [ ] **Step 3: Verify admin and doctor navigation**
+Run: `npx tsc --noEmit`
+Expected: No errors
 
-Verify admin has "Cases" nav item. Verify doctor has "My Cases" nav item.
-
-- [ ] **Step 4: Test navigation**
-
-Run: `npx next dev --turbopack`
-Test: Patient, Doctor, and Admin layouts all show correct nav items
-Test: Active state styling works correctly
-
-- [ ] **Step 5: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
-git add components/PatientLayout.tsx
-git commit -m "feat: add My Cases navigation to patient layout"
+git add app/api/ai/trends/[patientId]/route.ts
+git commit -m "feat: add trends API route for patient dashboard"
 ```

@@ -24,6 +24,7 @@ vi.mock('@/lib/notifications/service', () => ({
 vi.mock('@/lib/db', () => ({
   prisma: {
     case: {
+      findUnique: vi.fn(),
       findMany: vi.fn(),
     },
   },
@@ -39,8 +40,11 @@ vi.mock('@/lib/auth', () => ({
 
 import { POST as cronPost } from '@/app/api/cron/check-no-specialist/route';
 import { POST as flagPost } from '@/app/api/cases/[id]/flag-incomplete/route';
+import { GET as pendingAdminGet } from '@/app/api/admin/edge-cases/pending/route';
+import { POST as urgentAlertPost } from '@/app/api/admin/edge-cases/urgent-alert/route';
 import { checkUnmatchedCases, flagIncompleteUpload } from '@/lib/edge-cases/service';
 import { getServerSession } from 'next-auth';
+import { prisma } from '@/lib/db';
 
 function mockSession(role: string, id: string) {
   return { user: { role, id } };
@@ -102,6 +106,67 @@ describe('Edge Case Routes', () => {
       );
       expect(res.status).toBe(200);
       expect(flagIncompleteUpload).toHaveBeenCalledWith('case-1', 'doc-1', 'Upload missing files');
+    });
+  });
+
+  describe('Admin Pending Route', () => {
+    it('returns 401 without session', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(null);
+      const res = await pendingAdminGet();
+      expect(res.status).toBe(401);
+    });
+
+    it('returns 403 for non-admin', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'patient-1'));
+      const res = await pendingAdminGet();
+      expect(res.status).toBe(403);
+    });
+
+    it('returns 200 with cases for admin', async () => {
+      const fakeCases = [
+        { id: '1', patient: { name: 'John', email: 'john@test.com' } }
+      ];
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+      vi.mocked(prisma.case.findMany).mockResolvedValue(fakeCases as any);
+      const res = await pendingAdminGet();
+      expect(res.status).toBe(200);
+    });
+  });
+
+  describe('Admin Urgent Alert Route', () => {
+    const validRequest = { json: async () => ({ caseId: 'case-1', message: 'Critical finding' }) } as unknown as Request;
+    const bodyEmptyRequest = { json: async () => ({}) } as unknown as Request;
+
+    it('returns 401 without session', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(null);
+      const res = await urgentAlertPost(validRequest);
+      expect(res.status).toBe(401);
+    });
+
+    it('returns 403 for non-admin', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'patient-1'));
+      const res = await urgentAlertPost(validRequest);
+      expect(res.status).toBe(403);
+    });
+
+    it('returns 400 without required fields', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+      const res = await urgentAlertPost(bodyEmptyRequest);
+      expect(res.status).toBe(400);
+    });
+
+    it('returns 404 for non-existent case', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+      vi.mocked(prisma.case.findUnique).mockResolvedValue(null);
+      const res = await urgentAlertPost(validRequest);
+      expect(res.status).toBe(404);
+    });
+
+    it('returns 200 for valid admin request', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+      vi.mocked(prisma.case.findUnique).mockResolvedValue({ patientId: 'patient-1' } as any);
+      const res = await urgentAlertPost(validRequest);
+      expect(res.status).toBe(200);
     });
   });
 });

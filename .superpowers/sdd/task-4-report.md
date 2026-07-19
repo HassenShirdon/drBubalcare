@@ -1,39 +1,80 @@
-# Task 4: Migrate Admin Specialists to DataTable
+# Task 4: Audit Logs API Route — Report
 
-## What Was Implemented
+## What I Implemented
 
-Replaced the raw HTML table in the admin specialists page with the shared `DataTable` component from Task 1, gaining:
+- **`app/api/admin/audit-logs/route.ts`**: GET endpoint for admin-only audit log listing with pagination and filters
+- **`__tests__/integration/audit-logs.test.ts`**: 4 integration tests verifying auth, RBAC, pagination, and filter behavior
 
-- **Column sorting** via `DataTableColumnHeader` on Name, Specialty, Status, and Joined columns
-- **Column visibility** toggle via the `DataTableViewOptions` dropdown (built into DataTable)
-- **Client-side search** by name/email via DataTable's built-in search input
-- **Tab filter** for verified/unverified/all verification status (preserved from original)
-- **Pagination** via DataTable's built-in pagination controls
+## What I Tested
 
-### Files Created/Modified
-
-| File | Action |
+| Test | Result |
 |------|--------|
-| `app/admin/specialists/columns.tsx` | **Created** — Column definitions with custom cells, sort accessors, and filter functions |
-| `app/admin/specialists/page.tsx` | **Replaced** — Swapped raw HTML table for `<DataTable>` component |
+| Returns 401 without session | ✅ PASS |
+| Returns 403 for non-admin users | ✅ PASS |
+| Returns paginated audit logs for admin | ✅ PASS |
+| Filters by action | ✅ PASS |
 
-## Build Verification
+**4/4 passing, output pristine (no warnings or noise).**
 
-`npx tsc --noEmit` — **passed with zero errors**.
+## TDD Evidence
 
-## Commit
+**RED:**
+```
+FAIL  __tests__/integration/audit-logs.test.ts
+Error: Cannot find package '@/app/api/admin/audit-logs/route'
+```
+Expected: module not found (route doesn't exist yet).
 
-`6a97f3a` — `feat: migrate admin specialists to DataTable with sorting, filtering, column visibility`
+**GREEN:**
+```
+Test Files  1 passed (1)
+Tests  4 passed (4)
+```
 
-## Self-Review Notes
+## Files Changed
 
-- Code follows plan spec exactly
-- All four columns have `DataTableColumnHeader` for sortable headers
-- Name column has custom cell rendering (name + email stacked) and a custom `filterFn` for search
-- Verified column has custom badge rendering and a tab-compatible `filterFn`
-- Joined column formats dates in US locale
-- Tab filter (all/verified/unverified) is preserved and works alongside DataTable search
+- `app/api/admin/audit-logs/route.ts` (created)
+- `__tests__/integration/audit-logs.test.ts` (created)
+
+## Self-Review
+
+**Completeness:** All requirements met — admin-only access, pagination (limit/offset with cap at 100), filters (action, resourceType, userId, startDate, endDate), `Cache-Control: private, no-store` header.
+
+**Quality:** Follows existing API route patterns exactly — session check, role check, Prisma queries, `NextResponse.json()`. Names match the plan.
+
+**Discipline:** No overbuilding. Only what was requested.
+
+**Testing:** Tests verify behavior (auth, RBAC, query params passed to Prisma) not just mocks. TDD followed correctly.
 
 ## Concerns
 
-1. **VerifyButton removed**: The old page had an "Action" column with `<VerifyButton>` for verifying specialists inline. The new DataTable page drops this column. If inline verification is still needed, a new "Actions" column should be added to `columns.tsx` in a follow-up task.
+None.
+
+---
+
+## Code Review Fix: NaN Query Param Propagation
+
+**Commit:** `1ed6053` — `fix: default NaN query params in audit-logs endpoint`
+
+### What Was Fixed
+
+Malformed query params (`?limit=abc&offset=xyz`) caused `parseInt` to return `NaN`, which propagated through `Math.min` and into Prisma's `take`/`skip`, resulting in unhandled 500 errors.
+
+**`app/api/admin/audit-logs/route.ts:14-15`** — Added `|| 50` / `|| 0` fallbacks so NaN defaults to safe values:
+
+```typescript
+const limit = Math.min(parseInt(searchParams.get('limit') ?? '50') || 50, 100);
+const offset = parseInt(searchParams.get('offset') ?? '0') || 0;
+```
+
+### Test Results After Fix
+
+| Test | Result |
+|------|--------|
+| Returns 401 without session | ✅ PASS |
+| Returns 403 for non-admin users | ✅ PASS |
+| Returns paginated audit logs for admin | ✅ PASS |
+| Falls back to safe defaults for malformed limit/offset | ✅ PASS (new) |
+| Filters by action | ✅ PASS |
+
+**5/5 passing.**

@@ -1,85 +1,106 @@
-### Task 2: Admin Verification API
+### Task 2: Synthesis Schema + Prompt
 
 **Files:**
-- Create: `app/api/admin/specialists/route.ts`
-- Create: `app/api/admin/specialists/[id]/verify/route.ts`
+- Create: `lib/ai/prompts/synthesis.ts`
+- Test: Add tests to `__tests__/unit/prompts.test.ts`
 
-**Interfaces:**
-- Consumes: Doctor model with `verified` field (Task 1)
-- Produces: GET /api/admin/specialists, PATCH /api/admin/specialists/[id]/verify
+- [ ] **Step 1: Write failing test for synthesisSchema**
 
-- [ ] **Step 1: Create GET /api/admin/specialists**
-
-Create `app/api/admin/specialists/route.ts`:
+Add to `__tests__/unit/prompts.test.ts`:
 
 ```typescript
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { synthesisSchema } from "@/lib/ai/prompts/synthesis";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const role = (session.user as { role: string }).role;
-  if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-
-  const doctors = await prisma.doctor.findMany({
-    include: {
-      user: { select: { id: true, name: true, email: true, createdAt: true } },
-    },
-    orderBy: { createdAt: 'desc' },
+describe("Synthesis Schema", () => {
+  it("validates a correct synthesis output", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "Both specialists agree on the primary findings of mild cardiomegaly.",
+      agreements: ["Mild cardiomegaly present", "No pleural effusion"],
+      disagreements: ["Specialist A noted hypertension, Specialist B did not mention it"],
+      confidence: "high",
+    });
+    expect(result.success).toBe(true);
   });
 
-  return NextResponse.json(doctors);
-}
+  it("rejects empty agreements array", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "test summary here for minimum length requirement",
+      agreements: [],
+      disagreements: [],
+      confidence: "medium",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects invalid confidence level", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "test summary here for minimum length requirement",
+      agreements: ["test"],
+      disagreements: [],
+      confidence: "very_high",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("allows empty disagreements array", () => {
+    const result = synthesisSchema.safeParse({
+      summary: "All specialists agree on the findings and recommendations.",
+      agreements: ["Finding 1", "Finding 2"],
+      disagreements: [],
+      confidence: "high",
+    });
+    expect(result.success).toBe(true);
+  });
+});
 ```
 
-- [ ] **Step 2: Create PATCH /api/admin/specialists/[id]/verify**
+- [ ] **Step 2: Run test to verify it fails**
 
-Create `app/api/admin/specialists/[id]/verify/route.ts`:
+Run: `npx vitest run __tests__/unit/prompts.test.ts`
+Expected: FAIL — `synthesisSchema` not found
+
+- [ ] **Step 3: Create synthesis schema and prompt**
+
+Create `lib/ai/prompts/synthesis.ts`:
 
 ```typescript
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { z } from "zod";
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export const synthesisSchema = z.object({
+  summary: z.string().min(50).describe("Consensus summary of all opinions"),
+  agreements: z.array(z.string()).min(1).describe("Areas where specialists agree"),
+  disagreements: z.array(z.string()).describe("Areas where specialists disagree"),
+  confidence: z.enum(["low", "medium", "high"]),
+});
 
-  const role = (session.user as { role: string }).role;
-  if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+export type SynthesisResult = z.infer<typeof synthesisSchema>;
 
-  const { id } = await params;
-  const body = await request.json();
+export const synthesisSystemPrompt = `You are a medical synthesis assistant. Your role is to identify areas of agreement and disagreement across multiple specialist opinions for the same case.
 
-  const doctor = await prisma.doctor.findUnique({ where: { id } });
-  if (!doctor) return NextResponse.json({ error: 'Doctor not found' }, { status: 404 });
+ANALYZE the specialist opinions and produce a structured synthesis.
 
-  const updated = await prisma.doctor.update({
-    where: { id },
-    data: { verified: body.verified },
-  });
+RULES:
+- You are NOT diagnosing. You are synthesizing what specialists have stated.
+- Highlight areas of consensus first, then areas of divergence.
+- If opinions conflict, present both perspectives neutrally.
+- Be concise but thorough — every significant disagreement should be noted.
+- If all opinions agree, state that clearly with an empty disagreements array.
 
-  return NextResponse.json(updated);
-}
+OUTPUT FORMAT:
+- summary: Consensus summary of all opinions (2-3 paragraphs)
+- agreements: Areas where specialists agree (bullet points)
+- disagreements: Areas where specialists disagree (bullet points, empty if all agree)
+- confidence: Your confidence in the synthesis (low/medium/high)`;
 ```
 
-- [ ] **Step 3: Test API routes**
+- [ ] **Step 4: Run test to verify it passes**
 
-Run: `npx next dev --turbopack`
-Test: `curl http://localhost:3000/api/admin/specialists` — should return 401 (no session)
-Test: Login as admin, then `curl -b <cookie> http://localhost:3000/api/admin/specialists` — should return doctor list
+Run: `npx vitest run __tests__/unit/prompts.test.ts`
+Expected: PASS
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add app/api/admin/specialists/
-git commit -m "feat: add admin specialist verification API routes"
+git add lib/ai/prompts/synthesis.ts __tests__/unit/prompts.test.ts
+git commit -m "feat: add synthesis Zod schema and system prompt"
 ```

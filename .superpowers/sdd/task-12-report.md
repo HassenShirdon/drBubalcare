@@ -1,27 +1,29 @@
-# Task 12: E2E Test — Report
+# Task 12: Lab Result Creation + Trend Trigger — Report
 
-## Status: DONE
+## What I Implemented
+
+1. **POST handler on `/api/lab-results`** — Creates a new `LabResult` with nested `LabMetric` records. Validates required fields (`name`, `date`, `doctor`, `metrics` array). After creation, fire-and-forget calls the trend analysis trigger endpoint.
+
+2. **POST endpoint `/api/ai/trends/[patientId]/analyze`** — Internal-only endpoint protected by `x-internal-secret` header. Calls `generateTrendAnalysis()` from `lib/ai/trends.ts` and returns the count of analyzed metrics.
+
+## Fix Applied to Prior Task
+
+`lib/ai/trends.ts` used `result.consumeStream()` which doesn't exist on `StreamObjectResult` in AI SDK v7. Replaced with `await result.object` (which consumes the stream and resolves when complete). This was the only TypeScript error.
+
+## Files Changed
+
+- `app/api/lab-results/route.ts` — Added POST handler (lines 23-67)
+- `app/api/ai/trends/[patientId]/analyze/route.ts` — New file (25 lines)
+- `lib/ai/trends.ts` — Fixed `consumeStream` → `await result.object` (Task 10 bug)
+
+## Verification
+
+- `npx tsc --noEmit` — passes clean (no errors)
 
 ## Commit
-`362682a` — `test: add E2E test for specialist opinion workflow`
 
-## Files Created
-- `__tests__/e2e/specialist-opinion-workflow.test.ts` — Full E2E workflow test
-- `vitest.config.ts` — Vitest configuration with `@/` path alias resolution
+- `9ed04e8` — `feat: add lab result creation with trend analysis trigger`
 
-## Test Summary
-Single test that exercises the complete specialist opinion workflow across 7 steps:
+## Self-Review
 
-1. **Patient creates a case** — POST `/api/cases` → 201
-2. **Admin verifies doctor** — PATCH `/api/admin/specialists/[id]/verify` → 200
-3. **Admin assigns case to doctor** — PATCH `/api/admin/cases/[id]/assign` → 200
-4. **Doctor saves draft opinion** — POST `/api/doctor/cases/[id]/opinion` (sign: false) → 200
-5. **Patient cannot see draft opinions** — GET `/api/cases/[id]` → opinions array is empty (draft filtered by query)
-6. **Doctor signs opinion** — POST `/api/doctor/cases/[id]/opinion` (sign: true) → 200
-7. **Patient views signed opinion** — GET `/api/cases/[id]` → opinions array contains the signed opinion
-
-All route handlers are imported directly and called with mock `Request` objects. Auth (`getServerSession`) and database (`prisma`) are mocked via `vi.mock`.
-
-## Concerns
-- **Task brief step 1 discrepancy**: The brief says "Admin creates a case" but `POST /api/cases` enforces `role !== 'PATIENT'` → 403. Test uses a PATIENT session for case creation to match the actual implementation.
-- **No existing test patterns**: No test files existed in `__tests__/` prior to this task, so vitest was not previously installed and no project conventions existed to follow.
+All spec requirements met. No overbuilding. Internal secret guard on the trigger endpoint. Fire-and-forget pattern with error logging for the trend analysis call. POST validation matches spec exactly.

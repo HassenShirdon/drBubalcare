@@ -1,139 +1,133 @@
-﻿### Task 1: Rewrite Problem Section
+﻿# Task 1: Database Schema Update
 
 **Files:**
-- Modify: `components/landing-page/problem-section.tsx` (full rewrite)
+- Modify: `prisma/schema.prisma`
 
 **Interfaces:**
-- Consumes: None (standalone change)
-- Produces: Updated `ProblemSection` component with vertical timeline layout
+- Produces: Updated Prisma schema with `before`/`after` on AuditLog, new Dispute/ConsentRecord/DataDeletionRequest models
 
-- [ ] **Step 1: Rewrite the component**
+- [ ] **Step 1: Add `before` and `after` fields to AuditLog model**
 
-Replace the entire file content of `components/landing-page/problem-section.tsx` with:
+```prisma
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String
+  action       String
+  resourceType String
+  resourceId   String
+  before       Json?
+  after        Json?
+  metadata     Json?
+  timestamp    DateTime @default(now())
 
-```tsx
-'use client'
-
-import { motion } from 'motion/react'
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-}
-
-const nodes = [
-  {
-    stat: '1 specialist per 100,000+',
-    description:
-      'Most communities â€” rich or poor â€” lack board-certified specialists nearby. In Sub-Saharan Africa, the ratio is 1:1,000,000. Even in the US, rural counties average 1 specialist per 50,000+.',
-  },
-  {
-    stat: '6+ hours avg. travel',
-    description:
-      'Patients travel for hours â€” sometimes across borders â€” just for a consultation. In developing nations, it\'s days. In the US, rural patients drive 4x further than urban peers.',
-  },
-  {
-    stat: 'Weeks to months wait',
-    description:
-      'By the time you get an appointment, critical time has been lost. Specialist access shouldn\'t be a luxury â€” but everywhere, it is.',
-  },
-]
-
-export default function ProblemSection() {
-  return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.15 } },
-      }}
-      className="py-20 bg-white"
-    >
-      <div className="max-w-4xl mx-auto px-6 md:px-16">
-        <motion.div
-          variants={fadeInUp}
-          className="text-center max-w-3xl mx-auto space-y-3 mb-16"
-        >
-          <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
-            Getting specialist care shouldn&apos;t be this hard
-          </h2>
-          <p className="font-body-lg text-base text-on-surface-variant/80">
-            Whether you&apos;re in Nairobi or New York, seeing a specialist
-            means travel, long waits, and uncertainty.
-          </p>
-        </motion.div>
-
-        <div className="relative">
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-surface-gray/60 -translate-x-1/2" />
-
-          <div className="space-y-12">
-            {nodes.map((node, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <motion.div
-                  key={node.stat}
-                  variants={fadeInUp}
-                  className={`relative flex items-start gap-8 md:gap-0 ${
-                    isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-                >
-                  <div
-                    className={`hidden md:block md:w-1/2 ${
-                      isLeft ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'
-                    }`}
-                  >
-                    <p className="font-headline-md text-3xl font-bold text-clinical-navy mb-2">
-                      {node.stat}
-                    </p>
-                    <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
-                      {node.description}
-                    </p>
-                  </div>
-
-                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-healing-teal ring-4 ring-white z-10 mt-1" />
-
-                  <div className="md:hidden pl-10">
-                    <p className="font-headline-md text-3xl font-bold text-clinical-navy mb-2">
-                      {node.stat}
-                    </p>
-                    <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
-                      {node.description}
-                    </p>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    </motion.section>
-  )
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 ```
 
-- [ ] **Step 2: Verify the final file**
+- [ ] **Step 2: Add DisputeStatus enum and Dispute model**
 
-Read `components/landing-page/problem-section.tsx` and confirm:
-- No lucide-react imports (Users, Plane, Clock removed)
-- No card grid â€” replaced with vertical timeline
-- 3 nodes with correct stats and descriptions
-- Alternating left/right layout on desktop, stacked on mobile
-- Vertical line with teal circle nodes
-- `py-20` on section, `max-w-4xl` on container
-- `space-y-12` between nodes
-- Heading and subheading match spec
+```prisma
+enum DisputeStatus {
+  PENDING
+  UNDER_REVIEW
+  PEER_REVIEW_ASSIGNED
+  RESOLVED
+  DISMISSED
+}
 
-- [ ] **Step 3: Run linter**
+model Dispute {
+  id              String   @id @default(cuid())
+  caseId          String
+  patientId       String
+  opinionId       String
+  reason          String   @db.Text
+  status          DisputeStatus @default(PENDING)
+  adminNotes      String?  @db.Text
+  resolution      String?  @db.Text
+  peerReviewOpinionId String?
+  createdAt       DateTime @default(now())
+  resolvedAt      DateTime?
 
-Run: `npm run lint`
-Expected: No new errors
+  case            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  patient         User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  opinion         SpecialistOpinion @relation(fields: [opinionId], references: [id], onDelete: Cascade)
+  peerReviewOpinion SpecialistOpinion? @relation(fields: [peerReviewOpinionId], references: [id], onDelete: SetNull)
+}
+```
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Add ConsentRecord model**
+
+```prisma
+model ConsentRecord {
+  id          String   @id @default(cuid())
+  patientId   String
+  consentType String
+  granted     Boolean
+  grantedAt   DateTime?
+  revokedAt   DateTime?
+
+  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@unique([patientId, consentType])
+}
+```
+
+- [ ] **Step 4: Add DeletionStatus enum and DataDeletionRequest model**
+
+```prisma
+enum DeletionStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model DataDeletionRequest {
+  id          String   @id @default(cuid())
+  patientId   String
+  status      DeletionStatus @default(PENDING)
+  requestedAt DateTime
+  executeAt   DateTime
+  completedAt DateTime?
+
+  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+```
+
+- [ ] **Step 5: Add relations to existing models**
+
+Add to `Case` model:
+```prisma
+  disputes     Dispute[]
+```
+
+Add to `User` model:
+```prisma
+  disputes         Dispute[]
+  consentRecords   ConsentRecord[]
+  deletionRequests DataDeletionRequest[]
+```
+
+Add to `SpecialistOpinion` model:
+```prisma
+  dispute          Dispute?           @relation("DisputeOpinion")
+  peerReviewFor    Dispute?           @relation("PeerReviewOpinion")
+```
+
+Update `Dispute` model relations to match:
+```prisma
+  opinion         SpecialistOpinion @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
+  peerReviewOpinion SpecialistOpinion? @relation("PeerReviewOpinion", fields: [peerReviewOpinionId], references: [id], onDelete: SetNull)
+```
+
+- [ ] **Step 6: Run Prisma generate**
+
+Run: `npx prisma generate`
+Expected: Client generated successfully
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add components/landing-page/problem-section.tsx
-git commit -m "style: redesign problem section â€” vertical timeline with global content"
+git add prisma/schema.prisma
+git commit -m "feat(schema): add Phase 5 models - AuditLog fields, Dispute, ConsentRecord, DataDeletionRequest"
 ```
-

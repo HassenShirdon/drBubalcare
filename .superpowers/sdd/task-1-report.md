@@ -1,32 +1,31 @@
-# Task 1: Rewrite Problem Section — Report
+# Task 1: Database Schema Update — Report
 
-## What You Implemented
+## What I Implemented
 
-Full rewrite of `components/landing-page/problem-section.tsx`:
-- Removed 3-card grid layout with lucide-react icons (Users, Plane, Clock)
-- Replaced with vertical timeline layout using alternating left/right content on desktop, stacked on mobile
-- Vertical line centered with teal circle nodes at each stat
-- 3 data nodes with globally-relevant stats and descriptions (not East Africa-specific)
-- Heading: "Getting specialist care shouldn't be this hard"
-- Subheading: "Whether you're in Nairobi or New York, seeing a specialist means travel, long waits, and uncertainty."
-- Section: `py-20`, container: `max-w-4xl`, node spacing: `space-y-12`
-- motion/react animations retained (staggerChildren, fadeInUp variants)
+Updated `prisma/schema.prisma` with all Phase 5 compliance models:
 
-## What You Verified and Results
+1. **`AuditLog`** — Added `before` (Json?) and `after` (Json?) fields for tracking state changes
+2. **`DisputeStatus` enum** — PENDING, UNDER_REVIEW, PEER_REVIEW_ASSIGNED, RESOLVED, DISMISSED
+3. **`Dispute` model** — Links patient disputes to cases and opinions, with peer review support via named relations (`DisputeOpinion`, `PeerReviewOpinion`)
+4. **`ConsentRecord` model** — Tracks patient consent with compound unique constraint on `(patientId, consentType)`
+5. **`DeletionStatus` enum** — PENDING, CONFIRMED, COMPLETED, CANCELLED
+6. **`DataDeletionRequest` model** — GDPR Article 17 right-to-erasure with status tracking and scheduled execution
+7. **Relations** — Added `disputes`, `consentRecords`, `deletionRequests` to `User`; `disputes` to `Case`; `dispute`/`peerReviewFor` to `SpecialistOpinion`
 
-- **File read-back**: Confirmed no lucide-react imports, vertical timeline structure, 3 nodes with correct stats, alternating layout, teal nodes, correct spacing/sizing classes
-- **Lint**: `npm run lint` — 0 new errors or warnings in `problem-section.tsx` (55 pre-existing issues in other files, none related)
+## Deviation from Task Brief
+
+Added `@unique` to `opinionId` and `peerReviewOpinionId` in `Dispute` model. Prisma requires unique fields on the defining side of one-to-one relations — the brief's schema would fail validation without them.
+
+## What I Tested
+
+- `npx prisma generate` — passes successfully, Prisma Client generated to `lib/generated/prisma`
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
-| `components/landing-page/problem-section.tsx` | Full rewrite (52 insertions, 34 deletions) |
+- `prisma/schema.prisma` — Added 2 enums, 3 models, modified 3 existing models (User, Case, SpecialistOpinion)
 
-## Self-Review Findings
+## Self-Review
 
-None. File matches task brief spec exactly.
-
-## Commit
-
-- `fff41ff` — `style: redesign problem section — vertical timeline with global content`
+- **Completeness:** All 7 steps implemented. All fields, types, relations, and constraints match spec (with the noted `@unique` fix).
+- **Quality:** Clean naming, consistent with existing schema patterns (CUID ids, cascade deletes, optional foreign keys).
+- **Discipline:** No overbuilding. Only what was requested was added.

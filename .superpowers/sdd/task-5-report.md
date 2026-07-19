@@ -1,37 +1,53 @@
-# Task 5 Report: Migrate Doctor Cases to DataTable
+# Task 5: Audit Logs Admin Page — Implementation Report
 
 ## What Was Implemented
 
-Replaced the card-based doctor cases page with a sortable/filterable DataTable.
+Created the admin audit logs page with a data table for viewing platform audit logs, following the existing admin page patterns.
 
-### New file: `app/doctor/cases/columns.tsx`
-- `DoctorCase` type definition matching hook data shape
-- 6 columns: Patient (custom filter fn), Service Type, Status (badge), Opinion (badge), Created (formatted date), Actions (link arrow)
-- Uses shared constants: `CASE_STATUS_CONFIG`, `SERVICE_TYPE_LABELS`, `OPINION_STATUS_CONFIG`
-- Uses `DataTableColumnHeader` for sortable headers
+### Files Created
 
-### Modified file: `app/doctor/cases/page.tsx`
-- Removed inline card layout, search input, and local config constants
-- Added tab filter (All / Pending / Opinion Written) with state management
-- Renders `DataTable` component with columns and patient-key search
-- Preserved `useDoctorCases()` hook usage
-- Added `motion` fade-in animation on header
+1. **`app/admin/audit-logs/columns.tsx`** — Table column definitions for audit log entries:
+   - `Timestamp` column with formatted date/time display
+   - `User` column showing name (or "System") and email
+   - `Action` column with color-coded `ActionBadge` component
+   - `Resource` column showing `resourceType: resourceId`
+   - `Details` column showing truncated JSON metadata
+   - Type definition `AuditLogEntry` matching API response shape
 
-## Build Verification
-
-`npx tsc --noEmit` — **passed with zero errors**.
+2. **`app/admin/audit-logs/page.tsx`** — Admin page component:
+   - `"use client"` directive with `@tanstack/react-query` data fetching
+   - Fetches from `GET /api/admin/audit-logs?limit=100&offset=0`
+   - Shows total entry count in header
+   - Loading skeleton via `TableSkeleton` component
+   - `DataTable` with user search support
+   - Consistent with existing admin pages (`app/admin/cases/page.tsx`)
 
 ## Files Changed
 
 | File | Action |
 |------|--------|
-| `app/doctor/cases/columns.tsx` | Created |
-| `app/doctor/cases/page.tsx` | Replaced |
+| `app/admin/audit-logs/columns.tsx` | Created |
+| `app/admin/audit-logs/page.tsx` | Created |
+
+## Self-Review Findings
+
+- **Completeness:** Both files from the plan spec are implemented. All columns, types, and UI patterns match the specification.
+- **Quality:** Code follows existing admin page conventions exactly. ActionBadge colors cover the key audit action types with sensible defaults.
+- **Discipline:** No overbuilding. Only the two requested files created, no extras.
+- **TypeScript:** No errors from new files (3 pre-existing errors in `lib/audit/logger.ts` from Task 2 are unrelated to this task).
 
 ## Commit
 
-`e73ca26` — feat: migrate doctor cases to DataTable with sorting, filtering, column visibility
+`78e703b` — `feat(audit): add admin audit logs page with data table`
 
-## Issues / Concerns
+---
 
-- None. All dependencies (DataTable, column header, constants) were already in place. Build is clean.
+## Code Review Fix
+
+### What Was Fixed
+
+Added a `filterFn` to the `user` column in `app/admin/audit-logs/columns.tsx`. The `user` field is an object (`{ name, email }`), so the DataTable search bar (with `searchKey="user"`) couldn't match names/emails without a custom filter. The fix mirrors the pattern in `app/admin/cases/columns.tsx:157-164`, searching both `user.name` and `user.email` against the lowercase search value.
+
+### Commit
+
+`f34d26a` — `fix: add filterFn to user column in audit-logs for name/email search`

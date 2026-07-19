@@ -1,33 +1,31 @@
-## Task 11: Navigation Updates — Report
+## Task 11: Trends API Route — Report
 
-### Status
-DONE
+### What I Implemented
 
-### Changes Made
+Created `app/api/ai/trends/[patientId]/route.ts` — a patient-facing GET endpoint that fetches trend analysis data for the authenticated patient.
 
-1. **PatientLayout.tsx** (line 4): Added `Briefcase` to lucide-react imports
-2. **PatientLayout.tsx** (line 41): Changed `FileText` to `Briefcase` icon for "My Cases" nav item
+**Route behavior:**
+- Session-based auth via `getServerSession(authOptions)`
+- Returns 401 if no session, 403 if patient ID doesn't match session user
+- Queries `prisma.trendAnalysis.findMany` filtered by `patientId`, ordered by `generatedAt` desc
+- Returns JSON with `Cache-Control: private, no-store` header
+- Catches errors and returns 500 with message
 
-### Verification
+### Test Results
 
-- **Lint**: `npx next lint` completed successfully (pre-existing warnings/errors only, no new issues from this change)
-- **Typecheck**: `npx tsc --noEmit` completed successfully (pre-existing type errors only, no new issues from this change)
+- TypeScript compiles clean — no errors in `app/api/ai/trends/[patientId]/route.ts`
+- Pre-existing TS error in `lib/ai/trends.ts` (`consumeStream` type mismatch) is from Task 10's work, unrelated
 
-### Navigation Items Verified
+### Files Changed
 
-| Layout | Nav Item | Status |
-|--------|----------|--------|
-| PatientLayout.tsx | My Cases (/patient/cases) | ✅ Present with Briefcase icon |
-| admin/layout.tsx | Cases (/admin/cases) | ✅ Already present with Briefcase icon |
-| DoctorLayout.tsx | My Cases (/doctor/cases) | ✅ Already present with Briefcase icon |
+- **Created:** `app/api/ai/trends/[patientId]/route.ts`
 
-### Commit
-```
-feat: add My Cases navigation to patient layout
-```
+### Self-Review
 
-### Notes
-- All three portal layouts now have consistent "Cases" navigation items for Phase 2
-- Admin layout already had Cases navigation (no changes needed)
-- Doctor layout already had My Cases navigation (no changes needed)
-- Patient layout updated to use Briefcase icon instead of FileText for consistency with admin/doctor layouts
+- **Completeness:** Fully implements task spec — session auth, ownership check, ordered query, error handling, cache header
+- **Quality:** Clean, minimal code following established patterns
+- **Discipline:** No overbuilding — exactly what the brief requested, nothing more
+
+### Concerns
+
+None. Task completed as specified.

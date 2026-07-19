@@ -1,100 +1,114 @@
-### Task 6: Doctor Cases List API
+### Task 6: Follow-up Q&A Schema + Prompt
 
 **Files:**
-- Create: `app/api/doctor/cases/route.ts`
-- Create: `app/api/doctor/cases/[id]/route.ts`
+- Create: `lib/ai/prompts/followup.ts`
+- Test: Add tests to `__tests__/unit/prompts.test.ts`
 
-**Interfaces:**
-- Consumes: Case model, SpecialistOpinion model
-- Produces: GET /api/doctor/cases, GET /api/doctor/cases/[id]
+- [ ] **Step 1: Write failing test for followupSchema**
 
-- [ ] **Step 1: Create GET /api/doctor/cases**
-
-Create `app/api/doctor/cases/route.ts`:
+Add to `__tests__/unit/prompts.test.ts`:
 
 ```typescript
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { followupSchema } from "@/lib/ai/prompts/followup";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const userId = (session.user as { id: string }).id;
-  const role = (session.user as { role: string }).role;
-  if (role !== 'DOCTOR') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-
-  const cases = await prisma.case.findMany({
-    where: { specialistId: userId },
-    include: {
-      patient: { select: { name: true, email: true } },
-      opinions: {
-        where: { specialistId: userId },
-        select: { id: true, status: true, signedAt: true },
-        take: 1,
-      },
-    },
-    orderBy: { createdAt: 'desc' },
+describe("Follow-up Schema", () => {
+  it("validates a correct follow-up output", () => {
+    const result = followupSchema.safeParse({
+      answer: "Based on the specialist's report, your heart size is slightly larger than normal.",
+      scopeNote: null,
+      confidence: "high",
+      inScope: true,
+    });
+    expect(result.success).toBe(true);
   });
 
-  return NextResponse.json(cases);
-}
+  it("validates out-of-scope response", () => {
+    const result = followupSchema.safeParse({
+      answer: "I cannot provide information about treatment options.",
+      scopeNote: "This question requires clinical judgment beyond the documented findings.",
+      confidence: "high",
+      inScope: false,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects empty answer", () => {
+    const result = followupSchema.safeParse({
+      answer: "",
+      scopeNote: null,
+      confidence: "medium",
+      inScope: true,
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects invalid confidence level", () => {
+    const result = followupSchema.safeParse({
+      answer: "This is a valid answer with enough length.",
+      scopeNote: null,
+      confidence: "very_high",
+      inScope: true,
+    });
+    expect(result.success).toBe(false);
+  });
+});
 ```
 
-- [ ] **Step 2: Create GET /api/doctor/cases/[id]**
+- [ ] **Step 2: Run test to verify it fails**
 
-Create `app/api/doctor/cases/[id]/route.ts`:
+Run: `npx vitest run __tests__/unit/prompts.test.ts`
+Expected: FAIL — `followupSchema` not found
+
+- [ ] **Step 3: Create follow-up schema and prompt**
+
+Create `lib/ai/prompts/followup.ts`:
 
 ```typescript
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { z } from "zod";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export const followupSchema = z.object({
+  answer: z.string().min(20).describe("Answer to the patient's question"),
+  scopeNote: z.string().nullable().describe("Explanation if question was out of scope"),
+  confidence: z.enum(["low", "medium", "high"]),
+  inScope: z.boolean().describe("Whether the question was within the opinion's scope"),
+});
 
-  const userId = (session.user as { id: string }).id;
-  const role = (session.user as { role: string }).role;
-  if (role !== 'DOCTOR') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+export type FollowupResult = z.infer<typeof followupSchema>;
 
-  const { id } = await params;
+export const followupSystemPrompt = `You are a follow-up assistant for a medical diagnostic platform. A patient has received a specialist's written opinion and is asking a follow-up question.
 
-  const caseRecord = await prisma.case.findFirst({
-    where: { id, specialistId: userId },
-    include: {
-      patient: { select: { name: true, email: true } },
-      records: true,
-      aiPrescreens: { take: 1 },
-      opinions: {
-        where: { specialistId: userId },
-        include: { specialist: { select: { name: true } } },
-        take: 1,
-      },
-    },
-  });
+ANSWER the patient's question based ONLY on the content of the specialist's written opinion.
 
-  if (!caseRecord) return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+RULES:
+- Answer ONLY based on the content of the specialist's written opinion.
+- If the question asks for diagnosis, treatment changes, or information not in the opinion, set inScope to false and explain the limitation.
+- Never provide medical advice beyond what the specialist documented.
+- If inScope is false, suggest the patient book a direct consultation.
+- Be warm and clear — the patient may be anxious.
+- Always include a disclaimer that this is an AI-generated response.
 
-  return NextResponse.json(caseRecord);
-}
+SCOPE BOUNDARIES (inScope = false):
+- Questions about diagnosis or prognosis not addressed in the opinion
+- Questions about treatment or medication changes
+- Questions about symptoms not mentioned in the opinion
+- Requests for second opinions or specialist referrals
+- Any question requiring clinical judgment beyond the documented findings
+
+OUTPUT FORMAT:
+- answer: Your response to the patient's question
+- scopeNote: If inScope is false, explain why and suggest booking a consultation. If inScope is true, set to null.
+- confidence: Your confidence in the answer (low/medium/high)
+- inScope: Whether the question was within the opinion's documented scope`;
 ```
 
-- [ ] **Step 3: Test API routes**
+- [ ] **Step 4: Run test to verify it passes**
 
-Run: `npx next dev --turbopack`
-Test: Login as doctor, `curl -b <cookie> http://localhost:3000/api/doctor/cases` — should return assigned cases
-Test: `curl -b <cookie> http://localhost:3000/api/doctor/cases/<id>` — should return case detail with records
+Run: `npx vitest run __tests__/unit/prompts.test.ts`
+Expected: PASS
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add app/api/doctor/cases/
-git commit -m "feat: add doctor cases API routes"
+git add lib/ai/prompts/followup.ts __tests__/unit/prompts.test.ts
+git commit -m "feat: add follow-up Q&A Zod schema and system prompt"
 ```
