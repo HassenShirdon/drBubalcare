@@ -75,6 +75,12 @@ export async function triageDispute(
   valid: boolean,
   adminNotes?: string
 ) {
+  const dispute = await prisma.dispute.findUnique({ where: { id: disputeId } });
+  if (!dispute) throw new Error('Dispute not found');
+  if (dispute.status !== 'OPEN') {
+    throw new Error(`Dispute must be OPEN to triage, current status: ${dispute.status}`);
+  }
+
   const status = valid ? 'UNDER_REVIEW' : 'DISMISSED';
   return prisma.dispute.update({
     where: { id: disputeId },
@@ -123,6 +129,12 @@ export async function resolveDispute(
   resolution: string,
   adminNotes?: string
 ) {
+  const existing = await prisma.dispute.findUnique({ where: { id: disputeId } });
+  if (!existing) throw new Error('Dispute not found');
+  if (existing.status !== 'PEER_REVIEW_ASSIGNED' && existing.status !== 'UNDER_REVIEW') {
+    throw new Error(`Dispute must be PEER_REVIEW_ASSIGNED or UNDER_REVIEW to resolve, current status: ${existing.status}`);
+  }
+
   const dispute = await prisma.dispute.update({
     where: { id: disputeId },
     data: {

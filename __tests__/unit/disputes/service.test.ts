@@ -90,6 +90,7 @@ describe('Dispute Service', () => {
   });
 
   it('triageDispute sets UNDER_REVIEW when valid', async () => {
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'OPEN' } as any);
     vi.mocked(prisma.dispute.update).mockResolvedValue({ id: 'dispute-1', status: 'UNDER_REVIEW' } as any);
 
     await triageDispute('dispute-1', true, 'Looks valid');
@@ -101,6 +102,7 @@ describe('Dispute Service', () => {
   });
 
   it('triageDispute sets DISMISSED when not valid', async () => {
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'OPEN' } as any);
     vi.mocked(prisma.dispute.update).mockResolvedValue({ id: 'dispute-1', status: 'DISMISSED' } as any);
 
     await triageDispute('dispute-1', false);
@@ -109,6 +111,15 @@ describe('Dispute Service', () => {
       where: { id: 'dispute-1' },
       data: { status: 'DISMISSED', adminNotes: undefined },
     });
+  });
+
+  it('triageDispute throws when dispute is not OPEN', async () => {
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'RESOLVED' } as any);
+
+    await expect(triageDispute('dispute-1', true)).rejects.toThrow(
+      'Dispute must be OPEN to triage, current status: RESOLVED'
+    );
+    expect(prisma.dispute.update).not.toHaveBeenCalled();
   });
 
   it('assignPeerReview creates draft opinion and updates dispute', async () => {
@@ -139,6 +150,7 @@ describe('Dispute Service', () => {
   });
 
   it('resolveDispute sets RESOLVED and logs audit', async () => {
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'PEER_REVIEW_ASSIGNED' } as any);
     vi.mocked(prisma.dispute.update).mockResolvedValue({ id: 'dispute-1', status: 'RESOLVED' } as any);
     vi.mocked(logAuditEvent).mockResolvedValue();
 
@@ -155,5 +167,14 @@ describe('Dispute Service', () => {
     expect(logAuditEvent).toHaveBeenCalledWith(
       expect.objectContaining({ action: 'DISPUTE_RESOLVED' })
     );
+  });
+
+  it('resolveDispute throws when dispute is not in resolvable status', async () => {
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'PENDING' } as any);
+
+    await expect(resolveDispute('dispute-1', 'Some resolution')).rejects.toThrow(
+      'Dispute must be PEER_REVIEW_ASSIGNED or UNDER_REVIEW to resolve, current status: PENDING'
+    );
+    expect(prisma.dispute.update).not.toHaveBeenCalled();
   });
 });
