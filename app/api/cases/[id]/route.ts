@@ -22,7 +22,10 @@ export async function GET(
       records: true,
       opinions: {
         where: { status: { in: ['SIGNED', 'DELIVERED'] } },
-        include: { specialist: { select: { name: true } } },
+        include: {
+          specialist: { select: { name: true } },
+          plainSummary: true,
+        },
         orderBy: { createdAt: 'desc' },
         take: 1,
       },

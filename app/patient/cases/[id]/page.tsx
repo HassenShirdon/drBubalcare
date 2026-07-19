@@ -229,6 +229,28 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
           </div>
         </motion.div>
       )}
+
+      {/* Plain-Language Summary */}
+      {caseData.opinions?.[0]?.plainSummary && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="bg-gray-50 border border-gray-200 rounded-2xl p-6"
+        >
+          <h3 className="text-sm font-semibold text-gray-800 mb-3">Your Results (Plain Language)</h3>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+            <p className="text-xs text-blue-700 font-medium">
+              AI-Generated Summary — based on your specialist's written opinion. Your specialist has reviewed and approved this.
+            </p>
+          </div>
+          <div className="prose prose-sm max-w-none text-gray-700">
+            {caseData.opinions[0].plainSummary.content.split('\n').map((paragraph: string, i: number) => (
+              paragraph.trim() && <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
