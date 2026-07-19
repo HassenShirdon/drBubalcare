@@ -90,6 +90,27 @@ export async function POST(
         "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
       },
     }).catch((err) => console.error("Summary generation trigger failed:", err));
+
+    // Check if case now has 2+ signed opinions — trigger synthesis (fire and forget)
+    const signedOpinionCount = await prisma.specialistOpinion.count({
+      where: { caseId: id, status: "SIGNED" },
+    });
+
+    if (signedOpinionCount >= 2) {
+      // Check if synthesis already exists
+      const existingSynthesis = await prisma.opinionSynthesis.findUnique({
+        where: { caseId: id },
+      });
+
+      if (!existingSynthesis) {
+        fetch(`${process.env.NEXTAUTH_URL}/api/ai/synthesis/${id}`, {
+          method: "POST",
+          headers: {
+            "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+          },
+        }).catch((err) => console.error("Synthesis trigger failed:", err));
+      }
+    }
   }
 
   return NextResponse.json(opinion);
