@@ -90,7 +90,7 @@ export default async function DoctorDashboard() {
   const pendingReviewCount = pendingReviews.length;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 space-y-6">
       {/* Header */}
       <div>
         <h1 className="font-headline-md text-lg font-semibold text-text-medical-black">

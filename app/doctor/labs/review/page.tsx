@@ -18,7 +18,7 @@ export default function DoctorLabReviewPage() {
   })
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-clinical-navy font-headline-md font-semibold text-xl">Pending Lab Reviews</h1>
         <p className="text-sm text-on-surface-variant mt-0.5">Review and interpret patient lab results</p>

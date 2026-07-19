@@ -107,7 +107,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
   const status = statusConfig[caseData.status] || statusConfig.OPEN;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto pb-24 md:pb-8 space-y-6">
+    <div className="p-6 pb-24 md:pb-8 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link
           href="/doctor/cases"

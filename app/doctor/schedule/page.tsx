@@ -61,7 +61,7 @@ export default async function SchedulePage() {
   const grouped = groupByDate(appointments);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 space-y-6">
       <div>
         <h1 className="font-headline-md text-xl font-semibold text-clinical-navy">Schedule</h1>
         <p className="text-sm text-on-surface-variant mt-0.5">
