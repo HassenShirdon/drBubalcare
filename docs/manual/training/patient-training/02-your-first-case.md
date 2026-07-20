@@ -115,6 +115,7 @@ After you submit your case and confirm payment, your case moves through these st
 
 ```
 OPEN → AI_PRE_SCREENED → UNDER_REVIEW → OPINION_READY → CLOSED
+                                 ↘ DISPUTED
 ```
 
 | Status | What It Means | What Happens Next |
@@ -124,6 +125,9 @@ OPEN → AI_PRE_SCREENED → UNDER_REVIEW → OPINION_READY → CLOSED
 | `UNDER_REVIEW` | A specialist is reviewing your records and the AI pre-screen | Wait for the opinion — target is 24–48 hours |
 | `OPINION_READY` | Your specialist's opinion is available in your portal | Log in to read your report and plain-language summary |
 | `CLOSED` | The case is complete — opinion delivered and acknowledged | You can ask follow-up questions or start a new case |
+| `DISPUTED` | You have raised a dispute about the opinion | An admin reviews your case and may assign a peer review |
+
+At any point after receiving your opinion, you may raise a dispute, which moves the case to `DISPUTED` status. An admin will review your case and may assign a peer review at no extra cost.
 
 You also receive email notifications at each status change so you never have to guess.
 
@@ -184,7 +188,7 @@ In this module, you learned:
 - A case is your request for a specialist opinion on your medical records
 - There are four service types: **Specialist Opinion**, **Result Interpretation**, **Direct Consultation**, and **Trend Analysis**
 - You can choose between **Single-Expert Review** (one specialist) and **Panel Review** (2–4 specialists with synthesis)
-- Your case flows through statuses: `OPEN` → `AI_PRE_SCREENED` → `UNDER_REVIEW` → `OPINION_READY` → `CLOSED`
+- Your case flows through statuses: `OPEN` → `AI_PRE_SCREENED` → `UNDER_REVIEW` → `OPINION_READY` → `CLOSED` (and `DISPUTED` if you raise a dispute)
 - You receive email notifications at each status change
 - Always describe your case in clear, factual language and name your files descriptively
 
