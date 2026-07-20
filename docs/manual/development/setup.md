@@ -89,7 +89,6 @@ DrBubalCare/
 │   ├── Providers.tsx       # Client-side providers (SessionProvider, QueryClientProvider)
 │   └── page.tsx            # Landing page
 ├── assets/                 # Project assets
-│   └── uploads/            # Uploaded file storage
 ├── components/             # Shared React components
 │   ├── ui/                 # Base UI primitives (shadcn/ui)
 │   └── *.tsx               # Feature components (layouts, forms, etc.)
@@ -119,6 +118,7 @@ DrBubalCare/
 │   └── utils.ts            # Utility functions (cn, etc.)
 ├── prisma/                 # Database schema and migrations
 ├── public/                 # Static assets served by Next.js (SVGs, favicons)
+│   └── uploads/            # Uploaded file storage (local dev only)
 ├── types/                  # TypeScript type declarations
 ├── __tests__/              # Test suites
 │   ├── unit/               # Unit tests
