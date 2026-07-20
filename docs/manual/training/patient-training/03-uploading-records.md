@@ -115,7 +115,7 @@ When your specialist accesses your files, they use **signed URLs** — temporary
 
 Every time someone accesses your files — whether it is you, a specialist, or an admin — the system logs who accessed the file, when, and for what purpose. This audit trail ensures accountability and helps detect any unauthorized access.
 
-### PHI Stripping for AI
+### Protected Health Information (PHI) Stripping for AI
 
 Before any AI analysis of your records (such as AI pre-screening), all personally identifiable information is stripped from the data. Your name, date of birth, medical record number, and contact information are removed. Only the clinical content reaches the AI model. This follows the platform's core principle: **"AI surfaces; specialists decide."** AI prepares the clinical content; your identity is always protected.
 
@@ -169,7 +169,7 @@ Before any AI analysis of your records (such as AI pre-screening), all personall
    - B) It is stripped — your name, date of birth, and medical record number are removed before any AI processing
    - C) It is stored in the AI model for future reference
    - D) It is encrypted but still visible to the AI
-   - **Correct answer:** B — All personally identifiable information (name, DOB, MRN, contact info) is stripped before any LLM call. Only clinical content reaches the AI model. This is part of the platform's PHI-safe prompting policy.
+   - **Correct answer:** B — All personally identifiable information (name, DOB, MRN, contact info) is stripped before any large language model (LLM) call. Only clinical content reaches the AI model. This is part of the platform's PHI-safe prompting policy.
 
 ## Summary
 
