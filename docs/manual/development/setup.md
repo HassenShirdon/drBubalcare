@@ -33,6 +33,7 @@ Required variables:
 
 | Variable | Description |
 |----------|-------------|
+| `APP_URL` | Base URL where the app is hosted (`http://localhost:3000` for local dev). Used for self-referential links, OAuth callbacks, and API endpoints |
 | `DATABASE_URL` | PostgreSQL connection string (Supabase or local) |
 | `NEXTAUTH_SECRET` | Random string for NextAuth JWT signing. Generate with `openssl rand -hex 32` |
 | `NEXTAUTH_URL` | Base URL for auth callbacks (`http://localhost:3000` for local dev) |
@@ -70,17 +71,25 @@ DrBubalCare/
 ├── app/                    # Next.js App Router pages and API routes
 │   ├── admin/              # Admin portal pages
 │   ├── api/                # API route handlers
-│   │   ├── admin/          # Admin-specific endpoints
-│   │   ├── ai/             # AI feature endpoints (pre-screening, routing, etc.)
-│   │   ├── cases/          # Case CRUD endpoints
-│   │   ├── doctor/         # Doctor-specific endpoints
-│   │   └── patient/        # Patient-specific endpoints
+│   │   ├── admin/          # Admin-specific endpoints (audit-logs, cases, disputes, edge-cases, specialists)
+│   │   ├── ai/             # AI feature endpoints (prescreen, routing, summary, synthesis, trends, followup)
+│   │   ├── appointments/   # Appointment management endpoints
+│   │   ├── auth/           # Authentication endpoints (login, NextAuth catch-all)
+│   │   ├── cases/          # Case CRUD endpoints (records, disputes, flag-incomplete)
+│   │   ├── cron/           # Scheduled job endpoints (no-specialist check)
+│   │   ├── doctor/         # Doctor-specific endpoints (cases, patients)
+│   │   ├── doctors/        # Doctor profile endpoints
+│   │   ├── lab-results/    # Lab result endpoints (pending-review)
+│   │   ├── news/           # Blog/news endpoints
+│   │   └── patient/        # Patient-specific endpoints (consent, data-deletion, data-export)
 │   ├── auth/               # Authentication pages (sign-in)
 │   ├── doctor/             # Specialist portal pages
 │   ├── patient/            # Patient portal pages
 │   ├── layout.tsx          # Root layout with fonts and providers
 │   ├── Providers.tsx       # Client-side providers (SessionProvider, QueryClientProvider)
 │   └── page.tsx            # Landing page
+├── assets/                 # Project assets
+│   └── uploads/            # Uploaded file storage
 ├── components/             # Shared React components
 │   ├── ui/                 # Base UI primitives (shadcn/ui)
 │   └── *.tsx               # Feature components (layouts, forms, etc.)
@@ -109,6 +118,7 @@ DrBubalCare/
 │   ├── stores/             # Zustand state stores
 │   └── utils.ts            # Utility functions (cn, etc.)
 ├── prisma/                 # Database schema and migrations
+├── public/                 # Static assets served by Next.js (SVGs, favicons)
 ├── types/                  # TypeScript type declarations
 ├── __tests__/              # Test suites
 │   ├── unit/               # Unit tests
