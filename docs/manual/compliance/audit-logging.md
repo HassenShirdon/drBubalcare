@@ -244,18 +244,20 @@ async function logStateChange(
 ### Archival Strategy
 
 ```sql
--- Archive logs older than 1 year to cold storage
+-- Archive logs older than 6 years to cold storage
 -- (Run annually as part of compliance maintenance)
+-- Logs stay in production for 6 years, then move to cold storage
+-- for the remaining 1 year to reach the mandatory 7-year retention.
 
--- 1. Export logs older than 1 year
+-- 1. Export logs older than 6 years
 COPY (
   SELECT * FROM audit_logs
-  WHERE timestamp < NOW() - INTERVAL '1 year'
+  WHERE timestamp < NOW() - INTERVAL '6 years'
 ) TO '/archive/audit_logs_YYYY.csv';
 
 -- 2. After verifying archive integrity, delete from production
 DELETE FROM audit_logs
-WHERE timestamp < NOW() - INTERVAL '1 year';
+WHERE timestamp < NOW() - INTERVAL '6 years';
 
 -- NOTE: Never delete without archival. 7-year retention is mandatory.
 ```

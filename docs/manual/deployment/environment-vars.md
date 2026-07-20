@@ -20,8 +20,7 @@ These must be set for the application to function:
 | Variable | Description | Default | Notes |
 |----------|-------------|---------|-------|
 | `GEMINI_API_KEY` | Gemini AI API key | — | Alternative AI provider |
-| `CRON_SECRET` | Secret for authenticating cron job requests | `your-cron-secret` | Required for scheduled jobs (e.g., no-specialist check) |
-| `UPLOAD_DIR` | Local file upload directory | `./public/uploads` | Only used in local development |
+| `UPLOAD_DIR` | Local file upload directory | `./assets/uploads` | Only used in local development |
 | `EMAIL_API_KEY` | Email service API key | — | For notification emails (future) |
 | `SENTRY_DSN` | Sentry error tracking DSN | — | Recommended for production |
 | `REDIS_URL` | Redis connection string | — | For rate limiting and caching (future) |
@@ -35,7 +34,7 @@ These must be set for the application to function:
 | `DATABASE_URL` | Local Supabase or Supabase dev project | Supabase production project |
 | `NEXTAUTH_SECRET` | Any random string | Strong random string (32+ chars) |
 | `OPENAI_API_KEY` | Test/development key | Production key with billing enabled |
-| `UPLOAD_DIR` | `./public/uploads` | Not used (Supabase Storage) |
+| `UPLOAD_DIR` | `./assets/uploads` | Not used (Supabase Storage) |
 
 ## Environment File Priority
 
@@ -61,7 +60,6 @@ Next.js loads environment variables in this order (later files override earlier)
 
 - `OPENAI_API_KEY`: Monitor usage, set billing alerts, rotate quarterly
 - `INTERNAL_API_SECRET`: Generate a strong random string, never share externally
-- `CRON_SECRET`: Generate a strong random string, use to authenticate cron job requests
 - `NEXTAUTH_SECRET`: Use `openssl rand -hex 32` to generate
 
 ### Database Connection Security
@@ -111,15 +109,6 @@ Error: Unauthorized
 - Ensure `INTERNAL_API_SECRET` matches across all API routes
 - Check for typos or trailing whitespace
 
-**Cron job returns 401 Unauthorized**
-
-```
-Error: Unauthorized
-```
-
-- Ensure `CRON_SECRET` is set in your environment variables
-- Verify the cron job request includes the correct `Authorization: Bearer <CRON_SECRET>` header
-
 ### Verifying Environment Variables
 
 ```bash
@@ -144,6 +133,5 @@ curl -X POST http://localhost:3000/api/ai/prescreen \
 | **AI Pre-screening** | `OPENAI_API_KEY` or `GEMINI_API_KEY`, `INTERNAL_API_SECRET` |
 | **AI Summaries** | `OPENAI_API_KEY` or `GEMINI_API_KEY`, `INTERNAL_API_SECRET` |
 | **File Uploads** | `UPLOAD_DIR` (dev only, Supabase Storage in prod) |
-| **Scheduled Jobs** | `CRON_SECRET` |
 | **Error Tracking** | `SENTRY_DSN` |
 | **Notifications** | `EMAIL_API_KEY` (future) |
