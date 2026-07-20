@@ -43,6 +43,70 @@ Authenticate a user with email and password.
 
 ---
 
+### POST `/api/auth/register` (Patient)
+
+Register a new patient account. Implemented as a Next.js server action (`registerPatient` in `lib/actions/auth.ts`).
+
+**Request Body (`multipart/form-data`):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Patient name (min 2 characters) |
+| `email` | `string` | Yes | Valid email address |
+| `password` | `string` | Yes | Password (min 8 characters) |
+| `confirmPassword` | `string` | Yes | Must match `password` |
+
+**Response (200):**
+
+```json
+{ "success": true }
+```
+
+**Errors:**
+
+| Status | Error | Condition |
+|--------|-------|-----------|
+| 200 | `{ "error": { "email": ["Email already registered"] } }` | Duplicate email |
+| 200 | `{ "error": { "name": ["Name must be at least 2 characters"], "password": ["Password must be at least 8 characters"] } }` | Validation failure |
+
+Note: Returns HTTP 200 with error object in body (not an HTTP error status), consistent with Next.js server action conventions.
+
+---
+
+### POST `/api/auth/register` (Doctor)
+
+Register a new specialist account. Implemented as a Next.js server action (`registerDoctor` in `lib/actions/auth.ts`). Creates both a `User` (role `DOCTOR`) and a `Doctor` profile.
+
+**Request Body (`multipart/form-data`):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Doctor name (min 2 characters) |
+| `email` | `string` | Yes | Valid email address |
+| `password` | `string` | Yes | Password (min 8 characters) |
+| `confirmPassword` | `string` | Yes | Must match `password` |
+| `specialty` | `string` | Yes | Medical specialty |
+| `experience` | `string` | Yes | Years of experience |
+| `bio` | `string` | No | Professional biography |
+| `imageUrl` | `string` | No | Profile image URL |
+
+**Response (200):**
+
+```json
+{ "success": true }
+```
+
+**Errors:**
+
+| Status | Error | Condition |
+|--------|-------|-----------|
+| 200 | `{ "error": { "email": ["Email already registered"] } }` | Duplicate email |
+| 200 | `{ "error": { "name": [...], "password": [...], "specialty": [...] } }` | Validation failure |
+
+Note: Returns HTTP 200 with error object in body (not an HTTP error status), consistent with Next.js server action conventions.
+
+---
+
 ### POST/GET `/api/auth/[...nextauth]`
 
 NextAuth.js catch-all route. Handles:

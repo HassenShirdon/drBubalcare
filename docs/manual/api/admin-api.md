@@ -67,15 +67,20 @@ List all cases across the platform with patient and specialist info.
 [
   {
     "id": "clxyz...",
+    "patientId": "clabc...",
+    "specialistId": "doc1...",
     "serviceType": "SPECIALIST_OPINION",
     "description": "MRI review",
     "status": "UNDER_REVIEW",
     "createdAt": "2026-07-15T10:00:00.000Z",
+    "updatedAt": "2026-07-15T10:00:00.000Z",
     "patient": { "name": "John Doe", "email": "john@example.com" },
     "specialist": { "name": "Dr. Smith", "email": "smith@hospital.com" }
   }
 ]
 ```
+
+Note: `specialistId` and the `specialist` object are `null` when no specialist is assigned to the case.
 
 ### PATCH `/api/admin/cases/[id]/assign`
 

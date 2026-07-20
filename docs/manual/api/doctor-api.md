@@ -209,3 +209,28 @@ List lab results flagged as needing specialist review.
   }
 ]
 ```
+
+---
+
+## Validation Rules
+
+### POST `/api/doctor/cases/[id]/opinion`
+
+| Field | Type | Required | Rules |
+|-------|------|----------|-------|
+| `content` | `string` | Yes | Must be provided. Supports plain text or structured markdown. |
+| `sign` | `boolean` | No | Defaults to `false`. When `true`, opinion is finalized. |
+
+**Business rules:**
+- Case must be assigned to the authenticated specialist (otherwise 404).
+- If an existing opinion for this case+specialist already has status `SIGNED`, further edits are rejected with 400.
+- When `sign` is `true`, the case status transitions to `OPINION_READY` and plain-language summary generation is triggered.
+
+### POST `/api/cases/[id]/flag-incomplete`
+
+| Field | Type | Required | Rules |
+|-------|------|----------|-------|
+| `instructions` | `string` | Yes | Must be provided. Describes what the patient needs to re-upload. |
+
+**Business rules:**
+- Case must be assigned to the authenticated specialist (otherwise 404).
