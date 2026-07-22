@@ -97,6 +97,14 @@ export async function POST(request: Request) {
       serviceType: parsed.data.serviceType,
       description: parsed.data.description,
       status: 'OPEN',
+      ...(parsed.data.serviceType === 'EUROPEAN_REFERRAL' && {
+        referralCoordination: {
+          create: { referralStatus: 'SEARCHING' },
+        },
+      }),
+    },
+    include: {
+      referralCoordination: true,
     },
   });
 
