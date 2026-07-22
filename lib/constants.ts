@@ -12,6 +12,7 @@ export const SERVICE_TYPE_LABELS: Record<string, string> = {
   RESULT_INTERPRETATION: 'Result Interpretation',
   FOLLOW_UP: 'Follow-up Consultation',
   TREND_ANALYSIS: 'Lab Trend Analysis',
+  EUROPEAN_REFERRAL: 'European Specialist Referral',
 }
 
 export const LAB_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
@@ -38,6 +39,14 @@ export const DISPUTE_STATUS_CONFIG: Record<string, { label: string; color: strin
   PEER_REVIEW_ASSIGNED: { label: 'Peer Review', color: 'bg-purple-50 text-purple-600' },
   RESOLVED: { label: 'Resolved', color: 'bg-healing-teal/10 text-healing-teal' },
   DISMISSED: { label: 'Dismissed', color: 'bg-gray-100 text-gray-500' },
+}
+
+export const REFERRAL_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  SEARCHING: { label: 'Searching', color: 'bg-blue-50 text-blue-600' },
+  MATCHED: { label: 'Matched', color: 'bg-green-50 text-green-600' },
+  SCHEDULED: { label: 'Scheduled', color: 'bg-purple-50 text-purple-600' },
+  COMPLETED: { label: 'Completed', color: 'bg-healing-teal/10 text-healing-teal' },
+  CLOSED: { label: 'Closed', color: 'bg-gray-100 text-gray-500' },
 }
 
 export const DELETION_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
