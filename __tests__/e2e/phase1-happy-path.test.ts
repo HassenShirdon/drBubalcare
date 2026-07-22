@@ -41,6 +41,7 @@ vi.mock('@/lib/db', () => ({
       findFirst: vi.fn(),
       create: vi.fn(),
       update: vi.fn(),
+      count: vi.fn(),
     },
     aIPrescreen: {
       create: vi.fn(),
@@ -76,12 +77,10 @@ vi.mock('@/lib/generated/prisma/enums', () => ({
   },
 }));
 
-vi.mock('fs/promises', async () => {
-  return {
-    writeFile: vi.fn().mockResolvedValue(undefined),
-    mkdir: vi.fn().mockResolvedValue(undefined),
-  };
-});
+vi.mock('fs/promises', () => ({
+  writeFile: vi.fn().mockResolvedValue(undefined),
+  mkdir: vi.fn().mockResolvedValue(undefined),
+}));
 
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
