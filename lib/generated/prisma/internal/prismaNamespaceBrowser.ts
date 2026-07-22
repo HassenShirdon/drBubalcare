@@ -62,6 +62,7 @@ export const ModelName = {
   Appointment: 'Appointment',
   Case: 'Case',
   CaseRecord: 'CaseRecord',
+  ReferralCoordination: 'ReferralCoordination',
   SpecialistOpinion: 'SpecialistOpinion',
   AIPrescreen: 'AIPrescreen',
   OpinionSynthesis: 'OpinionSynthesis',
@@ -241,6 +242,25 @@ export const CaseRecordScalarFieldEnum = {
 } as const
 
 export type CaseRecordScalarFieldEnum = (typeof CaseRecordScalarFieldEnum)[keyof typeof CaseRecordScalarFieldEnum]
+
+
+export const ReferralCoordinationScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  referralStatus: 'referralStatus',
+  specialistName: 'specialistName',
+  specialistEmail: 'specialistEmail',
+  clinic: 'clinic',
+  country: 'country',
+  consultationType: 'consultationType',
+  coordinatorNotes: 'coordinatorNotes',
+  scheduledAt: 'scheduledAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReferralCoordinationScalarFieldEnum = (typeof ReferralCoordinationScalarFieldEnum)[keyof typeof ReferralCoordinationScalarFieldEnum]
 
 
 export const SpecialistOpinionScalarFieldEnum = {

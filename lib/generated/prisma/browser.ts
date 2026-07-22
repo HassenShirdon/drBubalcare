@@ -73,6 +73,11 @@ export type Case = Prisma.CaseModel
  */
 export type CaseRecord = Prisma.CaseRecordModel
 /**
+ * Model ReferralCoordination
+ * 
+ */
+export type ReferralCoordination = Prisma.ReferralCoordinationModel
+/**
  * Model SpecialistOpinion
  * 
  */

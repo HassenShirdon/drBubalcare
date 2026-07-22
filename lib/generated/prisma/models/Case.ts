@@ -209,6 +209,7 @@ export type CaseWhereInput = {
   patient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   specialist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   records?: Prisma.CaseRecordListRelationFilter
+  referralCoordination?: Prisma.XOR<Prisma.ReferralCoordinationNullableScalarRelationFilter, Prisma.ReferralCoordinationWhereInput> | null
   opinions?: Prisma.SpecialistOpinionListRelationFilter
   aiPrescreens?: Prisma.AIPrescreenListRelationFilter
   synthesis?: Prisma.XOR<Prisma.OpinionSynthesisNullableScalarRelationFilter, Prisma.OpinionSynthesisWhereInput> | null
@@ -227,6 +228,7 @@ export type CaseOrderByWithRelationInput = {
   patient?: Prisma.UserOrderByWithRelationInput
   specialist?: Prisma.UserOrderByWithRelationInput
   records?: Prisma.CaseRecordOrderByRelationAggregateInput
+  referralCoordination?: Prisma.ReferralCoordinationOrderByWithRelationInput
   opinions?: Prisma.SpecialistOpinionOrderByRelationAggregateInput
   aiPrescreens?: Prisma.AIPrescreenOrderByRelationAggregateInput
   synthesis?: Prisma.OpinionSynthesisOrderByWithRelationInput
@@ -248,6 +250,7 @@ export type CaseWhereUniqueInput = Prisma.AtLeast<{
   patient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   specialist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   records?: Prisma.CaseRecordListRelationFilter
+  referralCoordination?: Prisma.XOR<Prisma.ReferralCoordinationNullableScalarRelationFilter, Prisma.ReferralCoordinationWhereInput> | null
   opinions?: Prisma.SpecialistOpinionListRelationFilter
   aiPrescreens?: Prisma.AIPrescreenListRelationFilter
   synthesis?: Prisma.XOR<Prisma.OpinionSynthesisNullableScalarRelationFilter, Prisma.OpinionSynthesisWhereInput> | null
@@ -292,6 +295,7 @@ export type CaseCreateInput = {
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
@@ -308,6 +312,7 @@ export type CaseUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
@@ -324,6 +329,7 @@ export type CaseUpdateInput = {
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
@@ -340,6 +346,7 @@ export type CaseUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
@@ -531,6 +538,20 @@ export type CaseUpdateOneRequiredWithoutRecordsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutRecordsInput, Prisma.CaseUpdateWithoutRecordsInput>, Prisma.CaseUncheckedUpdateWithoutRecordsInput>
 }
 
+export type CaseCreateNestedOneWithoutReferralCoordinationInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutReferralCoordinationInput, Prisma.CaseUncheckedCreateWithoutReferralCoordinationInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutReferralCoordinationInput
+  connect?: Prisma.CaseWhereUniqueInput
+}
+
+export type CaseUpdateOneRequiredWithoutReferralCoordinationNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutReferralCoordinationInput, Prisma.CaseUncheckedCreateWithoutReferralCoordinationInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutReferralCoordinationInput
+  upsert?: Prisma.CaseUpsertWithoutReferralCoordinationInput
+  connect?: Prisma.CaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutReferralCoordinationInput, Prisma.CaseUpdateWithoutReferralCoordinationInput>, Prisma.CaseUncheckedUpdateWithoutReferralCoordinationInput>
+}
+
 export type CaseCreateNestedOneWithoutOpinionsInput = {
   create?: Prisma.XOR<Prisma.CaseCreateWithoutOpinionsInput, Prisma.CaseUncheckedCreateWithoutOpinionsInput>
   connectOrCreate?: Prisma.CaseCreateOrConnectWithoutOpinionsInput
@@ -596,6 +617,7 @@ export type CaseCreateWithoutPatientInput = {
   updatedAt?: Date | string
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
@@ -611,6 +633,7 @@ export type CaseUncheckedCreateWithoutPatientInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
@@ -636,6 +659,7 @@ export type CaseCreateWithoutSpecialistInput = {
   updatedAt?: Date | string
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
@@ -651,6 +675,7 @@ export type CaseUncheckedCreateWithoutSpecialistInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
@@ -722,6 +747,7 @@ export type CaseCreateWithoutRecordsInput = {
   updatedAt?: Date | string
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
@@ -737,6 +763,7 @@ export type CaseUncheckedCreateWithoutRecordsInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
@@ -768,6 +795,7 @@ export type CaseUpdateWithoutRecordsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
@@ -783,6 +811,87 @@ export type CaseUncheckedUpdateWithoutRecordsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
+  opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
+  aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
+  synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseCreateWithoutReferralCoordinationInput = {
+  id?: string
+  serviceType: $Enums.ServiceType
+  status?: $Enums.CaseStatus
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  patient: Prisma.UserCreateNestedOneWithoutCasesInput
+  specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
+  records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
+  aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
+  synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
+}
+
+export type CaseUncheckedCreateWithoutReferralCoordinationInput = {
+  id?: string
+  patientId: string
+  specialistId?: string | null
+  serviceType: $Enums.ServiceType
+  status?: $Enums.CaseStatus
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
+  aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
+  synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
+}
+
+export type CaseCreateOrConnectWithoutReferralCoordinationInput = {
+  where: Prisma.CaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CaseCreateWithoutReferralCoordinationInput, Prisma.CaseUncheckedCreateWithoutReferralCoordinationInput>
+}
+
+export type CaseUpsertWithoutReferralCoordinationInput = {
+  update: Prisma.XOR<Prisma.CaseUpdateWithoutReferralCoordinationInput, Prisma.CaseUncheckedUpdateWithoutReferralCoordinationInput>
+  create: Prisma.XOR<Prisma.CaseCreateWithoutReferralCoordinationInput, Prisma.CaseUncheckedCreateWithoutReferralCoordinationInput>
+  where?: Prisma.CaseWhereInput
+}
+
+export type CaseUpdateToOneWithWhereWithoutReferralCoordinationInput = {
+  where?: Prisma.CaseWhereInput
+  data: Prisma.XOR<Prisma.CaseUpdateWithoutReferralCoordinationInput, Prisma.CaseUncheckedUpdateWithoutReferralCoordinationInput>
+}
+
+export type CaseUpdateWithoutReferralCoordinationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceType?: Prisma.EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+  status?: Prisma.EnumCaseStatusFieldUpdateOperationsInput | $Enums.CaseStatus
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
+  records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
+  aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
+  synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateWithoutReferralCoordinationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  specialistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceType?: Prisma.EnumServiceTypeFieldUpdateOperationsInput | $Enums.ServiceType
+  status?: Prisma.EnumCaseStatusFieldUpdateOperationsInput | $Enums.CaseStatus
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
@@ -799,6 +908,7 @@ export type CaseCreateWithoutOpinionsInput = {
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
   disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
@@ -814,6 +924,7 @@ export type CaseUncheckedCreateWithoutOpinionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
@@ -845,6 +956,7 @@ export type CaseUpdateWithoutOpinionsInput = {
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
   disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
@@ -860,6 +972,7 @@ export type CaseUncheckedUpdateWithoutOpinionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
@@ -875,6 +988,7 @@ export type CaseCreateWithoutAiPrescreensInput = {
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
   disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
@@ -890,6 +1004,7 @@ export type CaseUncheckedCreateWithoutAiPrescreensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
@@ -921,6 +1036,7 @@ export type CaseUpdateWithoutAiPrescreensInput = {
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
   disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
@@ -936,6 +1052,7 @@ export type CaseUncheckedUpdateWithoutAiPrescreensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
@@ -951,6 +1068,7 @@ export type CaseCreateWithoutSynthesisInput = {
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   disputes?: Prisma.DisputeCreateNestedManyWithoutCaseInput
@@ -966,6 +1084,7 @@ export type CaseUncheckedCreateWithoutSynthesisInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutCaseInput
@@ -997,6 +1116,7 @@ export type CaseUpdateWithoutSynthesisInput = {
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   disputes?: Prisma.DisputeUpdateManyWithoutCaseNestedInput
@@ -1012,6 +1132,7 @@ export type CaseUncheckedUpdateWithoutSynthesisInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutCaseNestedInput
@@ -1027,6 +1148,7 @@ export type CaseCreateWithoutDisputesInput = {
   patient: Prisma.UserCreateNestedOneWithoutCasesInput
   specialist?: Prisma.UserCreateNestedOneWithoutSpecialistCasesInput
   records?: Prisma.CaseRecordCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisCreateNestedOneWithoutCaseInput
@@ -1042,6 +1164,7 @@ export type CaseUncheckedCreateWithoutDisputesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   records?: Prisma.CaseRecordUncheckedCreateNestedManyWithoutCaseInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedCreateNestedOneWithoutCaseInput
   opinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutCaseInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedCreateNestedManyWithoutCaseInput
   synthesis?: Prisma.OpinionSynthesisUncheckedCreateNestedOneWithoutCaseInput
@@ -1073,6 +1196,7 @@ export type CaseUpdateWithoutDisputesInput = {
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
@@ -1088,6 +1212,7 @@ export type CaseUncheckedUpdateWithoutDisputesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
@@ -1122,6 +1247,7 @@ export type CaseUpdateWithoutPatientInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   specialist?: Prisma.UserUpdateOneWithoutSpecialistCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
@@ -1137,6 +1263,7 @@ export type CaseUncheckedUpdateWithoutPatientInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
@@ -1162,6 +1289,7 @@ export type CaseUpdateWithoutSpecialistInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patient?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
   records?: Prisma.CaseRecordUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUpdateOneWithoutCaseNestedInput
@@ -1177,6 +1305,7 @@ export type CaseUncheckedUpdateWithoutSpecialistInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.CaseRecordUncheckedUpdateManyWithoutCaseNestedInput
+  referralCoordination?: Prisma.ReferralCoordinationUncheckedUpdateOneWithoutCaseNestedInput
   opinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutCaseNestedInput
   aiPrescreens?: Prisma.AIPrescreenUncheckedUpdateManyWithoutCaseNestedInput
   synthesis?: Prisma.OpinionSynthesisUncheckedUpdateOneWithoutCaseNestedInput
@@ -1263,6 +1392,7 @@ export type CaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   specialist?: boolean | Prisma.Case$specialistArgs<ExtArgs>
   records?: boolean | Prisma.Case$recordsArgs<ExtArgs>
+  referralCoordination?: boolean | Prisma.Case$referralCoordinationArgs<ExtArgs>
   opinions?: boolean | Prisma.Case$opinionsArgs<ExtArgs>
   aiPrescreens?: boolean | Prisma.Case$aiPrescreensArgs<ExtArgs>
   synthesis?: boolean | Prisma.Case$synthesisArgs<ExtArgs>
@@ -1312,6 +1442,7 @@ export type CaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   specialist?: boolean | Prisma.Case$specialistArgs<ExtArgs>
   records?: boolean | Prisma.Case$recordsArgs<ExtArgs>
+  referralCoordination?: boolean | Prisma.Case$referralCoordinationArgs<ExtArgs>
   opinions?: boolean | Prisma.Case$opinionsArgs<ExtArgs>
   aiPrescreens?: boolean | Prisma.Case$aiPrescreensArgs<ExtArgs>
   synthesis?: boolean | Prisma.Case$synthesisArgs<ExtArgs>
@@ -1333,6 +1464,7 @@ export type $CasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     patient: Prisma.$UserPayload<ExtArgs>
     specialist: Prisma.$UserPayload<ExtArgs> | null
     records: Prisma.$CaseRecordPayload<ExtArgs>[]
+    referralCoordination: Prisma.$ReferralCoordinationPayload<ExtArgs> | null
     opinions: Prisma.$SpecialistOpinionPayload<ExtArgs>[]
     aiPrescreens: Prisma.$AIPrescreenPayload<ExtArgs>[]
     synthesis: Prisma.$OpinionSynthesisPayload<ExtArgs> | null
@@ -1744,6 +1876,7 @@ export interface Prisma__CaseClient<T, Null = never, ExtArgs extends runtime.Typ
   patient<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   specialist<T extends Prisma.Case$specialistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$specialistArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   records<T extends Prisma.Case$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CaseRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referralCoordination<T extends Prisma.Case$referralCoordinationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$referralCoordinationArgs<ExtArgs>>): Prisma.Prisma__ReferralCoordinationClient<runtime.Types.Result.GetResult<Prisma.$ReferralCoordinationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   opinions<T extends Prisma.Case$opinionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$opinionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SpecialistOpinionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   aiPrescreens<T extends Prisma.Case$aiPrescreensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$aiPrescreensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIPrescreenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   synthesis<T extends Prisma.Case$synthesisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$synthesisArgs<ExtArgs>>): Prisma.Prisma__OpinionSynthesisClient<runtime.Types.Result.GetResult<Prisma.$OpinionSynthesisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2226,6 +2359,25 @@ export type Case$recordsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.CaseRecordScalarFieldEnum | Prisma.CaseRecordScalarFieldEnum[]
+}
+
+/**
+ * Case.referralCoordination
+ */
+export type Case$referralCoordinationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReferralCoordination
+   */
+  select?: Prisma.ReferralCoordinationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReferralCoordination
+   */
+  omit?: Prisma.ReferralCoordinationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReferralCoordinationInclude<ExtArgs> | null
+  where?: Prisma.ReferralCoordinationWhereInput
 }
 
 /**

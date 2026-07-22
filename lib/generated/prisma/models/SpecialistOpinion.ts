@@ -529,10 +529,12 @@ export type SpecialistOpinionCreateNestedOneWithoutPeerReviewForInput = {
   connect?: Prisma.SpecialistOpinionWhereUniqueInput
 }
 
-export type SpecialistOpinionUpdateOneRequiredWithoutDisputeNestedInput = {
+export type SpecialistOpinionUpdateOneWithoutDisputeNestedInput = {
   create?: Prisma.XOR<Prisma.SpecialistOpinionCreateWithoutDisputeInput, Prisma.SpecialistOpinionUncheckedCreateWithoutDisputeInput>
   connectOrCreate?: Prisma.SpecialistOpinionCreateOrConnectWithoutDisputeInput
   upsert?: Prisma.SpecialistOpinionUpsertWithoutDisputeInput
+  disconnect?: Prisma.SpecialistOpinionWhereInput | boolean
+  delete?: Prisma.SpecialistOpinionWhereInput | boolean
   connect?: Prisma.SpecialistOpinionWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SpecialistOpinionUpdateToOneWithWhereWithoutDisputeInput, Prisma.SpecialistOpinionUpdateWithoutDisputeInput>, Prisma.SpecialistOpinionUncheckedUpdateWithoutDisputeInput>
 }

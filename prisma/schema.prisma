@@ -53,6 +53,7 @@ enum ServiceType {
   RESULT_INTERPRETATION
   FOLLOW_UP
   TREND_ANALYSIS
+  EUROPEAN_REFERRAL
 }
 
 enum SynthesisStatus {
@@ -74,6 +75,19 @@ enum DeletionStatus {
   CONFIRMED
   COMPLETED
   CANCELLED
+}
+
+enum ConsultationType {
+  IN_PERSON
+  VIRTUAL
+}
+
+enum ReferralStatus {
+  SEARCHING
+  MATCHED
+  SCHEDULED
+  COMPLETED
+  CLOSED
 }
 
 model User {
@@ -221,6 +235,7 @@ model Case {
   patient      User               @relation("PatientCases", fields: [patientId], references: [id], onDelete: Cascade)
   specialist   User?              @relation("SpecialistCases", fields: [specialistId], references: [id], onDelete: SetNull)
   records      CaseRecord[]
+  referralCoordination ReferralCoordination?
   opinions     SpecialistOpinion[]
   aiPrescreens AIPrescreen[]
   synthesis    OpinionSynthesis?
@@ -236,6 +251,24 @@ model CaseRecord {
   uploadedAt DateTime @default(now())
 
   case       Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+}
+
+model ReferralCoordination {
+  id               String             @id @default(cuid())
+  caseId           String             @unique
+  referralStatus   ReferralStatus     @default(SEARCHING)
+  specialistName   String?
+  specialistEmail  String?
+  clinic           String?
+  country          String?
+  consultationType ConsultationType?
+  coordinatorNotes String?            @db.Text
+  scheduledAt      DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  case             Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model SpecialistOpinion {

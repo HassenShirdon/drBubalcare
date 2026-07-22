@@ -304,6 +304,40 @@ export type EnumCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumCaseStatusFilter<$PrismaModel>
 }
 
+export type EnumReferralStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReferralStatus | Prisma.EnumReferralStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel> | $Enums.ReferralStatus
+}
+
+export type EnumConsultationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel> | $Enums.ConsultationType | null
+}
+
+export type EnumReferralStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReferralStatus | Prisma.EnumReferralStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReferralStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReferralStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel>
+}
+
+export type EnumConsultationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumConsultationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel>
+}
+
 export type EnumOpinionStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.OpinionStatus | Prisma.EnumOpinionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.OpinionStatus[] | Prisma.ListEnumOpinionStatusFieldRefInput<$PrismaModel>
@@ -764,6 +798,40 @@ export type NestedEnumCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumCaseStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumCaseStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumReferralStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReferralStatus | Prisma.EnumReferralStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel> | $Enums.ReferralStatus
+}
+
+export type NestedEnumConsultationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel> | $Enums.ConsultationType | null
+}
+
+export type NestedEnumReferralStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReferralStatus | Prisma.EnumReferralStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReferralStatus[] | Prisma.ListEnumReferralStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReferralStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReferralStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReferralStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumConsultationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumConsultationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConsultationTypeNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumOpinionStatusFilter<$PrismaModel = never> = {

@@ -395,6 +395,7 @@ export const ModelName = {
   Appointment: 'Appointment',
   Case: 'Case',
   CaseRecord: 'CaseRecord',
+  ReferralCoordination: 'ReferralCoordination',
   SpecialistOpinion: 'SpecialistOpinion',
   AIPrescreen: 'AIPrescreen',
   OpinionSynthesis: 'OpinionSynthesis',
@@ -420,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "post" | "doctor" | "doctorService" | "service" | "labResult" | "labMetric" | "labTrendPoint" | "appointment" | "case" | "caseRecord" | "specialistOpinion" | "aIPrescreen" | "opinionSynthesis" | "trendAnalysis" | "plainLanguageSummary" | "followUpQuestion" | "auditLog" | "dispute" | "consentRecord" | "dataDeletionRequest"
+    modelProps: "user" | "post" | "doctor" | "doctorService" | "service" | "labResult" | "labMetric" | "labTrendPoint" | "appointment" | "case" | "caseRecord" | "referralCoordination" | "specialistOpinion" | "aIPrescreen" | "opinionSynthesis" | "trendAnalysis" | "plainLanguageSummary" | "followUpQuestion" | "auditLog" | "dispute" | "consentRecord" | "dataDeletionRequest"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1235,6 +1236,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CaseRecordCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CaseRecordCountAggregateOutputType> | number
+        }
+      }
+    }
+    ReferralCoordination: {
+      payload: Prisma.$ReferralCoordinationPayload<ExtArgs>
+      fields: Prisma.ReferralCoordinationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReferralCoordinationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReferralCoordinationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        findFirst: {
+          args: Prisma.ReferralCoordinationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReferralCoordinationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        findMany: {
+          args: Prisma.ReferralCoordinationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>[]
+        }
+        create: {
+          args: Prisma.ReferralCoordinationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        createMany: {
+          args: Prisma.ReferralCoordinationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReferralCoordinationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>[]
+        }
+        delete: {
+          args: Prisma.ReferralCoordinationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        update: {
+          args: Prisma.ReferralCoordinationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReferralCoordinationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReferralCoordinationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReferralCoordinationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReferralCoordinationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReferralCoordinationPayload>
+        }
+        aggregate: {
+          args: Prisma.ReferralCoordinationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReferralCoordination>
+        }
+        groupBy: {
+          args: Prisma.ReferralCoordinationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReferralCoordinationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReferralCoordinationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReferralCoordinationCountAggregateOutputType> | number
         }
       }
     }
@@ -2170,6 +2245,25 @@ export const CaseRecordScalarFieldEnum = {
 export type CaseRecordScalarFieldEnum = (typeof CaseRecordScalarFieldEnum)[keyof typeof CaseRecordScalarFieldEnum]
 
 
+export const ReferralCoordinationScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  referralStatus: 'referralStatus',
+  specialistName: 'specialistName',
+  specialistEmail: 'specialistEmail',
+  clinic: 'clinic',
+  country: 'country',
+  consultationType: 'consultationType',
+  coordinatorNotes: 'coordinatorNotes',
+  scheduledAt: 'scheduledAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReferralCoordinationScalarFieldEnum = (typeof ReferralCoordinationScalarFieldEnum)[keyof typeof ReferralCoordinationScalarFieldEnum]
+
+
 export const SpecialistOpinionScalarFieldEnum = {
   id: 'id',
   caseId: 'caseId',
@@ -2502,6 +2596,34 @@ export type ListEnumCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'ReferralStatus'
+ */
+export type EnumReferralStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReferralStatus[]'
+ */
+export type ListEnumReferralStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ConsultationType'
+ */
+export type EnumConsultationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultationType'>
+    
+
+
+/**
+ * Reference to a field of type 'ConsultationType[]'
+ */
+export type ListEnumConsultationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultationType[]'>
+    
+
+
+/**
  * Reference to a field of type 'OpinionStatus'
  */
 export type EnumOpinionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpinionStatus'>
@@ -2691,6 +2813,7 @@ export type GlobalOmitConfig = {
   appointment?: Prisma.AppointmentOmit
   case?: Prisma.CaseOmit
   caseRecord?: Prisma.CaseRecordOmit
+  referralCoordination?: Prisma.ReferralCoordinationOmit
   specialistOpinion?: Prisma.SpecialistOpinionOmit
   aIPrescreen?: Prisma.AIPrescreenOmit
   opinionSynthesis?: Prisma.OpinionSynthesisOmit

@@ -72,7 +72,8 @@ export const ServiceType = {
   SPECIALIST_OPINION: 'SPECIALIST_OPINION',
   RESULT_INTERPRETATION: 'RESULT_INTERPRETATION',
   FOLLOW_UP: 'FOLLOW_UP',
-  TREND_ANALYSIS: 'TREND_ANALYSIS'
+  TREND_ANALYSIS: 'TREND_ANALYSIS',
+  EUROPEAN_REFERRAL: 'EUROPEAN_REFERRAL'
 } as const
 
 export type ServiceType = (typeof ServiceType)[keyof typeof ServiceType]
@@ -106,3 +107,22 @@ export const DeletionStatus = {
 } as const
 
 export type DeletionStatus = (typeof DeletionStatus)[keyof typeof DeletionStatus]
+
+
+export const ConsultationType = {
+  IN_PERSON: 'IN_PERSON',
+  VIRTUAL: 'VIRTUAL'
+} as const
+
+export type ConsultationType = (typeof ConsultationType)[keyof typeof ConsultationType]
+
+
+export const ReferralStatus = {
+  SEARCHING: 'SEARCHING',
+  MATCHED: 'MATCHED',
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type ReferralStatus = (typeof ReferralStatus)[keyof typeof ReferralStatus]
