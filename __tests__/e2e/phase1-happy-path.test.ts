@@ -72,6 +72,7 @@ vi.mock('@/lib/generated/prisma/enums', () => ({
     RESULT_INTERPRETATION: 'RESULT_INTERPRETATION',
     FOLLOW_UP: 'FOLLOW_UP',
     TREND_ANALYSIS: 'TREND_ANALYSIS',
+    EUROPEAN_REFERRAL: 'EUROPEAN_REFERRAL',
   },
 }));
 
