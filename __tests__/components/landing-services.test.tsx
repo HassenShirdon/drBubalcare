@@ -6,8 +6,8 @@ import { SERVICES } from '@/components/landing-page/data';
 
 vi.mock('motion/react', () => ({
   motion: {
-    section: ({ children, ...props }: any) => <section {...props}>{children}</section>,
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    section: ({ children, className }: any) => <section className={className}>{children}</section>,
+    div: ({ children, className }: any) => <div className={className}>{children}</div>,
   },
 }));
 

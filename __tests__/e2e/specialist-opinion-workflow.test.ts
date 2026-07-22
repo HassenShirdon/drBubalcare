@@ -1,3 +1,5 @@
+process.env.NEXTAUTH_URL = 'http://localhost:3000';
+
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('next/server', () => ({
