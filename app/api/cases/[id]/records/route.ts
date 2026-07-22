@@ -90,15 +90,17 @@ export async function POST(
   }
 
   // After successful file upload, trigger AI pre-screening (fire and forget)
-  // Only trigger if this is the first record for the case
-  const recordCount = await prisma.caseRecord.count({ where: { caseId: id } });
-  if (recordCount === 1) {
-    fetch(`${process.env.NEXTAUTH_URL}/api/ai/prescreen/${id}`, {
-      method: "POST",
-      headers: {
-        "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
-      },
-    }).catch((err) => console.error("Pre-screening trigger failed:", err));
+  // Only trigger for opinion-style cases, not referrals
+  if (caseRecord.serviceType !== 'EUROPEAN_REFERRAL') {
+    const recordCount = await prisma.caseRecord.count({ where: { caseId: id } });
+    if (recordCount === 1) {
+      fetch(`${process.env.NEXTAUTH_URL}/api/ai/prescreen/${id}`, {
+        method: "POST",
+        headers: {
+          "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+        },
+      }).catch((err) => console.error("Pre-screening trigger failed:", err));
+    }
   }
 
   return NextResponse.json(uploadedRecords, { status: 201 });
