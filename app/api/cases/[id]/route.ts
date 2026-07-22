@@ -33,8 +33,8 @@ export async function GET(
         orderBy: { generatedAt: 'desc' },
         take: 1,
       },
-    },
-  });
+      referralCoordination: true,
+    });
 
   if (!caseRecord) {
     return NextResponse.json({ error: 'Case not found' }, { status: 404 });

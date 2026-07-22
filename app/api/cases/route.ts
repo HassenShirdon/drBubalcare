@@ -22,6 +22,7 @@ export async function GET() {
           take: 1,
         },
         aiPrescreens: { take: 1 },
+        referralCoordination: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -38,6 +39,7 @@ export async function GET() {
       include: {
         patient: { select: { name: true, email: true } },
         records: true,
+        referralCoordination: true,
         opinions: {
           where: { specialistId: userId },
           take: 1,

@@ -14,6 +14,7 @@ export async function GET() {
     include: {
       patient: { select: { name: true, email: true } },
       specialist: { select: { name: true, email: true } },
+      referralCoordination: true,
     },
     orderBy: { createdAt: 'desc' },
   });
