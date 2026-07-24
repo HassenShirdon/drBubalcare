@@ -35,16 +35,16 @@ export default function TrustSection() {
 
             <div className="space-y-4 pt-4 border-t border-surface-gray/50">
               {TRUST_POINTS.map((point) => (
-                <div key={point.title} className="flex items-start space-x-3">
+                <div key={point.question} className="flex items-start space-x-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container-low border border-surface-gray flex items-center justify-center text-healing-teal mt-0.5">
                     <point.icon />
                   </div>
                   <div>
                     <h3 className="font-headline-md text-sm font-semibold text-clinical-navy mb-0.5">
-                      {point.title}
+                      {point.question}
                     </h3>
                     <p className="font-body-md text-xs text-on-surface-variant leading-relaxed">
-                      {point.description}
+                      {point.answer}
                     </p>
                   </div>
                 </div>

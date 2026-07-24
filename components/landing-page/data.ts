@@ -1,23 +1,20 @@
 import {
-  Activity,
-  Baby,
-  BadgeCheck,
-  ClipboardList,
+  Award,
+  ClipboardCheck,
   Clock,
   Droplets,
+  Eye,
   FileText,
-  FlaskConical,
   Heart,
-  MessageSquareText,
+  MessageSquare,
   Microscope,
-  Ribbon,
-  ScanLine,
+  RefreshCw,
+  Scan,
   Shield,
-  Sun,
+  Stethoscope,
   TrendingUp,
-  Users,
   type LucideIcon,
-} from 'lucide-react';
+} from "lucide-react";
 
 export const SPECIALIZATIONS: {
   title: string;
@@ -25,150 +22,203 @@ export const SPECIALIZATIONS: {
   icon: LucideIcon;
 }[] = [
   {
-    title: 'Hematopathology',
-    description: 'Blood disorders, leukemia, lymphoma diagnosis',
+    title: "Hematopathology",
+    description:
+      "Blood disorders, bone marrow biopsies, and hematologic malignancies reviewed by subspecialists.",
     icon: Droplets,
   },
   {
-    title: 'Clinical Pathology',
-    description: 'Lab medicine, biochemical analysis, diagnostics',
-    icon: FlaskConical,
+    title: "Diagnostic Radiology",
+    description:
+      "X-rays, CT scans, MRIs, and ultrasounds interpreted by board-certified radiologists.",
+    icon: Scan,
   },
   {
-    title: 'Diagnostic Radiology',
-    description: 'X-ray, CT, MRI interpretation',
-    icon: ScanLine,
-  },
-  {
-    title: 'Fetal Medicine',
-    description: 'Prenatal screening, fetal anomaly assessment',
-    icon: Baby,
-  },
-  {
-    title: 'Cytopathology',
-    description: 'Cell-level analysis, fine needle aspirates',
+    title: "Cytopathology",
+    description:
+      "Fine needle aspirates, Pap smears, and fluid cytology analyzed by cytopathology experts.",
     icon: Microscope,
   },
   {
-    title: 'Dermatopathology',
-    description: 'Skin biopsy analysis, melanoma screening',
-    icon: Sun,
+    title: "Dermatopathology",
+    description:
+      "Skin biopsies and lesion specimens reviewed by dermatopathology specialists.",
+    icon: Eye,
   },
   {
     title: "Women's Health",
-    description: 'Gynecological pathology, fertility-related diagnostics',
+    description:
+      "Gynecological pathology, breast biopsies, and prenatal screening interpretations.",
     icon: Heart,
   },
   {
-    title: 'Pediatrics',
-    description: 'Childhood disease diagnostics, neonatal screening',
-    icon: Users,
+    title: "Oncology",
+    description:
+      "Cancer pathology, tumor grading, and molecular marker interpretation by oncology experts.",
+    icon: Stethoscope,
   },
-  {
-    title: 'Oncology',
-    description: 'Cancer staging, tumor classification, treatment monitoring',
-    icon: Ribbon,
-  },
-  {
-    title: 'Chronic Disease',
-    description: 'Diabetes, hypertension, long-term monitoring',
-    icon: Activity,
-  },
-];
+] as const;
 
 export const TRUST_POINTS: {
-  title: string;
-  description: string;
+  question: string;
+  answer: string;
   icon: LucideIcon;
 }[] = [
   {
-    title: 'Board-certified specialists only',
-    description: 'Every specialist is verified. No exceptions.',
-    icon: BadgeCheck,
-  },
-  {
-    title: 'Your data stays private',
-    description: 'HIPAA and GDPR compliant. Files encrypted. AI never sees your name.',
+    question: "Is my data safe?",
+    answer:
+      "End-to-end encryption. HIPAA and GDPR compliant. Your medical records never leave our secure platform.",
     icon: Shield,
   },
   {
-    title: 'Plain-language reports',
-    description: 'No medical jargon. Your report is written as if by a trusted GP.',
-    icon: MessageSquareText,
+    question: "Are the specialists qualified?",
+    answer:
+      "Every specialist is board-certified and credential-verified. We don't compromise on expertise.",
+    icon: Award,
   },
   {
-    title: '24-48 hour turnaround',
-    description: 'Most cases reviewed within 2 days. Urgent cases get priority.',
+    question: "What if I disagree?",
+    answer:
+      "Request a peer review at no extra cost. We stand behind every opinion.",
+    icon: RefreshCw,
+  },
+  {
+    question: "How fast is it?",
+    answer:
+      "24-48 hours on average. Urgent cases are flagged and prioritized.",
     icon: Clock,
   },
-];
+] as const;
 
 export const STATS: { value: string; label: string }[] = [
-  { value: '10+', label: 'Specialist Disciplines' },
-  { value: '24-48h', label: 'Average Turnaround' },
-  { value: 'Encrypted', label: 'Data Security' },
-  { value: 'East Africa', label: 'Primary Coverage' },
+  { value: "10+", label: "Specialist Disciplines" },
+  { value: "24-48h", label: "Average Turnaround" },
+  { value: "Encrypted", label: "Data Security" },
+  { value: "East Africa", label: "Primary Coverage" },
 ];
 
 export const STEPS: { num: string; title: string; description: string }[] = [
   {
-    num: '01',
-    title: 'Start your case',
+    num: "01",
+    title: "Upload Your Records",
     description:
-      'Upload records — lab reports, scans, slides — or book a consultation. Takes under 5 minutes.',
+      "Take a photo or upload files. Lab results, scans, slides — we accept all formats.",
   },
   {
-    num: '02',
-    title: 'AI matches your specialist',
+    num: "02",
+    title: "We Match You",
     description:
-      'Our system reviews your case and routes it to the right board-certified specialist.',
+      "AI pairs your case with the right board-certified specialist. No guessing, no referrals needed.",
   },
   {
-    num: '03',
-    title: 'Specialist reviews',
+    num: "03",
+    title: "Get Your Answer",
     description:
-      'A qualified specialist reviews your materials alongside an AI pre-screen. Target: 24-48 hours.',
+      "Receive a written specialist opinion within 24-48 hours. Clear, detailed, and in plain language.",
   },
-  {
-    num: '04',
-    title: 'Clear answers delivered',
-    description:
-      'You receive a structured report with a plain-language summary. No jargon.',
-  },
-];
+] as const;
 
 export const SERVICES: {
   title: string;
   description: string;
   icon: LucideIcon;
   category: string;
+  price: string;
 }[] = [
   {
-    title: 'Specialist Opinions',
+    title: "Specialist Opinions",
     description:
-      'Submit your records — slides, scans, or lab reports — and receive a written opinion from a board-certified specialist within 24-48 hours.',
+      "Upload slides, scans, or reports. Get a board-certified specialist's written opinion within 24-48 hours.",
     icon: FileText,
-    category: 'Opinion',
+    category: "Most Popular",
+    price: "From $49",
   },
   {
-    title: 'Result Interpretation',
+    title: "Result Interpretation",
     description:
-      'Already have test results but don\'t understand them? Get a clear, plain-language explanation from a qualified specialist.',
-    icon: ClipboardList,
-    category: 'Interpretation',
+      "Have lab results but unclear what they mean? Get a specialist's plain-language explanation.",
+    icon: ClipboardCheck,
+    category: "Popular",
+    price: "From $29",
   },
   {
-    title: 'Follow-up Consultations',
+    title: "Follow-up Consultations",
     description:
-      'After receiving your report, ask questions. Our AI answers within the scope of the opinion, or book a live consultation.',
-    icon: MessageSquareText,
-    category: 'Follow-up',
+      "Questions after your report? Ask our AI assistant or book a live consultation.",
+    icon: MessageSquare,
+    category: "Support",
+    price: "Free / From $39",
   },
   {
-    title: 'Lab Trend Tracking',
+    title: "Lab Trend Tracking",
     description:
-      'Repeat lab tests tracked over time. AI flags statistically significant changes — an early warning for you and your doctor.',
+      "Track your lab results over time. We flag significant changes before your next appointment.",
     icon: TrendingUp,
-    category: 'Trends',
+    category: "Included",
+    price: "Included",
+  },
+] as const;
+
+export const TESTIMONIALS: {
+  quote: string;
+  name: string;
+  location: string;
+  rating: number;
+}[] = [
+  {
+    quote:
+      "I uploaded my lab results on Monday morning and had a specialist opinion by Tuesday evening. For the first time, I understood my condition.",
+    name: "Sarah M.",
+    location: "Nairobi, Kenya",
+    rating: 5,
+  },
+  {
+    quote:
+      "My local doctor wasn't sure about my biopsy. Dr. Bubal Care connected me to a pathologist who gave me a clear answer in 36 hours.",
+    name: "James K.",
+    location: "Kampala, Uganda",
+    rating: 5,
+  },
+  {
+    quote:
+      "The plain-language summary was the best part. No medical jargon — just clear answers I could share with my family.",
+    name: "Amina H.",
+    location: "Dar es Salaam, Tanzania",
+    rating: 5,
+  },
+] as const;
+
+export const SPECIALISTS: { name: string; specialty: string }[] = [
+  { name: "Dr. A. Mensah", specialty: "Hematopathologist" },
+  { name: "Dr. K. Okafor", specialty: "Diagnostic Radiologist" },
+  { name: "Dr. P. Njeri", specialty: "Cytopathologist" },
+  { name: "Dr. S. Abebe", specialty: "Dermatopathologist" },
+  { name: "Dr. L. Mwangi", specialty: "Oncologist" },
+] as const;
+
+export const FAQ: { question: string; answer: string }[] = [
+  {
+    question: "How much does it cost?",
+    answer: "Pricing varies by service. Most specialist opinions start from $49.",
+  },
+  {
+    question: "What files can I upload?",
+    answer:
+      "Lab reports, DICOM scans, histology slides, photos — we accept all common formats.",
+  },
+  {
+    question: "How long does it take?",
+    answer:
+      "Most cases are completed within 24-48 hours. Urgent cases are flagged and prioritized.",
+  },
+  {
+    question: "Are the specialists qualified?",
+    answer:
+      "Every specialist is board-certified and credential-verified before joining our platform.",
+  },
+  {
+    question: "What if I don't understand my report?",
+    answer:
+      "Every report includes a plain-language summary. You can also ask follow-up questions via our AI assistant or book a live consultation.",
   },
 ];
