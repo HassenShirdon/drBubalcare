@@ -4,6 +4,9 @@ export default function StatsBanner() {
   return (
     <section className="py-16">
       <div className="bg-clinical-navy rounded-2xl p-6 md:p-8 mx-6 md:mx-16">
+        <p className="text-white/70 text-sm text-center mb-6">
+          Join hundreds of patients who already got their answers
+        </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-white/20">
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center px-3 pt-3 md:pt-0 first:pt-0">
@@ -15,6 +18,11 @@ export default function StatsBanner() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-8">
+          <button className="border border-white text-white rounded-xl px-8 py-3 font-medium hover:bg-white/10 transition-colors">
+            Start Your Case →
+          </button>
         </div>
       </div>
     </section>
