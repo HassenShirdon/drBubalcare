@@ -1,56 +1,52 @@
-### Task 8: Follow-up Q&A API Route
+## Task 8: Compliance Documentation
 
 **Files:**
-- Create: `app/api/ai/followup/route.ts`
-- Consumes: `lib/ai/followup.ts`
+- Create: `docs/manual/compliance/gdpr.md`
+- Create: `docs/manual/compliance/hipaa.md`
+- Create: `docs/manual/compliance/audit-logging.md`
 
-- [ ] **Step 1: Create follow-up API route**
+**Purpose:** GDPR, HIPAA, and audit logging compliance procedures.
 
-Create `app/api/ai/followup/route.ts`:
+- [ ] **Step 1: Create GDPR documentation**
 
-```typescript
-import { NextResponse } from "next/server";
-import { answerFollowUp } from "@/lib/ai/followup";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+Write `docs/manual/compliance/gdpr.md` containing:
+- Data subject rights (access, erasure, rectification, portability)
+- Consent management
+- Data processing legal basis
+- Data minimization
+- Storage limitation
+- Breach notification
+- DPO contact
+- International transfers
 
-export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+- [ ] **Step 2: Create HIPAA documentation**
 
-  const body = await request.json();
-  const { opinionId, question } = body;
+Write `docs/manual/compliance/hipaa.md` containing:
+- PHI definition and handling
+- Administrative safeguards
+- Physical safeguards
+- Technical safeguards
+- Business associate agreements
+- PHI handling procedures
+- Breach response
+- Risk assessment
+- Minimum necessary rule
 
-  if (!opinionId || !question) {
-    return NextResponse.json(
-      { error: "opinionId and question are required" },
-      { status: 400 }
-    );
-  }
+- [ ] **Step 3: Create audit logging documentation**
 
-  try {
-    const response = await answerFollowUp(opinionId, question);
-    return response;
-  } catch (error) {
-    console.error("Follow-up Q&A failed:", error);
-    return NextResponse.json(
-      { error: "Follow-up Q&A failed" },
-      { status: 500 }
-    );
-  }
-}
-```
+Write `docs/manual/compliance/audit-logging.md` containing:
+- Audit log schema
+- Logged actions by category
+- Logging implementation code
+- Retention policy
+- Access control
+- Alert rules
+- Querying audit logs
+- Best practices
 
-- [ ] **Step 2: Verify TypeScript compiles**
-
-Run: `npx tsc --noEmit`
-Expected: No errors
-
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit compliance documentation**
 
 ```bash
-git add app/api/ai/followup/route.ts
-git commit -m "feat: add follow-up Q&A API route"
+git add docs/manual/compliance/
+git commit -m "docs: add compliance documentation"
 ```
