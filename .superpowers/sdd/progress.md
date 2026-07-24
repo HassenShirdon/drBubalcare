@@ -20,7 +20,7 @@
 | 11. Create Trust Checklist | done | <<awaiting commit>> | ✅ Pending |
 | 12. Update Trust Section | done | <<awaiting commit>> | ✅ Pending |
 | 13. Update CTA Section | done | <<awaiting commit>> | ✅ Pending |
-| 14. Create Mini FAQ | pending | | |
+| 14. Create Mini FAQ | done | <<awaiting commit>> | ✅ Pending |
 | 15. Update Contact Section | pending | | |
 | 16. Update Page Composition | pending | | |
 | 17. Remove medical-illustration | pending | | |
