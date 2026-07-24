@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { TRUST_POINTS } from '@/components/landing-page/data';
+import { TrustChecklist } from './trust-checklist';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -26,11 +27,10 @@ export default function TrustSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="space-y-6">
             <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black leading-tight text-balance">
-              Why patients trust Dr. Bubal Care
+              Your data. Your control.
             </h2>
             <p className="font-body-lg text-sm text-on-surface-variant leading-relaxed">
-              We don&apos;t replace your doctor. We help you understand your results —
-              clearly, quickly, and securely.
+              We built Dr. Bubal Care with privacy and security as the foundation — not an afterthought.
             </p>
 
             <div className="space-y-4 pt-4 border-t border-surface-gray/50">
@@ -52,8 +52,8 @@ export default function TrustSection() {
             </div>
           </div>
 
-          <div className="relative rounded-2xl overflow-hidden aspect-square border border-surface-gray/50">
-            <div className="w-full h-full bg-gradient-to-br from-clinical-navy/10 to-healing-teal/10 rounded-2xl" />
+          <div className="flex items-center justify-center">
+            <TrustChecklist />
           </div>
         </div>
       </div>
