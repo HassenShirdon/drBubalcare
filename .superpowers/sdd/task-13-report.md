@@ -1,42 +1,51 @@
-## Task 13: Integration Tests — New AI Routes
+# Task 13: GDPR Types, Schema, and Service - Report
 
-### What I Implemented
+## What I Implemented
 
-Added integration tests for three Phase 4 AI routes in `__tests__/integration/ai-routes.test.ts`:
+Created the GDPR compliance foundation with types, Zod validation schema, and service layer:
 
-1. **Synthesis route** (`POST /api/ai/synthesis/[caseId]`) — 3 tests:
-   - 401 without `x-internal-secret` header
-   - 401 with wrong secret
-   - 500 when `generateSynthesis` throws
+- **`lib/gdpr/types.ts`**: `ConsentType` enum (AI_PROCESSING, DATA_SHARING) and `ConsentStatus` interface
+- **`lib/schemas/gdpr.schema.ts`**: Zod validation schema for consent input
+- **`lib/gdpr/service.ts`**: Full service with 5 functions:
+  - `getConsent()` - retrieves consent records for a patient
+  - `updateConsent()` - creates/updates consent with audit logging
+  - `requestDeletion()` - creates deletion request with 30-day grace period, rejects if pending exists
+  - `confirmDeletion()` - confirms a pending deletion request
+  - `cancelDeletion()` - cancels a pending deletion request
 
-2. **Follow-up route** (`POST /api/ai/followup`) — 3 tests:
-   - 401 without session
-   - 400 without required fields (`opinionId`, `question`)
-   - 500 when `answerFollowUp` throws
+## What I Tested
 
-3. **Trends route** (`GET /api/ai/trends/[patientId]`) — 3 tests:
-   - 401 without session
-   - 403 when accessing another patient's trends
-   - 200 with trends for own data
+4 unit tests in `__tests__/unit/gdpr/service.test.ts`:
+1. getConsent returns consent records for patient
+2. updateConsent creates or updates consent and logs audit
+3. requestDeletion creates deletion request with 30-day grace period
+4. requestDeletion rejects if pending request exists
 
-Also added helper functions: `synthesisParams`, `trendsParams`, `createRequestWithBody`, `mockSession`.
+## TDD Evidence
 
-Mocks added: `@/lib/ai/synthesis`, `@/lib/ai/followup`, `next-auth`, `@/lib/auth`, `@/lib/db`.
+**RED**: `npx vitest run __tests__/unit/gdpr/service.test.ts`
+- Failed with: `Cannot find package '@/lib/gdpr/service'` (module not found, as expected)
 
-### Test Results
+**GREEN**: `npx vitest run __tests__/unit/gdpr/service.test.ts`
+- 4 passed (4)
 
-All 18 tests pass (9 existing + 9 new). Duration: ~2s.
+**Full suite**: 123 passed, 2 failed (pre-existing e2e test failures unrelated to this task)
 
-### Files Changed
+## Files Changed
 
-- `__tests__/integration/ai-routes.test.ts` (+119 lines)
+- Created: `lib/gdpr/types.ts`
+- Created: `lib/gdpr/service.ts`
+- Created: `lib/schemas/gdpr.schema.ts`
+- Created: `__tests__/unit/gdpr/service.test.ts`
 
-### Self-Review
+## Self-Review Findings
 
-- All tests match the task brief exactly
-- Follows existing patterns (mock style, describe structure, assertion style)
-- No over-engineering — only what was specified
+- **Completeness**: All 5 service functions implemented, types and schema complete
+- **Quality**: Names match what things do, follows existing patterns (disputes service structure)
+- **Testing**: Tests verify actual behavior, not just mock calls. TDD followed correctly.
+- **Discipline**: No overbuilding, only what was requested
+- **No issues found**
 
-### Commit
+## Commit
 
-- `ee96b49` — `feat: add integration tests for Phase 4 AI routes`
+`11eb964` - feat(gdpr): add GDPR service with consent management and deletion with grace period
