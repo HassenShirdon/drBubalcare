@@ -1,8 +1,6 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
 import { SERVICES } from '@/components/landing-page/data'
 
 const fadeInUp = {
@@ -29,10 +27,10 @@ export default function ServicesSection() {
           className="text-center max-w-3xl mx-auto space-y-3"
         >
           <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
-            Our services
+            How we help you
           </h2>
           <p className="font-body-lg text-base text-on-surface-variant/80">
-            Evidence-based pathways designed for clarity and better outcomes.
+            From one-time opinions to ongoing monitoring — find the right service for your needs.
           </p>
         </motion.div>
 
@@ -41,24 +39,32 @@ export default function ServicesSection() {
             <motion.div
               key={service.title}
               variants={fadeInUp}
-              className="bg-white rounded-2xl p-6 border border-surface-gray/60 shadow hover:shadow-md transition-all duration-300 group flex flex-col h-full"
+              className={`bg-white rounded-2xl p-6 border border-surface-gray/60 shadow hover:shadow-md transition-all duration-300 group flex flex-col h-full ${
+                service.category === "Most Popular"
+                  ? "border-t-4 border-clinical-navy"
+                  : "border-t-4 border-healing-teal/20"
+              }`}
             >
               <div className="w-10 h-10 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy mb-4 group-hover:bg-clinical-navy group-hover:text-white transition-colors duration-300">
                 <service.icon className="w-5 h-5" />
               </div>
+              {service.category === "Most Popular" && (
+                <span className="inline-block bg-healing-teal/10 text-healing-teal rounded-full px-3 py-0.5 text-xs font-medium mb-2 self-start">
+                  Most Popular
+                </span>
+              )}
               <h3 className="font-headline-md text-base font-semibold text-clinical-navy mb-2 group-hover:text-healing-teal transition-colors duration-300">
                 {service.title}
               </h3>
-              <p className="font-body-md text-sm text-on-surface-variant/80 mb-5 flex-grow">
+              <p className="font-body-md text-sm text-on-surface-variant/80 flex-grow">
                 {service.description}
               </p>
-              <Link
-                href="#"
-                className="inline-flex items-center text-clinical-navy font-medium text-sm mt-auto group-hover:text-healing-teal transition-colors"
-              >
-                Learn More
-                <ArrowRight className="ml-1 size-4 transform group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <p className="font-headline-md text-sm font-semibold text-clinical-navy mt-3">
+                {service.price}
+              </p>
+              <button className="mt-4 bg-clinical-navy text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-primary-container transition-colors self-start">
+                Get Started →
+              </button>
             </motion.div>
           ))}
         </div>

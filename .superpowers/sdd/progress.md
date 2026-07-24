@@ -15,7 +15,7 @@
 | 6. Update How It Works | pending | | |
 | 7. Create Social Proof Section | done | <<awaiting commit>> | ✅ Approved |
 | 8. Update Specializations | done | <<awaiting commit>> | ✅ Pending |
-| 9. Update Services | pending | | |
+| 9. Update Services | done | <<awaiting commit>> | ✅ Pending |
 | 10. Update Stats Banner | pending | | |
 | 11. Create Trust Checklist | pending | | |
 | 12. Update Trust Section | pending | | |

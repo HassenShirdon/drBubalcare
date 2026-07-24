@@ -1,40 +1,90 @@
-# Task 9: Trends Schema + Prompt
+# Task 9 Report: Dispute Types, Schema, and Service
 
-## Status
-✅ Completed
+## Status: DONE
 
-## Commit SHA
-`8c3bbf6`
+## What I Implemented
 
-## What Changed
+Created the dispute resolution system foundation with 4 files:
 
-Created Zod schema and system prompt for lab result trend analysis.
+1. **`lib/disputes/types.ts`** — `FileDisputeParams`, `PeerReviewCandidate`, `DisputeStatus` enum
+2. **`lib/schemas/dispute.schema.ts`** — Zod schemas: `fileDisputeSchema`, `triageDisputeSchema`, `resolveDisputeSchema`, `assignPeerReviewSchema`
+3. **`lib/disputes/service.ts`** — 5 exported functions:
+   - `fileDispute()` — Creates dispute, logs audit event, notifies admin
+   - `getPeerReviewCandidates()` — Finds 3 candidate specialists in same specialty, excluding original
+   - `triageDispute()` — Sets UNDER_REVIEW (valid) or DISMISSED (invalid)
+   - `assignPeerReview()` — Creates draft SpecialistOpinion, links to dispute, logs audit
+   - `resolveDispute()` — Sets RESOLVED with resolution text, logs audit
+4. **`__tests__/unit/disputes/service.test.ts`** — 8 unit tests covering all functions
 
-**Files:**
-- Created: `lib/ai/prompts/trends.ts`
-- Modified: `__tests__/unit/prompts.test.ts` (added 4 test cases)
+## TDD Evidence
 
-**Implementation:**
-- `trendAnalysisSchema`: Zod schema for trend analysis output with fields:
-  - `metricName`: String (lab metric name)
-  - `trend`: Enum ["rising", "falling", "stable", "fluctuating"]
-  - `significant`: Boolean (clinically significant flag)
-  - `summary`: String (plain-language explanation)
-  - `dataPoints`: Array of data point objects (date, value, unit, referenceRange, status)
-- `TrendAnalysisResult`: TypeScript type inferred from schema
-- `trendAnalysisSystemPrompt`: System prompt for LLM with rules for trend classification and output format
+**RED:** Ran `npx vitest run __tests__/unit/disputes/service.test.ts`
+```
+Error: Cannot find package '@/lib/disputes/service'
+```
+Expected: module not found since implementation doesn't exist yet.
+
+**GREEN:** Ran `npx vitest run __tests__/unit/disputes/service.test.ts`
+```
+Test Files  1 passed (1)
+    Tests  8 passed (8)
+```
 
 ## Test Results
 
-**RED Phase:** Test failed with `Cannot find package '@/lib/ai/prompts/trends'` (expected)
+8/8 passing, output pristine — no warnings or noise.
 
-**GREEN Phase:** 19/19 tests passing (15 existing + 4 new trend analysis tests)
+Full suite: 93 passed, 2 pre-existing E2E failures (unrelated — `prisma.specialistOpinion.count` mock issue in `opinion/route.ts`).
 
-**Test Cases:**
-1. ✅ Validates correct trend analysis output (rising trend)
-2. ✅ Validates stable trend
-3. ✅ Rejects invalid trend value ("increasing" not in enum)
-4. ✅ Rejects missing metricName
+## Files Changed
 
-## Concerns
-None — implementation follows existing patterns in codebase (prescreen.ts, summary.ts, etc.)
+| File | Action |
+|------|--------|
+| `lib/disputes/types.ts` | Created |
+| `lib/disputes/service.ts` | Created |
+| `lib/schemas/dispute.schema.ts` | Created |
+| `__tests__/unit/disputes/service.test.ts` | Created |
+
+## Commit
+
+`35147f9` feat(disputes): add dispute types, schema, and service with full workflow
+
+## Self-Review Findings
+
+- **Completeness:** All 5 functions implemented per plan spec. Types, Zod schemas, and service all present.
+- **Quality:** Follows existing patterns (audit logger, notification service). Clean imports, no circular dependencies.
+- **Discipline:** No overbuilding. Only built what was requested.
+- **Testing:** Tests verify real behavior (create + audit + notification chain, state transitions, error cases). 8/8 passing.
+
+No concerns.
+
+---
+
+## Code Review Fix (Status Guards)
+
+### What Was Fixed
+
+Added status validation to two functions in `lib/disputes/service.ts`:
+
+1. **`triageDispute`** — Now verifies dispute exists and status is `OPEN` before allowing triage. Throws if dispute is in any other state (e.g., `RESOLVED`, `DISMISSED`).
+2. **`resolveDispute`** — Now verifies dispute exists and status is `PEER_REVIEW_ASSIGNED` or `UNDER_REVIEW` before allowing resolution. Throws if dispute is in any other state (e.g., `PENDING`, `OPEN`).
+
+Added 2 new tests to `__tests__/unit/disputes/service.test.ts`:
+- `triageDispute throws when dispute is not OPEN`
+- `resolveDispute throws when dispute is not in resolvable status`
+
+Existing tests updated to mock `findUnique` for the new status check flow.
+
+### Test Results After Fix
+
+```
+Test Files  1 passed (1)
+     Tests  10 passed (10)
+  Duration  5.23s
+```
+
+10/10 passing — 8 original + 2 new guard tests.
+
+### Commit
+
+`10cef5a` fix(disputes): add status guards to triageDispute and resolveDispute
