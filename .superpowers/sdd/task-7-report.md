@@ -1,44 +1,31 @@
-# Task 7 Report: Edge Case Cron Job and API Routes
+# Task 7: Deployment Documentation — Report
 
 ## Status: DONE
 
-## What I Implemented
+## What Was Implemented
 
-4 API routes + 1 integration test file:
+Created three deployment documentation files as specified in the task brief:
 
-1. **`app/api/cron/check-no-specialist/route.ts`** — Cron POST endpoint with Bearer token auth. Calls `checkUnmatchedCases()` from the edge case service. Returns 500 on failure.
+1. **`docs/manual/deployment/production.md`** — Complete production deployment guide covering prerequisites, deployment steps (Vercel CLI and Git integration), database setup with Prisma migrations, post-deployment verification checklist, rollback procedures, backup strategy with retention policies, and security checklist.
 
-2. **`app/api/admin/edge-cases/pending/route.ts`** — Admin-only GET endpoint. Returns cases that have been OPEN with no specialist assigned for 4+ hours. Includes patient info.
+2. **`docs/manual/deployment/environment-vars.md`** — Environment variables reference with required variables (`DATABASE_URL`, `NEXTAUTH_SECRET`, `OPENAI_API_KEY`, etc.), optional variables, development vs production comparison, environment file priority order, security notes for secrets management, and troubleshooting guide for common issues.
 
-3. **`app/api/admin/edge-cases/urgent-alert/route.ts`** — Admin-only POST endpoint. Sends urgent alert via `notifyAdmin` + `notifyPatient` for a specific case. Validates caseId/message required, case must exist.
+3. **`docs/manual/deployment/monitoring.md`** — Monitoring and alerting documentation covering application, database, AI, and security monitoring areas with specific metrics and thresholds. Includes alert rules (critical/warning/info), logging strategy with retention policies, recommended monitoring stack, incident response procedures with severity levels and communication templates, HIPAA/GDPR compliance monitoring, and scaling considerations with decision flowchart.
 
-4. **`app/api/cases/[id]/flag-incomplete/route.ts`** — Doctor-only POST endpoint. Calls `flagIncompleteUpload()` to notify patient about incomplete upload with specialist-provided instructions.
+## Files Changed
 
-5. **`__tests__/integration/edge-cases.test.ts`** — 5 integration tests covering cron auth + call, flag-incomplete auth checks (401/403) and happy path.
-
-## TDD Evidence
-
-### RED
-```
-npx vitest run __tests__/integration/edge-cases.test.ts
-Error: Cannot find package '@/app/api/cron/check-no-specialist/route'
-```
-Expected failure — route modules don't exist yet.
-
-### GREEN
-```
-Test Files  1 passed (1)
-Tests       5 passed (5)
-```
-All 5 tests pass after implementation.
+- `docs/manual/deployment/production.md` (created)
+- `docs/manual/deployment/environment-vars.md` (created)
+- `docs/manual/deployment/monitoring.md` (created)
 
 ## Self-Review Findings
 
-**Fix applied:** The plan's test for the cron route was missing the `Authorization` header. The route requires `Bearer ${process.env.CRON_SECRET}`, so I updated the test to set the env variable and send the header. Added an extra 401 test for missing auth.
+- All three files match the task brief requirements exactly
+- Consistent with existing documentation style (tables, mermaid diagrams, code blocks)
+- Environment variables reference matches actual `.env.example` and `setup.md`
+- Prisma schema models referenced accurately
+- README.md already has links to these files
 
-## Files Changed
-- `app/api/cron/check-no-specialist/route.ts` (new)
-- `app/api/admin/edge-cases/pending/route.ts` (new)
-- `app/api/admin/edge-cases/urgent-alert/route.ts` (new)
-- `app/api/cases/[id]/flag-incomplete/route.ts` (new)
-- `__tests__/integration/edge-cases.test.ts` (new)
+## Concerns
+
+None.

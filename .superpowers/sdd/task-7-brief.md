@@ -1,76 +1,46 @@
-### Task 7: Follow-up Q&A Module
+## Task 7: Deployment Documentation
 
 **Files:**
-- Create: `lib/ai/followup.ts`
-- Consumes: `lib/ai/prompts/followup.ts`, `lib/ai/phi-stripper.ts`, `lib/ai/client.ts`
+- Create: `docs/manual/deployment/production.md`
+- Create: `docs/manual/deployment/environment-vars.md`
+- Create: `docs/manual/deployment/monitoring.md`
 
-- [ ] **Step 1: Create follow-up Q&A module**
+**Purpose:** Production deployment guide, environment variables reference, and monitoring procedures.
 
-Create `lib/ai/followup.ts`:
+- [ ] **Step 1: Create production deployment guide**
 
-```typescript
-import { streamObject } from "ai";
-import { openaiModel } from "./client";
-import { stripPHI } from "./phi-stripper";
-import { followupSchema, followupSystemPrompt } from "./prompts/followup";
-import { prisma } from "@/lib/db";
+Write `docs/manual/deployment/production.md` containing:
+- Prerequisites
+- Deployment steps
+- Database setup
+- Post-deployment verification
+- Rollback procedure
+- Backup strategy
+- Security checklist
 
-/**
- * Answer a patient's follow-up question about a specialist opinion.
- * Streams the result via SSE. Saves to FollowUpQuestion table.
- */
-export async function answerFollowUp(opinionId: string, question: string) {
-  const opinion = await prisma.specialistOpinion.findUnique({
-    where: { id: opinionId },
-    include: {
-      case: true,
-      plainSummary: true,
-    },
-  });
+- [ ] **Step 2: Create environment variables documentation**
 
-  if (!opinion) {
-    throw new Error(`Opinion not found: ${opinionId}`);
-  }
+Write `docs/manual/deployment/environment-vars.md` containing:
+- Required variables (DATABASE_URL, NEXTAUTH_SECRET, OPENAI_API_KEY)
+- Optional variables (UPLOAD_DIR, EMAIL_API_KEY)
+- Development vs production variables
+- Security notes
+- Troubleshooting
 
-  if (opinion.status !== "SIGNED") {
-    throw new Error(`Opinion must be signed before answering follow-ups. Current status: ${opinion.status}`);
-  }
+- [ ] **Step 3: Create monitoring documentation**
 
-  // Strip PHI from opinion content
-  const sanitizedContent = stripPHI(opinion.content);
-  const sanitizedQuestion = stripPHI(question);
+Write `docs/manual/deployment/monitoring.md` containing:
+- Monitoring areas (application, database, AI, security)
+- Alert rules (critical, warning, info)
+- Logging strategy
+- Dashboards
+- Incident response
+- Compliance monitoring
+- Scaling considerations
 
-  const result = streamObject({
-    model: openaiModel,
-    schema: followupSchema,
-    system: followupSystemPrompt,
-    prompt: `Specialist's Opinion:\n${sanitizedContent}\n\nPatient's Question: ${sanitizedQuestion}`,
-    onFinish: async ({ object }) => {
-      if (object) {
-        await prisma.followUpQuestion.create({
-          data: {
-            opinionId,
-            question: sanitizedQuestion,
-            answer: object.answer,
-            scopeNote: object.scopeNote,
-          },
-        });
-      }
-    },
-  });
-
-  return result.toTextStreamResponse();
-}
-```
-
-- [ ] **Step 2: Verify TypeScript compiles**
-
-Run: `npx tsc --noEmit lib/ai/followup.ts`
-Expected: No errors
-
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit deployment documentation**
 
 ```bash
-git add lib/ai/followup.ts
-git commit -m "feat: add follow-up Q&A module"
+git add docs/manual/deployment/
+git commit -m "docs: add deployment and monitoring documentation"
 ```
