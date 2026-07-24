@@ -11,15 +11,11 @@ vi.mock('motion/react', () => ({
   },
 }));
 
-vi.mock('next/link', () => ({
-  default: ({ children, href, ...props }: any) => <a href={href} {...props}>{children}</a>,
-}));
-
 describe('ServicesSection', () => {
   it('renders service cards', () => {
     render(<ServicesSection />);
-    expect(screen.getAllByText('Our services').length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Evidence-based pathways/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText('How we help you').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/From one-time opinions to ongoing monitoring/).length).toBeGreaterThan(0);
   });
 
   it('shows service titles from data.ts', () => {
@@ -38,13 +34,12 @@ describe('ServicesSection', () => {
     }
   });
 
-  it('renders Learn More links', () => {
+  it('renders Get Started buttons', () => {
     render(<ServicesSection />);
-    const links = screen.getAllByText('Learn More');
-    // Each service card has a Learn More link; may be duplicated in dev mode
-    expect(links.length % SERVICES.length).toBe(0);
-    for (const link of links) {
-      expect(link.closest('a')).toHaveAttribute('href', '#');
+    const buttons = screen.getAllByText('Get Started →');
+    expect(buttons.length % SERVICES.length).toBe(0);
+    for (const button of buttons) {
+      expect(button.tagName).toBe('BUTTON');
     }
   });
 });
