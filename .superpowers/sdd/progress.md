@@ -17,7 +17,7 @@
 | 8. Update Specializations | done | <<awaiting commit>> | ✅ Pending |
 | 9. Update Services | done | <<awaiting commit>> | ✅ Pending |
 | 10. Update Stats Banner | done | <<awaiting commit>> | ✅ Pending |
-| 11. Create Trust Checklist | pending | | |
+| 11. Create Trust Checklist | done | <<awaiting commit>> | ✅ Pending |
 | 12. Update Trust Section | pending | | |
 | 13. Update CTA Section | pending | | |
 | 14. Create Mini FAQ | pending | | |
