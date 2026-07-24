@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import { TrustBar } from './trust-bar'
 
 const links = [
   { label: 'How It Works', href: '#how-it-works' },
@@ -23,8 +24,10 @@ export default function Navigation() {
   }, [])
 
   return (
+    <>
+    <TrustBar />
     <nav
-      className={`fixed top-0 w-full z-50 h-16 transition-all duration-200 ${
+      className={`fixed top-0 md:top-[32px] w-full z-50 h-16 transition-all duration-200 ${
         scrolled
           ? 'bg-white border-b border-surface-gray/50 shadow-sm'
           : 'bg-transparent'
@@ -53,9 +56,9 @@ export default function Navigation() {
         <div className="hidden md:block">
           <Link
             href="/patient"
-            className="bg-clinical-navy text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-primary-container transition-all"
+            className="bg-clinical-navy text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-primary-container active:scale-95 transition-all duration-150"
           >
-            Start a Case
+            Start Your Case →
           </Link>
         </div>
 
@@ -89,15 +92,16 @@ export default function Navigation() {
             <div className="pt-3">
               <Link
                 href="/patient"
-                className="block text-center bg-clinical-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-primary-container transition-all"
+                className="block text-center bg-clinical-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-primary-container active:scale-95 transition-all duration-150"
                 onClick={() => setMobileOpen(false)}
               >
-                Start a Case
+                Start Your Case →
               </Link>
             </div>
           </div>
         </div>
       )}
     </nav>
+    </>
   )
 }
