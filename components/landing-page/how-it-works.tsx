@@ -25,18 +25,18 @@ export default function HowItWorks() {
       <div className="max-w-7xl mx-auto px-6 md:px-16 space-y-10">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
-            How it works
+            Get answers in 3 simple steps
           </h2>
           <p className="font-body-lg text-base text-on-surface-variant/80">
-            From first contact to specialist answers — we handle the coordination.
+            No travel. No waiting rooms. Just upload, relax, and get specialist answers.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-          <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-clinical-navy/10" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] border-t-2 border-dashed border-clinical-navy/20" />
           {STEPS.map((step) => (
             <div key={step.num} className="relative text-center md:text-left">
-              <div className="w-10 h-10 rounded-full bg-evidence-blue-light flex items-center justify-center text-clinical-navy font-headline-md font-semibold text-sm mx-auto md:mx-0 relative z-10">
+              <div className="w-10 h-10 rounded-full bg-healing-teal flex items-center justify-center text-white font-headline-md font-semibold text-sm mx-auto md:mx-0 relative z-10">
                 {step.num}
               </div>
               <div className="mt-3">
@@ -49,6 +49,12 @@ export default function HowItWorks() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <button className="bg-clinical-navy text-white rounded-xl px-8 py-3.5 font-medium shadow-lg hover:shadow-xl transition-shadow">
+            Start Your Case Now →
+          </button>
         </div>
       </div>
     </motion.section>
