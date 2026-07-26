@@ -1,9 +1,11 @@
+import type { InputJsonValue } from '@prisma/client/runtime/client';
+
 export interface LogAuditEventParams {
   userId: string;
   action: string;
   resourceType: string;
   resourceId: string;
-  before?: Record<string, unknown> | null;
-  after?: Record<string, unknown> | null;
-  metadata?: Record<string, unknown> | null;
+  before?: InputJsonValue;
+  after?: InputJsonValue;
+  metadata?: InputJsonValue;
 }

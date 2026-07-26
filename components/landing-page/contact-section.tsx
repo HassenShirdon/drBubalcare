@@ -45,19 +45,38 @@ export default function ContactSection() {
               </div>
             </div>
           </div>
+          </div>
           <div className="bg-surface rounded-2xl p-6 border border-surface-gray/60 shadow">
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              const data = new FormData(form);
+              fetch('/api/contact', {
+                method: 'POST',
+                body: JSON.stringify({
+                  name: data.get('name'),
+                  email: data.get('email'),
+                  message: data.get('message'),
+                }),
+                headers: { 'Content-Type': 'application/json' },
+              }).then(() => {
+                form.reset();
+                alert('Message sent! We typically respond within 4 hours.');
+              }).catch(() => {
+                alert('Something went wrong. Please try again or email us directly.');
+              });
+            }}>
               <div className="space-y-1.5">
                 <label htmlFor="contact-name" className="font-label-md text-xs font-medium text-clinical-navy">Name</label>
-                <input id="contact-name" type="text" required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all" placeholder="Your name" />
+                <input id="contact-name" name="name" type="text" required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all" placeholder="Your name" />
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="contact-email" className="font-label-md text-xs font-medium text-clinical-navy">Email</label>
-                <input id="contact-email" type="email" required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all" placeholder="you@example.com" />
+                <input id="contact-email" name="email" type="email" required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all" placeholder="you@example.com" />
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="contact-message" className="font-label-md text-xs font-medium text-clinical-navy">Message</label>
-                <textarea id="contact-message" rows={4} required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all resize-none" placeholder="Tell us more..." />
+                <textarea id="contact-message" name="message" rows={4} required className="w-full px-3 py-2 rounded-lg border border-surface-gray bg-white text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all resize-none" placeholder="Tell us more..." />
               </div>
               <button type="submit" className="bg-clinical-navy text-white text-sm font-medium px-6 py-2.5 rounded-xl hover:bg-primary-container transition-all shadow-sm w-full sm:w-auto">
                 Send Message

@@ -13,8 +13,8 @@ export async function POST(
   const { opinionId } = await params;
 
   try {
-    const response = await generateSummary(opinionId);
-    return response;
+    await generateSummary(opinionId);
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Summary generation failed:", error);
     return NextResponse.json(

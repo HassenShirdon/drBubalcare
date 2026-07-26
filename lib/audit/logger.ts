@@ -51,9 +51,9 @@ export async function logAuditEvent(params: LogAuditEventParams): Promise<void> 
         action: params.action,
         resourceType: params.resourceType,
         resourceId: params.resourceId,
-        before: params.before ?? null,
-        after: params.after ?? null,
-        metadata: params.metadata ?? null,
+        ...(params.before !== undefined && { before: params.before }),
+        ...(params.after !== undefined && { after: params.after }),
+        ...(params.metadata !== undefined && { metadata: params.metadata }),
       },
     });
   } catch (error) {

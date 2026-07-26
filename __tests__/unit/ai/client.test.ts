@@ -1,19 +1,22 @@
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@ai-sdk/openai", () => ({
-  createOpenAI: vi.fn(() => vi.fn((model: string) => ({ model, provider: "openai" }))),
+  createOpenAI: vi.fn(() => vi.fn((model: string) => ({ model, provider: "openai-compatible" }))),
+}));
+
+vi.mock("@opencode-ai/sdk", () => ({
+  createOpencode: vi.fn(() => Promise.resolve({ client: { mock: true } })),
 }));
 
 describe("AI Client", () => {
-  it("exports openaiModel configured with gpt-4o", async () => {
-    const { openaiModel } = await import("@/lib/ai/client");
-    expect(openaiModel).toEqual({ model: "gpt-4o", provider: "openai" });
+  it("exports aiModel configured with deepseek-chat", async () => {
+    const { aiModel } = await import("@/lib/ai/client");
+    expect(aiModel).toEqual({ model: "deepseek-chat", provider: "openai-compatible" });
   });
 
-  it("passes the API key from environment to createOpenAI", async () => {
-    const { createOpenAI } = await import("@ai-sdk/openai");
-    expect(createOpenAI).toHaveBeenCalledWith(
-      expect.objectContaining({ apiKey: process.env.OPENAI_API_KEY }),
-    );
+  it("exports getOpencodeClient that returns a client", async () => {
+    const { getOpencodeClient } = await import("@/lib/ai/client");
+    const client = await getOpencodeClient();
+    expect(client).toEqual({ mock: true });
   });
 });

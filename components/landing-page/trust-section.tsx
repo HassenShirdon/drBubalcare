@@ -1,27 +1,11 @@
-'use client';
-
-import { motion } from 'motion/react';
 import { TRUST_POINTS } from '@/components/landing-page/data';
 import { TrustChecklist } from './trust-checklist';
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' as const },
-  },
-} as const;
+import { AnimateOnScroll } from './animate-on-scroll';
 
 export default function TrustSection() {
   return (
-    <motion.section
-      id="about"
-      variants={fadeInUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      className="py-16 bg-white border-y border-surface-gray/50"
+    <AnimateOnScroll>
+      <section id="about" className="py-16 bg-white border-y border-surface-gray/50"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -57,6 +41,7 @@ export default function TrustSection() {
           </div>
         </div>
       </div>
-    </motion.section>
+      </section>
+    </AnimateOnScroll>
   );
 }

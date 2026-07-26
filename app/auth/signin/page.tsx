@@ -60,8 +60,8 @@ function SignInForm() {
 
         <form onSubmit={handleSubmit(handleSignIn)} className="bg-white rounded-2xl p-8 border border-surface-gray/60 shadow-sm space-y-5">
           {errors.root?.message && (
-            <div className="flex items-center gap-2 bg-red-50 text-red-700 text-sm p-3 rounded-xl border border-red-200">
-              <AlertCircle className="size-4 flex-shrink-0" />
+            <div role="alert" className="flex items-center gap-2 bg-red-50 text-red-700 text-sm p-3 rounded-xl border border-red-200">
+              <AlertCircle className="size-4 flex-shrink-0" aria-hidden="true" />
               <span>{errors.root.message}</span>
             </div>
           )}
@@ -75,6 +75,7 @@ function SignInForm() {
               <input
                 id="email"
                 type="email"
+                autoComplete="email"
                 {...register('email')}
                 placeholder="you@example.com"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
@@ -94,6 +95,7 @@ function SignInForm() {
               <input
                 id="password"
                 type="password"
+                autoComplete="current-password"
                 {...register('password')}
                 placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"

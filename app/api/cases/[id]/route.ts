@@ -34,7 +34,8 @@ export async function GET(
         take: 1,
       },
       referralCoordination: true,
-    });
+    },
+  });
 
   if (!caseRecord) {
     return NextResponse.json({ error: 'Case not found' }, { status: 404 });

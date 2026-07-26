@@ -2,6 +2,14 @@
   "$schema": "https://opencode.ai/config.json",
   "instructions": ["AGENTS.md"],
   "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"],
+  "mcp": {
+    "playwright": {
+      "enabled": true,
+      "type": "local",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  },
   "command": {
     "dev": {
       "description": "Start the Next.js dev server",

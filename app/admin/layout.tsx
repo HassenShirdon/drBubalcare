@@ -26,21 +26,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             href="/admin/cases"
             className="text-white/80 hover:text-white text-sm flex items-center gap-1.5"
           >
-            <Briefcase className="size-4" />
+            <Briefcase className="size-4" aria-hidden="true" />
             Cases
           </Link>
           <Link
             href="/admin/specialists"
             className="text-white/80 hover:text-white text-sm flex items-center gap-1.5"
           >
-            <Shield className="size-4" />
+            <Shield className="size-4" aria-hidden="true" />
             Specialists
           </Link>
           <Link
             href="/admin/news"
             className="text-white/80 hover:text-white text-sm flex items-center gap-1.5"
           >
-            <Newspaper className="size-4" />
+            <Newspaper className="size-4" aria-hidden="true" />
             News
           </Link>
         </div>
@@ -55,7 +55,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <AdminUserButton name={name} email={email} />
         </div>
       </nav>
-      <main className="max-w-6xl mx-auto px-6 py-8">{children}</main>
+      <main id="main-content" className="max-w-6xl mx-auto px-6 py-8">{children}</main>
     </div>
   );
 }

@@ -1,58 +1,58 @@
-### Task 5: Synthesis Trigger in Opinion Signing
+## Task 5: User Guides
 
 **Files:**
-- Modify: `app/api/doctor/cases/[id]/opinion/route.ts:80-93`
+- Create: `docs/manual/guides/patient-guide.md`
+- Create: `docs/manual/guides/specialist-guide.md`
+- Create: `docs/manual/guides/admin-guide.md`
+- Create: `docs/manual/guides/getting-started.md`
 
-- [ ] **Step 1: Add synthesis trigger after opinion signing**
+**Purpose:** User-friendly guides for each portal role.
 
-In `app/api/doctor/cases/[id]/opinion/route.ts`, after the existing summary trigger (line 92), add the synthesis trigger. The full `if (body.sign)` block should become:
+- [ ] **Step 1: Create patient guide**
 
-```typescript
-  if (body.sign) {
-    await prisma.case.update({
-      where: { id },
-      data: { status: 'OPINION_READY' },
-    });
+Write `docs/manual/guides/patient-guide.md` containing:
+- Welcome and getting started steps
+- Case creation workflow
+- File upload instructions
+- Report viewing guide
+- Follow-up Q&A instructions
+- Account management
+- FAQ section
 
-    // Trigger plain-language summary generation after opinion signing (fire and forget)
-    fetch(`${process.env.NEXTAUTH_URL}/api/ai/summary/${opinion.id}`, {
-      method: "POST",
-      headers: {
-        "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
-      },
-    }).catch((err) => console.error("Summary generation trigger failed:", err));
+- [ ] **Step 2: Create specialist guide**
 
-    // Check if case now has 2+ signed opinions — trigger synthesis (fire and forget)
-    const signedOpinionCount = await prisma.specialistOpinion.count({
-      where: { caseId: id, status: "SIGNED" },
-    });
+Write `docs/manual/guides/specialist-guide.md` containing:
+- Profile setup and verification
+- Case review workflow
+- Opinion writing instructions
+- AI feature usage
+- Best practices
+- Common tasks
 
-    if (signedOpinionCount >= 2) {
-      // Check if synthesis already exists
-      const existingSynthesis = await prisma.opinionSynthesis.findUnique({
-        where: { caseId: id },
-      });
+- [ ] **Step 3: Create admin guide**
 
-      if (!existingSynthesis) {
-        fetch(`${process.env.NEXTAUTH_URL}/api/ai/synthesis/${id}`, {
-          method: "POST",
-          headers: {
-            "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
-          },
-        }).catch((err) => console.error("Synthesis trigger failed:", err));
-      }
-    }
-  }
-```
+Write `docs/manual/guides/admin-guide.md` containing:
+- Dashboard overview
+- Specialist verification
+- Case routing and assignment
+- Dispute resolution
+- Audit logging
+- Edge case management
+- Data management
+- System monitoring
 
-- [ ] **Step 2: Verify TypeScript compiles**
+- [ ] **Step 4: Create getting started guide**
 
-Run: `npx tsc --noEmit`
-Expected: No errors
+Write `docs/manual/guides/getting-started.md` containing:
+- Quick start for each role
+- Platform overview
+- Key features
+- First steps checklist
+- Resources and support
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 5: Commit user guides**
 
 ```bash
-git add app/api/doctor/cases/[id]/opinion/route.ts
-git commit -m "feat: trigger synthesis when case has 2+ signed opinions"
+git add docs/manual/guides/
+git commit -m "docs: add user guides for all portals"
 ```

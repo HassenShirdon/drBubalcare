@@ -1,27 +1,13 @@
-'use client';
-
-import { motion } from 'motion/react';
 import { STEPS } from '@/components/landing-page/data';
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' as const },
-  },
-} as const;
+import { AnimateOnScroll } from './animate-on-scroll';
 
 export default function HowItWorks() {
   return (
-    <motion.section
-      id="how-it-works"
-      variants={fadeInUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      className="py-16 bg-surface border-b border-surface-gray/50"
-    >
+    <AnimateOnScroll>
+      <section
+        id="how-it-works"
+        className="py-16 bg-surface border-b border-surface-gray/50"
+      >
       <div className="max-w-7xl mx-auto px-6 md:px-16 space-y-10">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
@@ -57,6 +43,7 @@ export default function HowItWorks() {
           </button>
         </div>
       </div>
-    </motion.section>
+      </section>
+    </AnimateOnScroll>
   );
 }

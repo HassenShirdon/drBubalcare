@@ -1,5 +1,5 @@
 import { streamObject } from "ai";
-import { openaiModel } from "./client";
+import { aiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
 import { synthesisSchema, synthesisSystemPrompt } from "./prompts/synthesis";
 import { prisma } from "@/lib/db";
@@ -51,7 +51,7 @@ export async function generateSynthesis(caseId: string) {
   );
 
   const result = streamObject({
-    model: openaiModel,
+    model: aiModel,
     schema: synthesisSchema,
     system: synthesisSystemPrompt,
     prompt: `Case Description: ${caseDescription}\n\nSpecialist Opinions:\n${opinionContext}`,

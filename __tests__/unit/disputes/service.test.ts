@@ -90,7 +90,7 @@ describe('Dispute Service', () => {
   });
 
   it('triageDispute sets UNDER_REVIEW when valid', async () => {
-    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'OPEN' } as any);
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'PENDING' } as any);
     vi.mocked(prisma.dispute.update).mockResolvedValue({ id: 'dispute-1', status: 'UNDER_REVIEW' } as any);
 
     await triageDispute('dispute-1', true, 'Looks valid');
@@ -102,7 +102,7 @@ describe('Dispute Service', () => {
   });
 
   it('triageDispute sets DISMISSED when not valid', async () => {
-    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'OPEN' } as any);
+    vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'PENDING' } as any);
     vi.mocked(prisma.dispute.update).mockResolvedValue({ id: 'dispute-1', status: 'DISMISSED' } as any);
 
     await triageDispute('dispute-1', false);
@@ -117,7 +117,7 @@ describe('Dispute Service', () => {
     vi.mocked(prisma.dispute.findUnique).mockResolvedValue({ id: 'dispute-1', status: 'RESOLVED' } as any);
 
     await expect(triageDispute('dispute-1', true)).rejects.toThrow(
-      'Dispute must be OPEN to triage, current status: RESOLVED'
+      'Dispute must be PENDING to triage, current status: RESOLVED'
     );
     expect(prisma.dispute.update).not.toHaveBeenCalled();
   });

@@ -1,31 +1,24 @@
-# Task 1: Database Schema Update — Report
+# Task 1 Report: Update data.ts — Content and Data Models
 
-## What I Implemented
+**Status:** DONE
 
-Updated `prisma/schema.prisma` with all Phase 5 compliance models:
+## Commits
+- `eb9444d` — Update data.ts: new content models and fix trust-section for TRUST_POINTS shape change
 
-1. **`AuditLog`** — Added `before` (Json?) and `after` (Json?) fields for tracking state changes
-2. **`DisputeStatus` enum** — PENDING, UNDER_REVIEW, PEER_REVIEW_ASSIGNED, RESOLVED, DISMISSED
-3. **`Dispute` model** — Links patient disputes to cases and opinions, with peer review support via named relations (`DisputeOpinion`, `PeerReviewOpinion`)
-4. **`ConsentRecord` model** — Tracks patient consent with compound unique constraint on `(patientId, consentType)`
-5. **`DeletionStatus` enum** — PENDING, CONFIRMED, COMPLETED, CANCELLED
-6. **`DataDeletionRequest` model** — GDPR Article 17 right-to-erasure with status tracking and scheduled execution
-7. **Relations** — Added `disputes`, `consentRecords`, `deletionRequests` to `User`; `disputes` to `Case`; `dispute`/`peerReviewFor` to `SpecialistOpinion`
+## Changes Made
 
-## Deviation from Task Brief
+### `components/landing-page/data.ts`
+- **SPECIALIZATIONS**: Reduced from 10 to 6 items. Removed Clinical Pathology, Fetal Medicine, Pediatrics, Chronic Disease. Updated descriptions to be outcome-focused. Updated icons to match: Droplets, Scan, Microscope, Eye, Heart, Stethoscope.
+- **TRUST_POINTS**: Changed type from `{ title, description, icon }` to `{ question, answer, icon }`. Replaced feature-based points with objection-based format. Updated icons to: Shield, Award, RefreshCw, Clock.
+- **STEPS**: Reduced from 4 to 3 steps. Updated titles/descriptions.
+- **SERVICES**: Added `price` field. Updated descriptions and categories. Replaced icons: ClipboardCheck, MessageSquare.
+- **Added TESTIMONIALS**: 3 patient testimonials with quote, name, location, rating.
+- **Added SPECIALISTS**: 5 specialist entries with name and specialty.
+- **Added FAQ**: 5 common questions with answers.
+- **Removed unused icons**: Activity, Baby, BadgeCheck, ClipboardList, FlaskConical, MessageSquareText, Ribbon, ScanLine, Sun, Users.
 
-Added `@unique` to `opinionId` and `peerReviewOpinionId` in `Dispute` model. Prisma requires unique fields on the defining side of one-to-one relations — the brief's schema would fail validation without them.
+### `components/landing-page/trust-section.tsx`
+- Updated `point.title` → `point.question` and `point.description` → `point.answer` to match new TRUST_POINTS type. This was the only breaking consumer.
 
-## What I Tested
-
-- `npx prisma generate` — passes successfully, Prisma Client generated to `lib/generated/prisma`
-
-## Files Changed
-
-- `prisma/schema.prisma` — Added 2 enums, 3 models, modified 3 existing models (User, Case, SpecialistOpinion)
-
-## Self-Review
-
-- **Completeness:** All 7 steps implemented. All fields, types, relations, and constraints match spec (with the noted `@unique` fix).
-- **Quality:** Clean naming, consistent with existing schema patterns (CUID ids, cascade deletes, optional foreign keys).
-- **Discipline:** No overbuilding. Only what was requested was added.
+## TypeScript Verification
+`npx tsc --noEmit` — Zero landing-page errors. Pre-existing test/playwright errors remain unchanged and are unrelated to this task.

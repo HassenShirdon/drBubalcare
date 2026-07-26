@@ -1,39 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
-import { TrustBar } from './trust-bar'
 
 const links = [
+  { label: 'Home', href: '#home' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Specializations', href: '#specializations' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
 
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
-    <>
-    <TrustBar />
-    <nav
-      className={`fixed top-0 md:top-[32px] w-full z-50 h-16 transition-all duration-200 ${
-        scrolled
-          ? 'bg-white border-b border-surface-gray/50 shadow-sm'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-16 h-full">
+    <nav className="relative z-50 w-full">
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-10 h-20">
         <Link
           href="/"
           className="font-headline-md text-lg font-semibold tracking-tight text-clinical-navy"
@@ -46,7 +30,7 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
-              className="font-label-md text-sm text-on-surface-variant hover:text-clinical-navy transition-colors px-3 py-2 rounded-lg hover:bg-surface-container-low"
+              className="font-label-md text-sm text-on-surface-variant hover:text-clinical-navy transition-colors px-4 py-2 rounded-full hover:bg-white/60"
             >
               {link.label}
             </a>
@@ -56,17 +40,19 @@ export default function Navigation() {
         <div className="hidden md:block">
           <Link
             href="/patient"
-            className="bg-clinical-navy text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-primary-container active:scale-95 transition-all duration-150"
+            className="inline-flex items-center gap-2 border border-clinical-navy/30 text-clinical-navy bg-white/70 backdrop-blur-sm text-sm font-medium px-5 py-2.5 rounded-full hover:bg-clinical-navy hover:text-white active:scale-95 transition-all duration-200"
           >
-            Start Your Case →
+            Start Your Case
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
 
         <button
           type="button"
-          className="md:hidden p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+          className="md:hidden p-2 rounded-full bg-white/60 hover:bg-white transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? (
             <X className="w-5 h-5 text-clinical-navy" />
@@ -76,14 +62,15 @@ export default function Navigation() {
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-white border-b border-surface-gray/50 shadow-sm">
-          <div className="px-6 py-4 space-y-1">
+      {mobileOpen
+        ? (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-surface-gray/50 shadow-lg">
+          <div className="px-6 py-4 space-y-1 max-w-7xl mx-auto">
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="block font-label-md text-sm text-on-surface-variant hover:text-clinical-navy transition-colors px-3 py-2 rounded-lg hover:bg-surface-container-low"
+                className="block font-label-md text-sm text-on-surface-variant hover:text-clinical-navy transition-colors px-3 py-2.5 rounded-lg hover:bg-surface-container-low"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -92,7 +79,7 @@ export default function Navigation() {
             <div className="pt-3">
               <Link
                 href="/patient"
-                className="block text-center bg-clinical-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-primary-container active:scale-95 transition-all duration-150"
+                className="block text-center bg-clinical-navy text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-primary active:scale-95 transition-all duration-150"
                 onClick={() => setMobileOpen(false)}
               >
                 Start Your Case →
@@ -100,8 +87,8 @@ export default function Navigation() {
             </div>
           </div>
         </div>
-      )}
+      )
+        : null}
     </nav>
-    </>
   )
 }

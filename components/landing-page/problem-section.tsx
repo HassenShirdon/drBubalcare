@@ -1,12 +1,5 @@
-"use client";
-
-import { motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
+import { AnimateOnScroll } from "./animate-on-scroll";
 
 const cards = [
   {
@@ -28,64 +21,47 @@ const cards = [
 
 export default function ProblemSection() {
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.15 } },
-      }}
-      className="relative overflow-hidden py-24 bg-gradient-to-b from-surface via-surface to-surface-gray/50"
-    >
-      {/* Soft three-color washes for balance */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-24 right-0 w-[380px] h-[380px] rounded-full bg-evidence-blue-light/30 blur-3xl -z-10"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-24 left-0 w-[340px] h-[340px] rounded-full bg-healing-teal/8 blur-3xl -z-10"
-      />
-
-      <div className="max-w-5xl mx-auto px-6 md:px-16">
-        <motion.div
-          variants={fadeInUp}
-          className="text-center max-w-2xl mx-auto space-y-4 mb-16"
-        >
-          <h2 className="font-headline-md text-2xl md:text-3xl font-semibold text-text-clinical-navy tracking-tight leading-snug text-balance text-center">
-            The specialist care gap is real
+    <section className="relative overflow-hidden py-16 md:py-24 bg-gradient-to-b from-surface via-surface to-surface-gray/50">
+      <div className="max-w-7xl mx-auto w-full px-6 md:px-10 lg:px-16">
+        <AnimateOnScroll className="text-center max-w-2xl mx-auto mb-12">
+          <p className="text-xs font-semibold uppercase tracking-wider text-healing-teal mb-3">
+            The Challenge
+          </p>
+          <h2 className="font-headline-md text-2xl sm:text-3xl lg:text-[2.75rem] font-semibold text-text-medical-black tracking-tight leading-[1.2] text-balance">
+            The specialist care gap is{" "}
+            <span className="text-clinical-navy">real</span>.
           </h2>
-          <p className="font-body-lg text-base text-on-surface-variant/80 leading-relaxed text-balance text-center">
+          <p className="mt-5 font-body-lg text-sm md:text-base text-on-surface-variant/85 leading-relaxed max-w-lg mx-auto">
             Patients in underserved regions face impossible choices: travel for
             hours, wait for months, or go without expert answers.
           </p>
-        </motion.div>
+        </AnimateOnScroll>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {cards.map((card) => (
-            <motion.div
-              key={card.title}
-              variants={fadeInUp}
-              className="relative rounded-2xl border border-outline-variant/40 bg-surface p-7 shadow-sm hover:shadow-md transition-shadow border-l-4 border-healing-teal"
-            >
-              <p className="font-headline-md text-2xl font-bold text-clinical-navy mb-3 leading-tight">
-                {card.title}
-              </p>
-              <p className="font-body-md text-sm text-on-surface-variant/80 leading-relaxed">
-                {card.description}
-              </p>
-            </motion.div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card, i) => (
+            <AnimateOnScroll key={card.title}>
+              <div className="relative rounded-2xl bg-white/80 backdrop-blur-sm border border-surface-gray p-5 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+                <div
+                  className={`absolute top-0 left-0 w-1 h-full ${i === 0 ? "bg-clinical-navy" : i === 1 ? "bg-healing-teal" : "bg-primary"}`}
+                />
+                <p className="font-headline-md text-lg font-semibold text-text-medical-black mb-2 leading-tight">
+                  {card.title}
+                </p>
+                <p className="font-body-md text-xs md:text-sm text-on-surface-variant/80 leading-relaxed">
+                  {card.description}
+                </p>
+              </div>
+            </AnimateOnScroll>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-healing-teal font-semibold text-lg mb-2">
-            There&apos;s a better way.
+        <div className="mt-10 flex items-center justify-center gap-2">
+          <p className="text-sm font-semibold text-healing-teal">
+            There&apos;s a better way
           </p>
-          <ChevronDown className="w-6 h-6 text-healing-teal mx-auto animate-bounce" />
+          <ChevronDown className="w-4 h-4 text-healing-teal animate-bounce" />
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

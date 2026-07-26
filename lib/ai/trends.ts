@@ -1,5 +1,5 @@
 import { streamObject } from "ai";
-import { openaiModel } from "./client";
+import { aiModel } from "./client";
 import { trendAnalysisSchema, trendAnalysisSystemPrompt } from "./prompts/trends";
 import { prisma } from "@/lib/db";
 
@@ -96,7 +96,7 @@ export async function generateTrendAnalysis(patientId: string) {
     let summary = "";
     if (significant) {
       const result = streamObject({
-        model: openaiModel,
+        model: aiModel,
         schema: trendAnalysisSchema,
         system: trendAnalysisSystemPrompt,
         prompt: `Analyze this trend for metric "${metricName}":\nTrend: ${trend}\nData points: ${JSON.stringify(dataPoints)}`,

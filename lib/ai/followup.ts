@@ -1,5 +1,5 @@
 import { streamObject } from "ai";
-import { openaiModel } from "./client";
+import { aiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
 import { followupSchema, followupSystemPrompt } from "./prompts/followup";
 import { prisma } from "@/lib/db";
@@ -30,7 +30,7 @@ export async function answerFollowUp(opinionId: string, question: string) {
   const sanitizedQuestion = stripPHI(question);
 
   const result = streamObject({
-    model: openaiModel,
+    model: aiModel,
     schema: followupSchema,
     system: followupSystemPrompt,
     prompt: `Specialist's Opinion:\n${sanitizedContent}\n\nPatient's Question: ${sanitizedQuestion}`,

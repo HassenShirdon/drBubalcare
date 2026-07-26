@@ -89,8 +89,8 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
       
       {/* New Consultation Button */}
       <div className="mt-auto mb-4 px-1">
-        <button className="w-full bg-clinical-navy text-white py-2.5 px-3 rounded-lg font-label-md text-[13px] font-medium hover:bg-primary-container transition-colors flex items-center justify-center space-x-2 shadow-sm">
-          <Plus className="size-3.5" />
+        <button type="button" className="w-full bg-clinical-navy text-white py-2.5 px-3 rounded-lg font-label-md text-[13px] font-medium hover:bg-primary-container transition-colors flex items-center justify-center space-x-2 shadow-sm">
+          <Plus className="size-3.5" aria-hidden="true" />
           <span>New Consultation</span>
         </button>
       </div>
@@ -147,8 +147,9 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
               <button 
                 onClick={() => setMobileOpen(false)}
                 className="p-1.5 text-on-surface-variant hover:text-clinical-navy"
+                aria-label="Close menu"
               >
-                <X className="size-5" />
+                <X className="size-5" aria-hidden="true" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto">
@@ -166,8 +167,9 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
             className="md:hidden text-on-surface-variant p-1.5" 
             aria-label="Open menu"
             onClick={() => setMobileOpen(true)}
+            aria-expanded={mobileOpen}
           >
-            <Menu className="size-5" />
+            <Menu className="size-5" aria-hidden="true" />
           </button>
           
           <div className="flex items-center">
@@ -188,7 +190,9 @@ export function DoctorLayout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {children}
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
       </div>
     </div>
   );

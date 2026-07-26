@@ -1,16 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, User, ArrowRight, AlertCircle, Loader2, Stethoscope, BookOpen } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, AlertCircle, Loader2, Stethoscope, BookOpen, Eye, EyeOff } from 'lucide-react';
 import { signUpDoctorSchema, type SignUpDoctorInput } from '@/lib/schemas/auth.schema';
 import { registerDoctor } from '@/lib/actions/auth';
 
 export default function SignUpDoctorPage() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -78,8 +81,8 @@ export default function SignUpDoctorPage() {
 
         <form onSubmit={handleSubmit(handleSignUp)} className="bg-white rounded-2xl p-8 border border-surface-gray/60 shadow-sm space-y-5">
           {errors.root?.message && (
-            <div className="flex items-center gap-2 bg-red-50 text-red-700 text-sm p-3 rounded-xl border border-red-200">
-              <AlertCircle className="size-4 flex-shrink-0" />
+            <div role="alert" className="flex items-center gap-2 bg-red-50 text-red-700 text-sm p-3 rounded-xl border border-red-200">
+              <AlertCircle className="size-4 flex-shrink-0" aria-hidden="true" />
               <span>{errors.root.message}</span>
             </div>
           )}
@@ -91,6 +94,7 @@ export default function SignUpDoctorPage() {
               <input
                 id="name"
                 type="text"
+                autoComplete="name"
                 {...register('name')}
                 placeholder="Dr. Jane Smith"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
@@ -106,6 +110,7 @@ export default function SignUpDoctorPage() {
               <input
                 id="email"
                 type="email"
+                autoComplete="email"
                 {...register('email')}
                 placeholder="dr.smith@example.com"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
@@ -182,11 +187,20 @@ export default function SignUpDoctorPage() {
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-[18px] text-on-surface-variant/50" />
               <input
                 id="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
                 {...register('password')}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-clinical-navy transition-colors"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="size-[18px]" /> : <Eye className="size-[18px]" />}
+              </button>
             </div>
             {errors.password?.message && <p className="text-red-600 text-xs mt-1">{errors.password.message}</p>}
           </div>
@@ -197,11 +211,20 @@ export default function SignUpDoctorPage() {
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-[18px] text-on-surface-variant/50" />
               <input
                 id="confirmPassword"
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                autoComplete="new-password"
                 {...register('confirmPassword')}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-surface-gray bg-surface text-text-medical-black font-body-md text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-clinical-navy/20 focus:border-clinical-navy transition-all"
               />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-clinical-navy transition-colors"
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? <EyeOff className="size-[18px]" /> : <Eye className="size-[18px]" />}
+              </button>
             </div>
             {errors.confirmPassword?.message && <p className="text-red-600 text-xs mt-1">{errors.confirmPassword.message}</p>}
           </div>

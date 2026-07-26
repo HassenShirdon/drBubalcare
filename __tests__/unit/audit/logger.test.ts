@@ -32,9 +32,6 @@ describe('Audit Logger', () => {
         action: 'CASE_CREATE',
         resourceType: 'Case',
         resourceId: 'case-1',
-        before: null,
-        after: null,
-        metadata: null,
       },
     });
   });

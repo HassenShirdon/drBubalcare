@@ -1,5 +1,5 @@
 import { streamObject } from "ai";
-import { openaiModel } from "./client";
+import { aiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
 import { prescreenSchema, prescreenSystemPrompt } from "./prompts/prescreen";
 import { prisma } from "@/lib/db";
@@ -35,7 +35,7 @@ export async function generatePrescreen(caseId: string) {
   const sanitizedContext = stripPHI(clinicalContext);
 
   const result = streamObject({
-    model: openaiModel,
+    model: aiModel,
     schema: prescreenSchema,
     system: prescreenSystemPrompt,
     prompt: `Pre-screen the following case:\n\n${sanitizedContext}`,

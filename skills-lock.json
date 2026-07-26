@@ -19,6 +19,18 @@
       "skillPath": "skills/deploy-to-vercel/SKILL.md",
       "computedHash": "CFCC3DD479AB2E0AE721DDF39B8AF84D977321487672F1487C8D6855F576927B"
     },
+    "nextjs-seo-optimizer": {
+      "source": "kumbajirajkumar123/nextjs-seo-optimizer",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "803bad2c49f877c31f9f4481247b55fe4faf1846944b0441df620407e42768f7"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "ce0af583006d2fd4731663adc50c0a5df1121f0d49a5bb9c308eca4ee295c60a"
+    },
     "vercel-cli-with-tokens": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
@@ -41,7 +53,7 @@
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
-      "computedHash": "71ED7794962FA6E803EE83030517B5B93A9F70FBFEB431EC4535C5480A8D8355"
+      "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
     },
     "vercel-react-native-skills": {
       "source": "vercel-labs/agent-skills",

@@ -143,8 +143,9 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
               <button
                 onClick={() => removeFile(index)}
                 className="text-on-surface-variant hover:text-error transition-colors p-1"
+                aria-label={`Remove ${file.name}`}
               >
-                <X className="size-4" />
+                <X className="size-4" aria-hidden="true" />
               </button>
             </div>
           ))}
@@ -170,7 +171,7 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
       )}
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-700 text-sm">
+        <div role="alert" className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-700 text-sm">
           {error}
         </div>
       )}

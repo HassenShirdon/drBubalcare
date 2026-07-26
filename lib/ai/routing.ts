@@ -1,5 +1,5 @@
 import { generateObject } from "ai";
-import { openaiModel } from "./client";
+import { aiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
 import { routingSchema, routingSystemPrompt } from "./prompts/routing";
 import { prisma } from "@/lib/db";
@@ -56,7 +56,7 @@ export async function matchSpecialist(caseId: string) {
   const sanitizedDescription = stripPHI(caseRecord.description || "");
 
   const { object } = await generateObject({
-    model: openaiModel,
+    model: aiModel,
     schema: routingSchema,
     system: routingSystemPrompt,
     prompt: `Match this case to a specialist:

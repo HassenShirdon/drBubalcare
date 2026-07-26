@@ -76,7 +76,6 @@
     background-color: var(--color-surface);
     color: var(--color-on-surface);
     font-family: var(--font-inter);
-    @apply bg-background text-foreground;
   }
   * {
     @apply border-border outline-ring/50;
@@ -218,6 +217,59 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --color-on-surface-variant: #c4c9d2;
+  --color-on-secondary-fixed: #d2f8fc;
+  --color-primary-fixed: #1e3a5f;
+  --color-tertiary-container: #b6c9d7;
+  --color-on-error-container: #ffdad6;
+  --color-tertiary-fixed-dim: #3b4c58;
+  --color-on-primary-container: #1e3a5f;
+  --color-secondary-fixed-dim: #006970;
+  --color-on-primary-fixed: #d2e4ff;
+  --color-surface-container-lowest: #0f1214;
+  --color-outline: #8e9299;
+  --color-on-tertiary-container: #374955;
+  --color-surface-variant: #42474f;
+  --color-inverse-on-surface: #191c1e;
+  --color-text-medical-black: #f1f5f9;
+  --color-surface-container-highest: #2d3133;
+  --color-secondary: #22d3ee;
+  --color-surface-bright: #2d3133;
+  --color-surface-container-low: #1a1d1f;
+  --color-surface: #121416;
+  --color-on-tertiary-fixed-variant: #d2e5f4;
+  --color-healing-teal: #22d3ee;
+  --color-inverse-surface: #e0e3e5;
+  --color-outline-variant: #42474f;
+  --color-on-tertiary: #ffffff;
+  --color-surface-container: #1e2123;
+  --color-secondary-fixed: #006970;
+  --color-surface-gray: #1e293b;
+  --color-on-secondary: #ffffff;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #60a5fa;
+  --color-on-surface: #e0e3e5;
+  --color-surface-container-high: #262a2c;
+  --color-tertiary-fixed: #b6c9d7;
+  --color-inverse-primary: #1d4ed8;
+  --color-on-secondary-fixed-variant: #7df4ff;
+  --color-on-background: #e0e3e5;
+  --color-primary-fixed-dim: #1d4ed8;
+  --color-surface-dim: #1a1d1f;
+  --color-on-secondary-container: #7af1fc;
+  --color-clinical-navy: #60a5fa;
+  --color-primary: #93c5fd;
+  --color-on-error: #ffffff;
+  --color-error: #ffb4ab;
+  --color-on-primary-fixed-variant: #d2e4ff;
+  --color-evidence-blue-light: #1e3a5f;
+  --color-tertiary: #d2e5f4;
+  --color-error-container: #93000a;
+  --color-background: #121416;
+  --color-secondary-container: #004f54;
+  --color-surface-tint: #60a5fa;
+  --color-on-tertiary-fixed: #d2e5f4;
 }
 
 @keyframes gradient-shift {
@@ -228,4 +280,16 @@
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradient-shift 20s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient {
+    animation: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

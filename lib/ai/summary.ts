@@ -1,13 +1,8 @@
-import { streamObject } from "ai";
-import { openaiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
-import { summarySchema, summarySystemPrompt } from "./prompts/summary";
+import { summarySystemPrompt } from "./prompts/summary";
+import { getOpencodeClient } from "./client";
 import { prisma } from "@/lib/db";
 
-/**
- * Generate a plain-language summary for a signed specialist opinion.
- * Streams the result via SSE. Saves to PlainLanguageSummary table.
- */
 export async function generateSummary(opinionId: string) {
   const opinion = await prisma.specialistOpinion.findUnique({
     where: { id: opinionId },
@@ -23,28 +18,44 @@ export async function generateSummary(opinionId: string) {
   }
 
   const sanitizedContent = stripPHI(opinion.content);
+  const client = await getOpencodeClient();
+  const createResult = await client.session.create({ body: { title: `Summary for opinion ${opinionId}` } });
 
-  const result = streamObject({
-    model: openaiModel,
-    schema: summarySchema,
-    system: summarySystemPrompt,
-    prompt: `Translate the following specialist report into patient-friendly language:\n\n${sanitizedContent}`,
-    onFinish: async ({ object }) => {
-      if (object) {
-        await prisma.plainLanguageSummary.create({
-          data: {
-            opinionId,
-            content: JSON.stringify(object),
-          },
-        });
+  if (!createResult.data) {
+    throw new Error(`Failed to create session: ${createResult.error}`);
+  }
 
-        await prisma.case.update({
-          where: { id: opinion.caseId },
-          data: { status: "OPINION_READY" },
-        });
-      }
-    },
-  });
+  const session = createResult.data;
 
-  return result.toTextStreamResponse();
+  try {
+    const result = await client.session.prompt({
+      path: { id: session.id },
+      body: {
+        parts: [
+          { type: "text", text: summarySystemPrompt },
+          { type: "text", text: `Translate the following specialist report into patient-friendly language. Return ONLY valid JSON with these fields: summary (2-3 paragraph explanation), keyFindings (array of strings), nextSteps (array of strings), disclaimer (string).\n\nReport:\n${sanitizedContent}` },
+        ],
+      },
+    });
+
+    if (!result.data) {
+      throw new Error(`Failed to prompt session: ${result.error}`);
+    }
+
+    const textPart = result.data.parts.find((p) => p.type === "text") as { text: string } | undefined;
+    if (!textPart) throw new Error("No text response from model");
+
+    const parsed = JSON.parse(textPart.text);
+    if (parsed) {
+      await prisma.plainLanguageSummary.create({
+        data: { opinionId, content: JSON.stringify(parsed) },
+      });
+      await prisma.case.update({
+        where: { id: opinion.caseId },
+        data: { status: "OPINION_READY" },
+      });
+    }
+  } finally {
+    await client.session.delete({ path: { id: session.id } });
+  }
 }

@@ -1,51 +1,26 @@
-# Task 6 Report: Edge Case Types and Service
+# Task 6: Update How It Works — Report
 
-## What I Implemented
+**Status:** Complete
 
-Created the edge case detection service with three exports:
-- `lib/edge-cases/types.ts` — `EdgeCaseType` enum and `PendingEdgeCase` interface
-- `lib/edge-cases/service.ts` — `checkUnmatchedCases()`, `findBackupSpecialist()`, `flagIncompleteUpload()`
-- `__tests__/unit/edge-cases/service.test.ts` — 6 unit tests
+**Commit:** `8a6006f` — `feat: reduce how-it-works to 3 steps with teal circles`
 
-### checkUnmatchedCases()
-- Queries cases with status `OPEN`, no `specialistId`, created > 4 hours ago
-- For each, calls `notifyAdmin` and `notifyPatient` with appropriate messages
+## Changes Made
 
-### findBackupSpecialist()
-- Queries verified doctors in same specialty, excluding the primary specialist
-- Returns first available userId or null
+**File:** `components/landing-page/how-it-works.tsx`
 
-### flagIncompleteUpload()
-- Looks up case by ID to get patientId
-- Calls `notifyPatient` with the specialist's instructions
-- No-ops gracefully if case not found
+1. **Headline** — Changed from "How it works" to "Get answers in 3 simple steps"
+2. **Subheadline** — Changed from "From first contact to specialist answers — we handle the coordination." to "No travel. No waiting rooms. Just upload, relax, and get specialist answers."
+3. **Grid** — Changed from `md:grid-cols-4` to `md:grid-cols-3`
+4. **Connecting line** — Changed from solid `h-px bg-clinical-navy/10` to `border-t-2 border-dashed border-clinical-navy/20`
+5. **Step circles** — Changed from `bg-evidence-blue-light text-clinical-navy` to `bg-healing-teal text-white`
+6. **CTA button** — Added below the steps grid: "Start Your Case Now →" with `bg-clinical-navy` styling and shadow hover effect
 
-## TDD Evidence
+## Verification
 
-### RED
-Command: `npx vitest run __tests__/unit/edge-cases/service.test.ts`
-Result: FAIL — `Error: Cannot find package '@/lib/edge-cases/service'`
-Expected failure — module didn't exist yet.
+- STEPS data already contained 3 items (from Task 1)
+- File compiles as JSX — no TypeScript changes needed
+- No tests to run for this component (no test file exists for how-it-works)
 
-### GREEN
-Command: `npx vitest run __tests__/unit/edge-cases/service.test.ts`
-Result: **6/6 passed**, output pristine (no warnings, no noise)
-All tests pass: unmatched cases detection, recent cases ignored, backup specialist found, no backup returns null, incomplete upload notifies patient, missing case no-ops.
+## Report
 
-## Files Changed
-
-- `lib/edge-cases/types.ts` (new — 18 lines)
-- `lib/edge-cases/service.ts` (new — 65 lines)
-- `__tests__/unit/edge-cases/service.test.ts` (new — 105 lines)
-
-## Self-Review Findings
-
-**Completeness:** All acceptance criteria met — unmatched case detection with 4h threshold, backup specialist routing, incomplete upload flagging. Tests cover happy paths and edge cases (no unmatched cases, no backup available, case not found).
-
-**Quality:** Code follows existing patterns (prisma mocking, notification service usage). Names are clear and match plan.
-
-**Discipline:** Only built what was requested. No overbuilding. No admin page or API routes — those belong to Tasks 7-8.
-
-## Issues / Concerns
-
-None. The 2 e2e test failures were pre-existing (unrelated to this task — `prisma.specialistOpinion.count is not a function` in mock setups).
+Path: `.superpowers/sdd/task-6-report.md`

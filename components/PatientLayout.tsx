@@ -31,25 +31,25 @@ export function PatientLayout({ children }: { children: React.ReactNode }) {
             </Link>
           </li>
           <li>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 transition-all">
+            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
               <Calendar />
               <span className="font-label-md text-sm">Appointments</span>
             </Link>
           </li>
           <li>
-            <Link href="/patient/cases" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 transition-all">
+            <Link href="/patient/cases" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
               <Briefcase />
               <span className="font-label-md text-sm">My Cases</span>
             </Link>
           </li>
           <li>
-            <Link href="/patient/labs" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 transition-all">
+            <Link href="/patient/labs" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
               <FlaskConical />
               <span className="font-label-md text-sm">Lab Portal</span>
             </Link>
           </li>
           <li>
-            <Link href="/directory" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 transition-all">
+            <Link href="/directory" className="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
               <UserSearch />
               <span className="font-label-md text-sm">Directory</span>
             </Link>
@@ -70,19 +70,20 @@ export function PatientLayout({ children }: { children: React.ReactNode }) {
       {/* TopAppBar */}
       <header className="docked full-width top-0 sticky z-40 border-b border-surface-gray bg-surface/80 backdrop-blur-md flex justify-between items-center h-16 px-4 md:px-margin-desktop md:ml-64">
         <div className="flex items-center gap-4">
-          <button className="md:hidden text-on-surface-variant">
+          <button className="md:hidden text-on-surface-variant" aria-label="Open menu">
             <Menu />
           </button>
           <h2 className="font-headline-md text-clinical-navy font-bold text-xl">Patient Portal</h2>
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-surface-gray focus-within:border-clinical-navy transition-colors">
-            <Search className="text-on-surface-variant mr-2 text-sm" />
-            <input type="text" placeholder="Search records, messages..." className="bg-transparent border-none focus:ring-0 text-sm placeholder-on-surface-variant/60 w-48 outline-none" />
+            <Search className="text-on-surface-variant mr-2 text-sm" aria-hidden="true" />
+            <label htmlFor="patient-search" className="sr-only">Search records, messages</label>
+            <input id="patient-search" type="text" placeholder="Search records, messages…" className="bg-transparent border-none focus:ring-0 text-sm placeholder-on-surface-variant/60 w-48 outline-none" />
           </div>
-          <button className="text-clinical-navy hover:text-healing-teal transition-colors scale-95 active:scale-90 relative p-2">
-            <Bell />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+          <button className="text-clinical-navy hover:text-healing-teal transition-colors scale-95 active:scale-90 relative p-2" aria-label="Notifications">
+            <Bell aria-hidden="true" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" aria-hidden="true"></span>
           </button>
           <div className="flex items-center gap-2 text-clinical-navy">
             <span className="font-label-md text-sm hidden md:inline">{user?.name ?? 'Patient'}</span>
@@ -94,9 +95,9 @@ export function PatientLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main Content */}
-      <div className="md:ml-64">
+      <main id="main-content" className="md:ml-64">
         {children}
-      </div>
+      </main>
 
       {/* Bottom Nav (Mobile) */}
       <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface/90 backdrop-blur-lg border-t border-surface-gray shadow-sm md:hidden rounded-t-xl">

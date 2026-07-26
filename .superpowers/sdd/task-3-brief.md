@@ -1,96 +1,58 @@
-### Task 3: Synthesis Module
+﻿### Task 3: Update Navigation Component
 
 **Files:**
-- Create: `lib/ai/synthesis.ts`
-- Consumes: `lib/ai/prompts/synthesis.ts`, `lib/ai/phi-stripper.ts`, `lib/ai/client.ts`
+- Modify: `components/landing-page/navigation.tsx`
 
-- [ ] **Step 1: Create synthesis module**
+**Interfaces:**
+- Consumes: `<TrustBar />` from Task 2
 
-Create `lib/ai/synthesis.ts`:
+- [ ] **Step 1: Read current navigation.tsx**
 
-```typescript
-import { streamObject } from "ai";
-import { openaiModel } from "./client";
-import { stripPHI } from "./phi-stripper";
-import { synthesisSchema, synthesisSystemPrompt } from "./prompts/synthesis";
-import { prisma } from "@/lib/db";
+Read `components/landing-page/navigation.tsx` to understand current structure.
 
-const WATERMARK = "AI-Generated Draft — requires specialist review";
+- [ ] **Step 2: Update CTA button text**
 
-/**
- * Generate a multi-opinion synthesis for a case with 2+ signed opinions.
- * Streams the result via SSE. Saves to OpinionSynthesis table.
- */
-export async function generateSynthesis(caseId: string) {
-  const caseRecord = await prisma.case.findUnique({
-    where: { id: caseId },
-    include: {
-      opinions: {
-        where: { status: "SIGNED" },
-        orderBy: { createdAt: "asc" },
-      },
-    },
-  });
+Change the CTA button text from "Start a Case" to "Start Your Case â†’". Find the button element and update the text content.
 
-  if (!caseRecord) {
-    throw new Error(`Case not found: ${caseId}`);
-  }
+- [ ] **Step 3: Add pulse animation on CTA hover**
 
-  if (caseRecord.opinions.length < 2) {
-    throw new Error(`Case needs at least 2 signed opinions for synthesis. Found: ${caseRecord.opinions.length}`);
-  }
+Add a hover state to the CTA button that triggers a subtle scale animation. Add to the button className: `active:scale-95 transition-transform duration-150`.
 
-  // Check if synthesis already exists
-  const existingSynthesis = await prisma.opinionSynthesis.findUnique({
-    where: { caseId },
-  });
+- [ ] **Step 4: Import and render TrustBar above navigation**
 
-  if (existingSynthesis) {
-    throw new Error(`Synthesis already exists for case: ${caseId}`);
-  }
+Import `TrustBar` from `./trust-bar`. Wrap the component return in a fragment, placing `<TrustBar />` before the `<nav>` element:
 
-  // Build combined opinion context (PHI-stripped)
-  const opinionContext = caseRecord.opinions
-    .map((opinion, index) => {
-      const strippedContent = stripPHI(opinion.content);
-      return `--- Specialist Opinion ${index + 1} (ID: ${opinion.id}) ---\n${strippedContent}`;
-    })
-    .join("\n\n");
+```tsx
+import { TrustBar } from "./trust-bar";
 
-  const caseDescription = stripPHI(caseRecord.description || "No case description provided.");
-
-  const result = streamObject({
-    model: openaiModel,
-    schema: synthesisSchema,
-    system: synthesisSystemPrompt,
-    prompt: `Case Description: ${caseDescription}\n\nSpecialist Opinions:\n${opinionContext}`,
-    onFinish: async ({ object }) => {
-      if (object) {
-        await prisma.opinionSynthesis.create({
-          data: {
-            caseId,
-            content: `${WATERMARK}\n\n${object.summary}`,
-            agreements: object.agreements,
-            disagreements: object.disagreements,
-            status: "GENERATED",
-          },
-        });
-      }
-    },
-  });
-
-  return result.toTextStreamResponse();
-}
+// In the return:
+return (
+  <>
+    <TrustBar />
+    <nav className="fixed top-0 md:top-[32px] w-full z-50 h-16 md:h-16 ...">
+      {/* existing nav content */}
+    </nav>
+  </>
+);
 ```
 
-- [ ] **Step 2: Verify TypeScript compiles**
+Note: When TrustBar is visible (md+), the nav needs `top-[32px]` (the trust bar height) instead of `top-0`. Use `md:top-[32px] top-0` on the nav.
 
-Run: `npx tsc --noEmit lib/ai/synthesis.ts`
-Expected: No errors
+- [ ] **Step 5: Verify visually**
 
-- [ ] **Step 3: Commit**
+Run: `npm run dev` and check that:
+- Trust bar appears above nav on desktop
+- Nav is positioned below trust bar
+- On mobile, trust bar is hidden and nav is at top
+- CTA shows "Start Your Case â†’"
+
+- [ ] **Step 6: Commit**
 
 ```bash
-git add lib/ai/synthesis.ts
-git commit -m "feat: add multi-opinion synthesis module"
+git add components/landing-page/navigation.tsx
+git commit -m "feat: integrate trust bar and update nav CTA"
 ```
+
+---
+
+

@@ -45,7 +45,7 @@ export async function getPeerReviewCandidates(disputeId: string): Promise<PeerRe
     },
   });
 
-  if (!dispute) return [];
+  if (!dispute?.opinion) return [];
 
   const originalSpecialistId = dispute.opinion.specialistId;
   const specialty = dispute.opinion.case.specialist?.doctorProfile?.specialty;
@@ -77,8 +77,8 @@ export async function triageDispute(
 ) {
   const dispute = await prisma.dispute.findUnique({ where: { id: disputeId } });
   if (!dispute) throw new Error('Dispute not found');
-  if (dispute.status !== 'OPEN') {
-    throw new Error(`Dispute must be OPEN to triage, current status: ${dispute.status}`);
+  if (dispute.status !== 'PENDING') {
+    throw new Error(`Dispute must be PENDING to triage, current status: ${dispute.status}`);
   }
 
   const status = valid ? 'UNDER_REVIEW' : 'DISMISSED';
