@@ -16,7 +16,7 @@ vi.mock("motion/react", () => {
 describe("SocialProofSection", () => {
   it("renders section heading", () => {
     render(<SocialProofSection />);
-    expect(screen.getAllByText("Trusted by patients and specialists worldwide").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Real clarity from real patients").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders all three testimonials", () => {
@@ -26,16 +26,10 @@ describe("SocialProofSection", () => {
     expect(screen.getAllByText(/Amina H/).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders specialist names", () => {
+  it("renders trust badges", () => {
     render(<SocialProofSection />);
-    expect(screen.getAllByText("Dr. A. Mensah").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("Dr. K. Okafor").length).toBeGreaterThanOrEqual(1);
-  });
-
-  it("renders certification badges", () => {
-    render(<SocialProofSection />);
-    expect(screen.getAllByText("HIPAA Compliant").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("GDPR Certified").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Encrypted Uploads").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Board-Certified Specialists").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("HIPAA-Aware Processes").length).toBeGreaterThanOrEqual(1);
   });
 });

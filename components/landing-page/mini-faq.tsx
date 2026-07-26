@@ -8,7 +8,7 @@ export function MiniFaq() {
   const [openQuestion, setOpenQuestion] = useState<string | null>(null);
 
   return (
-    <div className="space-y-3">
+      <div className="space-y-3">
       {FAQ.map((item) => {
         const isOpen = openQuestion === item.question;
         return (
@@ -18,13 +18,13 @@ export function MiniFaq() {
           >
             <button
               onClick={() => setOpenQuestion(isOpen ? null : item.question)}
-              className="w-full flex items-center justify-between p-4 text-left"
+              className="w-full flex items-center justify-between p-4 text-left gap-3"
             >
-              <span className="font-headline-md text-sm font-semibold text-clinical-navy">
+              <span className="font-headline-md text-base font-semibold text-clinical-navy">
                 {item.question}
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-on-surface-variant transition-transform duration-200 ${
+                className={`w-5 h-5 text-on-surface-variant transition-transform duration-200 flex-shrink-0 ${
                   isOpen ? "rotate-180" : ""
                 }`}
               />
@@ -32,7 +32,7 @@ export function MiniFaq() {
             {isOpen
               ? (
                 <div className="px-4 pb-4">
-                  <p className="font-body-md text-sm text-on-surface-variant">
+                  <p className="font-body-md text-base text-on-surface-variant">
                     {item.answer}
                   </p>
                 </div>

@@ -8,9 +8,65 @@ import MaterialSymbolsLink from "./MaterialSymbolsLink";
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://drbubalcare.com";
+
 export const metadata: Metadata = {
-  title: "Dr Bubal Care",
-  description: "Evidence-Based Care",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    template: "%s | Dr Bubal Care",
+  },
+  description:
+    "Connect with board-certified specialists for plain-language diagnostic opinions. Upload lab results, scans, or slides. Secure, HIPAA-aware, and designed for patients in East Africa.",
+  keywords: [
+    "specialist second opinion",
+    "medical opinion online",
+    "pathology review",
+    "radiology interpretation",
+    "telehealth East Africa",
+    "lab results explained",
+  ],
+  authors: [{ name: "Dr Bubal Care" }],
+  creator: "Dr Bubal Care",
+  publisher: "Dr Bubal Care",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "Dr Bubal Care",
+    title: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    description:
+      "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "Dr Bubal Care — connect with board-certified specialists",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    description:
+      "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
+    images: ["/og-image.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

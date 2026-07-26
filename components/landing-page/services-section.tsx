@@ -1,47 +1,42 @@
+import Link from "next/link";
 import { SERVICES } from '@/components/landing-page/data'
 import { AnimateOnScroll } from './animate-on-scroll'
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="py-16 bg-surface border-b border-surface-gray/50">
+    <section id="services" className="py-20 bg-surface border-b border-surface-gray/50">
       <div className="max-w-7xl mx-auto px-6 md:px-16 space-y-10">
         <AnimateOnScroll className="text-center max-w-3xl mx-auto space-y-3">
-          <h2 className="font-headline-lg text-2xl md:text-3xl lg:text-4xl font-semibold text-text-medical-black text-balance">
-            How we help you
-          </h2>
-          <p className="font-body-lg text-base text-on-surface-variant/80">
-            From one-time opinions to ongoing monitoring — find the right service for your needs.
+          <p className="text-sm font-semibold uppercase tracking-wider text-healing-teal">
+            Services
           </p>
+          <h2 className="font-headline-lg text-3xl md:text-4xl lg:text-5xl font-semibold text-text-medical-black text-balance">
+            Choose the level of support you need
+          </h2>
         </AnimateOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {SERVICES.map((service) => (
             <AnimateOnScroll key={service.title}>
-              <div className={`bg-white rounded-2xl p-6 border border-surface-gray/60 shadow hover:shadow-md transition-all duration-300 group flex flex-col h-full ${
-                service.category === "Most Popular"
-                  ? "border-t-4 border-clinical-navy"
-                  : "border-t-4 border-healing-teal/20"
-              }`}>
-                <div className="w-10 h-10 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy mb-4 group-hover:bg-clinical-navy group-hover:text-white transition-colors duration-300">
-                  <service.icon className="w-5 h-5" />
+              <div className="bg-white rounded-2xl p-7 border-l-4 border-l-clinical-navy border-y border-r border-surface-gray/60 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col h-full">
+                <div className="w-12 h-12 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy mb-4">
+                  <service.icon className="w-6 h-6" aria-hidden="true" />
                 </div>
-                {service.category === "Most Popular"
-                  ? <span className="inline-block bg-healing-teal/10 text-healing-teal rounded-full px-3 py-0.5 text-xs font-medium mb-2 self-start">
-                      Most Popular
-                    </span>
-                  : null}
-                <h3 className="font-headline-md text-base font-semibold text-clinical-navy mb-2 group-hover:text-healing-teal transition-colors duration-300">
+                <h3 className="font-headline-md text-lg font-semibold text-text-medical-black mb-2">
                   {service.title}
                 </h3>
-                <p className="font-body-md text-sm text-on-surface-variant/80 flex-grow">
+                <p className="font-body-md text-base text-on-surface-variant/85 flex-grow leading-relaxed">
                   {service.description}
                 </p>
-                <p className="font-headline-md text-sm font-semibold text-clinical-navy mt-3">
+                <p className="font-headline-md text-base font-semibold text-clinical-navy mt-4">
                   {service.price}
                 </p>
-                <button className="mt-4 bg-clinical-navy text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-primary-container transition-colors self-start">
-                  Get Started →
-                </button>
+                <Link
+                  href="/patient"
+                  className="mt-4 inline-flex items-center text-base font-semibold text-clinical-navy hover:text-primary transition-colors"
+                >
+                  Learn more <span aria-hidden="true" className="ml-1">→</span>
+                </Link>
               </div>
             </AnimateOnScroll>
           ))}

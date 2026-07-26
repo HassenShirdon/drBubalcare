@@ -14,8 +14,7 @@ vi.mock('motion/react', () => ({
 describe('ServicesSection', () => {
   it('renders service cards', () => {
     render(<ServicesSection />);
-    expect(screen.getAllByText('How we help you').length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/From one-time opinions to ongoing monitoring/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Choose the level of support you need').length).toBeGreaterThan(0);
   });
 
   it('shows service titles from data.ts', () => {
@@ -34,12 +33,9 @@ describe('ServicesSection', () => {
     }
   });
 
-  it('renders Get Started buttons', () => {
-    render(<ServicesSection />);
-    const buttons = screen.getAllByText('Get Started →');
-    expect(buttons.length % SERVICES.length).toBe(0);
-    for (const button of buttons) {
-      expect(button.tagName).toBe('BUTTON');
-    }
+  it('renders a link for each service', () => {
+    const { container } = render(<ServicesSection />);
+    const links = container.querySelectorAll('a[href="/patient"]');
+    expect(links.length).toBe(SERVICES.length);
   });
 });
