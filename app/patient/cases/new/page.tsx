@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { useForm } from 'react-hook-form';
@@ -40,15 +39,19 @@ const serviceOptions = [
 export default function NewCasePage() {
   const router = useRouter();
   const createCase = useCreateCase();
-  const [selectedService, setSelectedService] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateCaseInput>({
     resolver: zodResolver(createCaseSchema),
+    defaultValues: { serviceType: undefined, description: '' },
   });
+
+  const selectedService = watch('serviceType');
 
   const onSubmit = async (data: CreateCaseInput) => {
     try {
@@ -91,8 +94,7 @@ export default function NewCasePage() {
                 key={opt.value}
                 type="button"
                 onClick={() => {
-                  setSelectedService(opt.value);
-                  register('serviceType').onChange({ target: { value: opt.value } });
+                  setValue('serviceType', opt.value, { shouldValidate: true });
                 }}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   selectedService === opt.value
@@ -113,8 +115,7 @@ export default function NewCasePage() {
           {errors.serviceType && (
             <p className="text-[#B91C1C] text-xs mt-2">{errors.serviceType.message}</p>
           )}
-          <input type="hidden" {...register('serviceType')} />
-        </motion.section>
+          </motion.section>
 
         {/* Description */}
         <motion.section
