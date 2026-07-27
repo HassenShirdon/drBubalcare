@@ -2,6 +2,22 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const labMetricSchema = z.object({
+  name: z.string().min(1),
+  value: z.number(),
+  unit: z.string().min(1),
+  referenceRange: z.string().min(1),
+  status: z.enum(['NORMAL', 'HIGH', 'LOW']).optional().default('NORMAL'),
+});
+
+const createLabResultSchema = z.object({
+  name: z.string().min(1, 'name is required'),
+  date: z.string().min(1, 'date is required'),
+  doctor: z.string().min(1, 'doctor is required'),
+  metrics: z.array(labMetricSchema).min(1, 'at least one metric is required'),
+});
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -22,19 +38,16 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const userId = (session.user as { id: string }).id;
   const body = await request.json();
-
-  const { name, date, doctor, metrics } = body;
-
-  if (!name || !date || !doctor || !metrics || !Array.isArray(metrics)) {
-    return NextResponse.json(
-      { error: "name, date, doctor, and metrics array are required" },
-      { status: 400 }
-    );
+  const parsed = createLabResultSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
+
+  const { name, date, doctor, metrics } = parsed.data;
 
   const labResult = await prisma.labResult.create({
     data: {
@@ -42,14 +55,14 @@ export async function POST(request: Request) {
       name,
       date: new Date(date),
       doctor,
-      icon: "lab",
+      icon: 'lab',
       metrics: {
-        create: metrics.map((m: { name: string; value: number; unit: string; referenceRange: string; status?: string }) => ({
+        create: metrics.map((m) => ({
           name: m.name,
           value: m.value,
           unit: m.unit,
           referenceRange: m.referenceRange,
-          status: (m.status || "NORMAL") as "NORMAL" | "HIGH" | "LOW",
+          status: m.status,
         })),
       },
     },
@@ -57,11 +70,11 @@ export async function POST(request: Request) {
   });
 
   fetch(`${process.env.NEXTAUTH_URL}/api/ai/trends/${userId}/analyze`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
+      'x-internal-secret': process.env.INTERNAL_API_SECRET || '',
     },
-  }).catch((err) => console.error("Trend analysis trigger failed:", err));
+  }).catch((err) => console.error('Trend analysis trigger failed:', err));
 
   return NextResponse.json(labResult, { status: 201 });
 }

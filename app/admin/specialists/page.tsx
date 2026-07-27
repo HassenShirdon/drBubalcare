@@ -41,9 +41,9 @@ export default function AdminSpecialistsPage() {
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-5">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-on-surface-variant text-sm mb-1">Admin Portal</p>
-        <h1 className="text-clinical-navy font-bold text-2xl md:text-3xl">Specialist Management</h1>
-        <p className="text-on-surface-variant text-sm mt-1">Review, verify, and manage platform specialists.</p>
+        <p className="text-[#64748B] text-sm mb-1">Admin Portal</p>
+        <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Specialist Management</h1>
+        <p className="text-[#64748B] text-sm mt-1">Review, verify, and manage platform specialists.</p>
       </motion.div>
 
       <div className="flex gap-2">
@@ -53,14 +53,14 @@ export default function AdminSpecialistsPage() {
             onClick={() => setTabFilter(tab.key)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               tabFilter === tab.key
-                ? "bg-clinical-navy text-white"
-                : "bg-surface text-on-surface-variant hover:bg-surface-container-low"
+                ? "bg-[#1E3A5F] text-white"
+                : "bg-[#F8FAFC] text-[#64748B] hover:bg-[#F1F5F9]"
             }`}
           >
             <tab.icon className="size-3.5" />
             {tab.label}
             <span className={`ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-              tabFilter === tab.key ? "bg-white/20" : "bg-surface-gray/60"
+              tabFilter === tab.key ? "bg-white/20" : "bg-[#F1F5F9]"
             }`}>
               {tab.count}
             </span>

@@ -57,8 +57,8 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
   if (!editor) return null;
 
   return (
-    <div className="border border-surface-gray rounded-xl overflow-hidden bg-white">
-      <div className="flex flex-wrap gap-0.5 p-2 border-b border-surface-gray bg-surface-container-low">
+    <div className="border border-[#E2E8F0] rounded-xl overflow-hidden bg-white">
+      <div className="flex flex-wrap gap-0.5 p-2 border-b border-[#E2E8F0] bg-[#F1F5F9]">
         <ToolbarButton
           active={editor.isActive('heading', { level: 2 })}
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -73,7 +73,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
         >
           <Heading1 className="size-4" />
         </ToolbarButton>
-        <span className="w-px bg-surface-gray mx-0.5" />
+        <span className="w-px bg-[#F1F5F9] mx-0.5" />
         <ToolbarButton
           active={editor.isActive('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -88,7 +88,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
         >
           <Italic className="size-4" />
         </ToolbarButton>
-        <span className="w-px bg-surface-gray mx-0.5" />
+        <span className="w-px bg-[#F1F5F9] mx-0.5" />
         <ToolbarButton
           active={editor.isActive('bulletList')}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -117,7 +117,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: TiptapE
         >
           <Code className="size-4" />
         </ToolbarButton>
-        <span className="w-px bg-surface-gray mx-0.5" />
+        <span className="w-px bg-[#F1F5F9] mx-0.5" />
         <ToolbarButton
           active={editor.isActive('link')}
           onClick={addLink}
@@ -156,8 +156,8 @@ function ToolbarButton({
       onClick={onClick}
       className={`p-1.5 rounded-md transition-colors ${
         active
-          ? 'bg-clinical-navy text-white'
-          : 'text-on-surface-variant hover:bg-surface-gray hover:text-clinical-navy'
+          ? 'bg-[#1E3A5F] text-white'
+          : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E3A5F]'
       }`}
     >
       {children}

@@ -43,6 +43,9 @@ vi.mock('@/lib/db', () => ({
     trendAnalysis: {
       findMany: vi.fn(),
     },
+    specialistOpinion: {
+      findUnique: vi.fn(),
+    },
   },
 }));
 
@@ -215,8 +218,12 @@ describe('AI Routes - Auth', () => {
 
     it('returns 500 when answerFollowUp throws', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'patient-1'));
+      vi.mocked(prisma.specialistOpinion.findUnique).mockResolvedValue({
+        id: 'opinion-1',
+        case: { patientId: 'patient-1' },
+      });
       vi.mocked(answerFollowUp).mockRejectedValue(new Error('Opinion not found'));
-      const res = await followupPost(createRequestWithBody({ opinionId: 'nonexistent', question: 'What does this mean?' }));
+      const res = await followupPost(createRequestWithBody({ opinionId: 'opinion-1', question: 'What does this mean?' }));
       expect(res.status).toBe(500);
       const body = await res.json();
       expect(body.error).toBe('Follow-up Q&A failed');

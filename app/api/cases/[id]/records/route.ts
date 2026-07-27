@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads');
+const UPLOAD_DIR = path.join(process.cwd(), 'private', 'uploads');
 const ALLOWED_TYPES = [
   'application/pdf',
   'image/jpeg',
@@ -76,16 +76,22 @@ export async function POST(
     // Write file
     await writeFile(filePath, buffer);
 
-    // Save to database
+    // Save to database with placeholder URL, then update with authenticated route
     const record = await prisma.caseRecord.create({
       data: {
         caseId: id,
-        fileUrl: `/uploads/${fileName}`,
+        fileUrl: '',
         fileType: file.type,
         fileName: file.name,
       },
     });
 
+    await prisma.caseRecord.update({
+      where: { id: record.id },
+      data: { fileUrl: `/api/records/${record.id}/file` },
+    });
+
+    record.fileUrl = `/api/records/${record.id}/file`;
     uploadedRecords.push(record);
   }
 

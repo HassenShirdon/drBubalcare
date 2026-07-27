@@ -6,12 +6,12 @@ import { Plus, FileText, Clock, CheckCircle2, AlertCircle, Loader2 } from 'lucid
 import { useCases } from '@/lib/hooks/use-cases';
 
 const statusConfig: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
-  OPEN: { label: 'Open', color: 'bg-blue-50 text-blue-600', icon: <Clock className="size-3.5" /> },
-  AI_PRE_SCREENED: { label: 'Pre-screened', color: 'bg-purple-50 text-purple-600', icon: <Clock className="size-3.5" /> },
-  UNDER_REVIEW: { label: 'Under Review', color: 'bg-amber-50 text-amber-600', icon: <Clock className="size-3.5" /> },
-  OPINION_READY: { label: 'Opinion Ready', color: 'bg-healing-teal/10 text-healing-teal', icon: <CheckCircle2 className="size-3.5" /> },
-  CLOSED: { label: 'Closed', color: 'bg-gray-100 text-gray-500', icon: <CheckCircle2 className="size-3.5" /> },
-  DISPUTED: { label: 'Disputed', color: 'bg-red-50 text-red-600', icon: <AlertCircle className="size-3.5" /> },
+  OPEN: { label: 'Open', color: 'bg-[#DBEAFE] text-[#1E40AF]', icon: <Clock className="size-3.5" /> },
+  AI_PRE_SCREENED: { label: 'Pre-screened', color: 'bg-[#DBEAFE] text-[#1E40AF]', icon: <Clock className="size-3.5" /> },
+  UNDER_REVIEW: { label: 'Under Review', color: 'bg-[#FEF3C7] text-[#B45309]', icon: <Clock className="size-3.5" /> },
+  OPINION_READY: { label: 'Opinion Ready', color: 'bg-[#DCFCE7]/80 text-[#15803D]', icon: <CheckCircle2 className="size-3.5" /> },
+  CLOSED: { label: 'Closed', color: 'bg-[#F1F5F9] text-[#64748B]', icon: <CheckCircle2 className="size-3.5" /> },
+  DISPUTED: { label: 'Disputed', color: 'bg-[#FEF2F2] text-[#B91C1C]', icon: <AlertCircle className="size-3.5" /> },
 };
 
 const serviceTypeLabels: Record<string, string> = {
@@ -33,19 +33,19 @@ export default function PatientCasesPage() {
   const { data: cases, isLoading } = useCases();
 
   return (
-    <div className="p-4 md:p-margin-desktop max-w-5xl mx-auto pb-24 md:pb-8 space-y-stack-xl">
+    <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 space-y-6">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center justify-between"
       >
         <div>
-          <p className="font-caption text-on-surface-variant text-sm mb-1">Patient Portal</p>
-          <h1 className="font-headline-lg text-clinical-navy font-bold text-2xl md:text-3xl">My Cases</h1>
+          <p className="text-[#64748B] text-sm mb-1">Patient Portal</p>
+          <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">My Cases</h1>
         </div>
         <Link
           href="/patient/cases/new"
-          className="inline-flex items-center gap-2 bg-clinical-navy text-white px-4 py-2.5 rounded-xl font-medium text-sm hover:bg-clinical-navy/90 transition-colors"
+          className="inline-flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2.5 rounded-xl font-medium text-sm hover:bg-[#1E3A5F]/90 transition-colors"
         >
           <Plus className="size-4" />
           Start Case
@@ -57,11 +57,11 @@ export default function PatientCasesPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <div className="card border border-surface-gray shadow-sm bg-surface overflow-hidden">
-          <div className="divide-y divide-surface-gray">
+        <div className="rounded-lg border border-[#E2E8F0] shadow-sm bg-white overflow-hidden">
+          <div className="divide-y divide-[#E2E8F0]">
             {isLoading ? (
               <div className="p-8 flex items-center justify-center">
-                <Loader2 className="animate-spin text-healing-teal" size={24} />
+                <Loader2 className="animate-spin text-[#15803D]" size={24} />
               </div>
             ) : cases && cases.length > 0 ? (
               cases.map((c: any) => {
@@ -70,17 +70,17 @@ export default function PatientCasesPage() {
                   <Link
                     href={`/patient/cases/${c.id}`}
                     key={c.id}
-                    className="p-4 flex items-center justify-between hover:bg-surface-container-low transition-colors group block"
+                    className="p-4 flex items-center justify-between hover:bg-[#F8FAFC] transition-colors group block"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-evidence-blue-light/50 flex items-center justify-center text-clinical-navy group-hover:bg-clinical-navy group-hover:text-white transition-colors shrink-0">
+                      <div className="w-12 h-12 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#1E3A5F] group-hover:bg-[#1E3A5F] group-hover:text-white transition-colors shrink-0">
                         <FileText className="size-5" />
                       </div>
                       <div>
-                        <h3 className="font-headline-md font-bold text-clinical-navy text-base">
+                        <h3 className="font-bold text-[#1E3A5F] text-base">
                           {serviceTypeLabels[c.serviceType] || c.serviceType}
                         </h3>
-                        <p className="text-on-surface-variant text-sm mt-0.5">
+                        <p className="text-[#64748B] text-sm mt-0.5">
                           {formatDate(c.createdAt)} • {c.records?.length || 0} file{(c.records?.length || 0) !== 1 ? 's' : ''}
                         </p>
                       </div>
@@ -96,11 +96,11 @@ export default function PatientCasesPage() {
               })
             ) : (
               <div className="p-8 text-center">
-                <FileText className="size-10 text-on-surface-variant/30 mx-auto mb-2" />
-                <p className="text-on-surface-variant text-sm mb-3">No cases yet</p>
+                <FileText className="size-10 text-[#64748B]/30 mx-auto mb-2" />
+                <p className="text-[#64748B] text-sm mb-3">No cases yet</p>
                 <Link
                   href="/patient/cases/new"
-                  className="inline-flex items-center gap-1 text-clinical-navy font-medium text-sm hover:text-healing-teal transition-colors"
+                  className="inline-flex items-center gap-1 text-[#1E3A5F] font-medium text-sm hover:text-[#15803D] transition-colors"
                 >
                   Start your first case <Plus className="size-3.5" />
                 </Link>

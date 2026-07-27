@@ -43,7 +43,7 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
       <DropdownMenuTrigger
         nativeButton={false}
         render={
-          <span className="inline-flex items-center justify-center size-8 rounded-md text-on-surface-variant hover:bg-surface hover:text-text-medical-black transition-colors cursor-pointer" />
+          <span className="inline-flex items-center justify-center size-8 rounded-md text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer" />
         }
       >
         <span className="sr-only">Open menu</span>
@@ -59,7 +59,7 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
           <DropdownMenuItem
             onClick={toggleVerify}
             disabled={loading}
-            className="text-xs text-amber-600 focus:text-amber-600"
+            className="text-xs text-[#F59E0B] focus:text-[#F59E0B]"
           >
             <XCircle className="size-3.5 mr-2" />
             {loading ? "Revoking..." : "Revoke Verification"}
@@ -68,7 +68,7 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
           <DropdownMenuItem
             onClick={toggleVerify}
             disabled={loading}
-            className="text-xs text-healing-teal focus:text-healing-teal"
+            className="text-xs text-[#22C55E] focus:text-[#22C55E]"
           >
             <CheckCircle className="size-3.5 mr-2" />
             {loading ? "Verifying..." : "Verify Specialist"}
@@ -93,12 +93,12 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
         .toUpperCase()
       return (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy text-xs font-bold shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6] text-xs font-bold shrink-0">
             {initials}
           </div>
           <div className="min-w-0">
-            <p className="font-medium text-text-medical-black text-sm truncate">{user.name ?? "Unknown"}</p>
-            <p className="text-[11px] text-on-surface-variant truncate">{user.email}</p>
+            <p className="font-medium text-[#0F172A] text-sm truncate">{user.name ?? "Unknown"}</p>
+            <p className="text-[11px] text-[#64748B] truncate">{user.email}</p>
           </div>
         </div>
       )
@@ -117,8 +117,8 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Specialty" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-1.5">
-        <Stethoscope className="size-3.5 text-on-surface-variant" />
-        <span className="text-sm text-text-medical-black">{row.original.specialty}</span>
+        <Stethoscope className="size-3.5 text-[#64748B]" />
+        <span className="text-sm text-[#0F172A]">{row.original.specialty}</span>
       </div>
     ),
   },
@@ -126,7 +126,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     accessorKey: "experience",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Experience" />,
     cell: ({ row }) => (
-      <span className="text-sm text-on-surface-variant">{row.original.experience} yrs</span>
+      <span className="text-sm text-[#64748B]">{row.original.experience} yrs</span>
     ),
   },
   {
@@ -134,11 +134,11 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
       row.original.verified ? (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-healing-teal bg-healing-teal/10 px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#22C55E] bg-[#DCFCE7] px-2 py-0.5 rounded-full">
           <BadgeCheck className="size-3" /> Verified
         </span>
       ) : (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#B45309] bg-[#FEF3C7] px-2 py-0.5 rounded-full">
           <BadgeX className="size-3" /> Pending
         </span>
       )
@@ -155,7 +155,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     id: "joined",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Joined" />,
     cell: ({ row }) => (
-      <span className="text-sm text-on-surface-variant">
+      <span className="text-sm text-[#64748B]">
         {new Date(row.original.user.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

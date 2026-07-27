@@ -1,20 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const mockSessionCreate = vi.fn();
-const mockSessionPrompt = vi.fn();
-const mockSessionDelete = vi.fn();
+const mockStreamObject = vi.fn();
+const mockToTextStreamResponse = vi.fn(() => new Response("stream"));
 const mockOpinionFindUnique = vi.fn();
 const mockPlainSummaryCreate = vi.fn();
 const mockCaseUpdate = vi.fn();
 
-vi.mock("@/lib/ai/client", () => ({
-  getOpencodeClient: vi.fn(() => ({
-    session: {
-      create: mockSessionCreate,
-      prompt: mockSessionPrompt,
-      delete: mockSessionDelete,
-    },
-  })),
+vi.mock("ai", () => ({
+  streamObject: (...args: unknown[]) => mockStreamObject(...args),
 }));
 
 vi.mock("@/lib/db", () => ({
@@ -31,6 +24,8 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 
+const WATERMARK = "AI-Generated Draft — requires specialist review";
+
 describe("generateSummary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -38,7 +33,10 @@ describe("generateSummary", () => {
 
   it("throws if opinion is not found", async () => {
     mockOpinionFindUnique.mockResolvedValue(null);
-    mockSessionCreate.mockResolvedValue({ data: { id: "session-1" }, error: undefined });
+    mockStreamObject.mockReturnValue({
+      object: Promise.resolve(null),
+      toTextStreamResponse: mockToTextStreamResponse,
+    });
 
     const { generateSummary } = await import("@/lib/ai/summary");
     await expect(generateSummary("opinion-1")).rejects.toThrow("Opinion not found: opinion-1");
@@ -51,7 +49,10 @@ describe("generateSummary", () => {
       content: "Findings...",
       case: { id: "case-1" },
     });
-    mockSessionCreate.mockResolvedValue({ data: { id: "session-1" }, error: undefined });
+    mockStreamObject.mockReturnValue({
+      object: Promise.resolve(null),
+      toTextStreamResponse: mockToTextStreamResponse,
+    });
 
     const { generateSummary } = await import("@/lib/ai/summary");
     await expect(generateSummary("opinion-1")).rejects.toThrow(
@@ -75,14 +76,10 @@ describe("generateSummary", () => {
       disclaimer: "This is an AI-generated summary.",
     };
 
-    mockSessionCreate.mockResolvedValue({ data: { id: "session-1" }, error: undefined });
-    mockSessionPrompt.mockResolvedValue({
-      data: {
-        info: {},
-        parts: [{ type: "text", text: JSON.stringify(structuredOutput) }],
-      },
+    mockStreamObject.mockReturnValue({
+      object: Promise.resolve(structuredOutput),
+      toTextStreamResponse: mockToTextStreamResponse,
     });
-    mockSessionDelete.mockResolvedValue(true);
     mockPlainSummaryCreate.mockResolvedValue({ id: "summary-1" });
     mockCaseUpdate.mockResolvedValue({ id: "case-1", status: "OPINION_READY" });
 
@@ -90,12 +87,14 @@ describe("generateSummary", () => {
     await generateSummary("opinion-1");
 
     expect(mockPlainSummaryCreate).toHaveBeenCalledWith({
-      data: { opinionId: "opinion-1", content: JSON.stringify(structuredOutput) },
+      data: {
+        opinionId: "opinion-1",
+        content: `${WATERMARK}\n\n${JSON.stringify(structuredOutput)}`,
+      },
     });
     expect(mockCaseUpdate).toHaveBeenCalledWith({
       where: { id: "case-1" },
       data: { status: "OPINION_READY" },
     });
-    expect(mockSessionDelete).toHaveBeenCalledWith({ path: { id: "session-1" } });
   });
 });

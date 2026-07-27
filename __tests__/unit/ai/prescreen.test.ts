@@ -77,8 +77,8 @@ describe("generatePrescreen", () => {
     expect(mockAIPrescreenCreate).toHaveBeenCalledWith({
       data: {
         caseId: "case-1",
-        findings: "Mild cardiomegaly",
-        differentials: "Hypertensive heart disease",
+        findings: `AI-Generated Draft — requires specialist review\n\nMild cardiomegaly`,
+        differentials: `AI-Generated Draft — requires specialist review\n\nHypertensive heart disease`,
         urgentFlags: null,
       },
     });

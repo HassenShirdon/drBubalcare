@@ -8,9 +8,9 @@ import { useLabResult } from '@/lib/hooks/use-lab-results';
 import type { MetricStatus } from '@/lib/generated/prisma/enums';
 
 const statusColor: Record<string, string> = {
-  NORMAL: 'bg-healing-teal/10 text-healing-teal',
-  HIGH: 'bg-error/10 text-error',
-  LOW: 'bg-error/10 text-error',
+  NORMAL: 'bg-[#15803D]/10 text-[#15803D]',
+  HIGH: 'bg-[#B91C1C]/10 text-[#B91C1C]',
+  LOW: 'bg-[#B91C1C]/10 text-[#B91C1C]',
 };
 
 export default function LabResultDetails() {
@@ -19,17 +19,17 @@ export default function LabResultDetails() {
 
   if (isLoading) {
     return (
-      <div className="p-4 md:p-margin-desktop max-w-5xl mx-auto pb-24 md:pb-8 flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="animate-spin text-healing-teal" size={32} />
+      <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin text-[#15803D]" size={32} />
       </div>
     );
   }
 
   if (!labResult) {
     return (
-      <div className="p-4 md:p-margin-desktop max-w-5xl mx-auto pb-24 md:pb-8 flex flex-col items-center justify-center min-h-[50vh] gap-4">
-        <p className="text-on-surface-variant text-lg">Lab result not found.</p>
-        <Link href="/patient/labs" className="text-healing-teal hover:underline text-sm">Back to Labs</Link>
+      <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 flex flex-col items-center justify-center min-h-[50vh] gap-4">
+        <p className="text-[#64748B] text-lg">Lab result not found.</p>
+        <Link href="/patient/labs" className="text-[#15803D] hover:underline text-sm">Back to Labs</Link>
       </div>
     );
   }
@@ -37,19 +37,19 @@ export default function LabResultDetails() {
   const dateStr = new Date(labResult.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="p-4 md:p-margin-desktop max-w-5xl mx-auto pb-24 md:pb-8 space-y-stack-lg">
-      <Link href="/patient/labs" className="inline-flex items-center gap-2 text-on-surface-variant hover:text-clinical-navy transition-colors mb-2">
+    <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 space-y-6">
+      <Link href="/patient/labs" className="inline-flex items-center gap-2 text-[#64748B] hover:text-[#1E3A5F] transition-colors mb-2">
         <ArrowLeft className="text-sm" />
-        <span className="font-label-md text-sm">Back to Labs</span>
+        <span className="text-sm">Back to Labs</span>
       </Link>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-headline-lg text-clinical-navy font-bold text-2xl md:text-3xl mb-1">{labResult.name}</h1>
-          <p className="text-on-surface-variant text-sm">Tested on {dateStr} • Ordered by {labResult.doctor}</p>
+          <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl mb-1">{labResult.name}</h1>
+          <p className="text-[#64748B] text-sm">Tested on {dateStr} • Ordered by {labResult.doctor}</p>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-surface border border-surface-gray rounded-lg text-clinical-navy font-label-md text-sm hover:bg-surface-container-low transition-colors shadow-sm">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#1E3A5F] text-sm hover:bg-[#F1F5F9] transition-colors shadow-sm">
             <Download className="text-sm" />
             Download PDF
           </button>
@@ -60,24 +60,24 @@ export default function LabResultDetails() {
         <div className="lg:col-span-2 space-y-6">
           {/* Key Metrics */}
           <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <h2 className="font-headline-md text-clinical-navy font-bold text-lg mb-4">Key Metrics</h2>
-            <div className="card border border-surface-gray shadow-sm bg-surface overflow-hidden">
-              <div className="divide-y divide-surface-gray">
+            <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">Key Metrics</h2>
+            <div className="card border border-[#E2E8F0] shadow-sm bg-[#F8FAFC] overflow-hidden">
+              <div className="divide-y divide-[#E2E8F0]">
                 {labResult.metrics?.map((metric: { id: string; name: string; value: number; unit: string; status: MetricStatus; referenceRange: string }) => (
                   <div
                     key={metric.id}
-                    className={`p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4${metric.status === 'HIGH' || metric.status === 'LOW' ? ' bg-error/5' : ''}`}
+                    className={`p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4${metric.status === 'HIGH' || metric.status === 'LOW' ? ' bg-[#B91C1C]/5' : ''}`}
                   >
                     <div>
-                      <h3 className="font-bold text-clinical-navy text-base">{metric.name}</h3>
-                      <p className="text-on-surface-variant text-sm mt-0.5">Reference range: {metric.referenceRange}</p>
+                      <h3 className="font-bold text-[#1E3A5F] text-base">{metric.name}</h3>
+                      <p className="text-[#64748B] text-sm mt-0.5">Reference range: {metric.referenceRange}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <span className={`font-headline-lg font-bold text-2xl ${metric.status === 'NORMAL' ? 'text-clinical-navy' : 'text-error'}`}>{metric.value}</span>
-                        <span className="text-on-surface-variant text-sm ml-1">{metric.unit}</span>
+                        <span className={`font-bold text-2xl ${metric.status === 'NORMAL' ? 'text-[#1E3A5F]' : 'text-[#B91C1C]'}`}>{metric.value}</span>
+                        <span className="text-[#64748B] text-sm ml-1">{metric.unit}</span>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusColor[metric.status] || 'bg-healing-teal/10 text-healing-teal'}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusColor[metric.status] || 'bg-[#15803D]/10 text-[#15803D]'}`}>
                         {metric.status === 'HIGH' ? 'High' : metric.status === 'LOW' ? 'Low' : 'Normal'}
                       </span>
                     </div>
@@ -90,8 +90,8 @@ export default function LabResultDetails() {
           {/* Trend Chart */}
           {labResult.trends && labResult.trends.length > 0 && (
             <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              <h2 className="font-headline-md text-clinical-navy font-bold text-lg mb-4">Historical Trend</h2>
-              <div className="card border border-surface-gray shadow-sm bg-surface p-4 h-72">
+              <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">Historical Trend</h2>
+              <div className="card border border-[#E2E8F0] shadow-sm bg-[#F8FAFC] p-4 h-72">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={labResult.trends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
@@ -113,15 +113,15 @@ export default function LabResultDetails() {
         {labResult.aiInterpretation && (
           <motion.div className="space-y-6" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <section>
-              <h2 className="font-headline-md text-clinical-navy font-bold text-lg mb-4 flex items-center gap-2">
-                <Sparkles className="text-healing-teal" />
+              <h2 className="text-[#1E3A5F] font-bold text-lg mb-4 flex items-center gap-2">
+                <Sparkles className="text-[#15803D]" />
                 AI Interpretation
               </h2>
-              <div className="card p-5 border border-evidence-blue-light shadow-sm bg-gradient-to-br from-surface to-evidence-blue-light/20 relative overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-healing-teal/5 rounded-full blur-2xl"></div>
+              <div className="card p-5 border border-[#DBEAFE] shadow-sm bg-gradient-to-br from-[#F8FAFC] to-[#DBEAFE]/20 relative overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#15803D]/5 rounded-full blur-2xl"></div>
                 
                 <div className="relative z-10 space-y-4">
-                  <p className="text-on-surface-variant text-sm leading-relaxed">{labResult.aiInterpretation}</p>
+                  <p className="text-[#64748B] text-sm leading-relaxed">{labResult.aiInterpretation}</p>
                 </div>
               </div>
             </section>

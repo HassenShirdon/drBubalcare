@@ -29,101 +29,101 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-md text-xl md:text-2xl font-semibold text-text-medical-black">
+        <h1 className="text-xl md:text-2xl font-semibold text-[#0F172A]">
           Admin Dashboard
         </h1>
-        <p className="text-on-surface-variant mt-0.5 text-xs">
+        <p className="text-[#64748B] mt-0.5 text-xs">
           Overview of platform activity
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-evidence-blue-light flex items-center justify-center text-clinical-navy">
+            <div className="w-9 h-9 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6]">
               <Briefcase className="size-4" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{stats.totalCases}</p>
-              <p className="text-[11px] text-on-surface-variant">Total Cases</p>
+              <p className="text-xl font-bold text-[#0F172A]">{stats.totalCases}</p>
+              <p className="text-[11px] text-[#64748B]">Total Cases</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+            <div className="w-9 h-9 rounded-lg bg-[#FEF3C7] flex items-center justify-center text-[#F59E0B]">
               <Shield className="size-4" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{stats.pendingSpecialists}</p>
-              <p className="text-[11px] text-on-surface-variant">Pending Verification</p>
+              <p className="text-xl font-bold text-[#0F172A]">{stats.pendingSpecialists}</p>
+              <p className="text-[11px] text-[#64748B]">Pending Verification</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-healing-teal/10 flex items-center justify-center text-healing-teal">
+            <div className="w-9 h-9 rounded-lg bg-[#DCFCE7] flex items-center justify-center text-[#22C55E]">
               <Newspaper className="size-4" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{stats.totalPosts}</p>
-              <p className="text-[11px] text-on-surface-variant">News Posts</p>
+              <p className="text-xl font-bold text-[#0F172A]">{stats.totalPosts}</p>
+              <p className="text-[11px] text-[#64748B]">News Posts</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-clinical-navy/10 flex items-center justify-center text-clinical-navy">
+            <div className="w-9 h-9 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6]">
               <Users className="size-4" />
             </div>
             <div>
-              <p className="text-xl font-bold text-text-medical-black">{stats.totalPatients}</p>
-              <p className="text-[11px] text-on-surface-variant">Total Patients</p>
+              <p className="text-xl font-bold text-[#0F172A]">{stats.totalPatients}</p>
+              <p className="text-[11px] text-[#64748B]">Total Patients</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-5">
-          <h2 className="font-headline-md font-semibold text-sm text-text-medical-black mb-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-5">
+          <h2 className="font-semibold text-sm text-[#0F172A] mb-4">
             Case Breakdown
           </h2>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface">
-              <span className="text-xs text-on-surface-variant">Open (awaiting specialist)</span>
-              <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">{stats.openCases}</span>
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
+              <span className="text-xs text-[#64748B]">Open (awaiting specialist)</span>
+              <span className="text-xs font-bold text-[#1E40AF] bg-[#DBEAFE] px-2 py-0.5 rounded-full">{stats.openCases}</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface">
-              <span className="text-xs text-on-surface-variant">Under Review</span>
-              <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">{stats.underReview}</span>
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
+              <span className="text-xs text-[#64748B]">Under Review</span>
+              <span className="text-xs font-bold text-[#B45309] bg-[#FEF3C7] px-2 py-0.5 rounded-full">{stats.underReview}</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface">
-              <span className="text-xs text-on-surface-variant">Opinion Ready</span>
-              <span className="text-xs font-bold text-healing-teal bg-healing-teal/10 px-2 py-0.5 rounded-full">{stats.opinionReady}</span>
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
+              <span className="text-xs text-[#64748B]">Opinion Ready</span>
+              <span className="text-xs font-bold text-[#22C55E] bg-[#DCFCE7] px-2 py-0.5 rounded-full">{stats.opinionReady}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow p-5">
-          <h2 className="font-headline-md font-semibold text-sm text-text-medical-black mb-4">
+        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-5">
+          <h2 className="font-semibold text-sm text-[#0F172A] mb-4">
             Quick Actions
           </h2>
           <div className="space-y-2">
-            <Link href="/admin/cases" className="flex items-center justify-between p-2.5 rounded-lg bg-surface hover:bg-surface-container-low transition-colors">
-              <span className="text-xs text-text-medical-black font-medium">Manage Cases</span>
-              <ArrowRight className="size-3.5 text-on-surface-variant" />
+            <Link href="/admin/cases" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
+              <span className="text-xs text-[#0F172A] font-medium">Manage Cases</span>
+              <ArrowRight className="size-3.5 text-[#64748B]" />
             </Link>
-            <Link href="/admin/specialists" className="flex items-center justify-between p-2.5 rounded-lg bg-surface hover:bg-surface-container-low transition-colors">
-              <span className="text-xs text-text-medical-black font-medium">Verify Specialists</span>
-              <ArrowRight className="size-3.5 text-on-surface-variant" />
+            <Link href="/admin/specialists" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
+              <span className="text-xs text-[#0F172A] font-medium">Verify Specialists</span>
+              <ArrowRight className="size-3.5 text-[#64748B]" />
             </Link>
-            <Link href="/admin/news" className="flex items-center justify-between p-2.5 rounded-lg bg-surface hover:bg-surface-container-low transition-colors">
-              <span className="text-xs text-text-medical-black font-medium">Manage News</span>
-              <ArrowRight className="size-3.5 text-on-surface-variant" />
+            <Link href="/admin/news" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
+              <span className="text-xs text-[#0F172A] font-medium">Manage News</span>
+              <ArrowRight className="size-3.5 text-[#64748B]" />
             </Link>
           </div>
         </div>

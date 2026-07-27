@@ -43,15 +43,15 @@ export default function PatientDisputePage() {
   return (
     <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-clinical-navy font-bold text-2xl">File a Dispute</h1>
-        <p className="text-on-surface-variant text-sm mt-1">
+        <h1 className="text-[#1E3A5F] font-bold text-2xl">File a Dispute</h1>
+        <p className="text-[#64748B] text-sm mt-1">
           If you believe the specialist opinion is incorrect, please describe your concern below.
         </p>
       </motion.div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-text-medical-black mb-1">
+          <label className="block text-sm font-medium text-[#0F172A] mb-1">
             Reason for dispute
           </label>
           <Textarea
@@ -62,13 +62,13 @@ export default function PatientDisputePage() {
             required
             minLength={20}
           />
-          <p className="text-xs text-on-surface-variant mt-1">
+          <p className="text-xs text-[#64748B] mt-1">
             Minimum 20 characters. A peer specialist will review your case.
           </p>
         </div>
 
         {error && (
-          <p className="text-sm text-error">{error}</p>
+          <p className="text-sm text-[#B91C1C]">{error}</p>
         )}
 
         <div className="flex gap-3">

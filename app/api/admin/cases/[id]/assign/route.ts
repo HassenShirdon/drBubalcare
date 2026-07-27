@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const assignSchema = z.object({
+  specialistId: z.string().min(1, 'specialistId is required').nullable().optional(),
+});
 
 export async function PATCH(
   request: Request,
@@ -14,15 +19,20 @@ export async function PATCH(
   if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const { id } = await params;
+
   const body = await request.json();
+  const parsed = assignSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
+  }
 
   const caseRecord = await prisma.case.findUnique({ where: { id } });
   if (!caseRecord) return NextResponse.json({ error: 'Case not found' }, { status: 404 });
 
   // Verify the specialist exists and is verified
-  if (body.specialistId) {
+  if (parsed.data.specialistId) {
     const doctor = await prisma.doctor.findFirst({
-      where: { userId: body.specialistId, verified: true },
+      where: { userId: parsed.data.specialistId, verified: true },
     });
     if (!doctor) {
       return NextResponse.json({ error: 'Specialist not found or not verified' }, { status: 400 });
@@ -32,8 +42,8 @@ export async function PATCH(
   const updated = await prisma.case.update({
     where: { id },
     data: {
-      specialistId: body.specialistId || null,
-      status: body.specialistId ? 'UNDER_REVIEW' : 'OPEN',
+      specialistId: parsed.data.specialistId || null,
+      status: parsed.data.specialistId ? 'UNDER_REVIEW' : 'OPEN',
     },
   });
 

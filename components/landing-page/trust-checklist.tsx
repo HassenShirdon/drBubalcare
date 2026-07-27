@@ -10,13 +10,13 @@ const CHECKLIST_ITEMS = [
 
 export function TrustChecklist() {
   return (
-    <div className="bg-white rounded-2xl p-6 md:p-8 border border-surface-gray shadow-sm">
-      <h3 className="font-headline-md text-lg font-semibold text-text-medical-black mb-5">
+    <div className="bg-white rounded-2xl p-6 md:p-8 border border-[#E2E8F0] shadow-sm">
+      <h3 className="text-lg font-semibold text-[#0F172A] mb-5">
         What you can expect
       </h3>
       <ul className="space-y-4">
         {CHECKLIST_ITEMS.map((item) => (
-          <li key={item} className="flex items-start gap-3 text-base text-on-surface-variant">
+          <li key={item} className="flex items-start gap-3 text-base text-[#64748B]">
             <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
             {item}
           </li>

@@ -41,12 +41,12 @@ function groupByDate(appointments: Awaited<ReturnType<typeof getAppointments>>) 
   return groups;
 }
 
-const statusColors: Record<string, string> = {
-  SCHEDULED: 'text-clinical-navy bg-clinical-navy/10',
-  CONFIRMED: 'text-healing-teal bg-healing-teal/10',
-  IN_PROGRESS: 'text-amber-600 bg-amber-50',
-  COMPLETED: 'text-on-surface-variant bg-surface-gray/50',
-  CANCELLED: 'text-red-500 bg-red-50',
+const statusColors: Record<string, { background: string; color: string }> = {
+  SCHEDULED: { background: '#DBEAFE', color: '#1E40AF' },
+  CONFIRMED: { background: '#DCFCE7', color: '#15803D' },
+  IN_PROGRESS: { background: '#FEF3C7', color: '#B45309' },
+  COMPLETED: { background: '#F1F5F9', color: '#64748B' },
+  CANCELLED: { background: '#FEF2F2', color: '#B91C1C' },
 };
 
 export default async function SchedulePage() {
@@ -63,46 +63,53 @@ export default async function SchedulePage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-headline-md text-xl font-semibold text-clinical-navy">Schedule</h1>
-        <p className="text-sm text-on-surface-variant mt-0.5">
+        <h1 className="text-xl font-semibold" style={{ color: '#1E3A5F' }}>Schedule</h1>
+        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>
           {appointments.length} upcoming appointment{appointments.length !== 1 ? 's' : ''}
         </p>
       </div>
 
       {appointments.length === 0 ? (
-        <div className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-12 text-center">
-          <Calendar className="size-12 text-on-surface-variant/30 mx-auto mb-3" />
-          <p className="text-base font-semibold text-text-medical-black">No appointments</p>
-          <p className="text-sm text-on-surface-variant mt-1">Your schedule will appear here once appointments are booked</p>
+        <div className="rounded-lg shadow-sm p-12 text-center" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+          <Calendar className="size-12 mx-auto mb-3" style={{ color: '#64748B' }} />
+          <p className="text-base font-semibold" style={{ color: '#0F172A' }}>No appointments</p>
+          <p className="text-sm mt-1" style={{ color: '#64748B' }}>Your schedule will appear here once appointments are booked</p>
         </div>
       ) : (
         <div className="space-y-8">
           {Array.from(grouped.entries()).map(([dateKey, dayAppts]) => (
             <div key={dateKey}>
-              <h2 className="font-semibold text-text-medical-black mb-3 text-sm pb-2 border-b border-surface-gray/60">
+              <h2 className="font-semibold mb-3 text-sm pb-2" style={{ color: '#1E3A5F', borderBottom: '1px solid #E2E8F0' }}>
                 {formatDate(new Date(dateKey + 'T00:00:00'))}
               </h2>
               <div className="space-y-2">
-                {dayAppts.map((apt) => (
-                  <div
-                    key={apt.id}
-                    className="bg-white rounded-xl border border-surface-gray/60 shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy font-bold text-sm shrink-0">
-                      {apt.patient.name?.charAt(0) ?? 'P'}
+                {dayAppts.map((apt) => {
+                  const colors = statusColors[apt.status] ?? { background: '#F1F5F9', color: '#64748B' };
+                  return (
+                    <div
+                      key={apt.id}
+                      className="rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
+                      style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
+                    >
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
+                        {apt.patient.name?.charAt(0) ?? 'P'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm" style={{ color: '#0F172A' }}>{apt.patient.name ?? 'Unknown Patient'}</p>
+                        <p className="text-xs flex items-center gap-1 mt-0.5" style={{ color: '#64748B' }}>
+                          <Clock className="size-3" />
+                          {formatTime(apt.time)}
+                        </p>
+                      </div>
+                      <span
+                        className="text-xs font-medium px-2.5 py-0.5 rounded-full capitalize"
+                        style={{ background: colors.background, color: colors.color }}
+                      >
+                        {apt.status.toLowerCase()}
+                      </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-text-medical-black text-sm">{apt.patient.name ?? 'Unknown Patient'}</p>
-                      <p className="text-on-surface-variant text-xs flex items-center gap-1 mt-0.5">
-                        <Clock className="size-3" />
-                        {formatTime(apt.time)}
-                      </p>
-                    </div>
-                    <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full capitalize ${statusColors[apt.status] ?? 'text-on-surface-variant bg-surface-gray/50'}`}>
-                      {apt.status.toLowerCase()}
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}

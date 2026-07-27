@@ -18,18 +18,18 @@ export type AuditLogEntry = {
 
 function ActionBadge({ action }: { action: string }) {
   const colors: Record<string, string> = {
-    LOGIN: 'bg-blue-50 text-blue-600',
-    LOGOUT: 'bg-gray-100 text-gray-500',
-    REGISTER: 'bg-green-50 text-green-600',
-    CASE_CREATE: 'bg-purple-50 text-purple-600',
-    CASE_STATUS_CHANGE: 'bg-amber-50 text-amber-600',
-    DISPUTE_FILED: 'bg-red-50 text-red-600',
-    DISPUTE_RESOLVED: 'bg-healing-teal/10 text-healing-teal',
-    OPINION_SIGNED: 'bg-healing-teal/10 text-healing-teal',
-    DATA_EXPORT_REQUESTED: 'bg-orange-50 text-orange-600',
-    DATA_DELETION_REQUESTED: 'bg-red-50 text-red-600',
+    LOGIN: 'bg-[#DBEAFE] text-[#1E40AF]',
+    LOGOUT: 'bg-[#F1F5F9] text-[#64748B]',
+    REGISTER: 'bg-[#DCFCE7] text-[#15803D]',
+    CASE_CREATE: 'bg-[#F3E8FF] text-[#7C3AED]',
+    CASE_STATUS_CHANGE: 'bg-[#FEF3C7] text-[#B45309]',
+    DISPUTE_FILED: 'bg-[#FEF2F2] text-[#B91C1C]',
+    DISPUTE_RESOLVED: 'bg-[#DCFCE7] text-[#22C55E]',
+    OPINION_SIGNED: 'bg-[#DCFCE7] text-[#22C55E]',
+    DATA_EXPORT_REQUESTED: 'bg-[#FFF7ED] text-[#C2410C]',
+    DATA_DELETION_REQUESTED: 'bg-[#FEF2F2] text-[#B91C1C]',
   }
-  const color = colors[action] ?? 'bg-gray-100 text-gray-500'
+  const color = colors[action] ?? 'bg-[#F1F5F9] text-[#64748B]'
   return (
     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
       {action.replace(/_/g, ' ')}
@@ -42,7 +42,7 @@ export const columns: ColumnDef<AuditLogEntry>[] = [
     accessorKey: "timestamp",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Time" />,
     cell: ({ row }) => (
-      <span className="text-sm text-on-surface-variant">
+      <span className="text-sm text-[#64748B]">
         {new Date(row.original.timestamp).toLocaleString("en-US", {
           month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
         })}
@@ -54,8 +54,8 @@ export const columns: ColumnDef<AuditLogEntry>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="User" />,
     cell: ({ row }) => (
       <div>
-        <p className="text-sm font-medium text-text-medical-black">{row.original.user.name ?? "System"}</p>
-        <p className="text-xs text-on-surface-variant">{row.original.user.email}</p>
+        <p className="text-sm font-medium text-[#0F172A]">{row.original.user.name ?? "System"}</p>
+        <p className="text-xs text-[#64748B]">{row.original.user.email}</p>
       </div>
     ),
     filterFn: (row, id, value) => {
@@ -76,7 +76,7 @@ export const columns: ColumnDef<AuditLogEntry>[] = [
     accessorKey: "resourceType",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Resource" />,
     cell: ({ row }) => (
-      <span className="text-sm text-text-medical-black">
+      <span className="text-sm text-[#0F172A]">
         {row.original.resourceType}: {row.original.resourceId}
       </span>
     ),
@@ -86,9 +86,9 @@ export const columns: ColumnDef<AuditLogEntry>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Details" />,
     cell: ({ row }) => {
       const meta = row.original.metadata
-      if (!meta) return <span className="text-xs text-on-surface-variant">—</span>
+      if (!meta) return <span className="text-xs text-[#64748B]">—</span>
       return (
-        <span className="text-xs text-on-surface-variant truncate max-w-[200px] block">
+        <span className="text-xs text-[#64748B] truncate max-w-[200px] block">
           {JSON.stringify(meta)}
         </span>
       )

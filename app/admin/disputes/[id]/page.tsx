@@ -78,42 +78,43 @@ export default function AdminDisputeDetailPage() {
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <Link href="/admin/disputes" className="text-sm text-healing-teal hover:underline inline-flex items-center gap-1 mb-3">
+        <Link href="/admin/disputes" className="text-sm text-[#22C55E] hover:underline inline-flex items-center gap-1 mb-3">
           <ArrowLeft className="size-3" /> Back to disputes
         </Link>
-        <h1 className="text-clinical-navy font-bold text-2xl">Dispute Detail</h1>
-        <p className="text-on-surface-variant text-sm">
+        <h1 className="text-[#1E3A5F] font-bold text-2xl">Dispute Detail</h1>
+        <p className="text-[#64748B] text-sm">
           Case {dispute.case.id.slice(0, 8)}... — Filed by {dispute.patient.name ?? "Unknown"}
         </p>
       </motion.div>
 
-      <div className="border rounded-lg p-4 space-y-3">
-        <h2 className="font-semibold text-text-medical-black">Original Opinion</h2>
-        <p className="text-sm text-on-surface-variant">By {dispute.opinion.specialist.name}</p>
+      <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
+        <h2 className="font-semibold text-[#0F172A]">Original Opinion</h2>
+        <p className="text-sm text-[#64748B]">By {dispute.opinion.specialist.name}</p>
         <div className="text-sm whitespace-pre-wrap">{dispute.opinion.content || "(Draft - not yet written)"}</div>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-3">
-        <h2 className="font-semibold text-text-medical-black">Patient Dispute Reason</h2>
+      <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
+        <h2 className="font-semibold text-[#0F172A]">Patient Dispute Reason</h2>
         <p className="text-sm whitespace-pre-wrap">{dispute.reason}</p>
       </div>
 
       {dispute.peerReviewOpinion && (
-        <div className="border border-purple-200 bg-purple-50 rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-text-medical-black">Peer Review Opinion</h2>
-          <p className="text-sm text-on-surface-variant">By {dispute.peerReviewOpinion.specialist.name}</p>
+        <div className="border border-[#C4B5FD] bg-[#F5F3FF] rounded-lg p-4 space-y-3">
+          <h2 className="font-semibold text-[#0F172A]">Peer Review Opinion</h2>
+          <p className="text-sm text-[#64748B]">By {dispute.peerReviewOpinion.specialist.name}</p>
           <div className="text-sm whitespace-pre-wrap">{dispute.peerReviewOpinion.content}</div>
         </div>
       )}
 
       {dispute.status === "PENDING" && (
-        <div className="border rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-text-medical-black">Admin Triage</h2>
+        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
+          <h2 className="font-semibold text-[#0F172A]">Admin Triage</h2>
           <Textarea
             value={adminNotes}
             onChange={(e) => setAdminNotes(e.target.value)}
             placeholder="Add admin notes (optional)..."
             rows={3}
+            className="bg-[#F8FAFC] border-[#E2E8F0]"
           />
           <div className="flex gap-3">
             <Button variant="outline" onClick={() => triageMutation.mutate(false)}>
@@ -127,20 +128,21 @@ export default function AdminDisputeDetailPage() {
       )}
 
       {dispute.status === "UNDER_REVIEW" && (
-        <div className="border rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-text-medical-black">Assign Peer Review</h2>
+        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
+          <h2 className="font-semibold text-[#0F172A]">Assign Peer Review</h2>
           <PeerReviewAssignment disputeId={disputeId} />
         </div>
       )}
 
       {dispute.status === "PEER_REVIEW_ASSIGNED" && (
-        <div className="border rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-text-medical-black">Resolve Dispute</h2>
+        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
+          <h2 className="font-semibold text-[#0F172A]">Resolve Dispute</h2>
           <Textarea
             value={resolution}
             onChange={(e) => setResolution(e.target.value)}
             placeholder="Document the resolution..."
             rows={4}
+            className="bg-[#F8FAFC] border-[#E2E8F0]"
           />
           <Button onClick={() => resolveMutation.mutate()} disabled={resolution.length < 10}>
             Resolve Dispute
@@ -149,11 +151,11 @@ export default function AdminDisputeDetailPage() {
       )}
 
       {dispute.resolution && (
-        <div className="border border-healing-teal/20 bg-healing-teal/5 rounded-lg p-4 space-y-2">
-          <h2 className="font-semibold text-text-medical-black">Resolution</h2>
+        <div className="border border-[#22C55E]/20 bg-[#DCFCE7]/50 rounded-lg p-4 space-y-2">
+          <h2 className="font-semibold text-[#0F172A]">Resolution</h2>
           <p className="text-sm whitespace-pre-wrap">{dispute.resolution}</p>
           {dispute.adminNotes && (
-            <p className="text-xs text-on-surface-variant">Notes: {dispute.adminNotes}</p>
+            <p className="text-xs text-[#64748B]">Notes: {dispute.adminNotes}</p>
           )}
         </div>
       )}
@@ -199,19 +201,19 @@ function PeerReviewAssignment({ disputeId }: { disputeId: string }) {
   return (
     <div onMouseEnter={loadCandidates}>
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm text-[#B91C1C]">{error}</p>
       )}
       {loading ? (
-        <p className="text-sm text-on-surface-variant">Loading candidates...</p>
+        <p className="text-sm text-[#64748B]">Loading candidates...</p>
       ) : candidates.length === 0 && !error ? (
-        <p className="text-sm text-on-surface-variant">No matching specialists found</p>
+        <p className="text-sm text-[#64748B]">No matching specialists found</p>
       ) : (
         <div className="space-y-2">
           {candidates.map((c) => (
-            <div key={c.userId} className="flex items-center justify-between border rounded p-3">
+            <div key={c.userId} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg p-3">
               <div>
                 <p className="font-medium text-sm">{c.name ?? "Unknown"}</p>
-                <p className="text-xs text-on-surface-variant">{c.specialty}</p>
+                <p className="text-xs text-[#64748B]">{c.specialty}</p>
               </div>
               <Button
                 size="sm"

@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const verifySchema = z.object({
+  verified: z.boolean(),
+});
 
 export async function PATCH(
   request: Request,
@@ -14,14 +19,19 @@ export async function PATCH(
   if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const { id } = await params;
+
   const body = await request.json();
+  const parsed = verifySchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
+  }
 
   const doctor = await prisma.doctor.findUnique({ where: { id } });
   if (!doctor) return NextResponse.json({ error: 'Doctor not found' }, { status: 404 });
 
   const updated = await prisma.doctor.update({
     where: { id },
-    data: { verified: body.verified },
+    data: { verified: parsed.data.verified },
   });
 
   return NextResponse.json(updated);

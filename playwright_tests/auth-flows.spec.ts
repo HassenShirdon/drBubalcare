@@ -71,7 +71,8 @@ test.describe('Authentication Flows', () => {
 
     test('shows error for duplicate email', async ({ page, request }) => {
       const dupEmail = `dup-${Date.now()}@test.com`;
-      await request.post('http://localhost:3000/api/test/create-user', {
+      await request.post('http://localhost:3000/api/e2e/create-user', {
+        headers: { 'x-e2e-secret': process.env.E2E_SECRET || 'dev-e2e-secret-do-not-use-in-production' },
         data: { name: 'Dup User', email: dupEmail, password: 'DupPass123!', role: 'PATIENT' },
       });
       await page.goto('/auth/signup/patient');

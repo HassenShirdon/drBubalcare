@@ -20,13 +20,13 @@ const problems = [
 
 export default function ProblemSection() {
   return (
-    <section className="py-20 md:py-28 bg-surface">
+    <section className="py-20 md:py-28 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto w-full px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
-          <p className="text-sm font-semibold uppercase tracking-wider text-healing-teal mb-3">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#15803D] mb-3">
             The challenge
           </p>
-          <h2 className="font-headline-md text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-medical-black tracking-tight leading-[1.2] text-balance">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#0F172A] tracking-tight leading-[1.2] text-balance">
             Specialist care is out of reach for too many patients.
           </h2>
         </AnimateOnScroll>
@@ -34,16 +34,16 @@ export default function ProblemSection() {
         <div className="grid gap-6 md:grid-cols-3">
           {problems.map((problem) => (
             <AnimateOnScroll key={problem.context}>
-              <div className="border-t-2 border-clinical-navy pt-5">
-                <p className="font-headline-md text-5xl font-bold text-text-medical-black">
+              <div className="border-t-2 border-[#1E3A5F] pt-5">
+                <p className="text-3xl font-bold text-[#0F172A]">
                   {problem.stat}
                   {problem.unit && (
-                    <span className="text-xl font-semibold text-on-surface-variant ml-1">
+                    <span className="text-xl font-semibold text-[#64748B] ml-1">
                       {problem.unit}
                     </span>
                   )}
                 </p>
-                <p className="mt-3 font-body-md text-base text-on-surface-variant/85 leading-relaxed">
+                <p className="mt-3 text-base text-[#64748B]/85 leading-relaxed">
                   {problem.context}
                 </p>
               </div>

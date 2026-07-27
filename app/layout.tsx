@@ -82,11 +82,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
         <MaterialSymbolsLink />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-clinical-navy focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#1E3A5F] focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
           Skip to main content
         </a>
         <Providers>{children}</Providers>

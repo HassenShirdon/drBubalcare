@@ -74,20 +74,20 @@ export default function PatientPrivacyPage() {
   return (
     <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-on-surface-variant text-sm mb-1">Patient Portal</p>
-        <h1 className="text-clinical-navy font-bold text-2xl md:text-3xl">Privacy Settings</h1>
+        <p className="text-[#64748B] text-sm mb-1">Patient Portal</p>
+        <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Privacy Settings</h1>
       </motion.div>
 
       <div className="border rounded-lg p-5 space-y-4">
         <div className="flex items-center gap-2 mb-2">
-          <Shield className="size-5 text-healing-teal" />
-          <h2 className="font-semibold text-text-medical-black">Consent Management</h2>
+          <Shield className="size-5 text-[#15803D]" />
+          <h2 className="font-semibold text-[#0F172A]">Consent Management</h2>
         </div>
 
         <div className="flex items-center justify-between">
           <div>
             <p className="font-medium text-sm">AI Processing</p>
-            <p className="text-xs text-on-surface-variant">Allow AI to analyze your clinical data for pre-screening and summaries</p>
+            <p className="text-xs text-[#64748B]">Allow AI to analyze your clinical data for pre-screening and summaries</p>
           </div>
           <Switch
             checked={aiProcessing}
@@ -98,7 +98,7 @@ export default function PatientPrivacyPage() {
         <div className="flex items-center justify-between">
           <div>
             <p className="font-medium text-sm">Data Sharing with Specialists</p>
-            <p className="text-xs text-on-surface-variant">Allow sharing your data with assigned specialists for review</p>
+            <p className="text-xs text-[#64748B]">Allow sharing your data with assigned specialists for review</p>
           </div>
           <Switch
             checked={dataSharing}
@@ -108,19 +108,19 @@ export default function PatientPrivacyPage() {
       </div>
 
       <div className="border rounded-lg p-5 space-y-4">
-        <h2 className="font-semibold text-text-medical-black">Your Data</h2>
+        <h2 className="font-semibold text-[#0F172A]">Your Data</h2>
 
         <Button variant="outline" onClick={() => exportMutation.mutate()} disabled={exportMutation.isPending}>
           <Download className="size-4 mr-2" />
           {exportMutation.isPending ? "Exporting..." : "Export My Data"}
         </Button>
-        {exportError && <p className="text-sm text-error mt-2">{exportError}</p>}
+        {exportError && <p className="text-sm text-[#B91C1C] mt-2">{exportError}</p>}
       </div>
 
-      <div className="border border-error/20 rounded-lg p-5 space-y-4">
+      <div className="border border-[#B91C1C]/20 rounded-lg p-5 space-y-4">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="size-5 text-error" />
-          <h2 className="font-semibold text-error">Danger Zone</h2>
+          <AlertTriangle className="size-5 text-[#B91C1C]" />
+          <h2 className="font-semibold text-[#B91C1C]">Danger Zone</h2>
         </div>
 
         {!deleting && !deletionRequested ? (
@@ -129,12 +129,12 @@ export default function PatientPrivacyPage() {
             Request Data Deletion
           </Button>
         ) : deletionRequested ? (
-          <p className="text-sm text-on-surface-variant">
+          <p className="text-sm text-[#64748B]">
             Deletion requested — your data will be deleted after 30 days. You can cancel within that time.
           </p>
         ) : (
           <div className="space-y-3">
-            <p className="text-sm text-on-surface-variant">
+            <p className="text-sm text-[#64748B]">
               Are you sure? Your data will be deleted after a 30-day grace period. You can cancel within that time.
             </p>
             <div className="flex gap-3">

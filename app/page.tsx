@@ -63,14 +63,14 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-surface text-on-surface font-body-md antialiased selection:bg-healing-teal/30 selection:text-clinical-navy scroll-smooth">
+    <div className="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#15803D]/30 selection:text-[#1E3A5F] scroll-smooth">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       {/* Hero shell — nav + hero share one rounded clinical card */}
       <div className="mx-3 sm:mx-5 lg:mx-8 pt-3 sm:pt-5">
-        <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] bg-gradient-to-br from-evidence-blue-light/60 via-white to-surface-gray border border-surface-gray shadow-xl shadow-clinical-navy/5">
+        <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] bg-gradient-to-br from-[#DBEAFE]/60 via-white to-[#F1F5F9] border border-[#E2E8F0] shadow-xl shadow-[#1E3A5F]/5">
           <Navigation />
           <HeroSection />
         </div>
@@ -91,10 +91,10 @@ export default function Home() {
           <ContactSection />
         </Suspense>
       </main>
-      <footer className="bg-clinical-navy w-full border-t border-white/10">
+      <footer className="bg-[#1E3A5F] w-full border-t border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto px-6 md:px-16 py-12 text-on-primary">
           <div className="space-y-3 md:col-span-2">
-            <div className="font-headline-md text-xl font-bold text-white">
+            <div className="text-xl font-bold text-white">
               Dr Bubal Care
             </div>
             <p className="text-white/80 max-w-sm text-sm leading-relaxed">
@@ -103,7 +103,7 @@ export default function Home() {
             </p>
           </div>
           <div className="space-y-3">
-            <h4 className="font-label-md text-xs text-white uppercase tracking-wider opacity-60 font-semibold">
+            <h4 className="text-xs text-white uppercase tracking-wider opacity-60 font-semibold">
               Navigation
             </h4>
             <nav className="flex flex-col space-y-1.5">
@@ -134,7 +134,7 @@ export default function Home() {
             </nav>
           </div>
           <div className="space-y-3">
-            <h4 className="font-label-md text-xs text-white uppercase tracking-wider opacity-60 font-semibold">
+            <h4 className="text-xs text-white uppercase tracking-wider opacity-60 font-semibold">
               Legal
             </h4>
             <nav className="flex flex-col space-y-1.5">

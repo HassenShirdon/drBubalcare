@@ -34,25 +34,25 @@ export function AdminUserButton({ name, email }: AdminUserButtonProps) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-white/80 hover:bg-white/10 transition-colors"
+        className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-[#64748B] hover:text-[#1E3A5F] transition-colors"
       >
-        <div className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center text-[11px] font-bold text-white">
+        <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white" style={{ background: '#1E3A5F' }}>
           {initials}
         </div>
-        <span className="hidden sm:inline max-w-[120px] truncate">{name ?? email}</span>
+        <span className="hidden sm:inline max-w-[120px] truncate text-[#64748B]">{name ?? email}</span>
         <ChevronDown className={`size-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-surface-gray bg-white shadow-lg z-50 overflow-hidden">
-          <div className="px-4 py-3 border-b border-surface-gray/60">
+        <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border shadow-lg z-50 overflow-hidden bg-white" style={{ borderColor: '#E2E8F0' }}>
+          <div className="px-4 py-3 border-b border-[#F1F5F9]">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-clinical-navy/10 flex items-center justify-center text-clinical-navy text-sm font-bold">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold bg-[#DBEAFE] text-[#3B82F6]">
                 {initials}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-medium text-text-medical-black truncate">{name ?? "Admin"}</p>
-                <p className="text-[11px] text-on-surface-variant truncate">{email}</p>
+                <p className="text-sm font-medium truncate text-[#0F172A]">{name ?? "Admin"}</p>
+                <p className="text-[11px] truncate text-[#64748B]">{email}</p>
               </div>
             </div>
           </div>
@@ -62,14 +62,14 @@ export function AdminUserButton({ name, email }: AdminUserButtonProps) {
               onClick={() => {
                 window.location.href = "/admin"
               }}
-              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-text-medical-black hover:bg-surface transition-colors"
+              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-[#0F172A] hover:bg-[#F8FAFC] transition-colors"
             >
-              <User className="size-4 text-on-surface-variant" />
+              <User className="size-4 text-[#64748B]" />
               Profile
             </button>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-error hover:bg-red-50 transition-colors"
+              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-[#E63946] hover:bg-[#FEF2F2] transition-colors"
             >
               <LogOut className="size-4" />
               Sign out

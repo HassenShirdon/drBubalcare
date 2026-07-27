@@ -77,12 +77,12 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
 
   if (uploaded) {
     return (
-      <div className="p-6 rounded-xl border-2 border-dashed border-healing-teal/30 bg-healing-teal/5 text-center">
-        <CheckCircle2 className="size-10 text-healing-teal mx-auto mb-2" />
-        <p className="text-healing-teal font-medium text-sm">Files uploaded successfully</p>
+      <div className="p-6 rounded-xl border-2 border-dashed border-[#15803D]/30 bg-[#15803D]/5 text-center">
+        <CheckCircle2 className="size-10 text-[#15803D] mx-auto mb-2" />
+        <p className="text-[#15803D] font-medium text-sm">Files uploaded successfully</p>
         <button
           onClick={() => setUploaded(false)}
-          className="mt-3 text-clinical-navy text-sm font-medium hover:text-healing-teal transition-colors"
+          className="mt-3 text-[#1E3A5F] text-sm font-medium hover:text-[#15803D] transition-colors"
         >
           Upload more files
         </button>
@@ -99,20 +99,20 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
         onClick={() => inputRef.current?.click()}
         className={`p-8 rounded-xl border-2 border-dashed cursor-pointer transition-all ${
           isDragging
-            ? 'border-clinical-navy bg-clinical-navy/5'
-            : 'border-surface-gray bg-surface hover:border-clinical-navy/30'
+            ? 'border-[#1E3A5F] bg-[#1E3A5F]/5'
+            : 'border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#1E3A5F]/30'
         }`}
       >
         <div className="flex flex-col items-center text-center">
           <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 transition-colors ${
-            isDragging ? 'bg-clinical-navy/10 text-clinical-navy' : 'bg-evidence-blue-light/50 text-on-surface-variant'
+            isDragging ? 'bg-[#1E3A5F]/10 text-[#1E3A5F]' : 'bg-[#DBEAFE]/50 text-[#64748B]'
           }`}>
             <CloudUpload className="size-6" />
           </div>
-          <p className="font-medium text-text-medical-black text-sm">
+          <p className="font-medium text-[#0F172A] text-sm">
             {isDragging ? 'Drop files here' : 'Upload records'}
           </p>
-          <p className="text-on-surface-variant text-xs mt-1">
+          <p className="text-[#64748B] text-xs mt-1">
             PDF, JPEG, PNG, WebP — up to 50MB each
           </p>
         </div>
@@ -131,18 +131,18 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
           {files.map((file, index) => (
             <div
               key={`${file.name}-${index}`}
-              className="flex items-center gap-3 p-3 rounded-xl bg-surface"
+              className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC]"
             >
-              <FileText className="size-4 text-on-surface-variant shrink-0" />
+              <FileText className="size-4 text-[#64748B] shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-text-medical-black truncate">{file.name}</p>
-                <p className="text-xs text-on-surface-variant">
+                <p className="text-sm font-medium text-[#0F172A] truncate">{file.name}</p>
+                <p className="text-xs text-[#64748B]">
                   {(file.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
               <button
                 onClick={() => removeFile(index)}
-                className="text-on-surface-variant hover:text-error transition-colors p-1"
+                className="text-[#64748B] hover:text-[#B91C1C] transition-colors p-1"
                 aria-label={`Remove ${file.name}`}
               >
                 <X className="size-4" aria-hidden="true" />
@@ -153,7 +153,7 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
           <button
             onClick={handleUpload}
             disabled={uploading}
-            className="w-full inline-flex items-center justify-center gap-2 bg-clinical-navy text-white px-4 py-2.5 rounded-xl font-medium text-sm hover:bg-clinical-navy/90 transition-colors disabled:opacity-50"
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#1E3A5F] text-white px-4 py-2.5 rounded-xl font-medium text-sm hover:bg-[#1E3A5F]/90 transition-colors disabled:opacity-50"
           >
             {uploading ? (
               <>

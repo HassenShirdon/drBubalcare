@@ -10,9 +10,9 @@ interface TableSkeletonProps {
 
 function Shimmer({ className }: { className?: string }) {
   return (
-    <div className={`relative overflow-hidden rounded bg-surface-gray/60 ${className ?? ""}`}>
+    <div className={`relative overflow-hidden rounded ${className ?? ""}`} style={{ background: '#E2E8F0' }}>
       <motion.div
-        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent"
+        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#FFFFFF]/20 to-transparent"
         animate={{ translateX: ["0%", "100%"] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
       />
@@ -23,7 +23,6 @@ function Shimmer({ className }: { className?: string }) {
 export function TableSkeleton({ rows = 5, columns = 4, search = true }: TableSkeletonProps) {
   return (
     <div className="space-y-4">
-      {/* Search + view options bar */}
       {search && (
         <div className="flex items-center justify-between">
           <Shimmer className="h-8 w-64" />
@@ -31,11 +30,9 @@ export function TableSkeleton({ rows = 5, columns = 4, search = true }: TableSke
         </div>
       )}
 
-      {/* Table */}
-      <div className="rounded-md border border-surface-gray">
+      <div className="rounded-md border border-[#E2E8F0]">
         <div className="w-full">
-          {/* Header */}
-          <div className="flex items-center border-b border-surface-gray bg-surface/50 px-4 py-3">
+          <div className="flex items-center border-b border-[#E2E8F0] px-4 py-3" style={{ background: '#F8FAFC/50' }}>
             {Array.from({ length: columns }).map((_, i) => (
               <div key={i} className="flex-1 px-2">
                 <Shimmer className="h-3.5 w-20" />
@@ -43,11 +40,10 @@ export function TableSkeleton({ rows = 5, columns = 4, search = true }: TableSke
             ))}
           </div>
 
-          {/* Rows */}
           {Array.from({ length: rows }).map((_, rowIdx) => (
             <div
               key={rowIdx}
-              className="flex items-center border-b border-surface-gray/50 px-4 py-3 last:border-b-0"
+              className="flex items-center border-b border-[#E2E8F0]/50 px-4 py-3 last:border-b-0"
             >
               {Array.from({ length: columns }).map((_, colIdx) => {
                 const widths = ["w-3/5", "w-4/5", "w-2/3", "w-3/4", "w-1/2"]
@@ -62,7 +58,6 @@ export function TableSkeleton({ rows = 5, columns = 4, search = true }: TableSke
         </div>
       </div>
 
-      {/* Pagination */}
       <div className="flex items-center justify-between px-2">
         <Shimmer className="h-4 w-40" />
         <div className="flex items-center gap-2">

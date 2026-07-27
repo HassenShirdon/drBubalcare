@@ -1,10 +1,10 @@
 export const CASE_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  OPEN: { label: 'Open', color: 'bg-blue-50 text-blue-600' },
-  AI_PRE_SCREENED: { label: 'Pre-screened', color: 'bg-purple-50 text-purple-600' },
-  UNDER_REVIEW: { label: 'Under Review', color: 'bg-amber-50 text-amber-600' },
-  OPINION_READY: { label: 'Opinion Ready', color: 'bg-healing-teal/10 text-healing-teal' },
-  CLOSED: { label: 'Closed', color: 'bg-gray-100 text-gray-500' },
-  DISPUTED: { label: 'Disputed', color: 'bg-red-50 text-red-600' },
+  OPEN: { label: 'Open', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  AI_PRE_SCREENED: { label: 'Pre-screened', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  UNDER_REVIEW: { label: 'Under Review', color: 'bg-[#FEF3C7] text-[#B45309] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  OPINION_READY: { label: 'Opinion Ready', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CLOSED: { label: 'Closed', color: 'bg-[#F1F5F9] text-[#64748B] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  DISPUTED: { label: 'Disputed', color: 'bg-[#FEF2F2] text-[#B91C1C] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const SERVICE_TYPE_LABELS: Record<string, string> = {
@@ -16,42 +16,42 @@ export const SERVICE_TYPE_LABELS: Record<string, string> = {
 }
 
 export const LAB_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  NORMAL: { label: 'Normal', color: 'bg-healing-teal/10 text-healing-teal' },
-  REVIEW_NEEDED: { label: 'Review Needed', color: 'bg-error/10 text-error' },
+  NORMAL: { label: 'Normal', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  REVIEW_NEEDED: { label: 'Review Needed', color: 'bg-[#FEF2F2] text-[#B91C1C] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const OPINION_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  DRAFT: { label: 'Draft', color: 'bg-amber-50 text-amber-600' },
-  SIGNED: { label: 'Signed', color: 'bg-healing-teal/10 text-healing-teal' },
-  DELIVERED: { label: 'Delivered', color: 'bg-blue-50 text-blue-600' },
-  DISPUTED: { label: 'Disputed', color: 'bg-red-50 text-red-600' },
+  DRAFT: { label: 'Draft', color: 'bg-[#FEF3C7] text-[#B45309] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  SIGNED: { label: 'Signed', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  DELIVERED: { label: 'Delivered', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  DISPUTED: { label: 'Disputed', color: 'bg-[#FEF2F2] text-[#B91C1C] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const METRIC_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  NORMAL: { label: 'Normal', color: 'text-clinical-navy' },
-  HIGH: { label: 'High', color: 'text-error' },
-  LOW: { label: 'Low', color: 'text-error' },
+  NORMAL: { label: 'Normal', color: 'text-[#22C55E]' },
+  HIGH: { label: 'High', color: 'text-[#E63946]' },
+  LOW: { label: 'Low', color: 'text-[#E63946]' },
 }
 
 export const DISPUTE_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  PENDING: { label: 'Pending', color: 'bg-amber-50 text-amber-600' },
-  UNDER_REVIEW: { label: 'Under Review', color: 'bg-blue-50 text-blue-600' },
-  PEER_REVIEW_ASSIGNED: { label: 'Peer Review', color: 'bg-purple-50 text-purple-600' },
-  RESOLVED: { label: 'Resolved', color: 'bg-healing-teal/10 text-healing-teal' },
-  DISMISSED: { label: 'Dismissed', color: 'bg-gray-100 text-gray-500' },
+  PENDING: { label: 'Pending', color: 'bg-[#FEF3C7] text-[#B45309] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  UNDER_REVIEW: { label: 'Under Review', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  PEER_REVIEW_ASSIGNED: { label: 'Peer Review', color: 'bg-[#F3E8FF] text-[#7C3AED] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  RESOLVED: { label: 'Resolved', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  DISMISSED: { label: 'Dismissed', color: 'bg-[#F1F5F9] text-[#64748B] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const REFERRAL_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  SEARCHING: { label: 'Searching', color: 'bg-blue-50 text-blue-600' },
-  MATCHED: { label: 'Matched', color: 'bg-green-50 text-green-600' },
-  SCHEDULED: { label: 'Scheduled', color: 'bg-purple-50 text-purple-600' },
-  COMPLETED: { label: 'Completed', color: 'bg-healing-teal/10 text-healing-teal' },
-  CLOSED: { label: 'Closed', color: 'bg-gray-100 text-gray-500' },
+  SEARCHING: { label: 'Searching', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  MATCHED: { label: 'Matched', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  SCHEDULED: { label: 'Scheduled', color: 'bg-[#F3E8FF] text-[#7C3AED] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  COMPLETED: { label: 'Completed', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CLOSED: { label: 'Closed', color: 'bg-[#F1F5F9] text-[#64748B] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const DELETION_STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  PENDING: { label: 'Pending', color: 'bg-amber-50 text-amber-600' },
-  CONFIRMED: { label: 'Confirmed', color: 'bg-blue-50 text-blue-600' },
-  COMPLETED: { label: 'Completed', color: 'bg-healing-teal/10 text-healing-teal' },
-  CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 text-gray-500' },
+  PENDING: { label: 'Pending', color: 'bg-[#FEF3C7] text-[#B45309] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CONFIRMED: { label: 'Confirmed', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  COMPLETED: { label: 'Completed', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CANCELLED: { label: 'Cancelled', color: 'bg-[#F1F5F9] text-[#64748B] px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }

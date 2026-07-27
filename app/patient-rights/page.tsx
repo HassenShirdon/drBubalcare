@@ -12,19 +12,19 @@ export const metadata: Metadata = {
 
 export default function PatientRightsPage() {
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-[#F8FAFC]">
       <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 md:py-24">
         <Link
           href="/"
-          className="text-sm font-medium text-clinical-navy hover:text-primary transition-colors"
+          className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
           ← Back to home
         </Link>
-        <h1 className="font-headline-md text-3xl md:text-4xl font-semibold text-text-medical-black mt-6 mb-8 tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Patient Rights
         </h1>
-        <div className="prose prose-slate max-w-none font-body-md text-on-surface-variant">
-          <p className="text-sm text-on-surface-variant/70 mb-8">
+        <div className="prose prose-slate max-w-none text-[#64748B]">
+          <p className="text-sm text-[#64748B]/70 mb-8">
             Last updated: {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </p>
 
@@ -34,7 +34,7 @@ export default function PatientRightsPage() {
           </p>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               1. Right to Clear Information
             </h2>
             <p>
@@ -45,7 +45,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               2. Right to Informed Consent
             </h2>
             <p>
@@ -55,7 +55,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               3. Right to Privacy and Confidentiality
             </h2>
             <p>
@@ -66,7 +66,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               4. Right to Access Your Records
             </h2>
             <p>
@@ -77,7 +77,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               5. Right to Request Corrections
             </h2>
             <p>
@@ -88,7 +88,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               6. Right to a Second or Peer Review
             </h2>
             <p>
@@ -99,7 +99,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               7. Right to Timely Communication
             </h2>
             <p>
@@ -109,7 +109,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               8. Right to Non-Discrimination
             </h2>
             <p>
@@ -120,7 +120,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               9. Right to Data Deletion
             </h2>
             <p>
@@ -131,7 +131,7 @@ export default function PatientRightsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               10. Right to Raise Concerns
             </h2>
             <p>
@@ -142,14 +142,14 @@ export default function PatientRightsPage() {
           </section>
 
           <section>
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               Contact Us
             </h2>
             <p>
               For questions about your rights, email{" "}
               <a
                 href="mailto:care@drbubalcare.com"
-                className="text-clinical-navy hover:text-primary"
+                className="text-[#1E3A5F] hover:text-[#1E3A5F]"
               >
                 care@drbubalcare.com
               </a>

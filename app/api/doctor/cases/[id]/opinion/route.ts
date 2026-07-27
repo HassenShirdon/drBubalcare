@@ -3,6 +3,12 @@ import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { OpinionStatus } from '@/lib/generated/prisma/enums';
+import { z } from 'zod';
+
+const opinionSchema = z.object({
+  content: z.string().min(1, 'Content is required'),
+  sign: z.boolean().optional().default(false),
+});
 
 export async function GET(
   request: Request,
@@ -38,6 +44,10 @@ export async function POST(
 
   const { id } = await params;
   const body = await request.json();
+  const parsed = opinionSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
+  }
 
   // Verify case is assigned to this doctor
   const caseRecord = await prisma.case.findFirst({
@@ -55,9 +65,9 @@ export async function POST(
   }
 
   const opinionData = {
-    content: body.content,
-    status: (body.sign ? 'SIGNED' : 'DRAFT') as OpinionStatus,
-    signedAt: body.sign ? new Date() : null,
+    content: parsed.data.content,
+    status: (parsed.data.sign ? 'SIGNED' : 'DRAFT') as OpinionStatus,
+    signedAt: parsed.data.sign ? new Date() : null,
   };
 
   let opinion;
@@ -77,7 +87,7 @@ export async function POST(
   }
 
   // If signed, transition case status to OPINION_READY
-  if (body.sign) {
+  if (parsed.data.sign) {
     await prisma.case.update({
       where: { id },
       data: { status: 'OPINION_READY' },

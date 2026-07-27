@@ -1,56 +1,89 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
+# --- Dependencies ---
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.pnpm-store/
 
-# testing
-/coverage
+# --- Build & Output ---
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
 
-# next.js
-/.next/
-/out/
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
 
-# production
-/build
+# --- Generated / Cache ---
+/lib/generated/prisma
+.eslintcache
+.cache/
 
-# misc
+# --- Testing ---
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+playwright_tests/.auth/
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.user
+.vs/
+
+# --- OS Files ---
 .DS_Store
-*.pem
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+*.lnk
 
-# debug
+# --- Logs & Debug ---
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# --- Security & Credentials ---
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+credentials.json
+service-account*.json
 
-# vercel
+# --- Private / Uploaded Files ---
+/private
+/uploads/
+/storage/
+
+# --- Vercel ---
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-/lib/generated/prisma
-
-# Python cache
+# --- Python (if any) ---
 __pycache__/
 *.pyc
-
-# Playwright
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
-/playwright_tests/.auth/
+*.pyo

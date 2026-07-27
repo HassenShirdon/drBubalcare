@@ -2,7 +2,7 @@ import { Shield, Award, Clock } from "lucide-react";
 
 export function TrustBar() {
   return (
-    <div className="bg-clinical-navy text-white text-xs py-1.5 hidden md:block">
+    <div className="bg-[#1E3A5F] text-white text-xs py-1.5 hidden md:block">
       <div className="max-w-7xl mx-auto px-6 md:px-16 flex items-center justify-center gap-6">
         <span className="flex items-center gap-1.5">
           <Shield className="w-3 h-3" />

@@ -44,9 +44,9 @@ export async function generatePrescreen(caseId: string) {
         await prisma.aIPrescreen.create({
           data: {
             caseId,
-            findings: object.findings.join("\n"),
-            differentials: object.differentials.join("\n"),
-            urgentFlags: object.urgentFlags.length > 0 ? object.urgentFlags.join("\n") : null,
+            findings: `${WATERMARK}\n\n${object.findings.join("\n")}`,
+            differentials: `${WATERMARK}\n\n${object.differentials.join("\n")}`,
+            urgentFlags: object.urgentFlags.length > 0 ? `${WATERMARK}\n\n${object.urgentFlags.join("\n")}` : null,
           },
         });
 

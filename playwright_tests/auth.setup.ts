@@ -11,10 +11,14 @@ const PATIENT_PASSWORD = 'TestPatient123!';
 const DOCTOR_EMAIL = `e2e-doctor-${Date.now()}@test.com`;
 const DOCTOR_PASSWORD = 'TestDoctor123!';
 
+const E2E_SECRET = process.env.E2E_SECRET || 'dev-e2e-secret-do-not-use-in-production';
+const E2E_HEADERS = { 'x-e2e-secret': E2E_SECRET };
+
 async function waitForServerReady(request, maxAttempts = 30) {
   for (let i = 0; i < maxAttempts; i += 1) {
     try {
-      const res = await request.post('http://localhost:3000/api/test/create-admin', {
+      const res = await request.post('http://localhost:3000/api/e2e/create-admin', {
+        headers: E2E_HEADERS,
         timeout: 5000,
       });
       if (res.ok()) return;
@@ -27,7 +31,8 @@ async function waitForServerReady(request, maxAttempts = 30) {
 }
 
 async function createUserViaApi(request, { name, email, password, role, specialty, experience }) {
-  const response = await request.post('http://localhost:3000/api/test/create-user', {
+  const response = await request.post('http://localhost:3000/api/e2e/create-user', {
+    headers: E2E_HEADERS,
     data: { name, email, password, role, specialty, experience },
   });
   expect(response.ok()).toBeTruthy();
@@ -35,7 +40,8 @@ async function createUserViaApi(request, { name, email, password, role, specialt
 }
 
 async function signInViaApi(page, request, email, password) {
-  const response = await request.post('http://localhost:3000/api/test/login', {
+  const response = await request.post('http://localhost:3000/api/e2e/login', {
+    headers: E2E_HEADERS,
     data: { email, password },
   });
   expect(response.ok()).toBeTruthy();
@@ -105,7 +111,9 @@ setup('sign up as doctor and save auth state', async ({ page, request }) => {
 setup('create admin and save auth state', async ({ page, request }) => {
   await waitForServerReady(request);
 
-  const response = await request.post('http://localhost:3000/api/test/create-admin');
+  const response = await request.post('http://localhost:3000/api/e2e/create-admin', {
+    headers: E2E_HEADERS,
+  });
   const body = await response.json();
   expect(response.ok()).toBeTruthy();
   if (body.message === 'Admin created') {

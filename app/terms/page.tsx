@@ -12,24 +12,24 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-[#F8FAFC]">
       <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 md:py-24">
         <Link
           href="/"
-          className="text-sm font-medium text-clinical-navy hover:text-primary transition-colors"
+          className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
           ← Back to home
         </Link>
-        <h1 className="font-headline-md text-3xl md:text-4xl font-semibold text-text-medical-black mt-6 mb-8 tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Terms of Use
         </h1>
-        <div className="prose prose-slate max-w-none font-body-md text-on-surface-variant">
-          <p className="text-sm text-on-surface-variant/70 mb-8">
+        <div className="prose prose-slate max-w-none text-[#64748B]">
+          <p className="text-sm text-[#64748B]/70 mb-8">
             Last updated: {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </p>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               1. Acceptance of Terms
             </h2>
             <p>
@@ -39,7 +39,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               2. Medical Disclaimer
             </h2>
             <p>
@@ -61,7 +61,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               3. Eligibility and Account Registration
             </h2>
             <p>
@@ -72,7 +72,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               4. Services and Payments
             </h2>
             <p>
@@ -87,7 +87,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               5. User Responsibilities
             </h2>
             <p>You agree to:</p>
@@ -101,7 +101,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               6. Intellectual Property
             </h2>
             <p>
@@ -112,7 +112,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               7. Limitation of Liability
             </h2>
             <p>
@@ -124,7 +124,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               8. Termination
             </h2>
             <p>
@@ -135,7 +135,7 @@ export default function TermsPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               9. Governing Law
             </h2>
             <p>
@@ -145,14 +145,14 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               10. Contact Us
             </h2>
             <p>
               For questions about these Terms, please contact{" "}
               <a
                 href="mailto:care@drbubalcare.com"
-                className="text-clinical-navy hover:text-primary"
+                className="text-[#1E3A5F] hover:text-[#1E3A5F]"
               >
                 care@drbubalcare.com
               </a>

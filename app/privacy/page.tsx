@@ -12,24 +12,24 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-[#F8FAFC]">
       <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 md:py-24">
         <Link
           href="/"
-          className="text-sm font-medium text-clinical-navy hover:text-primary transition-colors"
+          className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
           ← Back to home
         </Link>
-        <h1 className="font-headline-md text-3xl md:text-4xl font-semibold text-text-medical-black mt-6 mb-8 tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Privacy Policy
         </h1>
-        <div className="prose prose-slate max-w-none font-body-md text-on-surface-variant">
-          <p className="text-sm text-on-surface-variant/70 mb-8">
+        <div className="prose prose-slate max-w-none text-[#64748B]">
+          <p className="text-sm text-[#64748B]/70 mb-8">
             Last updated: {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </p>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               1. Introduction
             </h2>
             <p>
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               2. Information We Collect
             </h2>
             <p>We collect information you provide directly to us, including:</p>
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               3. How We Use Your Information
             </h2>
             <p>We use your information to:</p>
@@ -81,7 +81,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               4. Data Storage and Security
             </h2>
             <p>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               5. Information Sharing
             </h2>
             <p>We do not sell your personal or health information. We may share information with:</p>
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               6. Your Rights
             </h2>
             <p>
@@ -126,7 +126,7 @@ export default function PrivacyPage() {
               processing of your personal data. To exercise these rights, contact us at{" "}
               <a
                 href="mailto:care@drbubalcare.com"
-                className="text-clinical-navy hover:text-primary"
+                className="text-[#1E3A5F] hover:text-[#1E3A5F]"
               >
                 care@drbubalcare.com
               </a>
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               7. Cookies and Tracking
             </h2>
             <p>
@@ -145,7 +145,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               8. Changes to This Policy
             </h2>
             <p>
@@ -155,14 +155,14 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-headline-md text-xl font-semibold text-text-medical-black mb-3">
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-3">
               9. Contact Us
             </h2>
             <p>
               If you have questions about this Privacy Policy, please contact us at{" "}
               <a
                 href="mailto:care@drbubalcare.com"
-                className="text-clinical-navy hover:text-primary"
+                className="text-[#1E3A5F] hover:text-[#1E3A5F]"
               >
                 care@drbubalcare.com
               </a>

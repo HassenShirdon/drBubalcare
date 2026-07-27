@@ -32,8 +32,8 @@ export default function DoctorCasesPage() {
   return (
     <div className="p-6 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-clinical-navy font-headline-md font-semibold text-xl">My Cases</h1>
-        <p className="text-sm text-on-surface-variant mt-0.5">View and manage your assigned diagnostic cases</p>
+          <h1 className="font-semibold text-xl" style={{ color: '#1E3A5F' }}>My Cases</h1>
+        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>View and manage your assigned diagnostic cases</p>
       </motion.div>
 
       <div className="flex gap-2">
@@ -41,11 +41,12 @@ export default function DoctorCasesPage() {
           <button
             key={tab.key}
             onClick={() => setTabFilter(tab.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            style={
               tabFilter === tab.key
-                ? "bg-clinical-navy text-white shadow-sm"
-                : "bg-surface-container text-on-surface-variant hover:bg-surface-container-low"
-            }`}
+                ? { background: '#1E3A5F', color: '#FFFFFF' }
+                : { background: '#F8FAFC', color: '#64748B' }
+            }
           >
             {tab.label} ({tab.count})
           </button>

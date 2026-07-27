@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 
+function isAllowed(request: NextRequest) {
+  if (process.env.NODE_ENV === 'production') return false;
+  const secret = request.headers.get('x-e2e-secret');
+  if (process.env.E2E_SECRET && secret !== process.env.E2E_SECRET) return false;
+  return true;
+}
+
 export async function POST(req: NextRequest) {
-  if (process.env.NODE_ENV !== 'development' && !process.env.INTERNAL_API_SECRET) {
-    return NextResponse.json({ error: 'Not available' }, { status: 403 });
+  if (!isAllowed(req)) {
+    return NextResponse.json({ error: 'Not available outside E2E' }, { status: 403 });
   }
 
   const { name, email, password, role, specialty, experience } = await req.json();

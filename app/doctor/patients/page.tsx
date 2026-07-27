@@ -20,8 +20,8 @@ export default function DoctorPatientsPage() {
   return (
     <div className="p-6 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-clinical-navy font-headline-md font-semibold text-xl">My Patients</h1>
-        <p className="text-sm text-on-surface-variant mt-0.5">Patients you've consulted with</p>
+        <h1 className="font-semibold text-xl" style={{ color: '#1E3A5F' }}>My Patients</h1>
+        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>Patients you&apos;ve consulted with</p>
       </motion.div>
 
       {isLoading ? (

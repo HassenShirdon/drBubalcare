@@ -60,17 +60,17 @@ export default function NewCasePage() {
   };
 
   return (
-    <div className="p-4 md:p-margin-desktop max-w-3xl mx-auto pb-24 md:pb-8 space-y-stack-xl">
+    <div className="p-4 md:p-8 max-w-3xl mx-auto pb-24 md:pb-8 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link
           href="/patient/cases"
-          className="inline-flex items-center gap-1 text-on-surface-variant text-sm hover:text-clinical-navy transition-colors mb-4"
+          className="inline-flex items-center gap-1 text-[#64748B] text-sm hover:text-[#1E3A5F] transition-colors mb-4"
         >
           <ArrowLeft className="size-4" />
           Back to cases
         </Link>
-        <h1 className="font-headline-lg text-clinical-navy font-bold text-2xl md:text-3xl">Start a New Case</h1>
-        <p className="text-on-surface-variant mt-1 text-sm">
+        <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Start a New Case</h1>
+        <p className="text-[#64748B] mt-1 text-sm">
           Select a service type and describe your case. You can upload files after creating the case.
         </p>
       </motion.div>
@@ -82,7 +82,7 @@ export default function NewCasePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <label className="block font-headline-md font-bold text-clinical-navy text-base mb-3">
+          <label className="block font-bold text-[#1E3A5F] text-base mb-3">
             Service Type
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -96,22 +96,22 @@ export default function NewCasePage() {
                 }}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   selectedService === opt.value
-                    ? 'border-clinical-navy bg-clinical-navy/5'
-                    : 'border-surface-gray bg-white hover:border-clinical-navy/30'
+                    ? 'border-[#1E3A5F] bg-[#1E3A5F]/5'
+                    : 'border-[#E2E8F0] bg-white hover:border-[#1E3A5F]/30'
                 }`}
               >
-                <div className={`mb-2 ${selectedService === opt.value ? 'text-clinical-navy' : 'text-on-surface-variant'}`}>
+                <div className={`mb-2 ${selectedService === opt.value ? 'text-[#1E3A5F]' : 'text-[#64748B]'}`}>
                   {opt.icon}
                 </div>
-                <p className={`font-medium text-sm ${selectedService === opt.value ? 'text-clinical-navy' : 'text-text-medical-black'}`}>
+                <p className={`font-medium text-sm ${selectedService === opt.value ? 'text-[#1E3A5F]' : 'text-[#0F172A]'}`}>
                   {opt.label}
                 </p>
-                <p className="text-on-surface-variant text-xs mt-1">{opt.description}</p>
+                <p className="text-[#64748B] text-xs mt-1">{opt.description}</p>
               </button>
             ))}
           </div>
           {errors.serviceType && (
-            <p className="text-error text-xs mt-2">{errors.serviceType.message}</p>
+            <p className="text-[#B91C1C] text-xs mt-2">{errors.serviceType.message}</p>
           )}
           <input type="hidden" {...register('serviceType')} />
         </motion.section>
@@ -122,7 +122,7 @@ export default function NewCasePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <label htmlFor="description" className="block font-headline-md font-bold text-clinical-navy text-base mb-3">
+          <label htmlFor="description" className="block font-bold text-[#1E3A5F] text-base mb-3">
             Case Description
           </label>
           <textarea
@@ -130,10 +130,10 @@ export default function NewCasePage() {
             {...register('description')}
             rows={5}
             placeholder="Describe your case, symptoms, or what you need reviewed..."
-            className="w-full px-4 py-3 rounded-xl border border-surface-gray bg-white text-text-medical-black placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-clinical-navy/30 focus:border-clinical-navy resize-none text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-white text-[#0F172A] placeholder:text-[#64748B]/50 focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F] resize-none text-sm"
           />
           {errors.description && (
-            <p className="text-error text-xs mt-2">{errors.description.message}</p>
+            <p className="text-[#B91C1C] text-xs mt-2">{errors.description.message}</p>
           )}
         </motion.section>
 
@@ -147,7 +147,7 @@ export default function NewCasePage() {
           <button
             type="submit"
             disabled={createCase.isPending}
-            className="inline-flex items-center gap-2 bg-clinical-navy text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-clinical-navy/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-[#1E3A5F] text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-[#1E3A5F]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {createCase.isPending ? (
               <>
@@ -168,14 +168,14 @@ export default function NewCasePage() {
           </button>
           <Link
             href="/patient/cases"
-            className="text-on-surface-variant text-sm font-medium hover:text-clinical-navy transition-colors"
+            className="text-[#64748B] text-sm font-medium hover:text-[#1E3A5F] transition-colors"
           >
             Cancel
           </Link>
         </motion.div>
 
         {createCase.isError && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
+          <div className="bg-[#FEF2F2] border border-[#FECACA] rounded-xl p-4 text-[#B91C1C] text-sm">
             {createCase.error.message}
           </div>
         )}

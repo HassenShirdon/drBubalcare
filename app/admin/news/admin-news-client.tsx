@@ -16,11 +16,11 @@ export function AdminNewsClient({ posts }: AdminNewsClientProps) {
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-5">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
         <div>
-          <p className="text-on-surface-variant text-sm mb-1">Admin Portal</p>
-          <h1 className="text-clinical-navy font-bold text-2xl md:text-3xl">News Management</h1>
+          <p className="text-[#64748B] text-sm mb-1">Admin Portal</p>
+          <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">News Management</h1>
         </div>
         <Link href="/admin/news/new">
-          <Button className="bg-clinical-navy hover:bg-clinical-navy/90 text-white">
+          <Button className="bg-[#1E3A5F] hover:bg-[#1E3A5F]/90 text-white">
             <Plus className="size-4 mr-1" /> New Post
           </Button>
         </Link>
