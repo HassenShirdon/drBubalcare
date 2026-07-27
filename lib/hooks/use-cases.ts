@@ -5,8 +5,9 @@ export function useCases() {
     queryKey: ['cases'],
     queryFn: async () => {
       const res = await fetch('/api/cases');
+      const text = await res.text();
       if (!res.ok) throw new Error('Failed to fetch cases');
-      return res.json();
+      try { return JSON.parse(text); } catch { return []; }
     },
     staleTime: 60 * 1000,
   });
@@ -17,8 +18,9 @@ export function useCase(id: string) {
     queryKey: ['cases', id],
     queryFn: async () => {
       const res = await fetch(`/api/cases/${id}`);
+      const text = await res.text();
       if (!res.ok) throw new Error('Failed to fetch case');
-      return res.json();
+      try { return JSON.parse(text); } catch { return null; }
     },
     enabled: !!id,
     staleTime: 60 * 1000,
@@ -35,11 +37,24 @@ export function useCreateCase() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      const text = await res.text();
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || 'Failed to create case');
+        let message = 'Failed to create case';
+        try {
+          const error = JSON.parse(text);
+          if (error.error) message = error.error;
+          else if (error.formErrors) message = Object.values(error.formErrors).flat().join(', ');
+          else if (error.fieldErrors) message = Object.values(error.fieldErrors).flat().join(', ');
+        } catch {
+          if (text) message = text;
+        }
+        throw new Error(message);
       }
-      return res.json();
+      try {
+        return JSON.parse(text);
+      } catch {
+        throw new Error('Unexpected response from server');
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cases'] });
