@@ -120,42 +120,45 @@ export function PatientLayout({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* TopAppBar */}
-      <header className="sticky top-0 z-40 flex justify-between items-center h-14 px-4 md:px-6 md:ml-64 border-b" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
-        <div className="flex items-center gap-4">
-          <button 
-            className="md:hidden p-1.5 transition-colors" 
-            style={{ color: '#8D99AE' }}
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-          >
-            <Menu size={20} />
-          </button>
-          <h2 className="font-bold text-xl" style={{ color: '#1E3A5F' }}>Patient Portal</h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center rounded-full px-4 py-2 border" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
-            <Search className="mr-2 text-sm" style={{ color: '#8D99AE' }} aria-hidden="true" />
-            <label htmlFor="patient-search" className="sr-only">Search records, messages</label>
-            <input id="patient-search" type="text" placeholder="Search records, messages…" className="bg-transparent border-none focus:ring-0 text-sm w-48 outline-none" style={{ color: '#0F172A' }} />
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
+        {/* TopAppBar */}
+        <header className="sticky top-0 z-40 flex justify-between items-center h-14 px-4 md:px-6 border-b" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
+          <div className="flex items-center gap-4">
+            <button 
+              className="md:hidden p-1.5 transition-colors" 
+              style={{ color: '#8D99AE' }}
+              aria-label="Open menu"
+              onClick={() => setMobileOpen(true)}
+            >
+              <Menu size={20} />
+            </button>
+            <h2 className="font-bold text-xl" style={{ color: '#1E3A5F' }}>Patient Portal</h2>
           </div>
-          <button className="transition-colors relative p-2" style={{ color: '#3B82F6' }} aria-label="Notifications">
-            <Bell size={20} aria-hidden="true" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: '#E63946' }} aria-hidden="true"></span>
-          </button>
-          <div className="flex items-center gap-2">
-            <span className="text-sm hidden md:inline" style={{ color: '#0F172A' }}>{user?.name ?? 'Patient'}</span>
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: '#1E3A5F' }}>
-              {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center rounded-full px-4 py-2 border" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
+              <Search className="mr-2 text-sm" style={{ color: '#8D99AE' }} aria-hidden="true" />
+              <label htmlFor="patient-search" className="sr-only">Search records, messages</label>
+              <input id="patient-search" type="text" placeholder="Search records, messages…" className="bg-transparent border-none focus:ring-0 text-sm w-48 outline-none" style={{ color: '#0F172A' }} />
+            </div>
+            <button className="transition-colors relative p-2" style={{ color: '#3B82F6' }} aria-label="Notifications">
+              <Bell size={20} aria-hidden="true" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: '#E63946' }} aria-hidden="true"></span>
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-sm hidden md:inline" style={{ color: '#0F172A' }}>{user?.name ?? 'Patient'}</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: '#1E3A5F' }}>
+                {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main id="main-content" className="flex-1 md:ml-64">
-        {children}
-      </main>
+        {/* Main Content */}
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+      </div>
 
       {/* Bottom Nav (Mobile) */}
       <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe border-t md:hidden" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
