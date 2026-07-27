@@ -19,7 +19,7 @@ export default function LabResultDetails() {
 
   if (isLoading) {
     return (
-      <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 flex items-center justify-center min-h-[50vh]">
+      <div className="p-4 md:p-8 pb-24 md:pb-8 flex items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-[#15803D]" size={32} />
       </div>
     );
@@ -27,7 +27,7 @@ export default function LabResultDetails() {
 
   if (!labResult) {
     return (
-      <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 flex flex-col items-center justify-center min-h-[50vh] gap-4">
+      <div className="p-4 md:p-8 pb-24 md:pb-8 flex flex-col items-center justify-center min-h-[50vh] gap-4">
         <p className="text-[#64748B] text-lg">Lab result not found.</p>
         <Link href="/patient/labs" className="text-[#15803D] hover:underline text-sm">Back to Labs</Link>
       </div>
@@ -37,7 +37,7 @@ export default function LabResultDetails() {
   const dateStr = new Date(labResult.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 space-y-6">
+    <div className="p-4 md:p-8 pb-24 md:pb-8 space-y-6">
       <Link href="/patient/labs" className="inline-flex items-center gap-2 text-[#64748B] hover:text-[#1E3A5F] transition-colors mb-2">
         <ArrowLeft className="text-sm" />
         <span className="text-sm">Back to Labs</span>

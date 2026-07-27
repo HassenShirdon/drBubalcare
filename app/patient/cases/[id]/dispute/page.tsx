@@ -41,7 +41,7 @@ export default function PatientDisputePage() {
   }
 
   return (
-    <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5">
+    <div className="p-4 md:p-8 space-y-5">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-[#1E3A5F] font-bold text-2xl">File a Dispute</h1>
         <p className="text-[#64748B] text-sm mt-1">

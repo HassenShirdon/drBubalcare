@@ -87,7 +87,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   if (isLoading) {
     return (
-      <div className="p-6 max-w-4xl mx-auto flex items-center justify-center py-20">
+      <div className="p-6 flex items-center justify-center py-20">
         <Loader2 className="animate-spin" size={32} style={{ color: '#22C55E' }} />
       </div>
     );
@@ -95,7 +95,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   if (!caseData) {
     return (
-      <div className="p-6 max-w-4xl mx-auto text-center py-20">
+      <div className="p-6 text-center py-20">
         <p style={{ color: '#64748B' }}>Case not found</p>
         <Link href="/doctor/cases" className="text-sm mt-2 inline-block" style={{ color: '#3B82F6' }}>
           Back to cases

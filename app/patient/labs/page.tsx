@@ -21,7 +21,7 @@ export default function LabsPortal() {
     : labResults;
 
   return (
-    <div className="p-4 md:p-8 max-w-5xl mx-auto pb-24 md:pb-8 space-y-6">
+    <div className="p-4 md:p-8 pb-24 md:pb-8 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <p className="text-[#64748B] text-sm mb-1">Patient Portal</p>
         <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Lab Portal</h1>

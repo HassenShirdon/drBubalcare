@@ -76,7 +76,7 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
 
   if (isLoading) {
     return (
-      <div className="p-4 md:p-8 max-w-4xl mx-auto flex items-center justify-center py-20">
+      <div className="p-4 md:p-8 flex items-center justify-center py-20">
         <Loader2 className="animate-spin text-[#15803D]" size={32} />
       </div>
     );
@@ -84,7 +84,7 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
 
   if (!caseData) {
     return (
-      <div className="p-4 md:p-8 max-w-4xl mx-auto text-center py-20">
+      <div className="p-4 md:p-8 text-center py-20">
         <p className="text-[#64748B]">Case not found</p>
         <Link href="/patient/cases" className="text-[#1E3A5F] text-sm mt-2 inline-block hover:text-[#15803D]">
           Back to cases
@@ -96,7 +96,7 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
   const status = statusConfig[caseData.status] || statusConfig.OPEN;
 
   return (
-    <div className="p-4 md:p-8 max-w-4xl mx-auto pb-24 md:pb-8 space-y-6">
+    <div className="p-4 md:p-8 pb-24 md:pb-8 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link
           href="/patient/cases"

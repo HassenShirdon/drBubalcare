@@ -76,7 +76,7 @@ export default function AdminDisputeDetailPage() {
   if (!dispute) return <div className="p-6">Dispute not found</div>
 
   return (
-    <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link href="/admin/disputes" className="text-sm text-[#22C55E] hover:underline inline-flex items-center gap-1 mb-3">
           <ArrowLeft className="size-3" /> Back to disputes
