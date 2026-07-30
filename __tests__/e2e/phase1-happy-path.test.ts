@@ -26,9 +26,11 @@ vi.mock('@/lib/db', () => ({
       findFirst: vi.fn(),
       findMany: vi.fn(),
       update: vi.fn(),
+      count: vi.fn(),
     },
     caseRecord: {
       create: vi.fn(),
+      update: vi.fn(),
       count: vi.fn(),
       findMany: vi.fn(),
     },
@@ -85,7 +87,7 @@ vi.mock('fs/promises', () => ({
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
 import { createCaseSchema } from '@/lib/schemas/case.schema';
-import { POST as createCase } from '@/app/api/cases/route';
+import { GET as listCases, POST as createCase } from '@/app/api/cases/route';
 import { PATCH as verifyDoctor } from '@/app/api/admin/specialists/[id]/verify/route';
 import { PATCH as assignCase } from '@/app/api/admin/cases/[id]/assign/route';
 import { POST as saveOpinion } from '@/app/api/doctor/cases/[id]/opinion/route';
@@ -364,5 +366,94 @@ describe('Phase 1 Happy Path E2E', () => {
       (call) => typeof call[0] === 'string' && call[0].includes('/api/ai/summary/'),
     );
     expect(summaryCalls).toHaveLength(0);
+  });
+
+  it('rejects file upload on closed case with 400', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
+    vi.mocked(prisma.case.findUnique).mockResolvedValue({
+      id: CASE_ID, patientId: PATIENT_ID, status: 'CLOSED',
+    } as any);
+
+    const uploadRes = await uploadRecords(
+      createFormDataRequest([{ name: 'xray.jpg', type: 'image/jpeg', size: 1024 }]),
+      params(CASE_ID),
+    );
+
+    expect(uploadRes.status).toBe(400);
+    const body = await uploadRes.json();
+    expect(body.error).toContain('closed');
+  });
+
+  it('rejects file upload on disputed case with 400', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
+    vi.mocked(prisma.case.findUnique).mockResolvedValue({
+      id: CASE_ID, patientId: PATIENT_ID, status: 'DISPUTED',
+    } as any);
+
+    const uploadRes = await uploadRecords(
+      createFormDataRequest([{ name: 'xray.jpg', type: 'image/jpeg', size: 1024 }]),
+      params(CASE_ID),
+    );
+
+    expect(uploadRes.status).toBe(400);
+    const body = await uploadRes.json();
+    expect(body.error).toContain('disputed');
+  });
+
+  it('stores on-disk filename for retrievable file records', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
+    vi.mocked(prisma.case.findUnique).mockResolvedValue({
+      id: CASE_ID, patientId: PATIENT_ID, status: 'OPEN',
+    } as any);
+
+    // Capture the actual fileName passed to prisma.caseRecord.create
+    let capturedDiskFileName = '';
+    vi.mocked(prisma.caseRecord.create).mockImplementation((async (args: any) => {
+      capturedDiskFileName = args.data.fileName;
+      return {
+        id: 'record-file-1', caseId: CASE_ID,
+        fileUrl: '', fileType: 'image/jpeg', fileName: args.data.fileName,
+        uploadedAt: new Date(),
+      };
+    }) as any);
+    vi.mocked(prisma.caseRecord.update).mockResolvedValue({
+      id: 'record-file-1', caseId: CASE_ID,
+      fileUrl: '/api/records/record-file-1/file', fileType: 'image/jpeg',
+      fileName: capturedDiskFileName || 'timestamped_filename',
+      uploadedAt: new Date(),
+    } as any);
+    vi.mocked(prisma.caseRecord.count).mockResolvedValue(1);
+
+    const uploadRes = await uploadRecords(
+      createFormDataRequest([{ name: 'patient_mri.dcm', type: 'application/dicom', size: 4096 }]),
+      params(CASE_ID),
+    );
+
+    expect(uploadRes.status).toBe(201);
+    const records = await uploadRes.json();
+    expect(records).toHaveLength(1);
+
+    // fileName should be the timestamped on-disk name, not the original name
+    expect(records[0].fileName).toMatch(/^\d+_patient_mri\.dcm$/);
+    expect(records[0].fileUrl).toMatch(/^\/api\/records\/.+\/file$/);
+  });
+
+  it('returns paginated case list with total count', async () => {
+    vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
+    const mockCases = [
+      { id: 'case-a', patientId: PATIENT_ID, serviceType: 'SPECIALIST_OPINION', status: 'OPEN', createdAt: new Date(), updatedAt: new Date(), records: [], opinions: [], aiPrescreens: [], referralCoordination: null },
+    ];
+    vi.mocked(prisma.case.findMany).mockResolvedValue(mockCases as any);
+    vi.mocked(prisma.case.count).mockResolvedValue(1);
+
+    const res = await listCases(new Request('http://localhost:3000/api/cases?take=10&skip=0'));
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.data).toHaveLength(1);
+    expect(json.total).toBe(1);
+    expect(json.take).toBe(10);
+    expect(json.skip).toBe(0);
+    expect(json.data[0].id).toBe('case-a');
   });
 });

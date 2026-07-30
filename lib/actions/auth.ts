@@ -2,10 +2,12 @@
 
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
+import { headers } from 'next/headers';
 import {
   signUpPatientSchema,
   signUpDoctorSchema,
 } from '@/lib/schemas/auth.schema';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function registerPatient(formData: FormData) {
   const raw = Object.fromEntries(formData);
@@ -16,6 +18,14 @@ export async function registerPatient(formData: FormData) {
   }
 
   const { name, email, password } = parsed.data;
+
+  const headerStore = await headers();
+  const ip = headerStore.get('x-forwarded-for') || headerStore.get('x-real-ip') || 'unknown';
+  const rateLimitKey = `register:${ip}`;
+  const rateCheck = checkRateLimit(rateLimitKey, 5, 60_000);
+  if (!rateCheck.allowed) {
+    return { error: { email: ['Too many registration attempts. Please try again later.'] } };
+  }
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -41,6 +51,14 @@ export async function registerDoctor(formData: FormData) {
 
   const { name, email, password, specialty, experience, bio, imageUrl } =
     parsed.data;
+
+  const headerStore = await headers();
+  const ip = headerStore.get('x-forwarded-for') || headerStore.get('x-real-ip') || 'unknown';
+  const rateLimitKey = `register:${ip}`;
+  const rateCheck = checkRateLimit(rateLimitKey, 5, 60_000);
+  if (!rateCheck.allowed) {
+    return { error: { email: ['Too many registration attempts. Please try again later.'] } };
+  }
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {

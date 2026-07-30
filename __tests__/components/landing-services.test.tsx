@@ -12,9 +12,9 @@ vi.mock('motion/react', () => ({
 }));
 
 describe('ServicesSection', () => {
-  it('renders service cards', () => {
+  it('renders the services section with heading', () => {
     render(<ServicesSection />);
-    expect(screen.getAllByText('Choose the level of support you need').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Our Services').length).toBeGreaterThan(0);
   });
 
   it('shows service titles from data.ts', () => {
@@ -25,17 +25,27 @@ describe('ServicesSection', () => {
     }
   });
 
-  it('shows service descriptions from data.ts', () => {
+  it('shows service short descriptions from data.ts', () => {
     render(<ServicesSection />);
     for (const service of SERVICES) {
-      const elements = screen.getAllByText(service.description);
+      const elements = screen.getAllByText(service.shortDescription);
       expect(elements.length).toBeGreaterThan(0);
     }
   });
 
   it('renders a link for each service', () => {
     const { container } = render(<ServicesSection />);
-    const links = container.querySelectorAll('a[href="/patient"]');
+    const links = container.querySelectorAll('a[href^="/services/"]');
     expect(links.length).toBe(SERVICES.length);
+  });
+
+  it('renders highlights for each service', () => {
+    render(<ServicesSection />);
+    for (const service of SERVICES) {
+      for (const highlight of service.highlights) {
+        const elements = screen.getAllByText(highlight);
+        expect(elements.length).toBeGreaterThan(0);
+      }
+    }
   });
 });

@@ -40,17 +40,12 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
 
   return (
       <DropdownMenu>
-      <DropdownMenuTrigger
-        nativeButton={false}
-        render={
-          <span className="inline-flex items-center justify-center size-8 rounded-md text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer" />
-        }
-      >
+      <DropdownMenuTrigger className="inline-flex items-center justify-center size-8 rounded-md text-admin-text-faint hover:bg-admin-surface-elevated hover:text-admin-text transition-colors cursor-pointer">
         <span className="sr-only">Open menu</span>
         <MoreHorizontal className="size-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem className="text-xs">
+        <DropdownMenuItem>
           <Eye className="size-3.5 mr-2" />
           View Profile
         </DropdownMenuItem>
@@ -59,7 +54,7 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
           <DropdownMenuItem
             onClick={toggleVerify}
             disabled={loading}
-            className="text-xs text-[#F59E0B] focus:text-[#F59E0B]"
+            className="text-admin-warning focus:text-admin-warning"
           >
             <XCircle className="size-3.5 mr-2" />
             {loading ? "Revoking..." : "Revoke Verification"}
@@ -68,7 +63,7 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
           <DropdownMenuItem
             onClick={toggleVerify}
             disabled={loading}
-            className="text-xs text-[#22C55E] focus:text-[#22C55E]"
+            className="text-admin-success focus:text-admin-success"
           >
             <CheckCircle className="size-3.5 mr-2" />
             {loading ? "Verifying..." : "Verify Specialist"}
@@ -93,12 +88,12 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
         .toUpperCase()
       return (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6] text-xs font-bold shrink-0">
+          <div className="w-9 h-9 rounded-full bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-xs font-bold shrink-0">
             {initials}
           </div>
           <div className="min-w-0">
-            <p className="font-medium text-[#0F172A] text-sm truncate">{user.name ?? "Unknown"}</p>
-            <p className="text-[11px] text-[#64748B] truncate">{user.email}</p>
+            <p className="font-medium text-admin-text text-sm truncate">{user.name ?? "Unknown"}</p>
+            <p className="text-[11px] text-admin-text-faint truncate">{user.email}</p>
           </div>
         </div>
       )
@@ -117,8 +112,8 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Specialty" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-1.5">
-        <Stethoscope className="size-3.5 text-[#64748B]" />
-        <span className="text-sm text-[#0F172A]">{row.original.specialty}</span>
+        <Stethoscope className="size-3.5 text-admin-text-faint" />
+        <span className="text-sm text-admin-text">{row.original.specialty}</span>
       </div>
     ),
   },
@@ -126,7 +121,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     accessorKey: "experience",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Experience" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">{row.original.experience} yrs</span>
+      <span className="text-sm text-admin-text-faint">{row.original.experience} yrs</span>
     ),
   },
   {
@@ -134,11 +129,11 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
       row.original.verified ? (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#22C55E] bg-[#DCFCE7] px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-success bg-admin-success-light px-2 py-0.5 rounded-full">
           <BadgeCheck className="size-3" /> Verified
         </span>
       ) : (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#B45309] bg-[#FEF3C7] px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-warning bg-admin-warning-light px-2 py-0.5 rounded-full">
           <BadgeX className="size-3" /> Pending
         </span>
       )
@@ -155,7 +150,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     id: "joined",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Joined" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">
+      <span className="text-sm text-admin-text-faint">
         {new Date(row.original.user.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

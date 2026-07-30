@@ -1,33 +1,36 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="py-20 bg-[#F8FAFC] border-y border-[#E2E8F0]/50">
-      <div className="max-w-3xl mx-auto px-6 md:px-16 text-center space-y-6">
-        <h2 className="text-2xl md:text-3xl font-semibold text-[#0F172A] text-balance">
-          Get clarity on your diagnosis
+    <section className="py-20 md:py-28 bg-gradient-to-b from-landing-surface to-landing-accent/30 border-y border-landing-border/50">
+      <div className="max-w-2xl mx-auto px-6 md:px-16 text-center">
+        <h2 className="text-2xl md:text-4xl font-semibold text-landing-text text-balance tracking-tight leading-[1.2]">
+          Ready to understand your results?
         </h2>
-        <p className="font-body-lg text-lg text-[#64748B]/80">
-          Upload your records and a board-certified specialist will return a written opinion in 24–48 hours.
+        <p className="mt-4 text-lg text-landing-text-muted leading-relaxed text-balance">
+          Upload your records today. A board-certified specialist will review
+          your case and deliver clear answers.
         </p>
-        <div className="flex justify-center gap-3 pt-2 flex-wrap">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/patient"
-            className="bg-[#1E3A5F] text-white text-base font-medium px-8 py-3.5 rounded-lg hover:bg-primary transition-colors inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 bg-landing-brand text-white text-base font-semibold px-8 py-3.5 rounded-xl hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-200 shadow-sm shadow-landing-brand/20"
           >
-            Start your case
+            Start a Case
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
           <Link
             href="#contact"
-            className="inline-flex items-center gap-2 border border-[#E2E8F0] text-[#0F172A] bg-white px-6 py-3.5 rounded-lg text-base font-medium hover:bg-[#F1F5F9]/50 transition-colors"
+            className="inline-flex items-center gap-2 border border-landing-border text-landing-text bg-card px-6 py-3.5 rounded-xl text-base font-semibold hover:bg-landing-surface-muted transition-colors duration-200"
           >
             Contact us
           </Link>
         </div>
-        <p className="text-sm text-[#64748B]/70 mt-4">
-          No credit card required to start · Cancel anytime · Encrypted and confidential
+        <p className="mt-6 text-sm text-landing-text-faint">
+          No credit card required. Encrypted and confidential.
         </p>
       </div>
     </section>
-  )
+  );
 }

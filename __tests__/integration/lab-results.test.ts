@@ -23,6 +23,7 @@ vi.mock('@/lib/db', () => ({
     labResult: {
       findMany: vi.fn(),
       findUnique: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -43,7 +44,7 @@ describe('Lab Results API', () => {
     it('returns 401 without auth', async () => {
       vi.mocked(getServerSession).mockResolvedValue(null);
 
-      const res = await listLabResults();
+      const res = await listLabResults(new Request('http://localhost:3000/api/lab-results'));
       expect(res.status).toBe(401);
     });
 
@@ -55,17 +56,24 @@ describe('Lab Results API', () => {
       ];
       vi.mocked(prisma.labResult.findMany).mockResolvedValue(mockResults as any);
 
-      const res = await listLabResults();
-      const data = await res.json();
+      vi.mocked(prisma.labResult.count as any).mockResolvedValue(2);
+
+      const res = await listLabResults(new Request('http://localhost:3000/api/lab-results'));
+      const json = await res.json();
 
       expect(res.status).toBe(200);
-      expect(data).toHaveLength(2);
-      expect(data[0].name).toBe('Blood Test');
-      expect(data[1].name).toBe('Lipid Panel');
+      expect(json.data).toHaveLength(2);
+      expect(json.data[0].name).toBe('Blood Test');
+      expect(json.data[1].name).toBe('Lipid Panel');
+      expect(json.total).toBe(2);
+      expect(json.take).toBe(50);
+      expect(json.skip).toBe(0);
       expect(prisma.labResult.findMany).toHaveBeenCalledWith({
         where: { patientId: 'patient-1' },
         include: { metrics: true },
         orderBy: { date: 'desc' },
+        take: 50,
+        skip: 0,
       });
     });
   });
@@ -123,7 +131,7 @@ describe('Lab Results API', () => {
           name: 'Blood Test',
           status: 'REVIEW_NEEDED',
           date: new Date('2024-06-01'),
-          patient: { name: 'Alice', email: 'alice@test.com' },
+          patient: { name: 'Alice', age: 32, gender: 'female' },
           metrics: [{ name: 'WBC', value: 15.5, unit: 'K/uL', referenceRange: '4.5-11.0', status: 'HIGH' }],
         },
       ];
@@ -147,6 +155,16 @@ describe('Lab Results API', () => {
 
       expect(res.status).toBe(200);
       expect(data).toEqual([]);
+    });
+
+    it('returns 403 when patient accesses pending-review', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'patient-1'));
+
+      const res = await pendingReview();
+
+      expect(res.status).toBe(403);
+      const body = await res.json();
+      expect(body.error).toBe('Only specialists and admins can view pending reviews');
     });
   });
 });

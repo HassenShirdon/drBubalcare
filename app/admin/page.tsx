@@ -20,6 +20,31 @@ async function getStats() {
   return { totalCases, pendingSpecialists, totalPosts, totalPatients, openCases, underReview, opinionReady };
 }
 
+function StatCard({ icon: Icon, label, value, iconBg, iconColor }: {
+  icon: typeof Briefcase;
+  label: string;
+  value: number;
+  iconBg: string;
+  iconColor: string;
+}) {
+  return (
+    <div className="bg-admin-surface rounded-xl border border-admin-border p-5 transition-shadow hover:shadow-sm">
+      <div className="flex items-center gap-4">
+        <div
+          className="size-10 rounded-xl flex items-center justify-center shrink-0"
+          style={{ backgroundColor: iconBg, color: iconColor }}
+        >
+          <Icon className="size-5" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-2xl font-bold text-admin-text tracking-tight">{value}</p>
+          <p className="text-xs text-admin-text-faint font-medium mt-0.5">{label}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/auth/signin');
@@ -27,103 +52,98 @@ export default async function AdminDashboard() {
   const stats = await getStats();
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 lg:p-8 space-y-8">
+      {/* Page header */}
       <div>
-        <h1 className="text-xl md:text-2xl font-semibold text-[#0F172A]">
-          Admin Dashboard
+        <h1 className="text-xl md:text-2xl font-semibold text-admin-text tracking-tight">
+          Dashboard
         </h1>
-        <p className="text-[#64748B] mt-0.5 text-xs">
-          Overview of platform activity
+        <p className="text-sm text-admin-text-muted mt-1">
+          Overview of platform activity and key metrics
         </p>
       </div>
 
+      {/* Stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6]">
-              <Briefcase className="size-4" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-[#0F172A]">{stats.totalCases}</p>
-              <p className="text-[11px] text-[#64748B]">Total Cases</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#FEF3C7] flex items-center justify-center text-[#F59E0B]">
-              <Shield className="size-4" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-[#0F172A]">{stats.pendingSpecialists}</p>
-              <p className="text-[11px] text-[#64748B]">Pending Verification</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#DCFCE7] flex items-center justify-center text-[#22C55E]">
-              <Newspaper className="size-4" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-[#0F172A]">{stats.totalPosts}</p>
-              <p className="text-[11px] text-[#64748B]">News Posts</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6]">
-              <Users className="size-4" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-[#0F172A]">{stats.totalPatients}</p>
-              <p className="text-[11px] text-[#64748B]">Total Patients</p>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          icon={Briefcase}
+          label="Total Cases"
+          value={stats.totalCases}
+          iconBg="var(--admin-brand-light)"
+          iconColor="var(--admin-accent-blue)"
+        />
+        <StatCard
+          icon={Shield}
+          label="Pending Verification"
+          value={stats.pendingSpecialists}
+          iconBg="var(--admin-warning-light)"
+          iconColor="var(--admin-warning)"
+        />
+        <StatCard
+          icon={Newspaper}
+          label="News Posts"
+          value={stats.totalPosts}
+          iconBg="var(--admin-success-light)"
+          iconColor="var(--admin-success)"
+        />
+        <StatCard
+          icon={Users}
+          label="Total Patients"
+          value={stats.totalPatients}
+          iconBg="var(--admin-brand-light)"
+          iconColor="var(--admin-accent-blue)"
+        />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-5">
-          <h2 className="font-semibold text-sm text-[#0F172A] mb-4">
+      {/* Two-column grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Case Breakdown */}
+        <div className="bg-admin-surface rounded-xl border border-admin-border p-6">
+          <h2 className="text-sm font-semibold text-admin-text mb-5">
             Case Breakdown
           </h2>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
-              <span className="text-xs text-[#64748B]">Open (awaiting specialist)</span>
-              <span className="text-xs font-bold text-[#1E40AF] bg-[#DBEAFE] px-2 py-0.5 rounded-full">{stats.openCases}</span>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg">
+              <span className="text-sm text-admin-text-muted">Open (awaiting specialist)</span>
+              <span className="text-xs font-semibold text-admin-accent-blue bg-admin-brand-light px-2.5 py-0.5 rounded-full">{stats.openCases}</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
-              <span className="text-xs text-[#64748B]">Under Review</span>
-              <span className="text-xs font-bold text-[#B45309] bg-[#FEF3C7] px-2 py-0.5 rounded-full">{stats.underReview}</span>
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg">
+              <span className="text-sm text-admin-text-muted">Under Review</span>
+              <span className="text-xs font-semibold text-admin-warning bg-admin-warning-light px-2.5 py-0.5 rounded-full">{stats.underReview}</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC]">
-              <span className="text-xs text-[#64748B]">Opinion Ready</span>
-              <span className="text-xs font-bold text-[#22C55E] bg-[#DCFCE7] px-2 py-0.5 rounded-full">{stats.opinionReady}</span>
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg">
+              <span className="text-sm text-admin-text-muted">Opinion Ready</span>
+              <span className="text-xs font-semibold text-admin-success bg-admin-success-light px-2.5 py-0.5 rounded-full">{stats.opinionReady}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-[#E2E8F0] shadow p-5">
-          <h2 className="font-semibold text-sm text-[#0F172A] mb-4">
+        {/* Quick Actions */}
+        <div className="bg-admin-surface rounded-xl border border-admin-border p-6">
+          <h2 className="text-sm font-semibold text-admin-text mb-5">
             Quick Actions
           </h2>
           <div className="space-y-2">
-            <Link href="/admin/cases" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
-              <span className="text-xs text-[#0F172A] font-medium">Manage Cases</span>
-              <ArrowRight className="size-3.5 text-[#64748B]" />
+            <Link
+              href="/admin/cases"
+              className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg hover:bg-admin-surface-elevated transition-colors"
+            >
+              <span className="text-sm font-medium text-admin-text">Manage Cases</span>
+              <ArrowRight className="size-3.5 text-admin-text-faint" />
             </Link>
-            <Link href="/admin/specialists" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
-              <span className="text-xs text-[#0F172A] font-medium">Verify Specialists</span>
-              <ArrowRight className="size-3.5 text-[#64748B]" />
+            <Link
+              href="/admin/specialists"
+              className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg hover:bg-admin-surface-elevated transition-colors"
+            >
+              <span className="text-sm font-medium text-admin-text">Verify Specialists</span>
+              <ArrowRight className="size-3.5 text-admin-text-faint" />
             </Link>
-            <Link href="/admin/news" className="flex items-center justify-between p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
-              <span className="text-xs text-[#0F172A] font-medium">Manage News</span>
-              <ArrowRight className="size-3.5 text-[#64748B]" />
+            <Link
+              href="/admin/news"
+              className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-admin-bg hover:bg-admin-surface-elevated transition-colors"
+            >
+              <span className="text-sm font-medium text-admin-text">Manage News</span>
+              <ArrowRight className="size-3.5 text-admin-text-faint" />
             </Link>
           </div>
         </div>

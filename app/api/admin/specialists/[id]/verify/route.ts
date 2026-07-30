@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
+import { logAuditEvent, AUDIT_ACTIONS } from '@/lib/audit/logger';
 
 const verifySchema = z.object({
   verified: z.boolean(),
@@ -32,6 +33,14 @@ export async function PATCH(
   const updated = await prisma.doctor.update({
     where: { id },
     data: { verified: parsed.data.verified },
+  });
+
+  logAuditEvent({
+    userId: session.user.id,
+    action: AUDIT_ACTIONS.SPECIALIST_VERIFIED,
+    resourceType: 'Doctor',
+    resourceId: id,
+    after: { verified: parsed.data.verified },
   });
 
   return NextResponse.json(updated);

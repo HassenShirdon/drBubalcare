@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
+import { getBaseUrl } from '@/lib/app-url';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'private', 'uploads');
 const ALLOWED_TYPES = [
@@ -37,6 +38,11 @@ export async function POST(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
+  // Reject uploads on closed or disputed cases
+  if (caseRecord.status === 'CLOSED' || caseRecord.status === 'DISPUTED') {
+    return NextResponse.json({ error: 'Cannot upload files to a closed or disputed case' }, { status: 400 });
+  }
+
   const formData = await request.formData();
   const files = formData.getAll('files') as File[];
 
@@ -67,22 +73,22 @@ export async function POST(
     // Create unique filename
     const timestamp = Date.now();
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const fileName = `${timestamp}_${safeName}`;
-    const filePath = path.join(UPLOAD_DIR, fileName);
+    const diskFileName = `${timestamp}_${safeName}`;
+    const filePath = path.join(UPLOAD_DIR, diskFileName);
 
     // Ensure upload directory exists
     await mkdir(UPLOAD_DIR, { recursive: true });
 
-    // Write file
+    // Write file to disk
     await writeFile(filePath, buffer);
 
-    // Save to database with placeholder URL, then update with authenticated route
+    // Save to database — fileName stores the actual on-disk filename for retrieval
     const record = await prisma.caseRecord.create({
       data: {
         caseId: id,
         fileUrl: '',
         fileType: file.type,
-        fileName: file.name,
+        fileName: diskFileName,
       },
     });
 
@@ -91,8 +97,10 @@ export async function POST(
       data: { fileUrl: `/api/records/${record.id}/file` },
     });
 
-    record.fileUrl = `/api/records/${record.id}/file`;
-    uploadedRecords.push(record);
+    uploadedRecords.push({
+      ...record,
+      fileUrl: `/api/records/${record.id}/file`,
+    });
   }
 
   // After successful file upload, trigger AI pre-screening (fire and forget)
@@ -100,7 +108,7 @@ export async function POST(
   if (caseRecord.serviceType !== 'EUROPEAN_REFERRAL') {
     const recordCount = await prisma.caseRecord.count({ where: { caseId: id } });
     if (recordCount === 1) {
-      fetch(`${process.env.NEXTAUTH_URL}/api/ai/prescreen/${id}`, {
+      fetch(`${getBaseUrl()}/api/ai/prescreen/${id}`, {
         method: "POST",
         headers: {
           "x-internal-secret": process.env.INTERNAL_API_SECRET || "",

@@ -1,13 +1,12 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { motion } from "motion/react"
 import { DataTable } from "@/components/ui/data-table"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
 import { columns, type AdminCase } from "./columns"
 
 export default function AdminCasesPage() {
-  const { data: cases, isLoading } = useQuery<AdminCase[]>({
+  const { data: res, isLoading } = useQuery<{ data: AdminCase[]; total: number }>({
     queryKey: ["admin-cases"],
     queryFn: async () => {
       const res = await fetch("/api/admin/cases")
@@ -17,19 +16,21 @@ export default function AdminCasesPage() {
     staleTime: 60 * 1000,
   })
 
+  const cases = res?.data ?? []
+
   return (
-    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-5">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-[#64748B] text-sm mb-1">Admin Portal</p>
-        <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Case Management</h1>
-      </motion.div>
+    <div className="p-4 md:p-6 lg:p-8 space-y-6">
+      <div>
+        <h1 className="text-xl md:text-2xl font-semibold text-admin-text tracking-tight">Case Management</h1>
+        <p className="text-sm text-admin-text-muted mt-1">Review and manage all patient cases</p>
+      </div>
 
       {isLoading ? (
         <TableSkeleton columns={5} search />
       ) : (
         <DataTable
           columns={columns}
-          data={cases ?? []}
+          data={cases}
           searchKey="patient"
           searchPlaceholder="Search by patient name or email..."
         />

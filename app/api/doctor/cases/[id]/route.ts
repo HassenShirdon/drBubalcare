@@ -1,40 +1,43 @@
-import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { requireDoctor, serverError, notFound, ok } from '@/lib/api-helpers';
+import { logAuditEvent, AUDIT_ACTIONS } from '@/lib/audit/logger';
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    const auth = await requireDoctor();
+    if (!auth.ok) return auth.response;
 
-  const userId = (session.user as { id: string }).id;
-  const role = (session.user as { role: string }).role;
-  if (role !== 'DOCTOR') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    const { id } = await params;
 
-  const { id } = await params;
-
-  const caseRecord = await prisma.case.findFirst({
-    where: { id, specialistId: userId },
-    include: {
-      patient: { select: { name: true, email: true } },
-      records: true,
-      aiPrescreens: { take: 1 },
-      opinions: {
-        where: { specialistId: userId },
-        include: { specialist: { select: { name: true } } },
-        take: 1,
+    const caseRecord = await prisma.case.findFirst({
+      where: { id, specialistId: auth.userId },
+      include: {
+        patient: { select: { name: true, age: true, gender: true } },
+        records: true,
+        aiPrescreens: { take: 1 },
+        opinions: {
+          where: { specialistId: auth.userId },
+          include: { specialist: { select: { name: true } } },
+          take: 1,
+        },
       },
-    },
-  });
+    });
 
-  if (!caseRecord) return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+    if (!caseRecord) return notFound('Case');
 
-  return NextResponse.json(caseRecord, {
-    headers: {
-      'Cache-Control': 'private, no-store',
-    },
-  });
+    await logAuditEvent({
+      userId: auth.userId,
+      action: AUDIT_ACTIONS.CASE_ASSIGN_SPECIALIST,
+      resourceType: 'Case',
+      resourceId: id,
+      metadata: { action: 'read_detail' },
+    });
+
+    return ok(caseRecord, 'private, no-store');
+  } catch (error) {
+    return serverError(error);
+  }
 }

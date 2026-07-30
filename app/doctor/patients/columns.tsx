@@ -6,8 +6,8 @@ import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
 export type DoctorPatient = {
   id: string
   name: string
-  email: string
-  image: string | null
+  age: number | null
+  gender: string | null
   appointmentCount: number
   lastVisit: string
 }
@@ -18,25 +18,20 @@ export const columns: ColumnDef<DoctorPatient>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Patient" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        {row.original.image ? (
-          <img src={row.original.image} alt="" className="size-9 rounded-full" />
-        ) : (
-          <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
-            {row.original.name.charAt(0)}
-          </div>
-        )}
+        <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
+          {row.original.name.charAt(0)}
+        </div>
         <div>
           <p className="font-medium text-sm" style={{ color: "#0F172A" }}>{row.original.name}</p>
-          <p className="text-xs" style={{ color: "#64748B" }}>{row.original.email}</p>
+          <p className="text-xs" style={{ color: "#64748B" }}>
+            {row.original.age ?? "—"} yrs &middot; {row.original.gender ?? "—"}
+          </p>
         </div>
       </div>
     ),
     filterFn: (row, id, value) => {
       const search = (value as string).toLowerCase()
-      return (
-        row.original.name.toLowerCase().includes(search) ||
-        row.original.email.toLowerCase().includes(search)
-      )
+      return row.original.name.toLowerCase().includes(search)
     },
   },
   {

@@ -3,6 +3,7 @@ import { aiModel } from "./client";
 import { stripPHI } from "./phi-stripper";
 import { prescreenSchema, prescreenSystemPrompt } from "./prompts/prescreen";
 import { prisma } from "@/lib/db";
+import { getBaseUrl } from "@/lib/app-url";
 
 const WATERMARK = "AI-Generated Draft — requires specialist review";
 
@@ -57,7 +58,7 @@ export async function generatePrescreen(caseId: string) {
         });
 
         // Trigger intelligent routing after pre-screening completes (fire and forget)
-        fetch(`${process.env.NEXTAUTH_URL}/api/ai/route/${caseId}`, {
+        fetch(`${getBaseUrl()}/api/ai/route/${caseId}`, {
           method: "POST",
           headers: {
             "x-internal-secret": process.env.INTERNAL_API_SECRET || "",

@@ -1,32 +1,37 @@
-import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { requireDoctor, serverError, ok } from '@/lib/api-helpers';
+import { logAuditEvent, AUDIT_ACTIONS } from '@/lib/audit/logger';
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    const auth = await requireDoctor();
+    if (!auth.ok) return auth.response;
 
-  const userId = (session.user as { id: string }).id;
-  const role = (session.user as { role: string }).role;
-  if (role !== 'DOCTOR') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-
-  const cases = await prisma.case.findMany({
-    where: { specialistId: userId },
-    include: {
-      patient: { select: { name: true, email: true } },
-      opinions: {
-        where: { specialistId: userId },
-        select: { id: true, status: true, signedAt: true },
-        take: 1,
+    const cases = await prisma.case.findMany({
+      where: { specialistId: auth.userId },
+      include: {
+        patient: { select: { name: true, age: true, gender: true } },
+        opinions: {
+          where: { specialistId: auth.userId },
+          select: { id: true, status: true, signedAt: true },
+          take: 1,
+        },
       },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+      orderBy: { createdAt: 'desc' },
+    });
 
-  return NextResponse.json(cases, {
-    headers: {
-      'Cache-Control': 'private, no-store',
-    },
-  });
+    if (cases.length > 0) {
+      await logAuditEvent({
+        userId: auth.userId,
+        action: AUDIT_ACTIONS.CASE_ASSIGN_SPECIALIST,
+        resourceType: 'Case',
+        resourceId: cases.map((c) => c.id).join(','),
+        metadata: { action: 'list_assigned', count: cases.length },
+      });
+    }
+
+    return ok(cases, 'private, no-store');
+  } catch (error) {
+    return serverError(error);
+  }
 }

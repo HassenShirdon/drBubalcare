@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  age: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  age: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -32,6 +42,8 @@ export type UserMinAggregateOutputType = {
   image: string | null
   passwordHash: string | null
   role: $Enums.Role | null
+  age: number | null
+  gender: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +56,8 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   passwordHash: string | null
   role: $Enums.Role | null
+  age: number | null
+  gender: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,11 +70,21 @@ export type UserCountAggregateOutputType = {
   image: number
   passwordHash: number
   role: number
+  age: number
+  gender: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  age?: true
+}
+
+export type UserSumAggregateInputType = {
+  age?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -70,6 +94,8 @@ export type UserMinAggregateInputType = {
   image?: true
   passwordHash?: true
   role?: true
+  age?: true
+  gender?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +108,8 @@ export type UserMaxAggregateInputType = {
   image?: true
   passwordHash?: true
   role?: true
+  age?: true
+  gender?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +122,8 @@ export type UserCountAggregateInputType = {
   image?: true
   passwordHash?: true
   role?: true
+  age?: true
+  gender?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -137,6 +167,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -167,6 +209,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -179,9 +223,13 @@ export type UserGroupByOutputType = {
   image: string | null
   passwordHash: string | null
   role: $Enums.Role
+  age: number | null
+  gender: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -212,6 +260,8 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  age?: Prisma.IntNullableFilter<"User"> | number | null
+  gender?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   doctorProfile?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
@@ -236,6 +286,8 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  age?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   doctorProfile?: Prisma.DoctorOrderByWithRelationInput
@@ -263,6 +315,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  age?: Prisma.IntNullableFilter<"User"> | number | null
+  gender?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   doctorProfile?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
@@ -287,11 +341,15 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  age?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -305,6 +363,8 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  age?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  gender?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -317,6 +377,8 @@ export type UserCreateInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -341,6 +403,8 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -365,6 +429,8 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -389,6 +455,8 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -413,6 +481,8 @@ export type UserCreateManyInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -425,6 +495,8 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,6 +509,8 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -449,8 +523,14 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  age?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -461,6 +541,8 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -473,8 +555,14 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  age?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -501,6 +589,14 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -685,6 +781,8 @@ export type UserCreateWithoutPostsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -708,6 +806,8 @@ export type UserUncheckedCreateWithoutPostsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -747,6 +847,8 @@ export type UserUpdateWithoutPostsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -770,6 +872,8 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -793,6 +897,8 @@ export type UserCreateWithoutDoctorProfileInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   patientAppointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
@@ -816,6 +922,8 @@ export type UserUncheckedCreateWithoutDoctorProfileInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   patientAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -855,6 +963,8 @@ export type UserUpdateWithoutDoctorProfileInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patientAppointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
@@ -878,6 +988,8 @@ export type UserUncheckedUpdateWithoutDoctorProfileInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patientAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -901,6 +1013,8 @@ export type UserCreateWithoutLabResultsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -924,6 +1038,8 @@ export type UserUncheckedCreateWithoutLabResultsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -963,6 +1079,8 @@ export type UserUpdateWithoutLabResultsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -986,6 +1104,8 @@ export type UserUncheckedUpdateWithoutLabResultsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1009,6 +1129,8 @@ export type UserCreateWithoutPatientAppointmentsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1032,6 +1154,8 @@ export type UserUncheckedCreateWithoutPatientAppointmentsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1071,6 +1195,8 @@ export type UserUpdateWithoutPatientAppointmentsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1094,6 +1220,8 @@ export type UserUncheckedUpdateWithoutPatientAppointmentsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1117,6 +1245,8 @@ export type UserCreateWithoutCasesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1140,6 +1270,8 @@ export type UserUncheckedCreateWithoutCasesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1168,6 +1300,8 @@ export type UserCreateWithoutSpecialistCasesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1191,6 +1325,8 @@ export type UserUncheckedCreateWithoutSpecialistCasesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1230,6 +1366,8 @@ export type UserUpdateWithoutCasesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1253,6 +1391,8 @@ export type UserUncheckedUpdateWithoutCasesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1287,6 +1427,8 @@ export type UserUpdateWithoutSpecialistCasesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1310,6 +1452,8 @@ export type UserUncheckedUpdateWithoutSpecialistCasesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1333,6 +1477,8 @@ export type UserCreateWithoutSpecialistOpinionsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1356,6 +1502,8 @@ export type UserUncheckedCreateWithoutSpecialistOpinionsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1395,6 +1543,8 @@ export type UserUpdateWithoutSpecialistOpinionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1418,6 +1568,8 @@ export type UserUncheckedUpdateWithoutSpecialistOpinionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1441,6 +1593,8 @@ export type UserCreateWithoutTrendAnalysesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1464,6 +1618,8 @@ export type UserUncheckedCreateWithoutTrendAnalysesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1503,6 +1659,8 @@ export type UserUpdateWithoutTrendAnalysesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1526,6 +1684,8 @@ export type UserUncheckedUpdateWithoutTrendAnalysesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1549,6 +1709,8 @@ export type UserCreateWithoutAuditLogsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1572,6 +1734,8 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1611,6 +1775,8 @@ export type UserUpdateWithoutAuditLogsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1634,6 +1800,8 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1657,6 +1825,8 @@ export type UserCreateWithoutDisputesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1680,6 +1850,8 @@ export type UserUncheckedCreateWithoutDisputesInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1719,6 +1891,8 @@ export type UserUpdateWithoutDisputesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1742,6 +1916,8 @@ export type UserUncheckedUpdateWithoutDisputesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1765,6 +1941,8 @@ export type UserCreateWithoutConsentRecordsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1788,6 +1966,8 @@ export type UserUncheckedCreateWithoutConsentRecordsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1827,6 +2007,8 @@ export type UserUpdateWithoutConsentRecordsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1850,6 +2032,8 @@ export type UserUncheckedUpdateWithoutConsentRecordsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -1873,6 +2057,8 @@ export type UserCreateWithoutDeletionRequestsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
@@ -1896,6 +2082,8 @@ export type UserUncheckedCreateWithoutDeletionRequestsInput = {
   image?: string | null
   passwordHash?: string | null
   role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
@@ -1935,6 +2123,8 @@ export type UserUpdateWithoutDeletionRequestsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
@@ -1958,6 +2148,8 @@ export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
@@ -2102,6 +2294,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   passwordHash?: boolean
   role?: boolean
+  age?: boolean
+  gender?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   doctorProfile?: boolean | Prisma.User$doctorProfileArgs<ExtArgs>
@@ -2127,6 +2321,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   passwordHash?: boolean
   role?: boolean
+  age?: boolean
+  gender?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2139,6 +2335,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   passwordHash?: boolean
   role?: boolean
+  age?: boolean
+  gender?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2151,11 +2349,13 @@ export type UserSelectScalar = {
   image?: boolean
   passwordHash?: boolean
   role?: boolean
+  age?: boolean
+  gender?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "passwordHash" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "passwordHash" | "role" | "age" | "gender" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctorProfile?: boolean | Prisma.User$doctorProfileArgs<ExtArgs>
   patientAppointments?: boolean | Prisma.User$patientAppointmentsArgs<ExtArgs>
@@ -2198,6 +2398,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     passwordHash: string | null
     role: $Enums.Role
+    age: number | null
+    gender: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2642,6 +2844,8 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
+  readonly age: Prisma.FieldRef<"User", 'Int'>
+  readonly gender: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

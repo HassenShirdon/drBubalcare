@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useParams } from "next/navigation"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { motion } from "motion/react"
 import { ArrowLeft, CheckCircle, XCircle, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -72,77 +71,86 @@ export default function AdminDisputeDetailPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-dispute", disputeId] }),
   })
 
-  if (isLoading) return <div className="p-6">Loading...</div>
-  if (!dispute) return <div className="p-6">Dispute not found</div>
+  if (isLoading) return <div className="p-6 text-admin-text-muted">Loading...</div>
+  if (!dispute) return <div className="p-6 text-admin-text-muted">Dispute not found</div>
 
   return (
-    <div className="p-4 md:p-6 space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <Link href="/admin/disputes" className="text-sm text-[#22C55E] hover:underline inline-flex items-center gap-1 mb-3">
+    <div className="p-4 md:p-6 lg:p-8 space-y-6 max-w-4xl">
+      <div>
+        <Link href="/admin/disputes" className="text-sm text-admin-success hover:underline inline-flex items-center gap-1 mb-3">
           <ArrowLeft className="size-3" /> Back to disputes
         </Link>
-        <h1 className="text-[#1E3A5F] font-bold text-2xl">Dispute Detail</h1>
-        <p className="text-[#64748B] text-sm">
-          Case {dispute.case.id.slice(0, 8)}... — Filed by {dispute.patient.name ?? "Unknown"}
+        <h1 className="text-xl md:text-2xl font-semibold text-admin-text tracking-tight">Dispute Detail</h1>
+        <p className="text-sm text-admin-text-muted mt-1">
+          Case {dispute.case.id.slice(0, 8)}... - Filed by {dispute.patient.name ?? "Unknown"}
         </p>
-      </motion.div>
-
-      <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
-        <h2 className="font-semibold text-[#0F172A]">Original Opinion</h2>
-        <p className="text-sm text-[#64748B]">By {dispute.opinion.specialist.name}</p>
-        <div className="text-sm whitespace-pre-wrap">{dispute.opinion.content || "(Draft - not yet written)"}</div>
       </div>
 
-      <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
-        <h2 className="font-semibold text-[#0F172A]">Patient Dispute Reason</h2>
-        <p className="text-sm whitespace-pre-wrap">{dispute.reason}</p>
+      <div className="bg-admin-surface rounded-xl border border-admin-border p-5 space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-admin-text">Original Opinion</h2>
+          <span className="text-xs text-admin-text-faint">By {dispute.opinion.specialist.name}</span>
+        </div>
+        <div className="text-sm text-admin-text-muted whitespace-pre-wrap leading-relaxed">{dispute.opinion.content || "(Draft - not yet written)"}</div>
+      </div>
+
+      <div className="bg-admin-surface rounded-xl border border-admin-border p-5 space-y-3">
+        <h2 className="text-sm font-semibold text-admin-text">Patient Dispute Reason</h2>
+        <p className="text-sm text-admin-text-muted whitespace-pre-wrap leading-relaxed">{dispute.reason}</p>
       </div>
 
       {dispute.peerReviewOpinion && (
-        <div className="border border-[#C4B5FD] bg-[#F5F3FF] rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-[#0F172A]">Peer Review Opinion</h2>
-          <p className="text-sm text-[#64748B]">By {dispute.peerReviewOpinion.specialist.name}</p>
-          <div className="text-sm whitespace-pre-wrap">{dispute.peerReviewOpinion.content}</div>
+        <div className="border border-admin-brand-muted/30 bg-admin-brand-light/30 rounded-xl p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-admin-text">Peer Review Opinion</h2>
+            <span className="text-xs text-admin-text-faint">By {dispute.peerReviewOpinion.specialist.name}</span>
+          </div>
+          <div className="text-sm text-admin-text-muted whitespace-pre-wrap leading-relaxed">{dispute.peerReviewOpinion.content}</div>
+        </div>
+      )}
+
+      {dispute.adminNotes && dispute.status !== "PENDING" && (
+        <div className="bg-admin-surface-elevated rounded-xl border border-admin-border p-5 space-y-2">
+          <h2 className="text-sm font-semibold text-admin-text">Admin Notes</h2>
+          <p className="text-sm text-admin-text-muted whitespace-pre-wrap">{dispute.adminNotes}</p>
         </div>
       )}
 
       {dispute.status === "PENDING" && (
-        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-[#0F172A]">Admin Triage</h2>
+        <div className="bg-admin-surface rounded-xl border border-admin-border p-5 space-y-4">
+          <h2 className="text-sm font-semibold text-admin-text">Admin Triage</h2>
           <Textarea
             value={adminNotes}
             onChange={(e) => setAdminNotes(e.target.value)}
             placeholder="Add admin notes (optional)..."
             rows={3}
-            className="bg-[#F8FAFC] border-[#E2E8F0]"
           />
           <div className="flex gap-3">
             <Button variant="outline" onClick={() => triageMutation.mutate(false)}>
-              <XCircle className="size-4 mr-1" /> Dismiss
+              <XCircle className="size-4" /> Dismiss
             </Button>
             <Button onClick={() => triageMutation.mutate(true)}>
-              <CheckCircle className="size-4 mr-1" /> Mark Valid
+              <CheckCircle className="size-4" /> Mark Valid
             </Button>
           </div>
         </div>
       )}
 
       {dispute.status === "UNDER_REVIEW" && (
-        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-[#0F172A]">Assign Peer Review</h2>
+        <div className="bg-admin-surface rounded-xl border border-admin-border p-5 space-y-4">
+          <h2 className="text-sm font-semibold text-admin-text">Assign Peer Review</h2>
           <PeerReviewAssignment disputeId={disputeId} />
         </div>
       )}
 
       {dispute.status === "PEER_REVIEW_ASSIGNED" && (
-        <div className="border border-[#E2E8F0] rounded-lg p-4 space-y-3">
-          <h2 className="font-semibold text-[#0F172A]">Resolve Dispute</h2>
+        <div className="bg-admin-surface rounded-xl border border-admin-border p-5 space-y-4">
+          <h2 className="text-sm font-semibold text-admin-text">Resolve Dispute</h2>
           <Textarea
             value={resolution}
             onChange={(e) => setResolution(e.target.value)}
             placeholder="Document the resolution..."
             rows={4}
-            className="bg-[#F8FAFC] border-[#E2E8F0]"
           />
           <Button onClick={() => resolveMutation.mutate()} disabled={resolution.length < 10}>
             Resolve Dispute
@@ -151,11 +159,11 @@ export default function AdminDisputeDetailPage() {
       )}
 
       {dispute.resolution && (
-        <div className="border border-[#22C55E]/20 bg-[#DCFCE7]/50 rounded-lg p-4 space-y-2">
-          <h2 className="font-semibold text-[#0F172A]">Resolution</h2>
-          <p className="text-sm whitespace-pre-wrap">{dispute.resolution}</p>
+        <div className="border border-admin-success/20 bg-admin-success-light/50 rounded-xl p-5 space-y-2">
+          <h2 className="text-sm font-semibold text-admin-text">Resolution</h2>
+          <p className="text-sm text-admin-text-muted whitespace-pre-wrap">{dispute.resolution}</p>
           {dispute.adminNotes && (
-            <p className="text-xs text-[#64748B]">Notes: {dispute.adminNotes}</p>
+            <p className="text-xs text-admin-text-faint">Notes: {dispute.adminNotes}</p>
           )}
         </div>
       )}
@@ -199,34 +207,32 @@ function PeerReviewAssignment({ disputeId }: { disputeId: string }) {
   }
 
   return (
-    <div onMouseEnter={loadCandidates}>
+    <div onMouseEnter={loadCandidates} className="space-y-2">
       {error && (
-        <p className="text-sm text-[#B91C1C]">{error}</p>
+        <p className="text-sm text-admin-danger">{error}</p>
       )}
       {loading ? (
-        <p className="text-sm text-[#64748B]">Loading candidates...</p>
+        <p className="text-sm text-admin-text-muted">Loading candidates...</p>
       ) : candidates.length === 0 && !error ? (
-        <p className="text-sm text-[#64748B]">No matching specialists found</p>
+        <p className="text-sm text-admin-text-muted">No matching specialists found</p>
       ) : (
-        <div className="space-y-2">
-          {candidates.map((c) => (
-            <div key={c.userId} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg p-3">
-              <div>
-                <p className="font-medium text-sm">{c.name ?? "Unknown"}</p>
-                <p className="text-xs text-[#64748B]">{c.specialty}</p>
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => assignMutation.mutate(c.userId)}
-                disabled={assignMutation.isPending}
-              >
-                <UserPlus className="size-3 mr-1" />
-                {assignMutation.isPending ? "Assigning..." : "Assign"}
-              </Button>
+        candidates.map((c) => (
+          <div key={c.userId} className="flex items-center justify-between border border-admin-border rounded-xl p-3">
+            <div>
+              <p className="text-sm font-medium text-admin-text">{c.name ?? "Unknown"}</p>
+              <p className="text-xs text-admin-text-muted">{c.specialty}</p>
             </div>
-          ))}
-        </div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => assignMutation.mutate(c.userId)}
+              disabled={assignMutation.isPending}
+            >
+              <UserPlus className="size-3" />
+              {assignMutation.isPending ? "Assigning..." : "Assign"}
+            </Button>
+          </div>
+        ))
       )}
     </div>
   )

@@ -28,7 +28,7 @@ vi.mock('@/lib/gdpr/service', () => ({
 
 vi.mock('@/lib/db', () => ({
   prisma: {
-    dataDeletionRequest: { findMany: vi.fn() },
+    dataDeletionRequest: { findMany: vi.fn(), count: vi.fn() },
     user: { findUnique: vi.fn() },
   },
 }));
@@ -223,23 +223,31 @@ describe('GDPR API Routes', () => {
   });
 
   describe('Admin Data Requests', () => {
+    function mockReq() {
+      return { nextUrl: { searchParams: { get: () => null } } } as any;
+    }
+
     it('GET returns 401 without session', async () => {
       vi.mocked(getServerSession).mockResolvedValue(null);
-      const res = await dataRequestsGet();
+      const res = await dataRequestsGet(mockReq());
       expect(res.status).toBe(401);
     });
 
     it('GET returns 403 for non-admin', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', 'p-1'));
-      const res = await dataRequestsGet();
+      const res = await dataRequestsGet(mockReq());
       expect(res.status).toBe(403);
     });
 
     it('GET returns deletion requests for admin', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
       vi.mocked(prisma.dataDeletionRequest.findMany).mockResolvedValue([]);
-      const res = await dataRequestsGet();
+      vi.mocked(prisma.dataDeletionRequest.count).mockResolvedValue(0);
+      const res = await dataRequestsGet(mockReq());
+      const body = await res.json();
       expect(res.status).toBe(200);
+      expect(body.data).toEqual([]);
+      expect(body.total).toBe(0);
     });
   });
 });

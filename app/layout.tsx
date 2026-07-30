@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./Providers";
 import { cn } from "@/lib/utils";
 import MaterialSymbolsLink from "./MaterialSymbolsLink";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -13,7 +14,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://drbubalcare.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    default: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
     template: "%s | Dr Bubal Care",
   },
   description:
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: "Dr Bubal Care",
-    title: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    title: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
     description:
       "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
     images: [
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dr Bubal Care — Specialist Medical Opinions in 24–48 Hours",
+    title: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
     description:
       "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
     images: ["/og-image.svg"],
@@ -77,19 +78,32 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(manrope.variable, inter.variable, "font-sans")}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <meta
+          name="theme-color"
+          content="#0F172A"
+          media="(prefers-color-scheme: dark)"
+        />
         <MaterialSymbolsLink />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#1E3A5F] focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
-          Skip to main content
-        </a>
-        <Providers>{children}</Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

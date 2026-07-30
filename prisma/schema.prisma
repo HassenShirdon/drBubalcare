@@ -3,8 +3,11 @@ generator client {
   output   = "../lib/generated/prisma"
 }
 
+// prisma/schema.prisma
 datasource db {
   provider = "postgresql"
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 enum Role {
@@ -91,28 +94,30 @@ enum ReferralStatus {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  name       String?
-  email      String   @unique
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
   emailVerified DateTime?
-  image      String?
-  passwordHash String?
-  role       Role     @default(PATIENT)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  image         String?
+  passwordHash  String?
+  role          Role      @default(PATIENT)
+  age           Int?
+  gender        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  doctorProfile     Doctor?
-  patientAppointments Appointment[] @relation("PatientAppointments")
-  labResults        LabResult[]
-  posts             Post[]
-  cases             Case[]         @relation("PatientCases")
-  specialistCases   Case[]         @relation("SpecialistCases")
-  specialistOpinions SpecialistOpinion[]
-  auditLogs         AuditLog[]
-  trendAnalyses     TrendAnalysis[]
-  disputes         Dispute[]
-  consentRecords   ConsentRecord[]
-  deletionRequests DataDeletionRequest[]
+  doctorProfile       Doctor?
+  patientAppointments Appointment[]         @relation("PatientAppointments")
+  labResults          LabResult[]
+  posts               Post[]
+  cases               Case[]                @relation("PatientCases")
+  specialistCases     Case[]                @relation("SpecialistCases")
+  specialistOpinions  SpecialistOpinion[]
+  auditLogs           AuditLog[]
+  trendAnalyses       TrendAnalysis[]
+  disputes            Dispute[]
+  consentRecords      ConsentRecord[]
+  deletionRequests    DataDeletionRequest[]
 }
 
 model Post {
@@ -130,26 +135,26 @@ model Post {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Doctor {
-  id            String   @id @default(cuid())
-  userId        String   @unique
-  specialty     String
-  experience    String
-  rating        Float    @default(0)
-  reviewCount   Int      @default(0)
-  locationType  String   @default("Telehealth & In-person")
-  bio           String?
-  imageUrl      String?
-  verified      Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  specialty    String
+  experience   String
+  rating       Float    @default(0)
+  reviewCount  Int      @default(0)
+  locationType String   @default("Telehealth & In-person")
+  bio          String?
+  imageUrl     String?
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  services      DoctorService[]
-  appointments  Appointment[]     @relation("DoctorAppointments")
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services     DoctorService[]
+  appointments Appointment[]   @relation("DoctorAppointments")
 }
 
 model DoctorService {
@@ -160,7 +165,7 @@ model DoctorService {
   price       Float
   createdAt   DateTime @default(now())
 
-  doctor      Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
 }
 
 model Service {
@@ -172,17 +177,17 @@ model Service {
 }
 
 model LabResult {
-  id        String   @id @default(cuid())
-  patientId String
-  name      String
-  date      DateTime
-  doctor    String
-  status    LabStatus @default(NORMAL)
-  icon      String
+  id               String    @id @default(cuid())
+  patientId        String
+  name             String
+  date             DateTime
+  doctor           String
+  status           LabStatus @default(NORMAL)
+  icon             String
   aiInterpretation String?
-  createdAt DateTime @default(now())
+  createdAt        DateTime  @default(now())
 
-  patient User        @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient User            @relation(fields: [patientId], references: [id], onDelete: Cascade)
   metrics LabMetric[]
   trends  LabTrendPoint[]
 }
@@ -209,37 +214,37 @@ model LabTrendPoint {
 }
 
 model Appointment {
-  id         String             @id @default(cuid())
-  patientId  String
-  doctorId   String
-  date       DateTime
-  time       String
-  status     AppointmentStatus  @default(SCHEDULED)
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
+  id        String            @id @default(cuid())
+  patientId String
+  doctorId  String
+  date      DateTime
+  time      String
+  status    AppointmentStatus @default(SCHEDULED)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 
   patient User   @relation("PatientAppointments", fields: [patientId], references: [id], onDelete: Cascade)
   doctor  Doctor @relation("DoctorAppointments", fields: [doctorId], references: [id], onDelete: Cascade)
 }
 
 model Case {
-  id           String             @id @default(cuid())
+  id           String      @id @default(cuid())
   patientId    String
   specialistId String?
   serviceType  ServiceType
-  status       CaseStatus         @default(OPEN)
-  description  String?            @db.Text
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
+  status       CaseStatus  @default(OPEN)
+  description  String?     @db.Text
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
-  patient      User               @relation("PatientCases", fields: [patientId], references: [id], onDelete: Cascade)
-  specialist   User?              @relation("SpecialistCases", fields: [specialistId], references: [id], onDelete: SetNull)
-  records      CaseRecord[]
+  patient              User                  @relation("PatientCases", fields: [patientId], references: [id], onDelete: Cascade)
+  specialist           User?                 @relation("SpecialistCases", fields: [specialistId], references: [id], onDelete: SetNull)
+  records              CaseRecord[]
   referralCoordination ReferralCoordination?
-  opinions     SpecialistOpinion[]
-  aiPrescreens AIPrescreen[]
-  synthesis    OpinionSynthesis?
-  disputes     Dispute[]
+  opinions             SpecialistOpinion[]
+  aiPrescreens         AIPrescreen[]
+  synthesis            OpinionSynthesis?
+  disputes             Dispute[]
 }
 
 model CaseRecord {
@@ -250,65 +255,65 @@ model CaseRecord {
   fileName   String
   uploadedAt DateTime @default(now())
 
-  case       Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model ReferralCoordination {
-  id               String             @id @default(cuid())
-  caseId           String             @unique
-  referralStatus   ReferralStatus     @default(SEARCHING)
+  id               String            @id @default(cuid())
+  caseId           String            @unique
+  referralStatus   ReferralStatus    @default(SEARCHING)
   specialistName   String?
   specialistEmail  String?
   clinic           String?
   country          String?
   consultationType ConsultationType?
-  coordinatorNotes String?            @db.Text
+  coordinatorNotes String?           @db.Text
   scheduledAt      DateTime?
   completedAt      DateTime?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 
-  case             Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model SpecialistOpinion {
-  id           String               @id @default(cuid())
+  id           String        @id @default(cuid())
   caseId       String
   specialistId String
   content      String
-  status       OpinionStatus        @default(DRAFT)
+  status       OpinionStatus @default(DRAFT)
   signedAt     DateTime?
-  createdAt    DateTime             @default(now())
+  createdAt    DateTime      @default(now())
 
-  case         Case                 @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  specialist   User                 @relation(fields: [specialistId], references: [id], onDelete: Cascade)
-  plainSummary PlainLanguageSummary?
-  followUps    FollowUpQuestion[]
-  dispute          Dispute?           @relation("DisputeOpinion")
-  peerReviewFor    Dispute?           @relation("PeerReviewOpinion")
+  case          Case                  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  specialist    User                  @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  plainSummary  PlainLanguageSummary?
+  followUps     FollowUpQuestion[]
+  dispute       Dispute?              @relation("DisputeOpinion")
+  peerReviewFor Dispute?              @relation("PeerReviewOpinion")
 }
 
 model AIPrescreen {
-  id           String   @id @default(cuid())
-  caseId       String
-  findings     String
+  id            String   @id @default(cuid())
+  caseId        String
+  findings      String
   differentials String?
-  urgentFlags  String?
-  generatedAt  DateTime @default(now())
+  urgentFlags   String?
+  generatedAt   DateTime @default(now())
 
-  case         Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model OpinionSynthesis {
-  id            String           @id @default(cuid())
-  caseId        String           @unique
-  content       String           @db.Text
+  id            String          @id @default(cuid())
+  caseId        String          @unique
+  content       String          @db.Text
   agreements    String[]
   disagreements String[]
-  status        SynthesisStatus  @default(PENDING)
-  generatedAt   DateTime         @default(now())
+  status        SynthesisStatus @default(PENDING)
+  generatedAt   DateTime        @default(now())
 
-  case          Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model TrendAnalysis {
@@ -321,7 +326,7 @@ model TrendAnalysis {
   summary     String
   generatedAt DateTime @default(now())
 
-  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient User @relation(fields: [patientId], references: [id], onDelete: Cascade)
 
   @@unique([patientId, metricName])
 }
@@ -332,7 +337,7 @@ model PlainLanguageSummary {
   content     String
   generatedAt DateTime @default(now())
 
-  opinion     SpecialistOpinion @relation(fields: [opinionId], references: [id], onDelete: Cascade)
+  opinion SpecialistOpinion @relation(fields: [opinionId], references: [id], onDelete: Cascade)
 }
 
 model FollowUpQuestion {
@@ -343,7 +348,7 @@ model FollowUpQuestion {
   scopeNote String?
   createdAt DateTime @default(now())
 
-  opinion   SpecialistOpinion @relation(fields: [opinionId], references: [id], onDelete: Cascade)
+  opinion SpecialistOpinion @relation(fields: [opinionId], references: [id], onDelete: Cascade)
 }
 
 model AuditLog {
@@ -357,48 +362,48 @@ model AuditLog {
   metadata     Json?
   timestamp    DateTime @default(now())
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Dispute {
-  id              String   @id @default(cuid())
-  caseId          String
-  patientId       String
-  opinionId       String?  @unique
-  reason          String   @db.Text
-  status          DisputeStatus @default(PENDING)
-  adminNotes      String?  @db.Text
-  resolution      String?  @db.Text
-  peerReviewOpinionId String? @unique
-  createdAt       DateTime @default(now())
-  resolvedAt      DateTime?
+  id                  String        @id @default(cuid())
+  caseId              String
+  patientId           String
+  opinionId           String?       @unique
+  reason              String        @db.Text
+  status              DisputeStatus @default(PENDING)
+  adminNotes          String?       @db.Text
+  resolution          String?       @db.Text
+  peerReviewOpinionId String?       @unique
+  createdAt           DateTime      @default(now())
+  resolvedAt          DateTime?
 
-  case            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  patient         User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  opinion         SpecialistOpinion? @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
+  case              Case               @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  patient           User               @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  opinion           SpecialistOpinion? @relation("DisputeOpinion", fields: [opinionId], references: [id], onDelete: Cascade)
   peerReviewOpinion SpecialistOpinion? @relation("PeerReviewOpinion", fields: [peerReviewOpinionId], references: [id], onDelete: SetNull)
 }
 
 model ConsentRecord {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   patientId   String
   consentType String
   granted     Boolean
   grantedAt   DateTime?
   revokedAt   DateTime?
 
-  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient User @relation(fields: [patientId], references: [id], onDelete: Cascade)
 
   @@unique([patientId, consentType])
 }
 
 model DataDeletionRequest {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   patientId   String
   status      DeletionStatus @default(PENDING)
   requestedAt DateTime
   executeAt   DateTime
   completedAt DateTime?
 
-  patient     User     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient User @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }

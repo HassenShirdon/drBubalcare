@@ -123,7 +123,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
               {serviceTypeLabels[caseData.serviceType] || caseData.serviceType}
             </h1>
             <p className="text-sm mt-1" style={{ color: '#64748B' }}>
-              Patient: {caseData.patient.name ?? 'Unknown'} &middot; Created {formatDate(caseData.createdAt)}
+              Patient: {caseData.patient.name ?? 'Unknown'} &middot; {caseData.patient.age ?? "—"} yrs &middot; {caseData.patient.gender ?? "—"} &middot; Created {formatDate(caseData.createdAt)}
             </p>
           </div>
           <span

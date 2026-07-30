@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
+import { logAuditEvent, AUDIT_ACTIONS } from '@/lib/audit/logger';
 
 const assignSchema = z.object({
   specialistId: z.string().min(1, 'specialistId is required').nullable().optional(),
@@ -45,6 +46,14 @@ export async function PATCH(
       specialistId: parsed.data.specialistId || null,
       status: parsed.data.specialistId ? 'UNDER_REVIEW' : 'OPEN',
     },
+  });
+
+  logAuditEvent({
+    userId: session.user.id,
+    action: AUDIT_ACTIONS.CASE_ASSIGN_SPECIALIST,
+    resourceType: 'Case',
+    resourceId: id,
+    after: { specialistId: parsed.data.specialistId, status: updated.status },
   });
 
   return NextResponse.json(updated);

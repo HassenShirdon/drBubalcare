@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { postSchema } from '@/lib/schemas/post.schema';
 
 function slugify(text: string): string {
   return text
@@ -31,6 +32,20 @@ export async function createPost(formData: FormData) {
   const tags = tagsRaw ? tagsRaw.split(',').map((t) => t.trim()).filter(Boolean) : [];
   const published = formData.get('published') === 'true';
   const authorId = (session.user as { id: string }).id;
+
+  const parsed = postSchema.safeParse({
+    title,
+    slug,
+    excerpt: excerpt || undefined,
+    content: content || '{}',
+    coverImage: coverImage || undefined,
+    category: category || undefined,
+    tags: tagsRaw || undefined,
+    published,
+  });
+  if (!parsed.success) {
+    throw new Error(`Validation failed: ${parsed.error.flatten().fieldErrors}`);
+  }
 
   const post = await prisma.post.create({
     data: {
@@ -69,6 +84,20 @@ export async function updatePost(postId: string, formData: FormData) {
   const tagsRaw = formData.get('tags') as string;
   const tags = tagsRaw ? tagsRaw.split(',').map((t) => t.trim()).filter(Boolean) : [];
   const published = formData.get('published') === 'true';
+
+  const parsed = postSchema.safeParse({
+    title,
+    slug,
+    excerpt: excerpt || undefined,
+    content: content || '{}',
+    coverImage: coverImage || undefined,
+    category: category || undefined,
+    tags: tagsRaw || undefined,
+    published,
+  });
+  if (!parsed.success) {
+    throw new Error(`Validation failed: ${parsed.error.flatten().fieldErrors}`);
+  }
 
   const existing = await prisma.post.findUnique({ where: { id: postId } });
 

@@ -182,6 +182,54 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  
+  /* Landing page semantic tokens */
+  --color-landing-surface: var(--landing-surface);
+  --color-landing-surface-muted: var(--landing-surface-muted);
+  --color-landing-text: var(--landing-text);
+  --color-landing-text-muted: var(--landing-text-muted);
+  --color-landing-text-faint: var(--landing-text-faint);
+  --color-landing-brand: var(--landing-brand);
+  --color-landing-accent: var(--landing-accent);
+  --color-landing-accent-alt: var(--landing-accent-alt);
+  --color-landing-accent-soft: var(--landing-accent-soft);
+  --color-landing-border: var(--landing-border);
+  --color-landing-success: var(--landing-success);
+  
+  /* Requested color tokens */
+  --color-blue-600: #2563eb;
+  --color-teal-600: #0d9488;
+  --color-dark: #0f172a;
+  --color-white: #ffffff;
+
+  /* Admin portal semantic tokens */
+  --color-admin-bg: var(--admin-bg);
+  --color-admin-surface: var(--admin-surface);
+  --color-admin-surface-hover: var(--admin-surface-hover);
+  --color-admin-surface-elevated: var(--admin-surface-elevated);
+  --color-admin-text: var(--admin-text);
+  --color-admin-text-muted: var(--admin-text-muted);
+  --color-admin-text-faint: var(--admin-text-faint);
+  --color-admin-border: var(--admin-border);
+  --color-admin-border-strong: var(--admin-border-strong);
+  --color-admin-brand: var(--admin-brand);
+  --color-admin-brand-light: var(--admin-brand-light);
+  --color-admin-brand-muted: var(--admin-brand-muted);
+  --color-admin-accent-blue: var(--admin-accent-blue);
+  --color-admin-success: var(--admin-success);
+  --color-admin-success-light: var(--admin-success-light);
+  --color-admin-warning: var(--admin-warning);
+  --color-admin-warning-light: var(--admin-warning-light);
+  --color-admin-danger: var(--admin-danger);
+  --color-admin-danger-light: var(--admin-danger-light);
+  --color-admin-sidebar-bg: var(--admin-sidebar-bg);
+  --color-admin-sidebar-border: var(--admin-sidebar-border);
+  --color-admin-sidebar-text: var(--admin-sidebar-text);
+  --color-admin-sidebar-text-active: var(--admin-sidebar-text-active);
+  --color-admin-sidebar-bg-active: var(--admin-sidebar-bg-active);
+  --color-admin-sidebar-icon-active: var(--admin-sidebar-icon-active);
+  --color-admin-header-bg: var(--admin-header-bg);
+  --color-admin-header-border: var(--admin-header-border);
 }
 
 :root {
@@ -217,6 +265,48 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.3 0.15 240);
+  
+  /* Landing page light mode */
+  --landing-surface: #f8fafc;
+  --landing-surface-muted: #f1f5f9;
+  --landing-text: #0f172a;
+  --landing-text-muted: #475569;
+  --landing-text-faint: #94a3b8;
+  --landing-brand: #0b366f;
+  --landing-accent: #0d9488;
+  --landing-accent-alt: #2563eb;
+  --landing-accent-soft: #f0fdfa;
+  --landing-border: #e2e8f0;
+  --landing-success: #16a34a;
+
+  /* Admin portal light mode */
+  --admin-bg: #f8fafc;
+  --admin-surface: #ffffff;
+  --admin-surface-hover: #f8fafc;
+  --admin-surface-elevated: #f1f5f9;
+  --admin-text: #0f172a;
+  --admin-text-muted: #475569;
+  --admin-text-faint: #64748b;
+  --admin-border: #e2e8f0;
+  --admin-border-strong: #cbd5e1;
+  --admin-brand: #1e3a5f;
+  --admin-brand-light: #dbeafe;
+  --admin-brand-muted: #60a5fa;
+  --admin-accent-blue: #3b82f6;
+  --admin-success: #22c55e;
+  --admin-success-light: #dcfce7;
+  --admin-warning: #f59e0b;
+  --admin-warning-light: #fef3c7;
+  --admin-danger: #e63946;
+  --admin-danger-light: #fef2f2;
+  --admin-sidebar-bg: #ffffff;
+  --admin-sidebar-border: #e2e8f0;
+  --admin-sidebar-text: #64748b;
+  --admin-sidebar-text-active: #1e3a5f;
+  --admin-sidebar-bg-active: #dbeafe;
+  --admin-sidebar-icon-active: #3b82f6;
+  --admin-header-bg: #ffffff;
+  --admin-header-border: #e2e8f0;
 }
 
 .dark {
@@ -251,6 +341,48 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  
+  /* Landing page dark mode */
+  --landing-surface: #0b1628;
+  --landing-surface-muted: #141f33;
+  --landing-text: #f1f5f9;
+  --landing-text-muted: #94a3b8;
+  --landing-text-faint: #64748b;
+  --landing-brand: #60a5fa;
+  --landing-accent: #2dd4bf;
+  --landing-accent-alt: #60a5fa;
+  --landing-accent-soft: #0f2d2a;
+  --landing-border: #1e293b;
+  --landing-success: #22c55e;
+
+  /* Admin portal dark mode */
+  --admin-bg: #0f172a;
+  --admin-surface: #1e293b;
+  --admin-surface-hover: #1e293b;
+  --admin-surface-elevated: #334155;
+  --admin-text: #f1f5f9;
+  --admin-text-muted: #94a3b8;
+  --admin-text-faint: #64748b;
+  --admin-border: #334155;
+  --admin-border-strong: #475569;
+  --admin-brand: #60a5fa;
+  --admin-brand-light: #1e3a5f;
+  --admin-brand-muted: #3b82f6;
+  --admin-accent-blue: #60a5fa;
+  --admin-success: #22c55e;
+  --admin-success-light: #052e16;
+  --admin-warning: #f59e0b;
+  --admin-warning-light: #451a03;
+  --admin-danger: #ef4444;
+  --admin-danger-light: #450a0a;
+  --admin-sidebar-bg: #0f172a;
+  --admin-sidebar-border: #1e293b;
+  --admin-sidebar-text: #94a3b8;
+  --admin-sidebar-text-active: #60a5fa;
+  --admin-sidebar-bg-active: #1e3a5f;
+  --admin-sidebar-icon-active: #60a5fa;
+  --admin-header-bg: #0f172a;
+  --admin-header-border: #1e293b;
 }
 
 @keyframes gradient-shift {

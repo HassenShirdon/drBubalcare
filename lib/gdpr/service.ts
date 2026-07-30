@@ -149,7 +149,7 @@ export async function executePendingDeletions(): Promise<number> {
 
       await logAuditEvent({
         userId: req.patientId,
-        action: AUDIT_ACTIONS.DATA_DELETION_REQUESTED,
+        action: AUDIT_ACTIONS.DATA_DELETION_EXECUTED,
         resourceType: 'DataDeletionRequest',
         resourceId: req.id,
         metadata: { status: 'COMPLETED', executedAt: now.toISOString() },

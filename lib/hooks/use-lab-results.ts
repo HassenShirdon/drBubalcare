@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
-export function useLabResults() {
+export function useLabResults(take = 50, skip = 0) {
   return useQuery({
-    queryKey: ['lab-results'],
+    queryKey: ['lab-results', { take, skip }],
     queryFn: async () => {
-      const res = await fetch('/api/lab-results');
+      const res = await fetch(`/api/lab-results?take=${take}&skip=${skip}`);
       if (!res.ok) throw new Error('Failed to fetch lab results');
-      return res.json();
+      const json = await res.json();
+      // Support both paginated { data, total } and legacy array response
+      return Array.isArray(json) ? json : (json.data ?? []);
     },
     staleTime: 2 * 60 * 1000,
   });

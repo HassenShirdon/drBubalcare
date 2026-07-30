@@ -25,6 +25,7 @@ vi.mock('@/lib/db', () => ({
       findUnique: vi.fn(),
     },
     referralCoordination: {
+      create: vi.fn(),
       findUnique: vi.fn(),
       upsert: vi.fn(),
     },
@@ -90,7 +91,11 @@ describe('European Referral Workflow', () => {
         serviceType: 'EUROPEAN_REFERRAL',
         status: 'OPEN',
         description: 'Need a cardiologist in Germany',
-        referralCoordination: { referralStatus: 'SEARCHING' },
+      });
+      (prisma.referralCoordination.create as ReturnType<typeof vi.fn>).mockResolvedValue({
+        id: 'rc-1',
+        caseId: 'case-1',
+        referralStatus: 'SEARCHING',
       });
 
       const res = await createCase(createRequest({ serviceType: 'EUROPEAN_REFERRAL', description: 'Need a cardiologist in Germany' }));
@@ -98,6 +103,9 @@ describe('European Referral Workflow', () => {
 
       expect(res.status).toBe(201);
       expect(data.serviceType).toBe('EUROPEAN_REFERRAL');
+      expect(prisma.referralCoordination.create).toHaveBeenCalledWith({
+        data: { caseId: 'case-1', referralStatus: 'SEARCHING' },
+      });
       expect(data.referralCoordination).toBeDefined();
       expect(data.referralCoordination.referralStatus).toBe('SEARCHING');
     });

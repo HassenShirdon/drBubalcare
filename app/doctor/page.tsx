@@ -24,7 +24,7 @@ async function getTodayAppointments(doctorId: string) {
       date: { gte: today, lt: tomorrow },
     },
     include: {
-      patient: { select: { name: true, email: true, image: true } },
+      patient: { select: { name: true, age: true, gender: true } },
     },
     orderBy: { time: 'asc' },
   });

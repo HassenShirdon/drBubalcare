@@ -1,21 +1,30 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const role = (session.user as { role: string }).role;
   if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const doctors = await prisma.doctor.findMany({
-    include: {
-      user: { select: { id: true, name: true, email: true, createdAt: true } },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+  const { searchParams } = request.nextUrl;
+  const take = Math.min(Math.max(parseInt(searchParams.get('take') || '50', 10) || 50, 1), 200);
+  const skip = Math.max(parseInt(searchParams.get('skip') || '0', 10) || 0, 0);
 
-  return NextResponse.json(doctors);
+  const [data, total] = await Promise.all([
+    prisma.doctor.findMany({
+      take,
+      skip,
+      include: {
+        user: { select: { id: true, name: true, email: true, createdAt: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.doctor.count(),
+  ]);
+
+  return NextResponse.json({ data, total });
 }

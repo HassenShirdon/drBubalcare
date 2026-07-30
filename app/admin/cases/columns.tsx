@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import { ColumnDef } from "@tanstack/react-table"
-import Link from "next/link"
-import { ArrowRight, UserPlus, MoreHorizontal, Eye, CheckCircle, Stethoscope } from "lucide-react"
+import { MoreHorizontal, Eye, UserPlus, CheckCircle, Stethoscope } from "lucide-react"
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
 import { Button } from "@/components/ui/button"
 import {
@@ -73,17 +72,12 @@ function CaseActions({ caseItem }: { caseItem: AdminCase }) {
         if (isOpen) loadSpecialists()
       }}
     >
-      <DropdownMenuTrigger
-        nativeButton={false}
-        render={
-          <span className="inline-flex items-center justify-center size-8 rounded-md text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer" />
-        }
-      >
+      <DropdownMenuTrigger className="inline-flex items-center justify-center size-8 rounded-md text-admin-text-faint hover:bg-admin-surface-elevated hover:text-admin-text transition-colors cursor-pointer">
         <span className="sr-only">Open menu</span>
         <MoreHorizontal className="size-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem className="text-xs">
+        <DropdownMenuItem>
           <Eye className="size-3.5 mr-2" />
           View Details
         </DropdownMenuItem>
@@ -92,11 +86,11 @@ function CaseActions({ caseItem }: { caseItem: AdminCase }) {
           <>
             <DropdownMenuSeparator />
             <div className="px-2 py-1.5">
-              <p className="text-[10px] font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">
+              <p className="text-[10px] font-semibold text-admin-text-faint uppercase tracking-wider mb-1.5">
                 Assign Specialist
               </p>
               {specialists.length === 0 ? (
-                <p className="text-[11px] text-[#64748B] italic">Loading specialists...</p>
+                <p className="text-[11px] text-admin-text-faint italic">Loading specialists...</p>
               ) : (
                 <div className="max-h-48 overflow-y-auto space-y-0.5">
                   {specialists.map((s) => {
@@ -111,22 +105,22 @@ function CaseActions({ caseItem }: { caseItem: AdminCase }) {
                         key={s.id}
                         onClick={() => assign(s.id)}
                         disabled={assigning === s.id}
-                        className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-[#F1F5F9] transition-colors text-left disabled:opacity-50"
+                        className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-admin-surface-elevated transition-colors text-left disabled:opacity-50"
                       >
-                        <div className="w-6 h-6 rounded-full bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6] text-[9px] font-bold shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-[9px] font-bold shrink-0">
                           {initials}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[11px] font-medium text-[#0F172A] truncate">
+                          <p className="text-[11px] font-medium text-admin-text truncate">
                             {s.name ?? "Unknown"}
                           </p>
-                          <p className="text-[10px] text-[#64748B] truncate flex items-center gap-1">
+                          <p className="text-[10px] text-admin-text-faint truncate flex items-center gap-1">
                             <Stethoscope className="size-2.5" />
                             {s.specialty}
                           </p>
                         </div>
                         {assigning === s.id && (
-                          <CheckCircle className="size-3 text-[#22C55E] shrink-0 animate-pulse" />
+                          <CheckCircle className="size-3 text-admin-success shrink-0 animate-pulse" />
                         )}
                       </button>
                     )
@@ -149,8 +143,8 @@ export const columns: ColumnDef<AdminCase>[] = [
       const patient = row.original.patient
       return (
         <div>
-          <p className="font-medium text-[#0F172A]">{patient.name ?? "Unknown"}</p>
-          <p className="text-xs text-[#64748B]">{patient.email}</p>
+          <p className="font-medium text-admin-text">{patient.name ?? "Unknown"}</p>
+          <p className="text-xs text-admin-text-faint">{patient.email}</p>
         </div>
       )
     },
@@ -167,7 +161,7 @@ export const columns: ColumnDef<AdminCase>[] = [
     accessorKey: "serviceType",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Service Type" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#0F172A]">
+      <span className="text-sm text-admin-text">
         {SERVICE_TYPE_LABELS[row.original.serviceType] ?? row.original.serviceType}
       </span>
     ),
@@ -195,16 +189,16 @@ export const columns: ColumnDef<AdminCase>[] = [
       const specialist = row.original.specialist
       return specialist ? (
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-[#DBEAFE] flex items-center justify-center text-[#3B82F6] text-[9px] font-bold shrink-0">
+          <div className="w-6 h-6 rounded-full bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-[9px] font-bold shrink-0">
             {(specialist.name ?? "U").split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="text-sm text-[#0F172A] truncate">{specialist.name ?? "Unknown"}</p>
-            <p className="text-[11px] text-[#64748B] truncate">{specialist.email}</p>
+            <p className="text-sm text-admin-text truncate">{specialist.name ?? "Unknown"}</p>
+            <p className="text-[11px] text-admin-text-faint truncate">{specialist.email}</p>
           </div>
         </div>
       ) : (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#B45309] bg-[#FEF3C7] px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-warning bg-admin-warning-light px-2 py-0.5 rounded-full">
           <UserPlus className="size-3" />
           Unassigned
         </span>
@@ -215,7 +209,7 @@ export const columns: ColumnDef<AdminCase>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">
+      <span className="text-sm text-admin-text-faint">
         {new Date(row.original.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

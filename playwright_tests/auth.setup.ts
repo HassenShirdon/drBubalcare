@@ -123,8 +123,33 @@ setup('create admin and save auth state', async ({ page, request }) => {
   await signInViaApi(page, request, 'admin@drbubalcare.test', 'TestAdmin123!');
   await gotoWithRetry(page, '/admin');
 
-  await expect(page.getByText(/admin dashboard/i)).toBeVisible({ timeout: 30000 });
+  await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible({ timeout: 30000 });
   await expect(page).toHaveURL(portalUrlRegex('admin'));
 
   await page.context().storageState({ path: path.join(AUTH_DIR, 'admin.json') });
+});
+
+setup('seed e2e test data', async ({ request }) => {
+  const seedRes = await request.post('http://localhost:3000/api/e2e/seed', {
+    headers: E2E_HEADERS,
+    data: { doctorEmail: DOCTOR_EMAIL, patientEmail: PATIENT_EMAIL },
+  });
+  if (!seedRes.ok()) {
+    const body = await seedRes.text();
+    console.error(`Seed endpoint failed: ${seedRes.status()} ${seedRes.statusText()} ${body}`);
+  }
+  expect(seedRes.ok()).toBeTruthy();
+  const seedData = await seedRes.json();
+
+  fs.writeFileSync(
+    path.join(AUTH_DIR, 'seed-data.json'),
+    JSON.stringify({
+      doctorEmail: DOCTOR_EMAIL,
+      doctorPassword: DOCTOR_PASSWORD,
+      patientEmail: PATIENT_EMAIL,
+      patientPassword: PATIENT_PASSWORD,
+      caseId: seedData.caseId,
+      labResultId: seedData.labResultId,
+    }),
+  );
 });

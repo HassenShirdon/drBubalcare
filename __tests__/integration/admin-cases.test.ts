@@ -22,12 +22,26 @@ vi.mock('@/lib/db', () => ({
   prisma: {
     case: {
       findMany: vi.fn(),
+      count: vi.fn(),
     },
     doctor: {
       findMany: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
+
+function mockRequest(url = 'http://localhost') {
+  const parsedUrl = new URL(url);
+  const searchParams = new URLSearchParams(parsedUrl.search);
+  return {
+    nextUrl: {
+      searchParams: {
+        get: (key: string) => searchParams.get(key),
+      },
+    },
+  } as any;
+}
 
 import { GET as getAdminCases } from '@/app/api/admin/cases/route';
 import { GET as getAdminSpecialists } from '@/app/api/admin/specialists/route';
@@ -44,18 +58,18 @@ describe('Admin API', () => {
     it('returns 401 without auth', async () => {
       vi.mocked(getServerSession).mockResolvedValue(null);
 
-      const res = await getAdminCases();
+      const res = await getAdminCases(mockRequest());
       expect(res.status).toBe(401);
     });
 
     it('returns 403 for non-admin role', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', 'doctor-1'));
 
-      const res = await getAdminCases();
+      const res = await getAdminCases(mockRequest());
       expect(res.status).toBe(403);
     });
 
-    it('returns all cases with patient, specialist, and referral info', async () => {
+    it('returns paginated cases with patient, specialist, and referral info', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
       const mockCases = [
         {
@@ -76,15 +90,19 @@ describe('Admin API', () => {
         },
       ];
       vi.mocked(prisma.case.findMany).mockResolvedValue(mockCases as any);
+      vi.mocked(prisma.case.count).mockResolvedValue(2);
 
-      const res = await getAdminCases();
-      const data = await res.json();
+      const res = await getAdminCases(mockRequest());
+      const body = await res.json();
 
       expect(res.status).toBe(200);
-      expect(data).toHaveLength(2);
-      expect(data[0].patient.name).toBe('Alice');
-      expect(data[0].referralCoordination.referralStatus).toBe('SEARCHING');
+      expect(body.data).toHaveLength(2);
+      expect(body.total).toBe(2);
+      expect(body.data[0].patient.name).toBe('Alice');
+      expect(body.data[0].referralCoordination.referralStatus).toBe('SEARCHING');
       expect(prisma.case.findMany).toHaveBeenCalledWith({
+        take: 50,
+        skip: 0,
         include: {
           patient: { select: { name: true, email: true } },
           specialist: { select: { name: true, email: true } },
@@ -94,15 +112,30 @@ describe('Admin API', () => {
       });
     });
 
-    it('returns empty array when no cases exist', async () => {
+    it('respects take/skip query params', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
       vi.mocked(prisma.case.findMany).mockResolvedValue([]);
+      vi.mocked(prisma.case.count).mockResolvedValue(10);
 
-      const res = await getAdminCases();
-      const data = await res.json();
+      const res = await getAdminCases(mockRequest('http://localhost?take=10&skip=5'));
+      await res.json();
+
+      expect(prisma.case.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ take: 10, skip: 5 })
+      );
+    });
+
+    it('returns empty data when no cases exist', async () => {
+      vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
+      vi.mocked(prisma.case.findMany).mockResolvedValue([]);
+      vi.mocked(prisma.case.count).mockResolvedValue(0);
+
+      const res = await getAdminCases(mockRequest());
+      const body = await res.json();
 
       expect(res.status).toBe(200);
-      expect(data).toEqual([]);
+      expect(body.data).toEqual([]);
+      expect(body.total).toBe(0);
     });
   });
 
@@ -110,18 +143,18 @@ describe('Admin API', () => {
     it('returns 401 without auth', async () => {
       vi.mocked(getServerSession).mockResolvedValue(null);
 
-      const res = await getAdminSpecialists();
+      const res = await getAdminSpecialists(mockRequest());
       expect(res.status).toBe(401);
     });
 
     it('returns 403 for non-admin role', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', 'doctor-1'));
 
-      const res = await getAdminSpecialists();
+      const res = await getAdminSpecialists(mockRequest());
       expect(res.status).toBe(403);
     });
 
-    it('returns specialists list with user info', async () => {
+    it('returns paginated specialists list with user info', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('ADMIN', 'admin-1'));
       const mockDoctors = [
         {
@@ -142,15 +175,19 @@ describe('Admin API', () => {
         },
       ];
       vi.mocked(prisma.doctor.findMany).mockResolvedValue(mockDoctors as any);
+      vi.mocked(prisma.doctor.count).mockResolvedValue(2);
 
-      const res = await getAdminSpecialists();
-      const data = await res.json();
+      const res = await getAdminSpecialists(mockRequest());
+      const body = await res.json();
 
       expect(res.status).toBe(200);
-      expect(data).toHaveLength(2);
-      expect(data[0].user.name).toBe('Dr. A');
-      expect(data[1].user.name).toBe('Dr. B');
+      expect(body.data).toHaveLength(2);
+      expect(body.total).toBe(2);
+      expect(body.data[0].user.name).toBe('Dr. A');
+      expect(body.data[1].user.name).toBe('Dr. B');
       expect(prisma.doctor.findMany).toHaveBeenCalledWith({
+        take: 50,
+        skip: 0,
         include: {
           user: { select: { id: true, name: true, email: true, createdAt: true } },
         },

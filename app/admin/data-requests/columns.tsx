@@ -14,10 +14,10 @@ export type DataRequestEntry = {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  PENDING: { label: 'Pending (30-day grace)', color: 'bg-[#FEF3C7] text-[#B45309] px-2.5 py-0.5 rounded-full text-xs font-medium' },
-  CONFIRMED: { label: 'Confirmed', color: 'bg-[#DBEAFE] text-[#1E40AF] px-2.5 py-0.5 rounded-full text-xs font-medium' },
-  COMPLETED: { label: 'Completed', color: 'bg-[#DCFCE7] text-[#15803D] px-2.5 py-0.5 rounded-full text-xs font-medium' },
-  CANCELLED: { label: 'Cancelled', color: 'bg-[#F1F5F9] text-[#64748B] px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  PENDING: { label: 'Pending (30-day grace)', color: 'bg-admin-warning-light text-admin-warning px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CONFIRMED: { label: 'Confirmed', color: 'bg-admin-brand-light text-admin-accent-blue px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  COMPLETED: { label: 'Completed', color: 'bg-admin-success-light text-admin-success px-2.5 py-0.5 rounded-full text-xs font-medium' },
+  CANCELLED: { label: 'Cancelled', color: 'bg-admin-surface-elevated text-admin-text-faint px-2.5 py-0.5 rounded-full text-xs font-medium' },
 }
 
 export const columns: ColumnDef<DataRequestEntry>[] = [
@@ -25,7 +25,7 @@ export const columns: ColumnDef<DataRequestEntry>[] = [
     accessorKey: "requestedAt",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Requested" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">
+      <span className="text-sm text-admin-text-faint">
         {new Date(row.original.requestedAt).toLocaleDateString("en-US", {
           month: "short", day: "numeric", year: "numeric",
         })}
@@ -37,8 +37,8 @@ export const columns: ColumnDef<DataRequestEntry>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Patient" />,
     cell: ({ row }) => (
       <div>
-        <p className="font-medium text-[#0F172A]">{row.original.patient.name ?? "Unknown"}</p>
-        <p className="text-xs text-[#64748B]">{row.original.patient.email}</p>
+        <p className="font-medium text-admin-text">{row.original.patient.name ?? "Unknown"}</p>
+        <p className="text-xs text-admin-text-faint">{row.original.patient.email}</p>
       </div>
     ),
     filterFn: (row, id, value) => {
@@ -66,7 +66,7 @@ export const columns: ColumnDef<DataRequestEntry>[] = [
     accessorKey: "executeAt",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Execute After" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">
+      <span className="text-sm text-admin-text-faint">
         {new Date(row.original.executeAt).toLocaleDateString("en-US", {
           month: "short", day: "numeric", year: "numeric",
         })}

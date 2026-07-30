@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { getBaseUrl } from '@/lib/app-url';
 import { z } from 'zod';
 
 const labMetricSchema = z.object({
@@ -19,20 +20,28 @@ const createLabResultSchema = z.object({
   metrics: z.array(labMetricSchema).min(1, 'at least one metric is required'),
 });
 
-export async function GET() {
+export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const results = await prisma.labResult.findMany({
-    where: { patientId: (session.user as { id: string }).id },
-    include: { metrics: true },
-    orderBy: { date: 'desc' },
-  });
+  const patientId = (session.user as { id: string }).id;
+  const { searchParams } = new URL(request.url);
+  const take = Math.min(Math.max(parseInt(searchParams.get('take') || '50', 10) || 50, 1), 200);
+  const skip = Math.max(parseInt(searchParams.get('skip') || '0', 10) || 0, 0);
 
-  return NextResponse.json(results, {
-    headers: {
-      'Cache-Control': 'private, no-store',
-    },
+  const [results, total] = await Promise.all([
+    prisma.labResult.findMany({
+      where: { patientId },
+      include: { metrics: true },
+      orderBy: { date: 'desc' },
+      take,
+      skip,
+    }),
+    prisma.labResult.count({ where: { patientId } }),
+  ]);
+
+  return NextResponse.json({ data: results, total, take, skip }, {
+    headers: { 'Cache-Control': 'private, no-store' },
   });
 }
 
@@ -69,7 +78,7 @@ export async function POST(request: Request) {
     include: { metrics: true },
   });
 
-  fetch(`${process.env.NEXTAUTH_URL}/api/ai/trends/${userId}/analyze`, {
+  fetch(`${getBaseUrl()}/api/ai/trends/${userId}/analyze`, {
     method: 'POST',
     headers: {
       'x-internal-secret': process.env.INTERNAL_API_SECRET || '',

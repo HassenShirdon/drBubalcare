@@ -12,7 +12,7 @@ async function getAppointments(doctorId: string) {
   return prisma.appointment.findMany({
     where: { doctorId },
     include: {
-      patient: { select: { name: true, email: true, image: true } },
+      patient: { select: { name: true, age: true, gender: true } },
     },
     orderBy: [{ date: 'asc' }, { time: 'asc' }],
     take: 50,

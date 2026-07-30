@@ -86,90 +86,90 @@ export function PostForm({ post }: PostFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="bg-white rounded-lg border border-[#E2E8F0] p-6 space-y-5">
+      <div className="bg-admin-surface rounded-xl border border-admin-border p-6 space-y-5">
         <div>
-          <label htmlFor="title" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+          <label htmlFor="title" className="block text-sm font-semibold text-admin-brand mb-1.5">
             Title *
           </label>
           <input
             id="title"
             {...register('title')}
-            className="w-full h-9 px-3 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6]"
+            className="w-full h-9 px-3 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30"
             placeholder="Post title"
           />
           {errors.title && (
-            <p className="text-[#E63946] text-xs mt-1">{errors.title.message}</p>
+            <p className="text-admin-danger text-xs mt-1">{errors.title.message}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="slug" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+          <label htmlFor="slug" className="block text-sm font-semibold text-admin-brand mb-1.5">
             Slug *
           </label>
           <input
             id="slug"
             {...register('slug')}
-            className="w-full h-9 px-3 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6] font-mono"
+            className="w-full h-9 px-3 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30 font-mono"
             placeholder="post-url-slug"
           />
           {errors.slug && (
-            <p className="text-[#E63946] text-xs mt-1">{errors.slug.message}</p>
+            <p className="text-admin-danger text-xs mt-1">{errors.slug.message}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="excerpt" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+          <label htmlFor="excerpt" className="block text-sm font-semibold text-admin-brand mb-1.5">
             Excerpt
           </label>
           <textarea
             id="excerpt"
             {...register('excerpt')}
             rows={3}
-            className="w-full px-3 py-2 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6] resize-none"
+            className="w-full px-3 py-2 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30 resize-none"
             placeholder="Short summary shown on cards"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="category" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+            <label htmlFor="category" className="block text-sm font-semibold text-admin-brand mb-1.5">
               Category
             </label>
             <input
               id="category"
               {...register('category')}
-              className="w-full h-9 px-3 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6]"
+              className="w-full h-9 px-3 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30"
               placeholder="e.g. Company News, Medical Research"
             />
           </div>
           <div>
-            <label htmlFor="tags" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+            <label htmlFor="tags" className="block text-sm font-semibold text-admin-brand mb-1.5">
               Tags
             </label>
             <input
               id="tags"
               {...register('tags')}
-              className="w-full h-9 px-3 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6]"
+              className="w-full h-9 px-3 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30"
               placeholder="comma, separated, tags"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="coverImage" className="block text-sm font-semibold text-[#1E3A5F] mb-1.5">
+          <label htmlFor="coverImage" className="block text-sm font-semibold text-admin-brand mb-1.5">
             Cover Image URL
           </label>
           <input
             id="coverImage"
             {...register('coverImage')}
-            className="w-full h-9 px-3 rounded-lg border border-[#E2E8F0] text-sm focus:outline-none focus:border-[#3B82F6]"
+            className="w-full h-9 px-3 rounded-lg border border-admin-border bg-admin-bg text-admin-text text-sm focus:outline-none focus:border-admin-accent-blue focus:ring-1 focus:ring-admin-accent-blue/30"
             placeholder="https://example.com/image.jpg"
           />
           {errors.coverImage && (
-            <p className="text-[#E63946] text-xs mt-1">{errors.coverImage.message}</p>
+            <p className="text-admin-danger text-xs mt-1">{errors.coverImage.message}</p>
           )}
           {coverImageValue && (
-            <div className="mt-2 relative aspect-video rounded-lg overflow-hidden border border-[#E2E8F0] bg-[#F1F5F9]/30">
+            <div className="mt-2 relative aspect-video rounded-lg overflow-hidden border border-admin-border bg-admin-surface-elevated/30">
               <Image
                 src={coverImageValue}
                 alt="Cover preview"
@@ -185,8 +185,8 @@ export function PostForm({ post }: PostFormProps) {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-[#E2E8F0] p-6 space-y-3">
-        <label className="block text-sm font-semibold text-[#1E3A5F]">Content</label>
+      <div className="bg-admin-surface rounded-xl border border-admin-border p-6 space-y-3">
+        <label className="block text-sm font-semibold text-admin-brand">Content</label>
         <Controller
           name="content"
           control={control}
@@ -195,32 +195,32 @@ export function PostForm({ post }: PostFormProps) {
           )}
         />
         {errors.content && (
-          <p className="text-[#E63946] text-xs mt-1">{errors.content.message}</p>
+          <p className="text-admin-danger text-xs mt-1">{errors.content.message}</p>
         )}
       </div>
 
-      <div className="flex items-center justify-between bg-white rounded-lg border border-[#E2E8F0] p-4">
+      <div className="flex items-center justify-between bg-admin-surface rounded-xl border border-admin-border p-4">
         <label className="flex items-center gap-3 cursor-pointer">
           <input
             type="checkbox"
             {...register('published')}
-            className="size-4 rounded border-[#E2E8F0] text-[#1E3A5F] focus:ring-[#1E3A5F]"
+            className="size-4 rounded border-admin-border text-admin-brand focus:ring-admin-brand"
           />
-          <span className="text-sm font-medium text-[#1E3A5F]">Publish immediately</span>
+          <span className="text-sm font-medium text-admin-brand">Publish immediately</span>
         </label>
 
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => router.push('/admin/news')}
-            className="px-4 py-2 text-sm font-medium text-[#64748B] hover:text-[#1E3A5F] transition-colors"
+            className="px-4 py-2 text-sm font-medium text-admin-text-faint hover:text-admin-brand transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#1E3A5F] text-white text-sm font-semibold px-6 py-2 rounded-lg hover:bg-[#1E3A5F]/90 transition-colors disabled:opacity-50"
+            className="bg-admin-brand text-white text-sm font-semibold px-6 py-2 rounded-lg hover:bg-admin-brand/90 transition-colors disabled:opacity-50"
           >
             {isSubmitting ? 'Saving...' : post ? 'Update Post' : 'Create Post'}
           </button>

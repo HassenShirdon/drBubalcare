@@ -1,3 +1,3 @@
 -- AlterTable
-ALTER TABLE Case ADD COLUMN description TEXT;
+ALTER TABLE "Case" ADD COLUMN description TEXT;
 

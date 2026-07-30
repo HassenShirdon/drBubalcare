@@ -11,7 +11,7 @@ export type DoctorCase = {
   serviceType: string
   status: string
   createdAt: string
-  patient: { name: string | null; email: string }
+  patient: { name: string | null; age: number | null; gender: string | null }
   opinions: { status: string }[]
 }
 
@@ -44,7 +44,9 @@ export const columns: ColumnDef<DoctorCase>[] = [
           </div>
           <div>
             <p className="font-medium text-sm" style={{ color: "#0F172A" }}>{patient.name ?? "Unknown"}</p>
-            <p className="text-xs" style={{ color: "#64748B" }}>{patient.email}</p>
+            <p className="text-xs" style={{ color: "#64748B" }}>
+              {patient.age ?? "—"} yrs &middot; {patient.gender ?? "—"}
+            </p>
           </div>
         </div>
       )
@@ -52,10 +54,7 @@ export const columns: ColumnDef<DoctorCase>[] = [
     filterFn: (row, id, value) => {
       const patient = row.original.patient
       const search = (value as string).toLowerCase()
-      return (
-        (patient.name?.toLowerCase().includes(search) ?? false) ||
-        patient.email.toLowerCase().includes(search)
-      )
+      return (patient.name?.toLowerCase().includes(search) ?? false)
     },
   },
   {

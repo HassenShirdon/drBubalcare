@@ -1,18 +1,26 @@
 import {
+  Activity,
+  Apple,
   Award,
-  ClipboardCheck,
+  BadgeCheck,
+  Baby,
+  Car,
+  ClipboardList,
   Clock,
   Droplets,
   Eye,
   FileText,
+  FlaskConical,
   Heart,
-  MessageSquare,
+  MessageSquareText,
   Microscope,
-  RefreshCw,
-  Scan,
+  Ribbon,
+  ScanLine,
   Shield,
   Stethoscope,
+  Sun,
   TrendingUp,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 
@@ -28,10 +36,16 @@ export const SPECIALIZATIONS: {
     icon: Droplets,
   },
   {
+    title: "Clinical Pathology",
+    description:
+      "Lab medicine, biochemical analysis, and diagnostic chemistry interpretation.",
+    icon: FlaskConical,
+  },
+  {
     title: "Diagnostic Radiology",
     description:
       "X-rays, CT scans, MRIs, and ultrasounds interpreted by board-certified radiologists.",
-    icon: Scan,
+    icon: ScanLine,
   },
   {
     title: "Cytopathology",
@@ -42,50 +56,68 @@ export const SPECIALIZATIONS: {
   {
     title: "Dermatopathology",
     description:
-      "Skin biopsies and lesion specimens reviewed by dermatopathology specialists.",
-    icon: Eye,
+      "Skin biopsies, lesion specimens, and melanoma screening reviewed by dermatopathology specialists.",
+    icon: Sun,
   },
   {
     title: "Women's Health",
     description:
-      "Gynecological pathology, breast biopsies, and prenatal screening interpretations.",
+      "Gynecological pathology, breast biopsies, and fertility-related diagnostic interpretations.",
     icon: Heart,
+  },
+  {
+    title: "Fetal Medicine",
+    description:
+      "Prenatal screening, fetal anomaly assessment, and maternal-fetal diagnostic review.",
+    icon: Baby,
+  },
+  {
+    title: "Pediatrics",
+    description:
+      "Childhood disease diagnostics, neonatal screening, and pediatric pathology review.",
+    icon: Stethoscope,
   },
   {
     title: "Oncology",
     description:
       "Cancer pathology, tumor grading, and molecular marker interpretation by oncology experts.",
-    icon: Stethoscope,
+    icon: Ribbon,
+  },
+  {
+    title: "Chronic Disease",
+    description:
+      "Diabetes, hypertension, and long-term condition monitoring with specialist oversight.",
+    icon: Activity,
   },
 ] as const;
 
 export const TRUST_POINTS: {
-  question: string;
-  answer: string;
+  title: string;
+  description: string;
   icon: LucideIcon;
 }[] = [
   {
-    question: "Is my data safe?",
-    answer:
-      "End-to-end encryption. HIPAA and GDPR compliant. Your medical records never leave our secure platform.",
+    title: "Board-certified specialists only",
+    description:
+      "Every specialist is credential-verified and board-certified. No exceptions.",
+    icon: BadgeCheck,
+  },
+  {
+    title: "Your data stays private",
+    description:
+      "HIPAA and GDPR compliant. Files encrypted end-to-end. AI never sees your name.",
     icon: Shield,
   },
   {
-    question: "Are the specialists qualified?",
-    answer:
-      "Every specialist is board-certified and credential-verified. We don't compromise on expertise.",
-    icon: Award,
+    title: "Plain-language reports",
+    description:
+      "No medical jargon. Your report is written as if by a trusted GP, with a plain-language summary included.",
+    icon: MessageSquareText,
   },
   {
-    question: "What if I disagree?",
-    answer:
-      "Request a peer review at no extra cost. We stand behind every opinion.",
-    icon: RefreshCw,
-  },
-  {
-    question: "How fast is it?",
-    answer:
-      "24-48 hours on average. Urgent cases are flagged and prioritized.",
+    title: "24-48 hour turnaround",
+    description:
+      "Most cases reviewed within 2 days. Urgent cases flagged and prioritized.",
     icon: Clock,
   },
 ] as const;
@@ -97,65 +129,129 @@ export const STATS: { value: string; label: string }[] = [
   { value: "East Africa", label: "Primary Coverage" },
 ];
 
-export const STEPS: { num: string; title: string; description: string }[] = [
+export const STEPS: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}[] = [
   {
-    num: "01",
-    title: "Upload Your Records",
+    icon: FileText,
+    title: "Upload your records",
     description:
-      "Take a photo or upload files. Lab results, scans, slides — we accept all formats.",
+      "Lab reports, scans, slides - upload anything. Takes under 5 minutes from your phone.",
   },
   {
-    num: "02",
-    title: "We Match You",
+    icon: Users,
+    title: "AI matches your specialist",
     description:
-      "AI pairs your case with the right board-certified specialist. No guessing, no referrals needed.",
+      "Our system reviews your case and routes it to the right board-certified specialist by subspecialty.",
   },
   {
-    num: "03",
-    title: "Get Your Answer",
+    icon: Microscope,
+    title: "Specialist reviews",
     description:
-      "Receive a written specialist opinion within 24-48 hours. Clear, detailed, and in plain language.",
+      "A qualified specialist reviews your materials alongside an AI pre-screen. Target: 24-48 hours.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Clear answers delivered",
+    description:
+      "Receive a structured written opinion with a plain-language summary. No jargon, no confusion.",
   },
 ] as const;
 
 export const SERVICES: {
   title: string;
+  shortDescription: string;
   description: string;
   icon: LucideIcon;
-  category: string;
-  price: string;
+  highlights: string[];
+  link: string;
 }[] = [
   {
-    title: "Specialist Opinions",
+    title: "Medical Second Opinion Center",
+    shortDescription:
+      "Receive an independent review of your diagnosis, treatment plan, laboratory results, medical imaging, and specialist recommendations.",
     description:
-      "Upload slides, scans, or reports. Get a board-certified specialist's written opinion within 24-48 hours.",
-    icon: FileText,
-    category: "Most Popular",
-    price: "From $49",
+      "Receive an independent review of your diagnosis, treatment plan, and specialist recommendations from board-certified physicians.",
+    icon: Stethoscope,
+    highlights: [
+      "Treatment Review",
+      "Diagnosis Verification",
+      "Medication Review",
+      "Surgery Review",
+      "Chronic Disease Management",
+      "Cancer Second Opinions",
+    ],
+    link: "/services/medical-second-opinion",
   },
   {
-    title: "Result Interpretation",
+    title: "Laboratory & Diagnostic Center",
+    shortDescription:
+      "Professional interpretation of laboratory tests and diagnostic imaging to help patients understand their health.",
     description:
-      "Have lab results but unclear what they mean? Get a specialist's plain-language explanation.",
-    icon: ClipboardCheck,
-    category: "Popular",
-    price: "From $29",
+      "Professional interpretation of laboratory tests and diagnostic imaging to help patients understand their health.",
+    icon: Microscope,
+    highlights: [
+      "Laboratory Interpretation",
+      "MRI Review",
+      "CT Scan Review",
+      "ECG Interpretation",
+      "Disease Monitoring",
+      "Risk Assessment",
+    ],
+    link: "/services/laboratory-diagnostic-center",
   },
   {
-    title: "Follow-up Consultations",
+    title: "Medical Nutrition Therapy Center",
+    shortDescription:
+      "Personalized nutrition therapy designed to prevent disease and improve long-term health outcomes.",
     description:
-      "Questions after your report? Ask our AI assistant or book a live consultation.",
-    icon: MessageSquare,
-    category: "Support",
-    price: "Free / From $39",
+      "Personalized nutrition therapy designed to prevent disease and improve long-term health outcomes.",
+    icon: Apple,
+    highlights: [
+      "Diabetes Nutrition",
+      "Kidney Nutrition",
+      "Pregnancy Nutrition",
+      "Weight Management",
+      "Child Nutrition",
+      "Micronutrients",
+    ],
+    link: "/services/medical-nutrition-therapy",
   },
   {
-    title: "Lab Trend Tracking",
+    title: "Child Health & Development Center",
+    shortDescription:
+      "Supporting healthy growth and development from pregnancy through adolescence.",
     description:
-      "Track your lab results over time. We flag significant changes before your next appointment.",
-    icon: TrendingUp,
-    category: "Included",
-    price: "Included",
+      "Supporting healthy growth and development from pregnancy through adolescence.",
+    icon: Baby,
+    highlights: [
+      "Pregnancy",
+      "Breastfeeding",
+      "Child Nutrition",
+      "Growth Monitoring",
+      "Vaccination",
+      "Development",
+    ],
+    link: "/services/child-health-development",
+  },
+  {
+    title: "Women's Health & Fertility Center",
+    shortDescription:
+      "Evidence-based reproductive health guidance, fertility education, pregnancy planning, and women's wellness.",
+    description:
+      "Evidence-based reproductive health guidance, fertility education, pregnancy planning, and women's wellness.",
+    icon: Heart,
+    highlights: [
+      "Infertility",
+      "PCOS",
+      "Ovulation",
+      "Pregnancy Planning",
+      "IVF Education",
+      "Fertility Nutrition",
+    ],
+    link: "/services/womens-health-fertility",
   },
 ] as const;
 
@@ -174,14 +270,14 @@ export const TESTIMONIALS: {
   },
   {
     quote:
-      "My local doctor wasn't sure about my biopsy. Dr. Bubal Care connected me to a pathologist who gave me a clear answer in 36 hours.",
+      "My local doctor was not sure about my biopsy. Dr. Bubal Care connected me to a pathologist who gave me a clear answer in 36 hours.",
     name: "James K.",
     location: "Kampala, Uganda",
     rating: 5,
   },
   {
     quote:
-      "The plain-language summary was the best part. No medical jargon — just clear answers I could share with my family.",
+      "The plain-language summary was the best part. No medical jargon - just clear answers I could share with my family.",
     name: "Amina H.",
     location: "Dar es Salaam, Tanzania",
     rating: 5,
@@ -203,22 +299,47 @@ export const FAQ: { question: string; answer: string }[] = [
   },
   {
     question: "What files can I upload?",
-    answer:
-      "Lab reports, DICOM scans, histology slides, photos — we accept all common formats.",
+    answer: "Lab reports, DICOM scans, histology slides, photos - we accept all common formats.",
   },
   {
     question: "How long does it take?",
-    answer:
-      "Most cases are completed within 24-48 hours. Urgent cases are flagged and prioritized.",
+    answer: "Most cases are completed within 24-48 hours. Urgent cases are flagged and prioritized.",
   },
   {
     question: "Are the specialists qualified?",
-    answer:
-      "Every specialist is board-certified and credential-verified before joining our platform.",
+    answer: "Every specialist is board-certified and credential-verified before joining our platform.",
   },
   {
-    question: "What if I don't understand my report?",
-    answer:
-      "Every report includes a plain-language summary. You can also ask follow-up questions via our AI assistant or book a live consultation.",
+    question: "What if I do not understand my report?",
+    answer: "Every report includes a plain-language summary. You can also ask follow-up questions via our AI assistant or book a live consultation.",
   },
 ];
+
+export const PROBLEMS: {
+  icon: LucideIcon;
+  stat: string;
+  label: string;
+  description: string;
+}[] = [
+  {
+    icon: Users,
+    stat: "1",
+    label: "per 100,000+",
+    description:
+      "Specialist for every 100,000 patients in parts of East Africa. Most hospitals lack a single board-certified pathologist or radiologist on staff.",
+  },
+  {
+    icon: Car,
+    stat: "6-8",
+    label: "hours travel",
+    description:
+      "Average travel time to reach a specialist clinic. Patients and families travel for hours - sometimes across borders - just for a second opinion.",
+  },
+  {
+    icon: Clock,
+    stat: "Weeks",
+    label: "to months",
+    description:
+      "Waiting time for an appointment in many regions. By the time results reach a specialist, critical time for early detection has been lost.",
+  },
+] as const;

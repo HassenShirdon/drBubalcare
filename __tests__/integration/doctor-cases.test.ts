@@ -61,7 +61,7 @@ describe('Doctor Cases API', () => {
           specialistId: 'doc-1',
           status: 'UNDER_REVIEW',
           createdAt: new Date('2024-06-01'),
-          patient: { name: 'Alice', email: 'alice@test.com' },
+          patient: { name: 'Alice', age: 32, gender: 'female' },
           opinions: [{ id: 'op-1', status: 'DRAFT', signedAt: null }],
         },
         {
@@ -69,7 +69,7 @@ describe('Doctor Cases API', () => {
           specialistId: 'doc-1',
           status: 'OPEN',
           createdAt: new Date('2024-05-01'),
-          patient: { name: 'Bob', email: 'bob@test.com' },
+          patient: { name: 'Bob', age: 45, gender: 'male' },
           opinions: [],
         },
       ];
@@ -85,7 +85,7 @@ describe('Doctor Cases API', () => {
       expect(prisma.case.findMany).toHaveBeenCalledWith({
         where: { specialistId: 'doc-1' },
         include: {
-          patient: { select: { name: true, email: true } },
+          patient: { select: { name: true, age: true, gender: true } },
           opinions: {
             where: { specialistId: 'doc-1' },
             select: { id: true, status: true, signedAt: true },
@@ -118,7 +118,7 @@ describe('Doctor Cases API', () => {
         id: 'case-1',
         specialistId: 'doc-1',
         status: 'UNDER_REVIEW',
-        patient: { name: 'Alice', email: 'alice@test.com' },
+        patient: { name: 'Alice', age: 32, gender: 'female' },
         records: [{ id: 'rec-1', fileName: 'scan.pdf' }],
         aiPrescreens: [{ id: 'ps-1', findings: 'Key finding' }],
         opinions: [{ id: 'op-1', status: 'DRAFT', specialist: { name: 'Dr. A' } }],

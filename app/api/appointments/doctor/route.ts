@@ -1,32 +1,33 @@
-import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { requireDoctor, serverError, notFound, ok } from '@/lib/api-helpers';
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    const auth = await requireDoctor();
+    if (!auth.ok) return auth.response;
 
-  const userId = (session.user as { id: string }).id;
+    const doctor = await prisma.doctor.findUnique({ where: { userId: auth.userId } });
+    if (!doctor) return notFound('Doctor profile');
 
-  const doctor = await prisma.doctor.findUnique({ where: { userId } });
-  if (!doctor) return NextResponse.json({ error: 'Doctor profile not found' }, { status: 404 });
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        doctorId: doctor.id,
+        date: { gte: today, lt: tomorrow },
+      },
+      include: {
+        patient: { select: { name: true, age: true, gender: true } },
+      },
+      orderBy: { time: 'asc' },
+      take: 200,
+    });
 
-  const appointments = await prisma.appointment.findMany({
-    where: {
-      doctorId: doctor.id,
-      date: { gte: today, lt: tomorrow },
-    },
-    include: {
-      patient: { select: { name: true, email: true, image: true } },
-    },
-    orderBy: { time: 'asc' },
-  });
-
-  return NextResponse.json(appointments);
+    return ok(appointments, 'private, no-store');
+  } catch (error) {
+    return serverError(error);
+  }
 }

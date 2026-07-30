@@ -25,7 +25,7 @@ export const columns: ColumnDef<AdminPost>[] = [
     accessorKey: "author",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Author" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">{row.original.author.name ?? "Unknown"}</span>
+      <span className="text-sm text-admin-text-faint">{row.original.author.name ?? "Unknown"}</span>
     ),
     filterFn: (row, id, value) => {
       return (row.original.author.name?.toLowerCase().includes((value as string).toLowerCase()) ?? false)
@@ -35,7 +35,7 @@ export const columns: ColumnDef<AdminPost>[] = [
     accessorKey: "category",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Category" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">{row.original.category ?? "—"}</span>
+      <span className="text-sm text-admin-text-muted">{row.original.category ?? "-"}</span>
     ),
   },
   {
@@ -43,7 +43,7 @@ export const columns: ColumnDef<AdminPost>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-        row.original.published ? "bg-[#DCFCE7] text-[#15803D]" : "bg-[#FEF3C7] text-[#B45309]"
+        row.original.published ? "bg-admin-success-light text-admin-success" : "bg-admin-warning-light text-admin-warning"
       }`}>
         {row.original.published ? "Published" : "Draft"}
       </span>
@@ -53,7 +53,7 @@ export const columns: ColumnDef<AdminPost>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
     cell: ({ row }) => (
-      <span className="text-sm text-[#64748B]">
+      <span className="text-sm text-admin-text-faint">
         {new Date(row.original.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
