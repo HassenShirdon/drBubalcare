@@ -3,7 +3,7 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { ArrowLeft, FileText, Clock, CheckCircle2, AlertCircle, User, Calendar, Loader2 } from 'lucide-react';
+import { ArrowLeft, FileText, Clock, CheckCircle2, AlertCircle, User, Calendar, Loader2, ClipboardList } from 'lucide-react';
 import { useCase } from '@/lib/hooks/use-cases';
 import { CaseStatusTracker } from '@/components/case-status-tracker';
 import { FileUpload } from '@/components/file-upload';
@@ -32,6 +32,40 @@ function formatDate(date: string) {
     hour: '2-digit',
     minute: '2-digit',
   });
+}
+
+const reviewTypeLabels: Record<string, string> = {
+  BASIC_CASE_REVIEW: 'Basic case review',
+  COMPREHENSIVE_SECOND_OPINION: 'Comprehensive second opinion',
+  SPECIALIST_GLOBAL_EXPERT: 'Specialist / global expert review',
+  MULTIDISCIPLINARY_REVIEW: 'Multidisciplinary review',
+};
+
+function intakeLabel(value?: string | null) {
+  if (!value) return 'Not specified';
+  return reviewTypeLabels[value] || value;
+}
+
+const sexLabels: Record<string, string> = {
+  MALE: 'Male',
+  FEMALE: 'Female',
+  OTHER: 'Other',
+  PREFER_NOT_TO_SAY: 'Prefer not to say',
+};
+
+function sexLabel(value?: string | null) {
+  if (!value) return 'Not specified';
+  return sexLabels[value] || value;
+}
+
+function IntakeRow({ label, value }: { label: string; value?: string | null }) {
+  if (!value) return null;
+  return (
+    <div>
+      <dt className="text-xs font-medium uppercase tracking-wide text-[#94A3B8]">{label}</dt>
+      <dd className="mt-1 text-sm text-[#0F172A] whitespace-pre-wrap">{value}</dd>
+    </div>
+  );
 }
 
 function parseOpinionSections(content: string): { title: string; body: string }[] {
@@ -176,9 +210,63 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
         </div>
       </motion.div>
 
-      {/* AI Pre-screen */}
-      {caseData.aiPrescreens && caseData.aiPrescreens.length > 0 && (
+      {/* Case Intake Summary */}
+      {caseData.intake && (
         <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22 }}
+          className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6"
+        >
+          <h2 className="font-semibold text-[#0F172A] mb-4 flex items-center gap-2">
+            <ClipboardList className="size-4 text-[#1E3A5F]" />
+            Patient Case Review Summary
+          </h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+            {caseData.intake.age != null && (
+              <IntakeRow label="Age" value={String(caseData.intake.age)} />
+            )}
+            <IntakeRow label="Sex" value={sexLabel(caseData.intake.sex)} />
+            <IntakeRow label="Review type" value={intakeLabel(caseData.intake.reviewType)} />
+            <IntakeRow
+              label="Reasons"
+              value={
+                caseData.intake.reasonForRequest?.length
+                  ? caseData.intake.reasonForRequest.join(', ')
+                  : 'Not specified'
+              }
+            />
+            <div className="sm:col-span-2">
+              <IntakeRow label="Main concern" value={caseData.intake.mainConcern} />
+            </div>
+            {caseData.intake.diagnosis && (
+              <IntakeRow label="Diagnosis" value={caseData.intake.diagnosis} />
+            )}
+            {caseData.intake.mainSymptoms && (
+              <div className="sm:col-span-2">
+                <IntakeRow label="Main symptoms" value={caseData.intake.mainSymptoms} />
+              </div>
+            )}
+            {caseData.intake.medicalHistory?.length > 0 && (
+              <IntakeRow label="Medical history" value={caseData.intake.medicalHistory.join(', ')} />
+            )}
+            {caseData.intake.familyHistory?.length > 0 && (
+              <IntakeRow label="Family history" value={caseData.intake.familyHistory.join(', ')} />
+            )}
+            {caseData.intake.patientGoals && (
+              <div className="sm:col-span-2">
+                <IntakeRow label="Patient goals" value={caseData.intake.patientGoals} />
+              </div>
+            )}
+            {caseData.intake.requestedSpecialty && (
+              <IntakeRow label="Specialty requested" value={caseData.intake.requestedSpecialty} />
+            )}
+          </dl>
+        </motion.div>
+      )}
+
+      {/* AI Pre-screen */}
+      {caseData.aiPrescreens && caseData.aiPrescreens.length > 0 && (        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}

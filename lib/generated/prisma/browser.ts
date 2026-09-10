@@ -68,6 +68,11 @@ export type Appointment = Prisma.AppointmentModel
  */
 export type Case = Prisma.CaseModel
 /**
+ * Model CaseIntake
+ * 
+ */
+export type CaseIntake = Prisma.CaseIntakeModel
+/**
  * Model CaseRecord
  * 
  */

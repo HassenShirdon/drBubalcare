@@ -241,10 +241,56 @@ model Case {
   specialist           User?                 @relation("SpecialistCases", fields: [specialistId], references: [id], onDelete: SetNull)
   records              CaseRecord[]
   referralCoordination ReferralCoordination?
+  intake               CaseIntake?
   opinions             SpecialistOpinion[]
   aiPrescreens         AIPrescreen[]
   synthesis            OpinionSynthesis?
   disputes             Dispute[]
+}
+
+model CaseIntake {
+  id                     String      @id @default(cuid())
+  caseId                 String      @unique
+  age                    Int?
+  sex                    String?
+  serviceType            ServiceType
+  reviewType             String?
+  reasonForRequest       String[]
+  mainConcern            String      @db.Text
+  diagnosis              String?
+  onsetDate              String?
+  mainSymptoms           String?     @db.Text
+  courseOfCondition      String?     @db.Text
+  medicalHistory         String[]
+  previousOperations     String?     @db.Text
+  medications            Json?
+  medicationAllergies    String?
+  labTests               Json?
+  imagingTypes           String[]
+  imagingFindings        String?     @db.Text
+  previousOpinions       String?     @db.Text
+  questionsForReview     String?     @db.Text
+  lifestyleFactors       String[]
+  lifestyleNotes         String?
+  familyHistory          String[]
+  patientGoals           String?     @db.Text
+  outcomeDecision        String?     @db.Text
+  documentsToUpload      String[]
+  requestedSpecialty     String?
+  referralReason         String?
+  referralUrgency        String?
+  country                String?
+  preferredLanguage      String?
+  phone                  String?
+  preferredCommunication String[]
+  consentedToReview      Boolean     @default(false)
+  confirmedAccuracy      Boolean     @default(false)
+  consentedToProcessing  Boolean     @default(false)
+  signatureName          String?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
 }
 
 model CaseRecord {

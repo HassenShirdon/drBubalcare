@@ -14,13 +14,14 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://drbubalcare.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
+    default: "Dr Bubal Care - Expert Medical Opinions by Our Global Doctors Network",
     template: "%s | Dr Bubal Care",
   },
   description:
-    "Connect with board-certified specialists for plain-language diagnostic opinions. Upload lab results, scans, or slides. Secure, HIPAA-aware, and designed for patients in East Africa.",
+    "Connect with board-certified physicians in our Global Doctors Network for plain-language diagnostic opinions. Upload lab results, scans, or slides. Secure, HIPAA-aware, and designed for patients in East Africa.",
   keywords: [
-    "specialist second opinion",
+    "global doctors network",
+    "expert second opinion",
     "medical opinion online",
     "pathology review",
     "radiology interpretation",
@@ -38,23 +39,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: "Dr Bubal Care",
-    title: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
+    title: "Dr Bubal Care - Expert Medical Opinions by Our Global Doctors Network",
     description:
-      "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
+      "Board-certified physicians in our Global Doctors Network review your case and return a plain-language written opinion you can trust.",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Dr Bubal Care — connect with board-certified specialists",
+        alt: "Dr Bubal Care — connect with the physicians of our Global Doctors Network",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dr Bubal Care - Specialist Medical Opinions in 24-48 Hours",
+    title: "Dr Bubal Care - Expert Medical Opinions by Our Global Doctors Network",
     description:
-      "Board-certified specialists review your case and return a plain-language written opinion you can trust.",
+      "Board-certified physicians in our Global Doctors Network review your case and return a plain-language written opinion you can trust.",
     images: ["/og-image.svg"],
   },
   robots: {

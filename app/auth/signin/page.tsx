@@ -5,11 +5,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react'
+import { Loader2, Mail, Stethoscope, UserRound } from 'lucide-react'
 import { signInSchema, type SignInInput } from '@/lib/schemas/auth.schema'
-import { BrandPanel, AuthFormCard } from '@/components/auth-shared'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import {
+  AuthFormCard,
+  AuthLinkRow,
+  BrandPanel,
+  FormAlert,
+  PasswordTextField,
+  SubmitButton,
+  TextField,
+} from '@/components/auth-shared'
 
 function SignInForm() {
   const {
@@ -46,109 +52,71 @@ function SignInForm() {
   }
 
   return (
-    <div className="min-h-[100dvh] flex flex-col lg:flex-row bg-background">
-      <BrandPanel />
+    <div className="grid min-h-dvh bg-landing-surface lg:grid-cols-[45%_55%] xl:grid-cols-2">
+      <BrandPanel variant="signin" />
 
-      <AuthFormCard title="Welcome back" subtitle="Sign in to your account">
+      <AuthFormCard
+        badge="Secure sign in"
+        title="Welcome back"
+        subtitle="One account for the whole network — patients, physicians and administrators sign in here."
+      >
         <form
           onSubmit={handleSubmit(handleSignIn)}
           className="space-y-5"
           noValidate
         >
-          {errors.root?.message && (
-            <div
-              role="alert"
-              className="flex items-center gap-2 text-sm p-3 rounded-lg bg-destructive/10 text-destructive border border-destructive/20"
-            >
-              <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
-              <span>{errors.root.message}</span>
-            </div>
-          )}
+          {errors.root?.message && <FormAlert message={errors.root.message} />}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                placeholder="you@example.com"
-                className="pl-9 h-9"
-                {...register('email')}
-              />
-            </div>
-            {errors.email?.message && (
-              <p className="text-destructive text-xs mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+          <TextField
+            id="email"
+            label="Email"
+            type="email"
+            icon={Mail}
+            autoComplete="email"
+            placeholder="you@example.com"
+            error={errors.email?.message}
+            {...register('email')}
+          />
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+          <PasswordTextField
+            id="password"
+            label="Password"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            error={errors.password?.message}
+            action={
               <Link
                 href="#"
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="text-xs font-medium text-landing-brand underline-offset-4 hover:underline"
               >
                 Forgot password?
               </Link>
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                className="pl-9 h-9"
-                {...register('password')}
-              />
-            </div>
-            {errors.password?.message && (
-              <p className="text-destructive text-xs mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+            }
+            {...register('password')}
+          />
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium transition-all hover:bg-primary/80 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 shadow-sm"
-          >
-            {isSubmitting ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              <>
-                Sign In
-                <ArrowRight className="size-4" />
-              </>
-            )}
-          </button>
+          <SubmitButton pending={isSubmitting}>Sign In</SubmitButton>
         </form>
 
-        <div className="mt-6 space-y-2 text-center text-sm text-muted-foreground">
-          <p>
-            Don&apos;t have an account?{' '}
-            <Link
-              href="/auth/signup/patient"
-              className="font-medium text-primary hover:underline"
-            >
-              Sign up
-            </Link>
-          </p>
-          <p>
-            Are you a physician?{' '}
-            <Link
-              href="/auth/signup/doctor"
-              className="font-medium text-primary hover:underline"
-            >
-              Register here
-            </Link>
-          </p>
+        <div className="mt-8 space-y-3">
+          <AuthLinkRow
+            href="/auth/signup/patient"
+            icon={UserRound}
+            label="Create a patient account"
+            sub="Start your first case in minutes"
+          />
+          <AuthLinkRow
+            href="/auth/signup/doctor"
+            icon={Stethoscope}
+            label="Join as a physician"
+            sub="Credential verification within 24-48 hours"
+          />
         </div>
+
+        <p className="mt-6 text-center text-sm text-landing-text-muted">
+          Already registered? Your portal opens automatically based on your
+          role.
+        </p>
       </AuthFormCard>
     </div>
   )
@@ -158,8 +126,11 @@ export default function SignInPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-[100dvh] flex items-center justify-center bg-background">
-          <Loader2 className="animate-spin text-primary" size={24} />
+        <div className="flex min-h-dvh items-center justify-center bg-landing-surface">
+          <Loader2
+            className="size-6 animate-spin text-landing-brand"
+            aria-hidden="true"
+          />
         </div>
       }
     >

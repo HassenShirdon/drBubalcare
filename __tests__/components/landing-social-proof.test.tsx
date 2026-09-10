@@ -10,6 +10,7 @@ vi.mock("motion/react", () => {
   const P = ({ children, className }: any) => <p className={className}>{children}</p>;
   return {
     motion: { div: Div, h2: H2, span: Span, p: P },
+    useReducedMotion: () => false,
   };
 });
 
@@ -29,7 +30,9 @@ describe("SocialProofSection", () => {
   it("renders trust badges", () => {
     render(<SocialProofSection />);
     expect(screen.getAllByText("Encrypted Uploads").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("Board-Certified Specialists").length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText("Physicians of the Global Doctors Network").length
+    ).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("HIPAA-Aware Processes").length).toBeGreaterThanOrEqual(1);
   });
 });

@@ -10,8 +10,8 @@ export default function ProblemSection() {
             The gap between test and answer.
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
-            In East Africa, getting a specialist opinion should not require a
-            plane ticket.
+            In East Africa, getting an expert opinion from our Global Doctors
+            Network should not require a plane ticket.
           </p>
         </AnimateOnScroll>
 

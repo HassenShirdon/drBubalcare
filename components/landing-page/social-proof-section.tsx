@@ -3,7 +3,7 @@ import { TESTIMONIALS } from "./data";
 import { AnimateOnScroll } from "./animate-on-scroll";
 
 const badges = [
-  "Board-Certified Specialists",
+  "Physicians of the Global Doctors Network",
   "Encrypted Uploads",
   "HIPAA-Aware Processes",
 ] as const;

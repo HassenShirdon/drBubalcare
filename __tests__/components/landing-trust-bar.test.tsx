@@ -7,7 +7,7 @@ describe("TrustBar", () => {
   it("renders all three trust points", () => {
     render(<TrustBar />);
     expect(screen.getByText("HIPAA Compliant")).toBeInTheDocument();
-    expect(screen.getByText("Board-Certified Specialists")).toBeInTheDocument();
+    expect(screen.getByText("Global Doctors Network")).toBeInTheDocument();
     expect(screen.getByText("24-48h Turnaround")).toBeInTheDocument();
   });
 

@@ -394,6 +394,7 @@ export const ModelName = {
   LabTrendPoint: 'LabTrendPoint',
   Appointment: 'Appointment',
   Case: 'Case',
+  CaseIntake: 'CaseIntake',
   CaseRecord: 'CaseRecord',
   ReferralCoordination: 'ReferralCoordination',
   SpecialistOpinion: 'SpecialistOpinion',
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "post" | "doctor" | "doctorService" | "service" | "labResult" | "labMetric" | "labTrendPoint" | "appointment" | "case" | "caseRecord" | "referralCoordination" | "specialistOpinion" | "aIPrescreen" | "opinionSynthesis" | "trendAnalysis" | "plainLanguageSummary" | "followUpQuestion" | "auditLog" | "dispute" | "consentRecord" | "dataDeletionRequest"
+    modelProps: "user" | "post" | "doctor" | "doctorService" | "service" | "labResult" | "labMetric" | "labTrendPoint" | "appointment" | "case" | "caseIntake" | "caseRecord" | "referralCoordination" | "specialistOpinion" | "aIPrescreen" | "opinionSynthesis" | "trendAnalysis" | "plainLanguageSummary" | "followUpQuestion" | "auditLog" | "dispute" | "consentRecord" | "dataDeletionRequest"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1162,6 +1163,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CaseCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CaseCountAggregateOutputType> | number
+        }
+      }
+    }
+    CaseIntake: {
+      payload: Prisma.$CaseIntakePayload<ExtArgs>
+      fields: Prisma.CaseIntakeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CaseIntakeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CaseIntakeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        findFirst: {
+          args: Prisma.CaseIntakeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CaseIntakeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        findMany: {
+          args: Prisma.CaseIntakeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>[]
+        }
+        create: {
+          args: Prisma.CaseIntakeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        createMany: {
+          args: Prisma.CaseIntakeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CaseIntakeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>[]
+        }
+        delete: {
+          args: Prisma.CaseIntakeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        update: {
+          args: Prisma.CaseIntakeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        deleteMany: {
+          args: Prisma.CaseIntakeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CaseIntakeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CaseIntakeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>[]
+        }
+        upsert: {
+          args: Prisma.CaseIntakeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CaseIntakePayload>
+        }
+        aggregate: {
+          args: Prisma.CaseIntakeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCaseIntake>
+        }
+        groupBy: {
+          args: Prisma.CaseIntakeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CaseIntakeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CaseIntakeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CaseIntakeCountAggregateOutputType> | number
         }
       }
     }
@@ -2235,6 +2310,52 @@ export const CaseScalarFieldEnum = {
 export type CaseScalarFieldEnum = (typeof CaseScalarFieldEnum)[keyof typeof CaseScalarFieldEnum]
 
 
+export const CaseIntakeScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  age: 'age',
+  sex: 'sex',
+  serviceType: 'serviceType',
+  reviewType: 'reviewType',
+  reasonForRequest: 'reasonForRequest',
+  mainConcern: 'mainConcern',
+  diagnosis: 'diagnosis',
+  onsetDate: 'onsetDate',
+  mainSymptoms: 'mainSymptoms',
+  courseOfCondition: 'courseOfCondition',
+  medicalHistory: 'medicalHistory',
+  previousOperations: 'previousOperations',
+  medications: 'medications',
+  medicationAllergies: 'medicationAllergies',
+  labTests: 'labTests',
+  imagingTypes: 'imagingTypes',
+  imagingFindings: 'imagingFindings',
+  previousOpinions: 'previousOpinions',
+  questionsForReview: 'questionsForReview',
+  lifestyleFactors: 'lifestyleFactors',
+  lifestyleNotes: 'lifestyleNotes',
+  familyHistory: 'familyHistory',
+  patientGoals: 'patientGoals',
+  outcomeDecision: 'outcomeDecision',
+  documentsToUpload: 'documentsToUpload',
+  requestedSpecialty: 'requestedSpecialty',
+  referralReason: 'referralReason',
+  referralUrgency: 'referralUrgency',
+  country: 'country',
+  preferredLanguage: 'preferredLanguage',
+  phone: 'phone',
+  preferredCommunication: 'preferredCommunication',
+  consentedToReview: 'consentedToReview',
+  confirmedAccuracy: 'confirmedAccuracy',
+  consentedToProcessing: 'consentedToProcessing',
+  signatureName: 'signatureName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CaseIntakeScalarFieldEnum = (typeof CaseIntakeScalarFieldEnum)[keyof typeof CaseIntakeScalarFieldEnum]
+
+
 export const CaseRecordScalarFieldEnum = {
   id: 'id',
   caseId: 'caseId',
@@ -2404,19 +2525,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2598,6 +2719,20 @@ export type ListEnumCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'ReferralStatus'
  */
 export type EnumReferralStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralStatus'>
@@ -2650,20 +2785,6 @@ export type EnumSynthesisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'SynthesisStatus[]'
  */
 export type ListEnumSynthesisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SynthesisStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -2814,6 +2935,7 @@ export type GlobalOmitConfig = {
   labTrendPoint?: Prisma.LabTrendPointOmit
   appointment?: Prisma.AppointmentOmit
   case?: Prisma.CaseOmit
+  caseIntake?: Prisma.CaseIntakeOmit
   caseRecord?: Prisma.CaseRecordOmit
   referralCoordination?: Prisma.ReferralCoordinationOmit
   specialistOpinion?: Prisma.SpecialistOpinionOmit

@@ -32,7 +32,7 @@ export const SPECIALIZATIONS: {
   {
     title: "Hematopathology",
     description:
-      "Blood disorders, bone marrow biopsies, and hematologic malignancies reviewed by subspecialists.",
+      "Blood disorders, bone marrow biopsies, and hematologic malignancies reviewed by subspecialists from our Global Doctors Network.",
     icon: Droplets,
   },
   {
@@ -56,7 +56,7 @@ export const SPECIALIZATIONS: {
   {
     title: "Dermatopathology",
     description:
-      "Skin biopsies, lesion specimens, and melanoma screening reviewed by dermatopathology specialists.",
+      "Skin biopsies, lesion specimens, and melanoma screening reviewed by dermatopathologists from our Global Doctors Network.",
     icon: Sun,
   },
   {
@@ -86,7 +86,7 @@ export const SPECIALIZATIONS: {
   {
     title: "Chronic Disease",
     description:
-      "Diabetes, hypertension, and long-term condition monitoring with specialist oversight.",
+      "Diabetes, hypertension, and long-term condition monitoring under the ongoing oversight of physicians in our Global Doctors Network.",
     icon: Activity,
   },
 ] as const;
@@ -97,9 +97,9 @@ export const TRUST_POINTS: {
   icon: LucideIcon;
 }[] = [
   {
-    title: "Board-certified specialists only",
+    title: "The Global Doctors Network standard",
     description:
-      "Every specialist is credential-verified and board-certified. No exceptions.",
+      "Every physician in our Global Doctors Network is credential-verified and board-certified before joining. No exceptions.",
     icon: BadgeCheck,
   },
   {
@@ -123,7 +123,7 @@ export const TRUST_POINTS: {
 ] as const;
 
 export const STATS: { value: string; label: string }[] = [
-  { value: "10+", label: "Specialist Disciplines" },
+  { value: "10+", label: "Medical Disciplines" },
   { value: "24-48h", label: "Average Turnaround" },
   { value: "Encrypted", label: "Data Security" },
   { value: "East Africa", label: "Primary Coverage" },
@@ -142,15 +142,15 @@ export const STEPS: {
   },
   {
     icon: Users,
-    title: "AI matches your specialist",
+    title: "Matched with the right expert",
     description:
-      "Our system reviews your case and routes it to the right board-certified specialist by subspecialty.",
+      "Our system reviews your case and matches you with a physician in our Global Doctors Network who specializes in your exact condition.",
   },
   {
     icon: Microscope,
-    title: "Specialist reviews",
+    title: "Your case is expertly reviewed",
     description:
-      "A qualified specialist reviews your materials alongside an AI pre-screen. Target: 24-48 hours.",
+      "A board-certified physician from our Global Doctors Network reviews your materials alongside an AI pre-screen. Target: 24-48 hours.",
   },
   {
     icon: ClipboardList,
@@ -171,9 +171,9 @@ export const SERVICES: {
   {
     title: "Medical Second Opinion Center",
     shortDescription:
-      "Receive an independent review of your diagnosis, treatment plan, laboratory results, medical imaging, and specialist recommendations.",
+      "Receive an independent review of your diagnosis, treatment plan, laboratory results, medical imaging, and physician recommendations.",
     description:
-      "Receive an independent review of your diagnosis, treatment plan, and specialist recommendations from board-certified physicians.",
+      "Receive an independent review of your diagnosis, treatment plan, and physician recommendations from board-certified doctors in our Global Doctors Network.",
     icon: Stethoscope,
     highlights: [
       "Treatment Review",
@@ -263,7 +263,7 @@ export const TESTIMONIALS: {
 }[] = [
   {
     quote:
-      "I uploaded my lab results on Monday morning and had a specialist opinion by Tuesday evening. For the first time, I understood my condition.",
+      "I uploaded my lab results on Monday morning and had an expert opinion from the Global Doctors Network by Tuesday evening. For the first time, I understood my condition.",
     name: "Sarah M.",
     location: "Nairobi, Kenya",
     rating: 5,
@@ -295,19 +295,23 @@ export const SPECIALISTS: { name: string; specialty: string }[] = [
 export const FAQ: { question: string; answer: string }[] = [
   {
     question: "How much does it cost?",
-    answer: "Pricing varies by service. Most specialist opinions start from $49.",
+    answer:
+      "Pricing varies by service. Most expert opinions from our Global Doctors Network start from $49.",
   },
   {
     question: "What files can I upload?",
-    answer: "Lab reports, DICOM scans, histology slides, photos - we accept all common formats.",
+    answer:
+      "Lab reports, DICOM scans, histology slides, photos - we accept all common formats.",
   },
   {
     question: "How long does it take?",
-    answer: "Most cases are completed within 24-48 hours. Urgent cases are flagged and prioritized.",
+    answer:
+      "Most cases are completed within 24-48 hours. Urgent cases are flagged and prioritized.",
   },
   {
-    question: "Are the specialists qualified?",
-    answer: "Every specialist is board-certified and credential-verified before joining our platform.",
+    question: "Are the doctors qualified?",
+    answer:
+      "Every doctor in our Global Doctors Network is board-certified and credential-verified before joining the network.",
   },
   {
     question: "What if I do not understand my report?",
@@ -326,20 +330,20 @@ export const PROBLEMS: {
     stat: "1",
     label: "per 100,000+",
     description:
-      "Specialist for every 100,000 patients in parts of East Africa. Most hospitals lack a single board-certified pathologist or radiologist on staff.",
+      "On average, parts of East Africa have just one specialist for every 100,000 patients. Most hospitals lack a single board-certified pathologist or radiologist on staff - which is exactly the gap our Global Doctors Network was built to close.",
   },
   {
     icon: Car,
     stat: "6-8",
     label: "hours travel",
     description:
-      "Average travel time to reach a specialist clinic. Patients and families travel for hours - sometimes across borders - just for a second opinion.",
+      "Average travel time to reach the nearest major clinic. Patients and families travel for hours - sometimes across borders - just for a second opinion.",
   },
   {
     icon: Clock,
     stat: "Weeks",
     label: "to months",
     description:
-      "Waiting time for an appointment in many regions. By the time results reach a specialist, critical time for early detection has been lost.",
+      "Waiting time for an appointment in many regions. By the time your results reach a qualified physician, critical time for early detection has been lost.",
   },
 ] as const;

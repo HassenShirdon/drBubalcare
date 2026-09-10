@@ -10,7 +10,7 @@ export function TrustBar() {
         </span>
         <span className="flex items-center gap-1.5">
           <Award className="w-3 h-3 text-white/60" aria-hidden="true" />
-          Board-Certified Specialists
+          Global Doctors Network
         </span>
         <span className="flex items-center gap-1.5">
           <Clock className="w-3 h-3 text-white/60" aria-hidden="true" />

@@ -9,8 +9,8 @@ export default function CTASection() {
           Ready to understand your results?
         </h2>
         <p className="mt-4 text-lg text-landing-text-muted leading-relaxed text-balance">
-          Upload your records today. A board-certified specialist will review
-          your case and deliver clear answers.
+          Upload your records today. A board-certified doctor from our Global
+          Doctors Network will review your case and deliver clear answers.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link

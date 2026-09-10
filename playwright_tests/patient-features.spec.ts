@@ -127,7 +127,7 @@ test.describe('Patient Dashboard', () => {
     await page.goto('/patient');
     await page.getByRole('link', { name: /start a case/i }).first().click();
     await page.waitForURL('/patient/cases/new');
-    await expect(page.getByRole('heading', { name: /start a new case/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /patient case review/i })).toBeVisible({ timeout: 10000 });
   });
 
   test('quick action: book appointment navigates to directory', async ({ page }) => {
@@ -177,20 +177,114 @@ test.describe('Patient Dashboard', () => {
 test.describe('Case Submission', () => {
   test.use({ storageState: 'playwright_tests/.auth/patient.json' });
 
-  test('new case page renders with service type selection', async ({ page }) => {
+  const continueBtn = (page: import('@playwright/test').Page) =>
+    page.getByRole('button', { name: /continue/i });
+
+  // Complete the required demographics (age + sex) on step 1.
+  async function fillDemographics(page: import('@playwright/test').Page, age = '34') {
+    await page.getByLabel('Age').fill(age);
+    await page.getByRole('radio', { name: 'Female' }).check();
+  }
+
+  // Fill the required fields across the wizard and submit.
+  // Returns the resolved POST /api/cases response.
+  async function completeAndSubmit(page: import('@playwright/test').Page) {
+    // Step 1: About You
+    await page.getByLabel('Age').fill('38');
+    await page.getByRole('radio', { name: 'Female' }).check();
+    await continueBtn(page).click();
+
+    // Step 2: Service & Reason
+    await page.getByRole('button', { name: /specialist opinion/i }).click();
+    await page.getByRole('radio', { name: /comprehensive second opinion/i }).check();
+    await page.getByLabel(/main concern/i).fill(
+      'I am seeking a second opinion about a suspicious thyroid nodule that was found on a recent ultrasound of my neck.',
+    );
+    await continueBtn(page).click();
+
+    // Step 3: Main Medical Problem (diagnosis is required)
+    await page.getByLabel('Diagnosis / suspected diagnosis').fill('Suspicious thyroid nodule');
+    await continueBtn(page).click();
+
+    // Steps 4-9 are optional; continue through them.
+    for (let i = 0; i < 7; i += 1) {
+      await continueBtn(page).click();
+    }
+
+    // Step 10: Consent & submission
+    await page.getByRole('checkbox', { name: /consent to clinical review/i }).check();
+    await page.getByRole('checkbox', { name: /confirm that the information/i }).check();
+    await page.getByRole('checkbox', { name: /consent to secure processing/i }).check();
+    await page.getByLabel(/signature/i).fill('E2E Patient');
+
+    const postResponse = page.waitForResponse(
+      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
+      { timeout: 60000 },
+    );
+    await page.getByRole('button', { name: /submit & create case/i }).click();
+    const response = await postResponse;
+    return response;
+  }
+
+  test('new case page renders with demographics as the first step', async ({ page }) => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
-    await expect(page.getByRole('heading', { name: /start a new case/i })).toBeVisible();
-    await expect(page.getByText('Service Type', { exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: /specialist opinion/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /result interpretation/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /follow-up consultation/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /lab trend analysis/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /patient case review/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible();
+    await expect(page.getByLabel('Age')).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Male' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Female' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Other' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Prefer not to say' })).toBeVisible();
   });
 
-  test('new case page has description field', async ({ page }) => {
+  test('wizard shows ten steps and progress indicator', async ({ page }) => {
     await page.goto('/patient/cases/new');
-    await expect(page.getByLabel(/case description/i)).toBeVisible();
+    await expect(page.getByText(/1 of 10/)).toBeVisible();
+    await expect(page.getByRole('progressbar')).toBeVisible();
+    for (const label of ['About You', 'Service & Reason', 'Medical Problem', 'Medical History', 'Current Treatment', 'Test Results', 'Previous Opinions', 'Lifestyle', 'Family & Goals', 'Review & Consent']) {
+      await expect(page.getByRole('button', { name: new RegExp(label, 'i') })).toBeVisible();
+    }
+  });
+
+  test('blocks advancing when age is empty on first step', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await page.getByRole('button', { name: /continue/i }).click();
+    // The wizard should not advance past the invalid demographics step.
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByLabel('Age')).toBeVisible();
+  });
+
+  test('blocks advancing when age is out of range', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await page.getByLabel('Age').fill('150');
+    await page.getByRole('button', { name: /continue/i }).click();
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByLabel('Age')).toBeVisible();
+  });
+
+  test('blocks advancing when sex is not selected', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await page.getByLabel('Age').fill('41');
+    await page.getByRole('button', { name: /continue/i }).click();
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('radio', { name: 'Male' })).toBeVisible();
+  });
+
+  test('continue advances from demographics to service step', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await fillDemographics(page);
+    await continueBtn(page).click();
+    await expect(page.getByRole('heading', { name: /choose a service/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /specialist opinion/i })).toBeVisible();
+  });
+
+  test('back button returns from service step to demographics', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await fillDemographics(page);
+    await continueBtn(page).click();
+    await page.getByRole('button', { name: /back/i }).click();
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible();
   });
 
   test('new case page has cancel link back to cases', async ({ page }) => {
@@ -207,40 +301,11 @@ test.describe('Case Submission', () => {
     await expect(backLink).toHaveAttribute('href', '/patient/cases');
   });
 
-  test('validates service type selection is required', async ({ page }) => {
-    await page.goto('/patient/cases/new');
-    await page.getByLabel(/case description/i).fill('I have been experiencing chest pain and shortness of breath for the past two weeks. My family has a history of heart disease.');
-    await page.getByRole('button', { name: /create case/i }).click();
-    await expect(page.getByText('Select a service type', { exact: true })).toBeVisible({ timeout: 5000 });
-  });
-
-  test('validates description minimum length', async ({ page }) => {
-    await page.goto('/patient/cases/new');
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await page.getByLabel(/case description/i).fill('Short');
-    await page.getByRole('button', { name: /create case/i }).click();
-    await expect(page.getByText(/minimum 10 characters/i)).toBeVisible({ timeout: 5000 });
-  });
-
-  test('can select a service type and see it highlighted', async ({ page }) => {
-    await page.goto('/patient/cases/new');
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await expect(page.getByRole('button', { name: /specialist opinion/i })).toHaveClass(/border-\[#1E3A5F\]/);
-  });
-
-  test('creates a new specialist opinion case successfully', async ({ page }) => {
+  test('creates a new specialist opinion case through the wizard', async ({ page }) => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
 
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await page.getByLabel(/case description/i).fill('I need a second opinion on my recent MRI results showing a suspicious lesion in the left frontal lobe. My current neurologist is concerned about possible glioma.');
-
-    const postResponse = page.waitForResponse(
-      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
-      { timeout: 60000 },
-    );
-    await page.getByRole('button', { name: /create case/i }).click();
-    const response = await postResponse;
+    const response = await completeAndSubmit(page);
     expect(response.status()).toBe(201);
 
     await page.waitForFunction(
@@ -257,19 +322,11 @@ test.describe('Case Submission', () => {
     await expect(page.getByRole('heading', { name: /uploaded records/i })).toBeVisible({ timeout: 10000 });
   });
 
-  test('creates a result interpretation case successfully', async ({ page }) => {
+  test('case detail page shows the intake recap including age and sex', async ({ page }) => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
 
-    await page.getByRole('button', { name: /result interpretation/i }).click();
-    await page.getByLabel(/case description/i).fill('I received my latest blood work results and the values seem abnormal. I need a specialist to interpret the complete blood count and metabolic panel results.');
-
-    const postResponse = page.waitForResponse(
-      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
-      { timeout: 60000 },
-    );
-    await page.getByRole('button', { name: /create case/i }).click();
-    const response = await postResponse;
+    const response = await completeAndSubmit(page);
     expect(response.status()).toBe(201);
 
     await page.waitForFunction(
@@ -281,23 +338,18 @@ test.describe('Case Submission', () => {
       { timeout: 30000 },
     );
 
-    await expect(page.getByRole('heading', { name: /result interpretation/i })).toBeVisible({ timeout: 10000 });
-    await expect(page.getByText('Open', { exact: true })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /patient case review summary/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Age', { exact: true })).toBeVisible();
+    await expect(page.getByText('38', { exact: true })).toBeVisible();
+    await expect(page.getByText('Sex', { exact: true })).toBeVisible();
+    await expect(page.getByText('Female', { exact: true })).toBeVisible();
   });
 
   test('newly created case appears in cases list', async ({ page }) => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
 
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await page.getByLabel(/case description/i).fill('Follow-up review of thyroid function test results showing elevated TSH levels over the past three months.');
-
-    const postResponse = page.waitForResponse(
-      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
-      { timeout: 60000 },
-    );
-    await page.getByRole('button', { name: /create case/i }).click();
-    const response = await postResponse;
+    const response = await completeAndSubmit(page);
     expect(response.status()).toBe(201);
 
     await page.waitForFunction(
@@ -322,15 +374,7 @@ test.describe('Case Submission', () => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
 
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await page.getByLabel(/case description/i).fill('Review of dermatology images for a suspicious mole on the upper back that has changed shape and color over the past few months.');
-
-    const postResponse = page.waitForResponse(
-      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
-      { timeout: 60000 },
-    );
-    await page.getByRole('button', { name: /create case/i }).click();
-    const response = await postResponse;
+    const response = await completeAndSubmit(page);
     expect(response.status()).toBe(201);
 
     await page.waitForFunction(
@@ -350,15 +394,7 @@ test.describe('Case Submission', () => {
     await page.goto('/patient/cases/new');
     await page.waitForLoadState('load');
 
-    await page.getByRole('button', { name: /specialist opinion/i }).click();
-    await page.getByLabel(/case description/i).fill('Evaluation of echocardiogram results for a patient with suspected valvular heart disease and worsening shortness of breath.');
-
-    const postResponse = page.waitForResponse(
-      (res) => res.url().includes('/api/cases') && res.request().method() === 'POST',
-      { timeout: 60000 },
-    );
-    await page.getByRole('button', { name: /create case/i }).click();
-    const response = await postResponse;
+    const response = await completeAndSubmit(page);
     expect(response.status()).toBe(201);
 
     await page.waitForFunction(
@@ -371,5 +407,40 @@ test.describe('Case Submission', () => {
     );
 
     await expect(page.getByText('Open', { exact: true })).toBeVisible({ timeout: 10000 });
+  });
+
+  test('submission without consent checkboxes is blocked client-side', async ({ page }) => {
+    await page.goto('/patient/cases/new');
+    await page.waitForLoadState('load');
+
+    // Complete all steps but leave the consent/signature step empty.
+    await page.getByLabel('Age').fill('45');
+    await page.getByRole('radio', { name: 'Male' }).check();
+    await continueBtn(page).click();
+
+    await page.getByRole('button', { name: /specialist opinion/i }).click();
+    await page.getByRole('radio', { name: /comprehensive second opinion/i }).check();
+    await page.getByLabel(/main concern/i).fill(
+      'I would like a specialist to review my most recent blood work and endocrine panel results in detail.',
+    );
+    await continueBtn(page).click();
+
+    await page.getByLabel('Diagnosis / suspected diagnosis').fill('Endocrine imbalance');
+    await continueBtn(page).click();
+
+    for (let i = 0; i < 7; i += 1) {
+      await continueBtn(page).click();
+    }
+
+    // Attempt submission without consent; no POST should be issued.
+    let postFired = false;
+    page.on('response', (res) => {
+      if (res.url().includes('/api/cases') && res.request().method() === 'POST') postFired = true;
+    });
+    await page.getByRole('button', { name: /submit & create case/i }).click();
+
+    await expect(page.getByText(/consent to clinical review is required/i)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('heading', { name: /consent, confirmation & submission/i })).toBeVisible();
+    expect(postFired).toBe(false);
   });
 });

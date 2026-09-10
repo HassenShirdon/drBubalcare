@@ -17,8 +17,8 @@ export default function ServicesLayout({
           <div className="space-y-3 md:col-span-2">
             <div className="text-xl font-bold text-white">Dr Bubal Care</div>
             <p className="text-white/70 max-w-sm text-sm leading-relaxed">
-              Connecting patients with board-certified specialists for clear,
-              written diagnostic opinions.
+              Connecting patients with the board-certified physicians of our
+              Global Doctors Network for clear, written diagnostic opinions.
             </p>
           </div>
           <div className="space-y-3">

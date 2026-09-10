@@ -39,8 +39,8 @@ export default function PatientRightsPage() {
             </h2>
             <p>
               You have the right to receive information about our services, pricing, expected
-              turnaround times, and what you can expect from a specialist opinion before you submit a
-              case or make a payment.
+              turnaround times, and what you can expect from an expert opinion by our Global Doctors
+              Network before you submit a case or make a payment.
             </p>
           </section>
 
@@ -49,8 +49,9 @@ export default function PatientRightsPage() {
               2. Right to Informed Consent
             </h2>
             <p>
-              Before any AI-assisted processing or specialist review begins, you will be informed about
-              how your data will be used. You may withdraw consent at any time by contacting support.
+              Before any AI-assisted processing or physician review begins, you will be informed
+              about how your data will be used. You may withdraw consent at any time by contacting
+              support.
             </p>
           </section>
 
@@ -60,8 +61,9 @@ export default function PatientRightsPage() {
             </h2>
             <p>
               Your medical records and personal information are confidential. Only board-certified
-              specialists and authorized personnel involved in your case may access your information.
-              We use encryption, access controls, and audit logging to protect your data.
+              physicians in our Global Doctors Network and authorized personnel involved in your case
+              may access your information. We use encryption, access controls, and audit logging to
+              protect your data.
             </p>
           </section>
 
@@ -70,7 +72,7 @@ export default function PatientRightsPage() {
               4. Right to Access Your Records
             </h2>
             <p>
-              You can access your uploaded files, case history, and specialist opinions at any time
+              You can access your uploaded files, case history, and written opinions at any time
               through your patient dashboard. If you need a copy in a different format, contact our
               support team.
             </p>
@@ -82,8 +84,8 @@ export default function PatientRightsPage() {
             </h2>
             <p>
               If you believe information in your profile or case records is inaccurate, you may request
-              corrections. Corrections to medical interpretations should be directed to the specialist
-              who provided the opinion.
+              corrections. Corrections to medical interpretations should be directed to the physician
+              in our Global Doctors Network who provided the opinion.
             </p>
           </section>
 
@@ -93,8 +95,8 @@ export default function PatientRightsPage() {
             </h2>
             <p>
               If you are not satisfied with an opinion, you may request a peer review by another
-              qualified specialist. Peer reviews are available at no additional cost when the request is
-              made within 14 days of receiving the original opinion.
+              qualified physician in our Global Doctors Network. Peer reviews are available at no
+              additional cost when the request is made within 14 days of receiving the original opinion.
             </p>
           </section>
 
@@ -103,8 +105,9 @@ export default function PatientRightsPage() {
               7. Right to Timely Communication
             </h2>
             <p>
-              We aim to deliver specialist opinions within 24–48 hours for standard cases. If a delay
-              is expected, you will be notified with a revised timeline and the reason for the delay.
+              We aim to deliver written opinions from our Global Doctors Network within 24–48 hours
+              for standard cases. If a delay is expected, you will be notified with a revised timeline
+              and the reason for the delay.
             </p>
           </section>
 

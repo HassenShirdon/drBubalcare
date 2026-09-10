@@ -11,7 +11,7 @@ export default function HowItWorks() {
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-14">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-landing-text tracking-tight leading-[1.2] text-balance">
-            Upload once. Review by a specialist.
+            Upload once. Reviewed by a physician from our Global Doctors Network.
             <br />
             Receive your written opinion.
           </h2>

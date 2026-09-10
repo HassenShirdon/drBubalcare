@@ -52,15 +52,16 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Health information:</strong> medical records, lab results, imaging studies,
-                biopsy slides, symptoms, and clinical histories you upload for specialist review.
+                biopsy slides, symptoms, and clinical histories you upload for review by the
+                physicians in our Global Doctors Network.
               </li>
               <li>
                 <strong>Payment information:</strong> processed securely by our payment providers.
                 We do not store full payment card details.
               </li>
               <li>
-                <strong>Communications:</strong> messages you send to our support team or specialists
-                through the platform.
+                <strong>Communications:</strong> messages you send to our support team or to the
+                physicians reviewing your case through the platform.
               </li>
             </ul>
           </section>
@@ -71,8 +72,11 @@ export default function PrivacyPage() {
             </h2>
             <p>We use your information to:</p>
             <ul className="list-disc pl-5 space-y-2 mt-2">
-              <li>Provide specialist medical opinions and diagnostic coordination services.</li>
-              <li>Match your case with appropriate board-certified specialists.</li>
+              <li>
+                Provide expert medical opinions and diagnostic coordination services through our
+                Global Doctors Network.
+              </li>
+              <li>Match your case with an appropriate board-certified physician in our network.</li>
               <li>Process payments and maintain your account.</li>
               <li>Communicate with you about your cases, reports, and platform updates.</li>
               <li>Improve our services and ensure platform security.</li>
@@ -87,8 +91,8 @@ export default function PrivacyPage() {
             <p>
               We use industry-standard encryption for data in transit (TLS 1.3) and at rest. File
               uploads use signed, short-lived URLs. Access to protected health information is
-              restricted to verified specialists and authorized personnel who need it to perform their
-              roles.
+              restricted to verified physicians in our Global Doctors Network and authorized
+              personnel who need it to perform their roles.
             </p>
             <p className="mt-3">
               We partner with SOC 2 Type II certified infrastructure providers. While we take
@@ -104,7 +108,8 @@ export default function PrivacyPage() {
             <p>We do not sell your personal or health information. We may share information with:</p>
             <ul className="list-disc pl-5 space-y-2 mt-2">
               <li>
-                <strong>Board-certified specialists</strong> who review your case.
+                <strong>Board-certified physicians in our Global Doctors Network</strong> who review
+                your case.
               </li>
               <li>
                 <strong>Service providers</strong> who help us operate the platform (cloud hosting,

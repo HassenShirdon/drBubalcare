@@ -41,8 +41,8 @@ export default function HeroSection() {
           >
             You should not have to travel across the country to understand what
             your results mean. Dr. Bubal Care connects you with board-certified
-            specialists who review your case and deliver clear, plain-language
-            answers in 24-48 hours.
+            doctors in our Global Doctors Network who review your case and
+            deliver clear, plain-language answers in 24-48 hours.
           </motion.p>
 
           <motion.div

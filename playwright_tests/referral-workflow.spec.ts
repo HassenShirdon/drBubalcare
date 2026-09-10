@@ -6,15 +6,18 @@ test.describe('European Referral Workflow', () => {
   test('patient can create a new case', async ({ page }) => {
     await page.goto('/patient/cases/new');
 
-    const heading = page.getByRole('heading', { name: /new case/i }).or(page.getByRole('heading', { name: /start a case/i }));
+    const heading = page
+      .getByRole('heading', { name: /patient case review/i })
+      .or(page.getByRole('heading', { name: /start a case/i }));
     await expect(heading).toBeVisible({ timeout: 10000 });
   });
 
-  test('case creation form has service type selection', async ({ page }) => {
+  test('case creation form starts with demographics step', async ({ page }) => {
     await page.goto('/patient/cases/new');
 
-    await expect(page.getByText(/service type/i).first()).toBeVisible({ timeout: 10000 });
-    await expect(page.getByRole('button', { name: /specialist opinion/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /about you/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByLabel('Age')).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Female' })).toBeVisible();
   });
 
   test('patient can view their cases list', async ({ page }) => {

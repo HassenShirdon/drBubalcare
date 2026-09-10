@@ -9,15 +9,6 @@
       ],
       "enabled": true
     },
-    "playwright-test": {
-      "type": "local",
-      "command": [
-        "npx",
-        "playwright",
-        "run-test-mcp-server"
-      ],
-      "enabled": true
-    },
     "Neon": {
       "type": "http",
       "url": "https://mcp.neon.tech/mcp",
@@ -52,26 +43,7 @@
         "playwright*browser_verify_list_visible": true,
         "playwright*browser_verify_text_visible": true,
         "playwright*browser_verify_value": true,
-        "playwright*browser_wait_for": true,
-        "playwright-test*browser_click": true,
-        "playwright-test*browser_drag": true,
-        "playwright-test*browser_evaluate": true,
-        "playwright-test*browser_file_upload": true,
-        "playwright-test*browser_handle_dialog": true,
-        "playwright-test*browser_hover": true,
-        "playwright-test*browser_navigate": true,
-        "playwright-test*browser_press_key": true,
-        "playwright-test*browser_select_option": true,
-        "playwright-test*browser_snapshot": true,
-        "playwright-test*browser_type": true,
-        "playwright-test*browser_verify_element_visible": true,
-        "playwright-test*browser_verify_list_visible": true,
-        "playwright-test*browser_verify_text_visible": true,
-        "playwright-test*browser_verify_value": true,
-        "playwright-test*browser_wait_for": true,
-        "playwright-test*generator_read_log": true,
-        "playwright-test*generator_setup_page": true,
-        "playwright-test*generator_write_test": true
+        "playwright*browser_wait_for": true
       }
     },
     "playwright-test-healer": {
@@ -90,15 +62,13 @@
         "playwright*browser_click": true,
         "playwright*browser_type": true,
         "playwright*browser_evaluate": true,
-        "playwright-test*browser_console_messages": true,
-        "playwright-test*browser_evaluate": true,
-        "playwright-test*browser_generate_locator": true,
-        "playwright-test*browser_network_request": true,
-        "playwright-test*browser_network_requests": true,
-        "playwright-test*browser_snapshot": true,
-        "playwright-test*test_debug": true,
-        "playwright-test*test_list": true,
-        "playwright-test*test_run": true
+        "playwright*browser_console_messages": true,
+        "playwright*browser_generate_locator": true,
+        "playwright*browser_network_request": true,
+        "playwright*browser_network_requests": true,
+        "playwright*test_debug": true,
+        "playwright*test_list": true,
+        "playwright*test_run": true
       }
     },
     "playwright-test-planner": {
@@ -129,27 +99,8 @@
         "playwright*browser_take_screenshot": true,
         "playwright*browser_type": true,
         "playwright*browser_wait_for": true,
-        "playwright-test*browser_click": true,
-        "playwright-test*browser_close": true,
-        "playwright-test*browser_console_messages": true,
-        "playwright-test*browser_drag": true,
-        "playwright-test*browser_evaluate": true,
-        "playwright-test*browser_file_upload": true,
-        "playwright-test*browser_handle_dialog": true,
-        "playwright-test*browser_hover": true,
-        "playwright-test*browser_navigate": true,
-        "playwright-test*browser_navigate_back": true,
-        "playwright-test*browser_network_request": true,
-        "playwright-test*browser_network_requests": true,
-        "playwright-test*browser_press_key": true,
-        "playwright-test*browser_run_code_unsafe": true,
-        "playwright-test*browser_select_option": true,
-        "playwright-test*browser_snapshot": true,
-        "playwright-test*browser_take_screenshot": true,
-        "playwright-test*browser_type": true,
-        "playwright-test*browser_wait_for": true,
-        "playwright-test*planner_setup_page": true,
-        "playwright-test*planner_save_plan": true
+        "playwright*planner_setup_page": true,
+        "playwright*planner_save_plan": true
       }
     }
   }

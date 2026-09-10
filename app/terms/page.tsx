@@ -44,9 +44,9 @@ export default function TermsPage() {
             </h2>
             <p>
               Dr Bubal Care provides a coordination service that connects patients with
-              board-certified specialists for written opinions. The opinions provided through our
-              platform are educational and informational and do not replace a direct relationship
-              between you and a qualified healthcare provider.
+              board-certified physicians in our Global Doctors Network for written opinions. The
+              opinions provided through our platform are educational and informational and do not
+              replace a direct relationship between you and a qualified healthcare provider.
             </p>
             <p className="mt-3">
               <strong>Do not use our service in a medical emergency.</strong> If you are experiencing
@@ -54,9 +54,10 @@ export default function TermsPage() {
               emergency room immediately.
             </p>
             <p className="mt-3">
-              Our specialists do not diagnose, prescribe medication, or provide treatment plans.
-              Always consult your local physician or specialist before making medical decisions based
-              on information received through the platform.
+              The physicians in our Global Doctors Network do not diagnose, prescribe medication,
+              or provide treatment plans through the platform. Always consult your local physician
+              or specialist before making medical decisions based on information received through
+              the platform.
             </p>
           </section>
 
@@ -81,8 +82,9 @@ export default function TermsPage() {
               will not affect cases already paid for.
             </p>
             <p className="mt-3">
-              Refunds may be issued when a case cannot be matched to a suitable specialist or when the
-              uploaded materials are insufficient for review. See our refund policy for details.
+              Refunds may be issued when a case cannot be matched to a suitable physician in our
+              Global Doctors Network or when the uploaded materials are insufficient for review.
+              See our refund policy for details.
             </p>
           </section>
 
@@ -96,7 +98,7 @@ export default function TermsPage() {
               <li>Upload only records and images you have the right to share.</li>
               <li>Use the platform only for lawful purposes.</li>
               <li>Not attempt to circumvent security measures or access data belonging to other users.</li>
-              <li>Not harass, threaten, or abuse specialists or staff.</li>
+              <li>Not harass, threaten, or abuse the physicians of our Global Doctors Network or our staff.</li>
             </ul>
           </section>
 
@@ -117,9 +119,9 @@ export default function TermsPage() {
             </h2>
             <p>
               To the fullest extent permitted by law, Dr Bubal Care and its affiliates, officers,
-              employees, and specialists are not liable for indirect, incidental, or consequential
-              damages arising from your use of the platform. Our total liability is limited to the
-              amount you paid for the specific service at issue.
+              employees, and the physicians of our Global Doctors Network are not liable for
+              indirect, incidental, or consequential damages arising from your use of the platform.
+              Our total liability is limited to the amount you paid for the specific service at issue.
             </p>
           </section>
 

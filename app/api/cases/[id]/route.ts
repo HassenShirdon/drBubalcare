@@ -34,6 +34,7 @@ export async function GET(
         take: 1,
       },
       referralCoordination: true,
+      intake: true,
     },
   });
 

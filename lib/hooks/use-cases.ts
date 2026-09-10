@@ -37,7 +37,11 @@ export function useCreateCase() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { serviceType: string; description: string }) => {
+    mutationFn: async (data: {
+      serviceType: string;
+      description: string;
+      intake?: Record<string, unknown>;
+    }) => {
       const res = await fetch('/api/cases', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

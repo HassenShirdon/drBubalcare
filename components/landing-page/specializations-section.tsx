@@ -10,10 +10,11 @@ export default function SpecializationsSection() {
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-14">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-landing-text tracking-tight leading-[1.2] text-balance">
-            Covered by board-certified specialists
+            Covered by the Global Doctors Network
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
-            Specialist coverage across 10 medical disciplines.
+            Board-certified expertise across 10 medical disciplines, wherever
+            you are.
           </p>
         </AnimateOnScroll>
 

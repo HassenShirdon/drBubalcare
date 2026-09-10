@@ -61,6 +61,7 @@ export const ModelName = {
   LabTrendPoint: 'LabTrendPoint',
   Appointment: 'Appointment',
   Case: 'Case',
+  CaseIntake: 'CaseIntake',
   CaseRecord: 'CaseRecord',
   ReferralCoordination: 'ReferralCoordination',
   SpecialistOpinion: 'SpecialistOpinion',
@@ -234,6 +235,52 @@ export const CaseScalarFieldEnum = {
 export type CaseScalarFieldEnum = (typeof CaseScalarFieldEnum)[keyof typeof CaseScalarFieldEnum]
 
 
+export const CaseIntakeScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  age: 'age',
+  sex: 'sex',
+  serviceType: 'serviceType',
+  reviewType: 'reviewType',
+  reasonForRequest: 'reasonForRequest',
+  mainConcern: 'mainConcern',
+  diagnosis: 'diagnosis',
+  onsetDate: 'onsetDate',
+  mainSymptoms: 'mainSymptoms',
+  courseOfCondition: 'courseOfCondition',
+  medicalHistory: 'medicalHistory',
+  previousOperations: 'previousOperations',
+  medications: 'medications',
+  medicationAllergies: 'medicationAllergies',
+  labTests: 'labTests',
+  imagingTypes: 'imagingTypes',
+  imagingFindings: 'imagingFindings',
+  previousOpinions: 'previousOpinions',
+  questionsForReview: 'questionsForReview',
+  lifestyleFactors: 'lifestyleFactors',
+  lifestyleNotes: 'lifestyleNotes',
+  familyHistory: 'familyHistory',
+  patientGoals: 'patientGoals',
+  outcomeDecision: 'outcomeDecision',
+  documentsToUpload: 'documentsToUpload',
+  requestedSpecialty: 'requestedSpecialty',
+  referralReason: 'referralReason',
+  referralUrgency: 'referralUrgency',
+  country: 'country',
+  preferredLanguage: 'preferredLanguage',
+  phone: 'phone',
+  preferredCommunication: 'preferredCommunication',
+  consentedToReview: 'consentedToReview',
+  confirmedAccuracy: 'confirmedAccuracy',
+  consentedToProcessing: 'consentedToProcessing',
+  signatureName: 'signatureName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CaseIntakeScalarFieldEnum = (typeof CaseIntakeScalarFieldEnum)[keyof typeof CaseIntakeScalarFieldEnum]
+
+
 export const CaseRecordScalarFieldEnum = {
   id: 'id',
   caseId: 'caseId',
@@ -403,19 +450,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

@@ -46,7 +46,7 @@ const DEFAULT_STEPS: StepData[] = [
   {
     title: "Expert Review",
     description:
-      "A board-certified specialist reviews your case alongside our AI pre-screening. Most reviews are completed within 24-48 hours.",
+      "A board-certified physician from our Global Doctors Network reviews your case alongside our AI pre-screening. Most reviews are completed within 24-48 hours.",
   },
   {
     title: "Receive Personalized Recommendations",
@@ -63,7 +63,8 @@ const DEFAULT_BENEFITS = [
   },
   {
     title: "International Patients",
-    description: "Patients worldwide who need access to specialist opinions remotely.",
+    description:
+      "Patients anywhere in the world who need expert medical opinions from our Global Doctors Network without leaving home.",
     icon: Globe,
   },
   {
@@ -79,9 +80,9 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     title: "Medical Second Opinion Center",
     heroTitle: "Medical Second Opinion Center",
     description:
-      "Receive an independent review of your diagnosis, treatment plan, laboratory results, medical imaging, and specialist recommendations.",
+      "Receive an independent review of your diagnosis, treatment plan, laboratory results, medical imaging, and recommendations from your treating physicians.",
     introduction:
-      "A medical second opinion provides you with an independent assessment of your diagnosis and treatment plan by a board-certified specialist. Whether you have been diagnosed with a complex condition, recommended for surgery, or want to explore alternative treatment options, our specialists review your complete medical records and deliver a thorough written opinion. This service is for anyone who wants confirmation, clarity, or alternative perspectives on their healthcare decisions.",
+      "A medical second opinion provides you with an independent assessment of your diagnosis and treatment plan by a board-certified physician from our Global Doctors Network. Whether you have been diagnosed with a complex condition, recommended for surgery, or want to explore alternative treatment options, our physicians review your complete medical records and deliver a thorough written opinion. This service is for anyone who wants confirmation, clarity, or alternative perspectives on their healthcare decisions.",
     whoCanBenefit: [
       ...DEFAULT_BENEFITS,
       {
@@ -97,7 +98,8 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         title: "Diagnosis Verification",
-        description: "Independent confirmation of your diagnosis by a specialist in the relevant field.",
+        description:
+          "Independent confirmation of your diagnosis by a physician in our Global Doctors Network who specializes in the relevant field.",
       },
       {
         title: "Medication Review",
@@ -117,7 +119,8 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         title: "International Medical Consultation",
-        description: "Remote access to specialist opinions regardless of your geographic location.",
+        description:
+          "Remote access to expert opinions from our Global Doctors Network, no matter where in the world you live.",
       },
     ],
     howItWorks: DEFAULT_STEPS,
@@ -126,7 +129,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       "Imaging Reports (X-rays, CT scans, MRIs)",
       "Laboratory Results",
       "Medication List",
-      "Previous Specialist Opinions",
+      "Written Opinions from Previous Consultations",
     ],
     faqs: [
       {
@@ -142,17 +145,17 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "What types of conditions can be reviewed?",
         answer:
-          "Our specialists cover a wide range of conditions including cancer, cardiovascular disease, autoimmune disorders, neurological conditions, endocrine disorders, and more. If you have a diagnosis you want verified, we can help.",
+          "Our Global Doctors Network covers a wide range of conditions including cancer, cardiovascular disease, autoimmune disorders, neurological conditions, endocrine disorders, and more. If you have a diagnosis you want verified, we can help.",
       },
       {
         question: "How long does the review process take?",
         answer:
-          "Most cases are reviewed within 24-48 hours. Urgent cases can be flagged and prioritized. The timeline depends on the complexity of your case and the availability of specialists in the relevant subspecialty.",
+          "Most cases are reviewed within 24-48 hours. Urgent cases can be flagged and prioritized. The timeline depends on the complexity of your case and the availability of physicians in the relevant subspecialty within our network.",
       },
       {
-        question: "Can I choose which specialist reviews my case?",
+        question: "Can I choose which doctor reviews my case?",
         answer:
-          "Our AI system matches your case to the most appropriate specialist based on subspecialty and availability. If you have a preference, you can note it during submission and we will accommodate when possible.",
+          "Our AI system matches your case to the most appropriate physician in our Global Doctors Network based on subspecialty and current availability. If you have a preference, you can note it during submission and we will accommodate when possible.",
       },
       {
         question: "What if my case is urgent?",
@@ -164,13 +167,13 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     seo: {
       title: "Medical Second Opinion Center | Dr Bubal Care",
       description:
-        "Get an independent review of your diagnosis and treatment plan from board-certified specialists. Treatment review, diagnosis verification, medication review, and more.",
+        "Get an independent review of your diagnosis and treatment plan from board-certified physicians in our Global Doctors Network. Treatment review, diagnosis verification, medication review, and more.",
       keywords: [
         "medical second opinion",
         "diagnosis verification",
         "treatment review",
         "cancer second opinion",
-        "specialist review",
+        "expert medical review",
       ],
     },
   },
@@ -182,7 +185,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     description:
       "Professional interpretation of laboratory tests and diagnostic imaging to help patients understand their health.",
     introduction:
-      "Understanding your lab results and diagnostic imaging is essential for making informed healthcare decisions. Our specialists provide clear, professional interpretation of laboratory tests, MRI scans, CT scans, ECGs, and other diagnostic studies. We explain what your results mean, highlight any areas of concern, and recommend appropriate next steps. This service bridges the gap between raw test data and actionable health insights.",
+      "Understanding your lab results and diagnostic imaging is essential for making informed healthcare decisions. Physicians in our Global Doctors Network provide clear, professional interpretation of laboratory tests, MRI scans, CT scans, ECGs, and other diagnostic studies. We explain what your results mean, highlight any areas of concern, and recommend appropriate next steps. This service bridges the gap between raw test data and actionable health insights.",
     whoCanBenefit: [
       ...DEFAULT_BENEFITS,
       {
@@ -210,11 +213,13 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         title: "Laboratory Second Review",
-        description: "Independent re-evaluation of your lab results by a second specialist for confirmation.",
+        description:
+          "Independent re-evaluation of your lab results by a second physician in our network for confirmation.",
       },
       {
         title: "MRI Review",
-        description: "Specialist interpretation of magnetic resonance imaging studies.",
+        description:
+          "Expert interpretation of magnetic resonance imaging studies by board-certified radiologists.",
       },
       {
         title: "CT Review",
@@ -242,12 +247,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "How is this different from my doctor's explanation?",
         answer:
-          "Our service provides a specialist-level interpretation with detailed clinical context. We explain what each result means, how it relates to your overall health, and what follow-up steps may be appropriate.",
+          "Your results are interpreted by experienced physicians in our Global Doctors Network and come with detailed clinical context. We explain what each result means, how it relates to your overall health, and what follow-up steps may be appropriate.",
       },
       {
         question: "Can you review imaging studies like MRIs and CT scans?",
         answer:
-          "Yes. Our specialists include board-certified radiologists who can review and interpret MRI, CT, X-ray, and ultrasound studies with detailed findings and impressions.",
+          "Yes. Our Global Doctors Network includes board-certified radiologists who can review and interpret MRI, CT, X-ray, and ultrasound studies with detailed findings and impressions.",
       },
       {
         question: "How do I upload my lab results?",
@@ -269,7 +274,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     seo: {
       title: "Laboratory & Diagnostic Center | Dr Bubal Care",
       description:
-        "Professional interpretation of lab tests, MRI, CT scans, and ECGs. Understand your results with clear explanations from board-certified specialists.",
+        "Professional interpretation of lab tests, MRI, CT scans, and ECGs. Understand your results with clear explanations from board-certified physicians in our Global Doctors Network.",
       keywords: [
         "lab test interpretation",
         "MRI review",
@@ -287,7 +292,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     description:
       "Personalized nutrition therapy designed to prevent disease and improve long-term health outcomes.",
     introduction:
-      "Medical Nutrition Therapy (MNT) is a evidence-based approach to treating medical conditions through personalized dietary interventions. Our specialists develop customized nutrition plans that complement your medical treatment, help manage chronic conditions, and improve your overall health. Whether you are managing diabetes, kidney disease, or simply want to optimize your nutrition, our experts provide practical, science-backed guidance.",
+      "Medical Nutrition Therapy (MNT) is a evidence-based approach to treating medical conditions through personalized dietary interventions. Clinicians in our Global Doctors Network develop customized nutrition plans that complement your medical treatment, help manage chronic conditions, and improve your overall health. Whether you are managing diabetes, kidney disease, or simply want to optimize your nutrition, our experts provide practical, science-backed guidance.",
     whoCanBenefit: [
       ...DEFAULT_BENEFITS,
       {
@@ -350,17 +355,17 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "What is Medical Nutrition Therapy?",
         answer:
-          "Medical Nutrition Therapy is a therapeutic approach to treating medical conditions through personalized nutrition plans developed by qualified specialists. Unlike general dietary advice, MNT is tailored to your specific medical condition, lab results, and health goals.",
+          "Medical Nutrition Therapy is a therapeutic approach to treating medical conditions through personalized nutrition plans developed by qualified clinicians in our Global Doctors Network. Unlike general dietary advice, MNT is tailored to your specific medical condition, lab results, and health goals.",
       },
       {
         question: "How is this different from seeing a regular nutritionist?",
         answer:
-          "Our service is provided by specialists who integrate nutrition therapy with your overall medical care. We review your lab results, medical history, and current treatments to create nutrition plans that work alongside your medical treatment.",
+          "Our service is provided by clinicians in our Global Doctors Network who integrate nutrition therapy with your overall medical care. We review your lab results, medical history, and current treatments to create nutrition plans that work alongside your medical treatment.",
       },
       {
         question: "Can nutrition therapy help manage my diabetes?",
         answer:
-          "Yes. Medical nutrition therapy is a cornerstone of diabetes management. Our specialists can help you develop meal plans that stabilize blood sugar, reduce complications, and improve your quality of life.",
+          "Yes. Medical nutrition therapy is a cornerstone of diabetes management. Our clinicians can help you develop meal plans that stabilize blood sugar, reduce complications, and improve your quality of life.",
       },
       {
         question: "Do you provide meal plans or just general advice?",
@@ -382,7 +387,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     seo: {
       title: "Medical Nutrition Therapy Center | Dr Bubal Care",
       description:
-        "Personalized nutrition therapy for diabetes, kidney disease, pregnancy, weight management, and more. Evidence-based dietary guidance from specialists.",
+        "Personalized nutrition therapy for diabetes, kidney disease, pregnancy, weight management, and more. Evidence-based dietary guidance from our Global Doctors Network.",
       keywords: [
         "medical nutrition therapy",
         "diabetes nutrition",
@@ -401,7 +406,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     description:
       "Supporting healthy growth and development from pregnancy through adolescence.",
     introduction:
-      "Every child deserves the best possible start in life. Our Child Health and Development Center provides comprehensive support for parents and caregivers, covering everything from pregnancy education to adolescent health. Our specialists offer evidence-based guidance on nutrition, growth monitoring, developmental milestones, vaccination, and common childhood health concerns. We help families navigate the critical early years with confidence.",
+      "Every child deserves the best possible start in life. Our Child Health and Development Center provides comprehensive support for parents and caregivers, covering everything from pregnancy education to adolescent health. Clinicians in our Global Doctors Network offer evidence-based guidance on nutrition, growth monitoring, developmental milestones, vaccination, and common childhood health concerns. We help families navigate the critical early years with confidence.",
     whoCanBenefit: [
       {
         title: "Expectant Parents",
@@ -487,12 +492,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "How often should my child's growth be monitored?",
         answer:
-          "Regular monitoring is recommended at key developmental stages. Our specialists can create a personalized monitoring schedule based on your child's age, health status, and specific needs.",
+          "Regular monitoring is recommended at key developmental stages. Our clinicians can create a personalized monitoring schedule based on your child's age, health status, and specific needs.",
       },
       {
         question: "Can you help with breastfeeding challenges?",
         answer:
-          "Yes. Our specialists provide evidence-based guidance on breastfeeding positions, latch issues, milk supply concerns, and common breastfeeding problems. We also offer complementary feeding guidance for transitioning to solids.",
+          "Yes. Clinicians in our network provide evidence-based guidance on breastfeeding positions, latch issues, milk supply concerns, and common breastfeeding problems. We also offer complementary feeding guidance for transitioning to solids.",
       },
       {
         question: "What vaccinations does my child need?",
@@ -502,12 +507,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "How can I tell if my child is developing normally?",
         answer:
-          "Our specialists assess your child's development against standard milestones for their age group. We track motor skills, language development, social interaction, and cognitive abilities. If there are any concerns, we provide early intervention strategies.",
+          "Our clinicians assess your child's development against standard milestones for their age group. We track motor skills, language development, social interaction, and cognitive abilities. If there are any concerns, we provide early intervention strategies.",
       },
       {
         question: "Do you provide support for children with learning difficulties?",
         answer:
-          "Yes. We offer guidance on early identification of learning difficulties, strategies for supporting your child's education, and referrals to appropriate specialists when needed.",
+          "Yes. We offer guidance on early identification of learning difficulties, strategies for supporting your child's education, and referrals to the right physicians in our Global Doctors Network when needed.",
       },
       {
         question: "What adolescent health services do you provide?",
@@ -538,7 +543,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     description:
       "Evidence-based reproductive health guidance, fertility education, pregnancy planning, and women's wellness.",
     introduction:
-      "Our Women's Health and Fertility Center provides comprehensive, evidence-based guidance on reproductive health, fertility, and women's wellness. Whether you are trying to conceive, managing a reproductive health condition, or seeking information about fertility treatments, our specialists provide clear, compassionate, and medically sound advice. We empower women with the knowledge they need to make informed decisions about their reproductive health.",
+      "Our Women's Health and Fertility Center provides comprehensive, evidence-based guidance on reproductive health, fertility, and women's wellness. Whether you are trying to conceive, managing a reproductive health condition, or seeking information about fertility treatments, physicians in our Global Doctors Network provide clear, compassionate, and medically sound advice. We empower women with the knowledge they need to make informed decisions about their reproductive health.",
     whoCanBenefit: [
       {
         title: "Women Planning Pregnancy",
@@ -612,7 +617,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "Can you help with PCOS?",
         answer:
-          "Yes. We provide comprehensive guidance on managing PCOS including dietary strategies, lifestyle modifications, medication options, and fertility planning. Our specialists help you understand your condition and develop a personalized management plan.",
+          "Yes. We provide comprehensive guidance on managing PCOS including dietary strategies, lifestyle modifications, medication options, and fertility planning. Our clinicians help you understand your condition and develop a personalized management plan.",
       },
       {
         question: "What fertility treatments do you provide education on?",
@@ -627,7 +632,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         question: "How does nutrition affect fertility?",
         answer:
-          "Nutrition plays a crucial role in reproductive health. Our fertility nutrition specialists provide evidence-based dietary guidance to support hormone balance, egg quality, sperm health, and overall fertility outcomes.",
+          "Nutrition plays a crucial role in reproductive health. Our fertility nutrition experts provide evidence-based dietary guidance to support hormone balance, egg quality, sperm health, and overall fertility outcomes.",
       },
       {
         question: "What if I am not ready for IVF? Are there other options?",
@@ -644,7 +649,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     seo: {
       title: "Women's Health & Fertility Center | Dr Bubal Care",
       description:
-        "Evidence-based reproductive health guidance, fertility education, PCOS management, pregnancy planning, and women's wellness from board-certified specialists.",
+        "Evidence-based reproductive health guidance, fertility education, PCOS management, pregnancy planning, and women's wellness from board-certified physicians in our Global Doctors Network.",
       keywords: [
         "women's health",
         "fertility",

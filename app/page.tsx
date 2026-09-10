@@ -32,7 +32,7 @@ export default function Home() {
         url: baseUrl,
         logo: `${baseUrl}/logo.svg`,
         description:
-          "AI-assisted diagnostic coordination platform connecting patients with board-certified specialists for written medical opinions.",
+          "AI-assisted diagnostic coordination platform connecting patients with board-certified physicians in our Global Doctors Network for written medical opinions.",
         contactPoint: {
           "@type": "ContactPoint",
           telephone: "+1-800-555-1234",
@@ -43,10 +43,10 @@ export default function Home() {
       },
       {
         "@type": "MedicalWebPage",
-        name: "Dr Bubal Care - Specialist Medical Opinions",
+        name: "Dr Bubal Care - Expert Medical Opinions from the Global Doctors Network",
         url: baseUrl,
         description:
-          "Connect with board-certified specialists for plain-language diagnostic opinions. Upload lab results, scans, or slides.",
+          "Connect with board-certified doctors in our Global Doctors Network for plain-language diagnostic opinions. Upload lab results, scans, or slides.",
         about: {
           "@type": "MedicalSpecialty",
           name: "Diagnostic Medicine",
@@ -95,8 +95,9 @@ export default function Home() {
               Dr Bubal Care
             </div>
             <p className="text-white/70 max-w-sm text-sm leading-relaxed">
-              Connecting patients in East Africa with board-certified
-              specialists for clear, written diagnostic opinions.
+              Connecting patients in East Africa with the board-certified
+              physicians of our Global Doctors Network for clear, written
+              diagnostic opinions.
             </p>
           </div>
           <div className="space-y-3">

@@ -2,7 +2,7 @@ import { CheckCircle2 } from "lucide-react";
 
 const CHECKLIST_ITEMS = [
   "Encrypted uploads and signed file URLs",
-  "Board-certified specialists only",
+  "Every opinion comes from a board-certified physician in our Global Doctors Network",
   "No hidden fees. Prices shown upfront",
   "Opinion delivered in 24-48 hours",
   "Peer review available on request",
