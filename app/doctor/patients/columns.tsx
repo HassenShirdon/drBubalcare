@@ -18,12 +18,12 @@ export const columns: ColumnDef<DoctorPatient>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Patient" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pulse-info-light text-xs font-semibold text-pulse-info">
           {row.original.name.charAt(0)}
         </div>
         <div>
-          <p className="font-medium text-sm" style={{ color: "#0F172A" }}>{row.original.name}</p>
-          <p className="text-xs" style={{ color: "#64748B" }}>
+          <p className="text-sm font-medium text-pulse-text-primary">{row.original.name}</p>
+          <p className="text-xs text-pulse-text-muted">
             {row.original.age ?? "—"} yrs &middot; {row.original.gender ?? "—"}
           </p>
         </div>
@@ -38,16 +38,16 @@ export const columns: ColumnDef<DoctorPatient>[] = [
     accessorKey: "appointmentCount",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Appointments" />,
     cell: ({ row }) => (
-      <span className="inline-flex items-center justify-center size-7 rounded-full text-xs font-medium" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
+      <span className="inline-flex size-7 items-center justify-center rounded-lg bg-pulse-info-light text-xs font-medium tabular-nums text-pulse-info">
         {row.original.appointmentCount}
       </span>
     ),
   },
   {
     accessorKey: "lastVisit",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Last Visit" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Last visit" />,
     cell: ({ row }) => (
-      <span className="text-sm" style={{ color: "#64748B" }}>
+      <span className="text-sm tabular-nums text-pulse-text-secondary">
         {new Date(row.original.lastVisit).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

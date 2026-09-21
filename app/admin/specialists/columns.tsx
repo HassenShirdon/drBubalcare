@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { ColumnDef } from "@tanstack/react-table"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { BadgeCheck, BadgeX, MoreHorizontal, Eye, CheckCircle, XCircle, Stethoscope } from "lucide-react"
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { queryKeys } from "@/lib/query-keys"
 
 export type AdminSpecialist = {
   id: string
@@ -22,32 +22,65 @@ export type AdminSpecialist = {
 }
 
 function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
-  const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
 
-  async function toggleVerify() {
-    setLoading(true)
-    try {
-      await fetch(`/api/admin/specialists/${specialist.id}/verify`, {
+  const verifyMutation = useMutation({
+    mutationFn: async (verified: boolean) => {
+      const res = await fetch(`/api/admin/specialists/${specialist.id}/verify`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ verified: !specialist.verified }),
+        body: JSON.stringify({ verified }),
       })
-      window.location.reload()
-    } finally {
-      setLoading(false)
-    }
+      if (!res.ok) throw new Error("Failed to update")
+      return res.json()
+    },
+    // Optimistic update: flip the verified flag immediately, roll back on error
+    onMutate: async (verified: boolean) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.admin.specialists })
+      const previous = queryClient.getQueryData<{
+        data: AdminSpecialist[]
+        total: number
+      }>(queryKeys.admin.specialists)
+      queryClient.setQueryData<{
+        data: AdminSpecialist[]
+        total: number
+      }>(queryKeys.admin.specialists, (old) =>
+        old
+          ? {
+              ...old,
+              data: old.data.map((s) =>
+                s.id === specialist.id ? { ...s, verified } : s
+              ),
+            }
+          : old
+      )
+      return { previous }
+    },
+    onError: (_err, _verified, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(queryKeys.admin.specialists, context.previous)
+      }
+    },
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.specialists }),
+  })
+
+  const loading = verifyMutation.isPending
+
+  function toggleVerify() {
+    verifyMutation.mutate(!specialist.verified)
   }
 
   return (
       <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center justify-center size-8 rounded-md text-admin-text-faint hover:bg-admin-surface-elevated hover:text-admin-text transition-colors cursor-pointer">
+      <DropdownMenuTrigger className="inline-flex items-center justify-center size-8 rounded-md text-admin-text-faint hover:bg-admin-surface-elevated hover:text-admin-text transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-admin-accent-blue/40">
         <span className="sr-only">Open menu</span>
-        <MoreHorizontal className="size-4" />
+        <MoreHorizontal className="size-4" aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuItem>
-          <Eye className="size-3.5 mr-2" />
-          View Profile
+          <Eye className="size-3.5 mr-2" aria-hidden="true" />
+          View profile
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {specialist.verified ? (
@@ -56,8 +89,8 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
             disabled={loading}
             className="text-admin-warning focus:text-admin-warning"
           >
-            <XCircle className="size-3.5 mr-2" />
-            {loading ? "Revoking..." : "Revoke Verification"}
+            <XCircle className="size-3.5 mr-2" aria-hidden="true" />
+            {loading ? "Revoking..." : "Revoke verification"}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
@@ -65,8 +98,8 @@ function SpecialistActions({ specialist }: { specialist: AdminSpecialist }) {
             disabled={loading}
             className="text-admin-success focus:text-admin-success"
           >
-            <CheckCircle className="size-3.5 mr-2" />
-            {loading ? "Verifying..." : "Verify Specialist"}
+            <CheckCircle className="size-3.5 mr-2" aria-hidden="true" />
+            {loading ? "Verifying..." : "Verify specialist"}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
@@ -88,7 +121,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
         .toUpperCase()
       return (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-xs font-bold shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-xs font-semibold shrink-0">
             {initials}
           </div>
           <div className="min-w-0">
@@ -121,7 +154,7 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     accessorKey: "experience",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Experience" />,
     cell: ({ row }) => (
-      <span className="text-sm text-admin-text-faint">{row.original.experience} yrs</span>
+      <span className="text-sm tabular-nums text-admin-text-faint">{row.original.experience} yrs</span>
     ),
   },
   {
@@ -129,12 +162,12 @@ export const columns: ColumnDef<AdminSpecialist>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
       row.original.verified ? (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-success bg-admin-success-light px-2 py-0.5 rounded-full">
-          <BadgeCheck className="size-3" /> Verified
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-success bg-admin-success-light px-2 py-0.5 rounded-md">
+          <BadgeCheck className="size-3" aria-hidden="true" /> Verified
         </span>
       ) : (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-warning bg-admin-warning-light px-2 py-0.5 rounded-full">
-          <BadgeX className="size-3" /> Pending
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-admin-warning bg-admin-warning-light px-2 py-0.5 rounded-md">
+          <BadgeX className="size-3" aria-hidden="true" /> Pending
         </span>
       )
     ),

@@ -3,7 +3,16 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { prisma } from '@/lib/db';
 import { authOptions } from '@/lib/auth';
-import { Calendar, FlaskConical, UserSearch, ArrowRight, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
+import {
+  Calendar,
+  FlaskConical,
+  UserSearch,
+  ArrowRight,
+  AlertCircle,
+  CheckCircle2,
+  FileText,
+  Sparkles,
+} from 'lucide-react';
 
 async function getUpcomingAppointments(userId: string) {
   return prisma.appointment.findMany({
@@ -36,6 +45,33 @@ function formatDate(date: Date) {
   return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
+const QUICK_ACTIONS = [
+  {
+    href: '/patient/cases/new',
+    title: 'Start a case',
+    description: 'Get a written specialist opinion',
+    icon: FileText,
+  },
+  {
+    href: '/directory',
+    title: 'Book an appointment',
+    description: 'Find a physician near you',
+    icon: Calendar,
+  },
+  {
+    href: '/patient/labs',
+    title: 'Upload lab reports',
+    description: 'Submit results for interpretation',
+    icon: FlaskConical,
+  },
+  {
+    href: '/directory',
+    title: 'Browse the directory',
+    description: 'Explore the physician network',
+    icon: UserSearch,
+  },
+];
+
 export default async function PatientDashboard() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/auth/signin');
@@ -48,37 +84,37 @@ export default async function PatientDashboard() {
     getRecentLabResults(userId),
   ]);
 
-  return (
-    <div className="p-4 md:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: '#1E3A5F' }}>
-          Welcome back, {userName.split(' ')[0]}
-        </h1>
-        <p className="mt-1 text-sm" style={{ color: '#64748B' }}>
-          Here is your health overview
-        </p>
-      </div>
+  const aiSummary = labResults.find((l) => l.aiInterpretation)?.aiInterpretation;
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-lg shadow-sm p-6" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold flex items-center gap-2" style={{ color: '#1E3A5F' }}>
-                <Calendar className="size-4" style={{ color: '#3B82F6' }} />
-                Upcoming Appointments
-              </h2>
+  return (
+    <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
+      <header>
+        <h2 className="text-2xl font-semibold tracking-tight text-pulse-navy md:text-3xl">
+          Welcome back, {userName.split(' ')[0]}
+        </h2>
+        <p className="mt-1 text-sm text-pulse-text-secondary">Here is your health overview.</p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-2">
+          <section className="rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-semibold text-pulse-navy">
+                <Calendar className="size-4 text-pulse-info" aria-hidden="true" />
+                Upcoming appointments
+              </h3>
             </div>
 
             {appointments.length === 0 ? (
-              <div className="text-center py-8">
-                <Calendar className="size-10 mx-auto mb-2" style={{ color: '#64748B' }} />
-                <p className="text-sm" style={{ color: '#64748B' }}>No upcoming appointments</p>
+              <div className="py-8 text-center">
+                <Calendar className="mx-auto mb-2 size-10 text-pulse-text-muted" aria-hidden="true" />
+                <p className="text-sm text-pulse-text-secondary">No appointments scheduled.</p>
                 <Link
                   href="/directory"
-                  className="inline-flex items-center gap-1 mt-3 font-medium text-sm"
-                  style={{ color: '#3B82F6' }}
+                  className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-pulse-info hover:text-pulse-info/80"
                 >
-                  Book an appointment <ArrowRight className="size-3.5" />
+                  Book an appointment
+                  <ArrowRight className="size-3.5" aria-hidden="true" />
                 </Link>
               </div>
             ) : (
@@ -86,27 +122,25 @@ export default async function PatientDashboard() {
                 {appointments.map((apt) => (
                   <li
                     key={apt.id}
-                    className="flex items-center gap-4 p-3 rounded-lg transition-colors"
-                    style={{ background: '#F1F5F9' }}
+                    className="flex items-center gap-4 rounded-lg bg-pulse-surface-elevated p-3"
                   >
-                    <div className="size-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-pulse-navy-light text-sm font-semibold text-pulse-navy">
                       {apt.doctor.user.name?.charAt(0) ?? 'D'}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate" style={{ color: '#0F172A' }}>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-pulse-text-primary">
                         {apt.doctor.user.name}
                       </p>
-                      <p className="text-xs" style={{ color: '#64748B' }}>
+                      <p className="text-xs text-pulse-text-muted">
                         {formatDate(apt.date)} at {apt.time}
                       </p>
                     </div>
                     <span
-                      className="text-xs font-medium px-2.5 py-1 rounded-full capitalize"
-                      style={
+                      className={`rounded-md px-2.5 py-1 text-xs font-medium capitalize ${
                         apt.status === 'CONFIRMED'
-                          ? { background: '#DCFCE7', color: '#15803D' }
-                          : { background: '#DBEAFE', color: '#1E40AF' }
-                      }
+                          ? 'bg-pulse-success-light text-pulse-success'
+                          : 'bg-pulse-info-light text-pulse-info'
+                      }`}
                     >
                       {apt.status.toLowerCase()}
                     </span>
@@ -114,33 +148,32 @@ export default async function PatientDashboard() {
                 ))}
               </ul>
             )}
-          </div>
+          </section>
 
-          <div className="rounded-lg shadow-sm p-6" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold flex items-center gap-2" style={{ color: '#1E3A5F' }}>
-                <FlaskConical className="size-4" style={{ color: '#3B82F6' }} />
-                Recent Lab Results
-              </h2>
+          <section className="rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-semibold text-pulse-navy">
+                <FlaskConical className="size-4 text-pulse-info" aria-hidden="true" />
+                Recent lab results
+              </h3>
               <Link
                 href="/patient/labs"
-                className="text-sm font-medium"
-                style={{ color: '#3B82F6' }}
+                className="text-sm font-medium text-pulse-info hover:text-pulse-info/80"
               >
                 View all
               </Link>
             </div>
 
             {labResults.length === 0 ? (
-              <div className="text-center py-8">
-                <FlaskConical className="size-10 mx-auto mb-2" style={{ color: '#64748B' }} />
-                <p className="text-sm" style={{ color: '#64748B' }}>No lab results yet</p>
+              <div className="py-8 text-center">
+                <FlaskConical className="mx-auto mb-2 size-10 text-pulse-text-muted" aria-hidden="true" />
+                <p className="text-sm text-pulse-text-secondary">No lab results yet.</p>
                 <Link
                   href="/patient/labs"
-                  className="inline-flex items-center gap-1 mt-3 font-medium text-sm"
-                  style={{ color: '#3B82F6' }}
+                  className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-pulse-info hover:text-pulse-info/80"
                 >
-                  Upload your first lab report <ArrowRight className="size-3.5" />
+                  Upload your first lab report
+                  <ArrowRight className="size-3.5" aria-hidden="true" />
                 </Link>
               </div>
             ) : (
@@ -149,107 +182,72 @@ export default async function PatientDashboard() {
                   <li key={lab.id}>
                     <Link
                       href={`/patient/labs/${lab.id}`}
-                      className="flex items-center gap-4 p-3 rounded-lg transition-colors"
-                      style={{ background: '#F1F5F9' }}
+                      className="flex items-center gap-4 rounded-lg bg-pulse-surface-elevated p-3 transition-colors hover:bg-pulse-border/60"
                     >
-                      <div className="size-10 rounded-full flex items-center justify-center shrink-0" style={{ background: '#DBEAFE' }}>
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-pulse-info-light">
                         {lab.status === 'NORMAL' ? (
-                          <CheckCircle2 className="size-5" style={{ color: '#22C55E' }} />
+                          <CheckCircle2 className="size-5 text-pulse-success" aria-hidden="true" />
                         ) : (
-                          <AlertCircle className="size-5" style={{ color: '#F59E0B' }} />
+                          <AlertCircle className="size-5 text-pulse-warning" aria-hidden="true" />
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate" style={{ color: '#0F172A' }}>{lab.name}</p>
-                        <p className="text-xs" style={{ color: '#64748B' }}>{formatDate(lab.date)}</p>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-pulse-text-primary">
+                          {lab.name}
+                        </p>
+                        <p className="text-xs text-pulse-text-muted">{formatDate(lab.date)}</p>
                       </div>
                       <span
-                        className="text-xs font-medium px-2.5 py-1 rounded-full"
-                        style={
+                        className={`rounded-md px-2.5 py-1 text-xs font-medium ${
                           lab.status === 'NORMAL'
-                            ? { background: '#DCFCE7', color: '#15803D' }
-                            : { background: '#FEF3C7', color: '#B45309' }
-                        }
+                            ? 'bg-pulse-success-light text-pulse-success'
+                            : 'bg-pulse-warning-light text-pulse-warning'
+                        }`}
                       >
-                        {lab.status === 'NORMAL' ? 'Normal' : 'Review'}
+                        {lab.status === 'NORMAL' ? 'Normal' : 'Review needed'}
                       </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             )}
-          </div>
+          </section>
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-lg shadow-sm p-6" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-            <h2 className="font-semibold mb-4" style={{ color: '#1E3A5F' }}>Quick Actions</h2>
+          <section className="rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft">
+            <h3 className="mb-4 font-semibold text-pulse-navy">Quick actions</h3>
             <div className="space-y-3">
-              <Link
-                href="/patient/cases/new"
-                className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                style={{ background: '#F1F5F9' }}
-              >
-                <div className="size-9 rounded-lg flex items-center justify-center" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-                  <FileText className="size-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0F172A' }}>Start a Case</p>
-                  <p className="text-xs" style={{ color: '#64748B' }}>Get a specialist opinion</p>
-                </div>
-              </Link>
-              <Link
-                href="/directory"
-                className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                style={{ background: '#F1F5F9' }}
-              >
-                <div className="size-9 rounded-lg flex items-center justify-center" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-                  <Calendar className="size-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0F172A' }}>Book Appointment</p>
-                  <p className="text-xs" style={{ color: '#64748B' }}>Find a specialist</p>
-                </div>
-              </Link>
-              <Link
-                href="/patient/labs"
-                className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                style={{ background: '#F1F5F9' }}
-              >
-                <div className="size-9 rounded-lg flex items-center justify-center" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-                  <FlaskConical className="size-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0F172A' }}>Upload Labs</p>
-                  <p className="text-xs" style={{ color: '#64748B' }}>Submit lab reports</p>
-                </div>
-              </Link>
-              <Link
-                href="/directory"
-                className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                style={{ background: '#F1F5F9' }}
-              >
-                <div className="size-9 rounded-lg flex items-center justify-center" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-                  <UserSearch className="size-4" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0F172A' }}>Browse Directory</p>
-                  <p className="text-xs" style={{ color: '#64748B' }}>Explore physicians</p>
-                </div>
-              </Link>
+              {QUICK_ACTIONS.map((action) => (
+                <Link
+                  key={action.title}
+                  href={action.href}
+                  className="flex items-center gap-3 rounded-lg bg-pulse-surface-elevated p-3 transition-colors hover:bg-pulse-border/60"
+                >
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-pulse-info-light text-pulse-info">
+                    <action.icon className="size-4" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-pulse-text-primary">{action.title}</p>
+                    <p className="text-xs text-pulse-text-muted">{action.description}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
-          </div>
+          </section>
 
-          {labResults.find((l) => l.aiInterpretation) && (
-            <div className="rounded-lg shadow-sm p-6" style={{ background: 'rgba(219,234,254,0.3)', border: '1px solid #DBEAFE' }}>
-              <h2 className="font-semibold mb-2 flex items-center gap-2" style={{ color: '#1E3A5F' }}>
-                <span className="size-2 rounded-full" style={{ background: '#3B82F6' }} />
-                AI Summary
-              </h2>
-              <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
-                {labResults.find((l) => l.aiInterpretation)?.aiInterpretation}
+          {aiSummary && (
+            <section className="rounded-xl border border-pulse-info/30 bg-pulse-info-light p-6">
+              <div className="mb-2 flex items-center gap-2">
+                <Sparkles className="size-4 text-pulse-info" aria-hidden="true" />
+                <h3 className="font-semibold text-pulse-navy">AI-generated draft</h3>
+              </div>
+              <p className="text-sm leading-relaxed text-pulse-text-secondary">{aiSummary}</p>
+              <p className="mt-3 text-xs text-pulse-text-muted">
+                This is an AI draft, not a diagnosis. A board-certified physician reviews all
+                findings before they are final.
               </p>
-            </div>
+            </section>
           )}
         </div>
       </div>

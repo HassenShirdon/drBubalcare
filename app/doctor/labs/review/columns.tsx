@@ -20,12 +20,12 @@ export const columns: ColumnDef<LabReview>[] = [
       const patient = row.original.patient
       return (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pulse-info-light text-xs font-semibold text-pulse-info">
             {patient.name?.charAt(0) ?? "P"}
           </div>
           <div>
-            <p className="font-medium text-sm" style={{ color: "#0F172A" }}>{patient.name ?? "Unknown"}</p>
-            <p className="text-xs" style={{ color: "#64748B" }}>
+            <p className="text-sm font-medium text-pulse-text-primary">{patient.name ?? "Unknown"}</p>
+            <p className="text-xs text-pulse-text-muted">
               {patient.age ?? "—"} yrs &middot; {patient.gender ?? "—"}
             </p>
           </div>
@@ -40,16 +40,16 @@ export const columns: ColumnDef<LabReview>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Lab Test" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Test" />,
     cell: ({ row }) => (
-      <span className="text-sm font-medium" style={{ color: "#0F172A" }}>{row.original.name}</span>
+      <span className="text-sm font-medium text-pulse-text-primary">{row.original.name}</span>
     ),
   },
   {
     accessorKey: "date",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
     cell: ({ row }) => (
-      <span className="text-sm" style={{ color: "#64748B" }}>
+      <span className="text-sm tabular-nums text-pulse-text-secondary">
         {new Date(row.original.date).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
@@ -65,11 +65,11 @@ export const columns: ColumnDef<LabReview>[] = [
     cell: ({ row }) => {
       const count = row.original.metrics.filter((m) => m.status !== "NORMAL").length
       return count > 0 ? (
-        <span className="inline-flex items-center justify-center size-7 rounded-full text-xs font-medium" style={{ background: "#FEF2F2", color: "#E63946" }}>
+        <span className="inline-flex size-7 items-center justify-center rounded-lg bg-pulse-red-light text-xs font-medium tabular-nums text-pulse-red">
           {count}
         </span>
       ) : (
-        <span className="text-xs" style={{ color: "#64748B" }}>—</span>
+        <span className="text-xs text-pulse-text-muted">—</span>
       )
     },
   },
@@ -78,14 +78,13 @@ export const columns: ColumnDef<LabReview>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => (
       <span
-        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-        style={
+        className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium ${
           row.original.status === "REVIEW_NEEDED"
-            ? { background: "#FEF2F2", color: "#E63946" }
-            : { background: "#DCFCE7", color: "#22C55E" }
-        }
+            ? "bg-pulse-red-light text-pulse-red"
+            : "bg-pulse-success-light text-pulse-success"
+        }`}
       >
-        {row.original.status === "REVIEW_NEEDED" ? "Review Needed" : "Reviewed"}
+        {row.original.status === "REVIEW_NEEDED" ? "Review needed" : "Reviewed"}
       </span>
     ),
   },

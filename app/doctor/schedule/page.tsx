@@ -41,12 +41,12 @@ function groupByDate(appointments: Awaited<ReturnType<typeof getAppointments>>) 
   return groups;
 }
 
-const statusColors: Record<string, { background: string; color: string }> = {
-  SCHEDULED: { background: '#DBEAFE', color: '#1E40AF' },
-  CONFIRMED: { background: '#DCFCE7', color: '#15803D' },
-  IN_PROGRESS: { background: '#FEF3C7', color: '#B45309' },
-  COMPLETED: { background: '#F1F5F9', color: '#64748B' },
-  CANCELLED: { background: '#FEF2F2', color: '#B91C1C' },
+const STATUS_BADGE: Record<string, string> = {
+  SCHEDULED: 'bg-pulse-info-light text-pulse-navy',
+  CONFIRMED: 'bg-pulse-success-light text-pulse-success',
+  IN_PROGRESS: 'bg-pulse-warning-light text-pulse-warning',
+  COMPLETED: 'bg-pulse-surface-elevated text-pulse-text-muted',
+  CANCELLED: 'bg-pulse-red-light text-pulse-red',
 };
 
 export default async function SchedulePage() {
@@ -61,57 +61,58 @@ export default async function SchedulePage() {
   const grouped = groupByDate(appointments);
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold" style={{ color: '#1E3A5F' }}>Schedule</h1>
-        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>
+    <div className="mx-auto max-w-4xl space-y-6 p-4 md:p-6 lg:p-8">
+      <header>
+        <h2 className="text-xl font-semibold tracking-tight text-pulse-navy">Schedule</h2>
+        <p className="mt-0.5 text-sm text-pulse-text-secondary">
           {appointments.length} upcoming appointment{appointments.length !== 1 ? 's' : ''}
         </p>
-      </div>
+      </header>
 
       {appointments.length === 0 ? (
-        <div className="rounded-lg shadow-sm p-12 text-center" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <Calendar className="size-12 mx-auto mb-3" style={{ color: '#64748B' }} />
-          <p className="text-base font-semibold" style={{ color: '#0F172A' }}>No appointments</p>
-          <p className="text-sm mt-1" style={{ color: '#64748B' }}>Your schedule will appear here once appointments are booked</p>
+        <div className="rounded-xl border border-pulse-border bg-pulse-surface p-12 text-center shadow-soft">
+          <Calendar className="mx-auto mb-3 size-12 text-pulse-text-muted" aria-hidden="true" />
+          <p className="text-base font-semibold text-pulse-text-primary">No appointments</p>
+          <p className="mt-1 text-sm text-pulse-text-secondary">
+            Your schedule will appear here once appointments are booked.
+          </p>
         </div>
       ) : (
         <div className="space-y-8">
           {Array.from(grouped.entries()).map(([dateKey, dayAppts]) => (
-            <div key={dateKey}>
-              <h2 className="font-semibold mb-3 text-sm pb-2" style={{ color: '#1E3A5F', borderBottom: '1px solid #E2E8F0' }}>
+            <section key={dateKey}>
+              <h3 className="mb-3 border-b border-pulse-border pb-2 text-sm font-semibold text-pulse-navy">
                 {formatDate(new Date(dateKey + 'T00:00:00'))}
-              </h2>
+              </h3>
               <div className="space-y-2">
-                {dayAppts.map((apt) => {
-                  const colors = statusColors[apt.status] ?? { background: '#F1F5F9', color: '#64748B' };
-                  return (
-                    <div
-                      key={apt.id}
-                      className="rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
-                      style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
-                    >
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-                        {apt.patient.name?.charAt(0) ?? 'P'}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm" style={{ color: '#0F172A' }}>{apt.patient.name ?? 'Unknown Patient'}</p>
-                        <p className="text-xs flex items-center gap-1 mt-0.5" style={{ color: '#64748B' }}>
-                          <Clock className="size-3" />
-                          {formatTime(apt.time)}
-                        </p>
-                      </div>
-                      <span
-                        className="text-xs font-medium px-2.5 py-0.5 rounded-full capitalize"
-                        style={{ background: colors.background, color: colors.color }}
-                      >
-                        {apt.status.toLowerCase()}
-                      </span>
+                {dayAppts.map((apt) => (
+                  <div
+                    key={apt.id}
+                    className="flex items-center gap-4 rounded-xl border border-pulse-border bg-pulse-surface p-4 shadow-soft transition-colors hover:border-pulse-border-strong"
+                  >
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-pulse-info-light text-sm font-semibold text-pulse-info">
+                      {apt.patient.name?.charAt(0) ?? 'P'}
                     </div>
-                  );
-                })}
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-pulse-text-primary">
+                        {apt.patient.name ?? 'Unknown patient'}
+                      </p>
+                      <p className="mt-0.5 flex items-center gap-1 text-xs text-pulse-text-secondary">
+                        <Clock className="size-3" aria-hidden="true" />
+                        {formatTime(apt.time)}
+                      </p>
+                    </div>
+                    <span
+                      className={`rounded-md px-2.5 py-0.5 text-xs font-medium capitalize ${
+                        STATUS_BADGE[apt.status] ?? STATUS_BADGE.COMPLETED
+                      }`}
+                    >
+                      {apt.status.toLowerCase()}
+                    </span>
+                  </div>
+                ))}
               </div>
-            </div>
+            </section>
           ))}
         </div>
       )}

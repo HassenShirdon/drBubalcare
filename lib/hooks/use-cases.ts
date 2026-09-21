@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useCases(take = 50, skip = 0) {
   return useQuery({
-    queryKey: ['cases', { take, skip }],
+    queryKey: queryKeys.cases.list({ take, skip }),
     queryFn: async () => {
       const res = await fetch(`/api/cases?take=${take}&skip=${skip}`);
       const text = await res.text();
@@ -19,9 +20,16 @@ export function useCases(take = 50, skip = 0) {
   });
 }
 
+// Statuses where the case is still moving through the pipeline — poll for
+// changes (e.g. AI pre-screen completing, specialist assigned) so the patient
+// sees progress without a manual refresh. Polling stops once the opinion is
+// ready or the case reaches a terminal state.
+const IN_FLIGHT_STATUSES = new Set(['OPEN', 'AI_PRE_SCREENED', 'UNDER_REVIEW']);
+const CASE_POLL_INTERVAL_MS = 30_000;
+
 export function useCase(id: string) {
   return useQuery({
-    queryKey: ['cases', id],
+    queryKey: queryKeys.cases.detail(id),
     queryFn: async () => {
       const res = await fetch(`/api/cases/${id}`);
       const text = await res.text();
@@ -30,6 +38,12 @@ export function useCase(id: string) {
     },
     enabled: !!id,
     staleTime: 60 * 1000,
+    refetchInterval: (query) => {
+      const status = (query.state.data as { status?: string } | null | undefined)?.status;
+      return status && IN_FLIGHT_STATUSES.has(status) ? CASE_POLL_INTERVAL_MS : false;
+    },
+    // Pause polling while the tab is hidden (default behaviour, explicit here)
+    refetchIntervalInBackground: false,
   });
 }
 
@@ -68,7 +82,7 @@ export function useCreateCase() {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cases'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.cases.all });
     },
   });
 }

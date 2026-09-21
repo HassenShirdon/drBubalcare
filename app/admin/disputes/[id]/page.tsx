@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useParams } from "next/navigation"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 import { ArrowLeft, CheckCircle, XCircle, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -37,7 +38,7 @@ export default function AdminDisputeDetailPage() {
   const [resolution, setResolution] = useState("")
 
   const { data: dispute, isLoading } = useQuery<DisputeDetail>({
-    queryKey: ["admin-dispute", disputeId],
+    queryKey: queryKeys.admin.disputes.detail(disputeId),
     queryFn: async () => {
       const res = await fetch(`/api/admin/disputes/${disputeId}`)
       if (!res.ok) throw new Error("Failed to fetch dispute")
@@ -55,7 +56,7 @@ export default function AdminDisputeDetailPage() {
       if (!res.ok) throw new Error("Failed to triage")
       return res.json()
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-dispute", disputeId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.admin.disputes.detail(disputeId) }),
   })
 
   const resolveMutation = useMutation({
@@ -68,7 +69,7 @@ export default function AdminDisputeDetailPage() {
       if (!res.ok) throw new Error("Failed to resolve")
       return res.json()
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-dispute", disputeId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.admin.disputes.detail(disputeId) }),
   })
 
   if (isLoading) return <div className="p-6 text-admin-text-muted">Loading...</div>
@@ -187,7 +188,7 @@ function PeerReviewAssignment({ disputeId }: { disputeId: string }) {
       if (!res.ok) throw new Error("Failed to assign specialist")
       return res.json()
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-dispute", disputeId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.admin.disputes.detail(disputeId) }),
   })
 
   async function loadCandidates() {

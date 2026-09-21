@@ -26,6 +26,10 @@ vi.mock('@/lib/db', () => ({
     },
     appointment: {
       findMany: vi.fn(),
+      groupBy: vi.fn(),
+    },
+    user: {
+      findMany: vi.fn(),
     },
   },
 }));
@@ -121,10 +125,13 @@ describe('Doctors API', () => {
     it('returns list of patients sorted by last visit', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', 'doc-user-1'));
       vi.mocked(prisma.doctor.findUnique).mockResolvedValue({ id: 'doc-1', userId: 'doc-user-1' } as any);
-      vi.mocked(prisma.appointment.findMany).mockResolvedValue([
-        { id: 'apt-1', patientId: 'pat-1', date: new Date('2024-06-01'), doctorId: 'doc-1', patient: { id: 'pat-1', name: 'Alice', age: 32, gender: 'female' } },
-        { id: 'apt-2', patientId: 'pat-2', date: new Date('2024-05-01'), doctorId: 'doc-1', patient: { id: 'pat-2', name: 'Bob', age: 45, gender: 'male' } },
-        { id: 'apt-3', patientId: 'pat-1', date: new Date('2024-07-01'), doctorId: 'doc-1', patient: { id: 'pat-1', name: 'Alice', age: 32, gender: 'female' } },
+      vi.mocked(prisma.appointment.groupBy).mockResolvedValue([
+        { patientId: 'pat-1', _count: { patientId: 2 }, _max: { date: new Date('2024-07-01') } },
+        { patientId: 'pat-2', _count: { patientId: 1 }, _max: { date: new Date('2024-05-01') } },
+      ] as any);
+      vi.mocked(prisma.user.findMany).mockResolvedValue([
+        { id: 'pat-1', name: 'Alice', age: 32, gender: 'female' },
+        { id: 'pat-2', name: 'Bob', age: 45, gender: 'male' },
       ] as any);
 
       const res = await getDoctorPatients();

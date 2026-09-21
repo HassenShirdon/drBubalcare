@@ -3,23 +3,23 @@
 import { use, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { ArrowLeft, FileText, CheckCircle2, Calendar, Loader2, Save, Send } from 'lucide-react';
+import { ArrowLeft, FileText, CheckCircle2, Calendar, Loader2, Save, Send, Sparkles, AlertTriangle, AlertCircle } from 'lucide-react';
 import { useDoctorCase, useSubmitOpinion } from '@/lib/hooks/use-doctor-cases';
 
-const statusConfig: Record<string, { label: string; style: React.CSSProperties }> = {
-  OPEN: { label: 'Open', style: { background: '#DBEAFE', color: '#1E40AF' } },
-  AI_PRE_SCREENED: { label: 'Pre-screened', style: { background: '#DBEAFE', color: '#1E40AF' } },
-  UNDER_REVIEW: { label: 'Under Review', style: { background: '#FEF3C7', color: '#B45309' } },
-  OPINION_READY: { label: 'Opinion Ready', style: { background: '#DCFCE7', color: '#15803D' } },
-  CLOSED: { label: 'Closed', style: { background: '#F1F5F9', color: '#64748B' } },
-  DISPUTED: { label: 'Disputed', style: { background: '#FEF2F2', color: '#B91C1C' } },
+const statusConfig: Record<string, { label: string; className: string }> = {
+  OPEN: { label: 'Open', className: 'bg-pulse-info-light text-pulse-navy' },
+  AI_PRE_SCREENED: { label: 'Pre-screened', className: 'bg-pulse-info-light text-pulse-navy' },
+  UNDER_REVIEW: { label: 'Under review', className: 'bg-pulse-warning-light text-pulse-warning' },
+  OPINION_READY: { label: 'Opinion ready', className: 'bg-pulse-success-light text-pulse-success' },
+  CLOSED: { label: 'Closed', className: 'bg-pulse-surface-elevated text-pulse-text-muted' },
+  DISPUTED: { label: 'Disputed', className: 'bg-pulse-red-light text-pulse-red' },
 };
 
 const serviceTypeLabels: Record<string, string> = {
-  SPECIALIST_OPINION: 'Specialist Opinion',
-  RESULT_INTERPRETATION: 'Result Interpretation',
-  FOLLOW_UP: 'Follow-up Consultation',
-  TREND_ANALYSIS: 'Lab Trend Analysis',
+  SPECIALIST_OPINION: 'Specialist opinion',
+  RESULT_INTERPRETATION: 'Result interpretation',
+  FOLLOW_UP: 'Follow-up consultation',
+  TREND_ANALYSIS: 'Lab trend analysis',
 };
 
 function formatDate(date: string) {
@@ -52,7 +52,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   const existingOpinion = caseData?.opinions?.[0];
   const isSigned = existingOpinion?.status === 'SIGNED' || existingOpinion?.status === 'DELIVERED';
-  
+
   useEffect(() => {
     if (existingOpinion?.content) {
       const sections = parseOpinionSections(existingOpinion.content);
@@ -87,49 +87,45 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center py-20">
-        <Loader2 className="animate-spin" size={32} style={{ color: '#22C55E' }} />
+      <div className="flex items-center justify-center p-6 py-20">
+        <Loader2 className="animate-spin text-pulse-info" size={32} aria-label="Loading case" />
       </div>
     );
   }
 
   if (!caseData) {
     return (
-      <div className="p-6 text-center py-20">
-        <p style={{ color: '#64748B' }}>Case not found</p>
-        <Link href="/doctor/cases" className="text-sm mt-2 inline-block" style={{ color: '#3B82F6' }}>
+      <div className="p-6 py-20 text-center">
+        <p className="text-pulse-text-secondary">Case not found.</p>
+        <Link href="/doctor/cases" className="mt-2 inline-block text-sm font-medium text-pulse-info hover:underline">
           Back to cases
         </Link>
       </div>
     );
   }
 
-  const status = statusConfig[caseData.status] || statusConfig.OPEN;
+  const status = statusConfig[caseData.status] ?? statusConfig.OPEN;
 
   return (
-    <div className="p-6 pb-24 md:pb-8 space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6 p-4 pb-24 md:p-6 md:pb-8">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <Link
           href="/doctor/cases"
-          className="inline-flex items-center gap-1 text-sm mb-4"
-          style={{ color: '#64748B' }}
+          className="mb-4 inline-flex items-center gap-1 text-sm text-pulse-text-secondary transition-colors hover:text-pulse-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
         >
-          <ArrowLeft className="size-4" />
+          <ArrowLeft className="size-4" aria-hidden="true" />
           Back to cases
         </Link>
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-semibold" style={{ color: '#1E3A5F' }}>
+            <h1 className="text-xl font-semibold tracking-tight text-pulse-navy">
               {serviceTypeLabels[caseData.serviceType] || caseData.serviceType}
             </h1>
-            <p className="text-sm mt-1" style={{ color: '#64748B' }}>
-              Patient: {caseData.patient.name ?? 'Unknown'} &middot; {caseData.patient.age ?? "—"} yrs &middot; {caseData.patient.gender ?? "—"} &middot; Created {formatDate(caseData.createdAt)}
+            <p className="mt-1 text-sm text-pulse-text-secondary">
+              Patient: {caseData.patient.name ?? 'Unknown'} &middot; {caseData.patient.age ?? '—'} yrs &middot; {caseData.patient.gender ?? '—'} &middot; Created {formatDate(caseData.createdAt)}
             </p>
           </div>
-          <span
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium"
-            style={status.style}
-          >
+          <span className={`inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium ${status.className}`}>
             {status.label}
           </span>
         </div>
@@ -139,28 +135,26 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="rounded-lg shadow-sm p-5"
-        style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
+        className="rounded-xl border border-pulse-border bg-pulse-surface p-5 shadow-soft"
       >
-        <h2 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#1E3A5F' }}>
-          <FileText className="size-4" style={{ color: '#3B82F6' }} />
-          Uploaded Records ({caseData.records?.length || 0})
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+          <FileText className="size-4 text-pulse-info" aria-hidden="true" />
+          Uploaded records ({caseData.records?.length || 0})
         </h2>
         {caseData.records && caseData.records.length > 0 ? (
           <ul className="space-y-2">
             {caseData.records.map((record: { id: string; fileName: string; fileType: string; fileUrl: string; uploadedAt: string }) => (
-              <li key={record.id} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: '#F1F5F9' }}>
-                <FileText className="size-4" style={{ color: '#64748B' }} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: '#0F172A' }}>{record.fileName}</p>
-                  <p className="text-xs" style={{ color: '#64748B' }}>{record.fileType} &middot; {formatDate(record.uploadedAt)}</p>
+              <li key={record.id} className="flex items-center gap-3 rounded-lg bg-pulse-surface-elevated p-3">
+                <FileText className="size-4 text-pulse-text-muted" aria-hidden="true" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-pulse-text-primary">{record.fileName}</p>
+                  <p className="text-xs text-pulse-text-muted">{record.fileType} &middot; {formatDate(record.uploadedAt)}</p>
                 </div>
                 <a
                   href={record.fileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-medium"
-                  style={{ color: '#3B82F6' }}
+                  className="rounded text-xs font-medium text-pulse-info hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
                 >
                   View
                 </a>
@@ -168,7 +162,7 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
             ))}
           </ul>
         ) : (
-          <p style={{ color: '#64748B' }} className="text-sm">No records uploaded yet.</p>
+          <p className="text-sm text-pulse-text-secondary">No records uploaded yet.</p>
         )}
       </motion.div>
 
@@ -177,24 +171,26 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-lg p-5"
-          style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
+          className="rounded-xl border border-pulse-border bg-pulse-surface p-5 shadow-soft"
         >
-          <h3 className="text-sm font-semibold mb-3" style={{ color: '#1E3A5F' }}>AI Pre-Screen</h3>
+          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+            <Sparkles className="size-4 text-pulse-info" aria-hidden="true" />
+            AI-generated pre-screen
+          </h3>
 
-          <div className="rounded-lg p-3 mb-4" style={{ background: '#DBEAFE', border: '1px solid #93C5FD' }}>
-            <p className="text-xs font-medium" style={{ color: '#1E40AF' }}>
-              AI-Generated Pre-Screen — for specialist review only. Verify all findings before use.
+          <div className="mb-4 rounded-lg border border-pulse-info/30 bg-pulse-info-light p-3">
+            <p className="text-xs font-medium text-pulse-navy">
+              AI-generated draft — for specialist review only. Verify all findings before use.
             </p>
           </div>
 
           {caseData.aiPrescreens[0].findings && (
             <div className="mb-4">
-              <h4 className="text-xs font-medium mb-2" style={{ color: '#475569' }}>Key Findings</h4>
+              <h4 className="mb-2 text-xs font-medium text-pulse-text-muted">Key findings</h4>
               <ul className="space-y-1">
                 {caseData.aiPrescreens[0].findings.split('\n').filter(Boolean).map((finding: string, i: number) => (
-                  <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#0F172A' }}>
-                    <span className="mt-1" style={{ color: '#3B82F6' }}>•</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-pulse-text-primary">
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-pulse-info" aria-hidden="true" />
                     {finding}
                   </li>
                 ))}
@@ -204,11 +200,11 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
 
           {caseData.aiPrescreens[0].differentials && (
             <div className="mb-4">
-              <h4 className="text-xs font-medium mb-2" style={{ color: '#475569' }}>Differentials to Consider</h4>
+              <h4 className="mb-2 text-xs font-medium text-pulse-text-muted">Differentials to consider</h4>
               <ul className="space-y-1">
                 {caseData.aiPrescreens[0].differentials.split('\n').filter(Boolean).map((diff: string, i: number) => (
-                  <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#0F172A' }}>
-                    <span className="mt-1" style={{ color: '#F59E0B' }}>⚠</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-pulse-text-primary">
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-pulse-warning" aria-hidden="true" />
                     {diff}
                   </li>
                 ))}
@@ -217,12 +213,15 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           )}
 
           {caseData.aiPrescreens[0].urgentFlags && (
-            <div className="rounded-lg p-3" style={{ background: '#FEF2F2', border: '1px solid #FECACA' }}>
-              <h4 className="text-xs font-medium mb-2" style={{ color: '#B91C1C' }}>Urgent Flags</h4>
+            <div className="rounded-lg border border-pulse-red/30 bg-pulse-red-light p-3">
+              <h4 className="mb-2 flex items-center gap-1.5 text-xs font-medium text-pulse-red">
+                <AlertCircle className="size-3.5" aria-hidden="true" />
+                Urgent flags
+              </h4>
               <ul className="space-y-1">
                 {caseData.aiPrescreens[0].urgentFlags.split('\n').filter(Boolean).map((flag: string, i: number) => (
-                  <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#B91C1C' }}>
-                    <span className="mt-1">🚨</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-pulse-red">
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-pulse-red" aria-hidden="true" />
                     {flag}
                   </li>
                 ))}
@@ -237,22 +236,21 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-lg shadow-sm p-6"
-          style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
+          className="rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft"
         >
-          <h2 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#1E3A5F' }}>
-            <CheckCircle2 className="size-4" style={{ color: '#22C55E' }} />
-            Signed Opinion
+          <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+            <CheckCircle2 className="size-4 text-pulse-success" aria-hidden="true" />
+            Signed opinion
           </h2>
-          <div className="flex items-center gap-2 mb-4 text-xs" style={{ color: '#64748B' }}>
-            <Calendar className="size-3" />
+          <div className="mb-4 flex items-center gap-2 text-xs text-pulse-text-muted">
+            <Calendar className="size-3" aria-hidden="true" />
             Signed {existingOpinion.signedAt ? formatDate(existingOpinion.signedAt) : 'Unknown date'}
           </div>
           <div className="space-y-4">
             {parseOpinionSections(existingOpinion.content).map((section, i) => (
               <div key={i}>
-                <h3 className="text-sm font-semibold mb-1" style={{ color: '#3B82F6' }}>{section.title}</h3>
-                <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: '#0F172A' }}>{section.body}</p>
+                <h3 className="mb-1 text-sm font-semibold text-pulse-info">{section.title}</h3>
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-pulse-text-primary">{section.body}</p>
               </div>
             ))}
           </div>
@@ -262,100 +260,99 @@ export default function DoctorCaseReviewPage({ params }: { params: Promise<{ id:
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-lg shadow-sm p-6 space-y-5"
-          style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}
+          className="space-y-5 rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft"
         >
-          <h2 className="font-semibold flex items-center gap-2 text-sm" style={{ color: '#1E3A5F' }}>
-            <FileText className="size-4" style={{ color: '#3B82F6' }} />
-            Write Your Opinion
+          <h2 className="flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+            <FileText className="size-4 text-pulse-info" aria-hidden="true" />
+            Write your opinion
           </h2>
 
           <div>
-            <label className="block text-sm font-medium mb-1.5" style={{ color: '#0F172A' }}>
-              Clinical Findings <span style={{ color: '#E63946' }}>*</span>
+            <label htmlFor="findings" className="mb-1.5 block text-sm font-medium text-pulse-text-primary">
+              Clinical findings <span className="text-pulse-red">*</span>
             </label>
             <textarea
+              id="findings"
               value={findings}
               onChange={(e) => setFindings(e.target.value)}
               rows={4}
-              className="w-full px-3 py-2.5 text-sm rounded-lg resize-none focus:outline-none focus:ring-2"
-              style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', color: '#0F172A' }}
-              placeholder="Describe your clinical findings from the reviewed materials..."
+              className="w-full resize-none rounded-lg border border-pulse-border bg-pulse-bg px-3 py-2.5 text-sm text-pulse-text-primary outline-none transition-colors placeholder:text-pulse-text-muted focus:ring-2 focus:ring-pulse-info/30"
+              placeholder="Describe your clinical findings from the reviewed materials."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1.5" style={{ color: '#0F172A' }}>
-              Impression <span style={{ color: '#E63946' }}>*</span>
+            <label htmlFor="impression" className="mb-1.5 block text-sm font-medium text-pulse-text-primary">
+              Impression <span className="text-pulse-red">*</span>
             </label>
             <textarea
+              id="impression"
               value={impression}
               onChange={(e) => setImpression(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2.5 text-sm rounded-lg resize-none focus:outline-none focus:ring-2"
-              style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', color: '#0F172A' }}
-              placeholder="Your clinical impression and assessment..."
+              className="w-full resize-none rounded-lg border border-pulse-border bg-pulse-bg px-3 py-2.5 text-sm text-pulse-text-primary outline-none transition-colors placeholder:text-pulse-text-muted focus:ring-2 focus:ring-pulse-info/30"
+              placeholder="Your clinical impression and assessment."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1.5" style={{ color: '#0F172A' }}>
-              Recommended Next Steps <span style={{ color: '#E63946' }}>*</span>
+            <label htmlFor="nextSteps" className="mb-1.5 block text-sm font-medium text-pulse-text-primary">
+              Recommended next steps <span className="text-pulse-red">*</span>
             </label>
             <textarea
+              id="nextSteps"
               value={nextSteps}
               onChange={(e) => setNextSteps(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2.5 text-sm rounded-lg resize-none focus:outline-none focus:ring-2"
-              style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', color: '#0F172A' }}
-              placeholder="Recommended next steps for the patient..."
+              className="w-full resize-none rounded-lg border border-pulse-border bg-pulse-bg px-3 py-2.5 text-sm text-pulse-text-primary outline-none transition-colors placeholder:text-pulse-text-muted focus:ring-2 focus:ring-pulse-info/30"
+              placeholder="Recommended next steps for the patient."
             />
           </div>
 
           {submitOpinion.isError && (
-            <p className="text-sm" style={{ color: '#E63946' }}>{submitOpinion.error.message}</p>
+            <p className="text-sm text-pulse-red">{submitOpinion.error.message}</p>
           )}
 
           <div className="flex items-center gap-3 pt-2">
             <button
+              type="button"
               onClick={handleSaveDraft}
               disabled={submitOpinion.isPending}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
-              style={{ background: '#F8FAFC', color: '#64748B' }}
+              className="inline-flex items-center gap-2 rounded-lg bg-pulse-surface-elevated px-4 py-2 text-sm font-medium text-pulse-text-secondary transition-colors hover:bg-pulse-border/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40 active:scale-[0.98] disabled:opacity-50"
             >
-              {submitOpinion.isPending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-              Save as Draft
+              {submitOpinion.isPending ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Save className="size-4" aria-hidden="true" />}
+              Save draft
             </button>
 
             {showSignConfirm ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm" style={{ color: '#64748B' }}>Confirm signature?</span>
+                <span className="text-sm text-pulse-text-secondary">Confirm signature?</span>
                 <button
+                  type="button"
                   onClick={handleSign}
                   disabled={submitOpinion.isPending}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50"
-                  style={{ background: '#22C55E' }}
+                  className="inline-flex items-center gap-2 rounded-lg bg-pulse-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pulse-success/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-success/40 active:scale-[0.98] disabled:opacity-50"
                 >
-                  {submitOpinion.isPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
-                  Sign & Submit
+                  {submitOpinion.isPending ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Send className="size-4" aria-hidden="true" />}
+                  Sign and submit
                 </button>
                 <button
+                  type="button"
                   onClick={() => setShowSignConfirm(false)}
-                  className="text-sm"
-                  style={{ color: '#64748B' }}
+                  className="rounded text-sm text-pulse-text-secondary hover:text-pulse-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
                 >
                   Cancel
                 </button>
               </div>
             ) : (
               <button
+                type="button"
                 onClick={() => setShowSignConfirm(true)}
                 disabled={!findings.trim() || !impression.trim() || !nextSteps.trim()}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ background: '#22C55E' }}
+                className="inline-flex items-center gap-2 rounded-lg bg-pulse-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-pulse-success/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-success/40 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <Send className="size-4" />
-                Sign & Submit
+                <Send className="size-4" aria-hidden="true" />
+                Sign and submit
               </button>
             )}
           </div>

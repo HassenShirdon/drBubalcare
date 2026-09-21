@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 import { AnimateOnScroll } from "@/components/landing-page/animate-on-scroll";
 import { ServiceFAQ } from "@/components/service-faq";
@@ -49,10 +49,9 @@ function HeroSection({
   content: ServicePageContent;
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-landing-accent/40 to-landing-surface">
+    <section className="grain relative overflow-hidden bg-gradient-to-b from-landing-accent-soft to-landing-surface">
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-landing-brand/5 blur-3xl" />
-        <div className="absolute -bottom-16 left-0 w-[350px] h-[350px] rounded-full bg-landing-success/10 blur-3xl" />
+        <div className="absolute -top-24 right-[-6%] w-[420px] h-[420px] rounded-full bg-landing-brand/5 blur-3xl" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-16">
@@ -67,16 +66,16 @@ function HeroSection({
           <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
             <Link
               href="/patient"
-              className="inline-flex items-center gap-2 bg-landing-brand text-white text-base font-semibold px-7 py-3.5 rounded-xl hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-200 shadow-sm shadow-landing-brand/20"
+              className="inline-flex items-center gap-2 bg-landing-brand text-white text-base font-semibold px-7 py-3.5 rounded-xl hover:bg-landing-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 focus-visible:ring-offset-2 active:scale-[0.98] transition-all duration-200 shadow-soft"
             >
-              Book Consultation
+              Book a consultation
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 border border-landing-border text-landing-text bg-card px-6 py-3.5 rounded-xl text-base font-semibold hover:bg-landing-surface-muted transition-colors duration-200"
+              className="inline-flex items-center gap-2 border border-landing-border text-landing-text bg-landing-surface-card px-6 py-3.5 rounded-xl text-base font-semibold hover:bg-landing-surface-muted transition-colors duration-200"
             >
-              Contact Us
+              Contact us
             </Link>
           </div>
         </div>
@@ -87,7 +86,7 @@ function HeroSection({
 
 function Introduction({ content }: { content: ServicePageContent }) {
   return (
-    <section className="py-16 md:py-20 bg-card border-y border-landing-border/50">
+    <section className="py-16 md:py-20 bg-landing-surface-card border-y border-landing-border/50">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-3xl">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
@@ -108,7 +107,7 @@ function WhoCanBenefit({ content }: { content: ServicePageContent }) {
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            Who Can Benefit?
+            Who can benefit?
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Our services are designed for a wide range of patients and families.
@@ -117,8 +116,8 @@ function WhoCanBenefit({ content }: { content: ServicePageContent }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {content.whoCanBenefit.map((item) => (
             <AnimateOnScroll key={item.title}>
-              <div className="bg-card rounded-2xl p-6 border border-landing-border/60 shadow-sm h-full">
-                <div className="w-11 h-11 rounded-xl bg-landing-accent flex items-center justify-center text-landing-brand mb-4">
+              <div className="card-hairline h-full rounded-2xl p-6">
+                <div className="w-11 h-11 rounded-xl bg-landing-accent-soft flex items-center justify-center text-landing-accent mb-4">
                   <item.icon className="size-5" aria-hidden="true" />
                 </div>
                 <h3 className="text-base font-semibold text-landing-text mb-1.5">
@@ -138,11 +137,11 @@ function WhoCanBenefit({ content }: { content: ServicePageContent }) {
 
 function WhatWeOffer({ content }: { content: ServicePageContent }) {
   return (
-    <section className="py-16 md:py-20 bg-card border-b border-landing-border/50">
+    <section className="py-16 md:py-20 bg-landing-surface-card border-b border-landing-border/50">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            Our Services
+            Our services
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Comprehensive care tailored to your specific needs.
@@ -152,8 +151,8 @@ function WhatWeOffer({ content }: { content: ServicePageContent }) {
           {content.whatWeOffer.map((item) => (
             <AnimateOnScroll key={item.title}>
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-landing-success/15 flex items-center justify-center mt-0.5">
-                  <Check className="w-3.5 h-3.5 text-landing-success" aria-hidden="true" />
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-landing-accent-soft flex items-center justify-center mt-0.5">
+                  <Check className="w-3.5 h-3.5 text-landing-accent" aria-hidden="true" />
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-landing-text mb-1">
@@ -178,7 +177,7 @@ function HowItWorks({ steps }: { steps: { title: string; description: string }[]
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            How It Works
+            How it works
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Four simple steps to get the care you need.
@@ -191,8 +190,8 @@ function HowItWorks({ steps }: { steps: { title: string; description: string }[]
           />
           {steps.map((step, i) => (
             <AnimateOnScroll key={step.title} className="relative">
-              <div className="w-14 h-14 rounded-2xl bg-landing-accent flex items-center justify-center text-landing-brand relative z-10">
-                <span className="text-lg font-bold">{i + 1}</span>
+              <div className="w-14 h-14 rounded-2xl bg-landing-accent-soft flex items-center justify-center text-landing-accent relative z-10">
+                <span className="font-mono text-lg font-semibold">{i + 1}</span>
               </div>
               <div className="mt-5">
                 <h3 className="text-lg font-semibold text-landing-text mb-2">
@@ -217,23 +216,23 @@ function RequiredDocuments({
 }) {
   if (documents.length === 0) return null;
   return (
-    <section className="py-16 md:py-20 bg-card border-b border-landing-border/50">
+    <section className="py-16 md:py-20 bg-landing-surface-card border-b border-landing-border/50">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            Required Documents
+            Required documents
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Please have these documents ready when starting your case.
           </p>
         </AnimateOnScroll>
         <AnimateOnScroll>
-          <div className="bg-landing-surface rounded-2xl border border-landing-border/60 p-6 md:p-8">
+          <div className="card-hairline rounded-2xl p-6 md:p-8">
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
               {documents.map((doc) => (
                 <li key={doc} className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-landing-success/15 flex items-center justify-center mt-0.5">
-                    <Check className="w-3 h-3 text-landing-success" aria-hidden="true" />
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-landing-accent-soft flex items-center justify-center mt-0.5">
+                    <Check className="w-3 h-3 text-landing-accent" aria-hidden="true" />
                   </div>
                   <span className="text-base text-landing-text">{doc}</span>
                 </li>
@@ -256,7 +255,7 @@ function FAQSection({
       <div className="max-w-3xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="mb-10 text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            Frequently Asked Questions
+            Frequently asked questions
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Everything you need to know about this service.
@@ -281,29 +280,24 @@ function RelatedServices({
   if (related.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-20 bg-card border-b border-landing-border/50">
+    <section className="py-16 md:py-20 bg-landing-surface-card border-b border-landing-border/50">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-landing-text tracking-tight leading-tight">
-            Related Services
+            Related services
           </h2>
           <p className="mt-3 text-lg text-landing-text-muted leading-relaxed">
             Explore other services that may be relevant to your needs.
           </p>
         </AnimateOnScroll>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {related.map((service) => {
-            const iconColor = "text-landing-brand";
-            const bgColor = "bg-landing-accent";
-            return (
-              <AnimateOnScroll key={service.title}>
+          {related.map((service) => (
+            <AnimateOnScroll key={service.title}>
                 <Link
                   href={service.link}
-                  className="block bg-card rounded-2xl p-6 border border-landing-border/60 shadow-sm hover:shadow-md transition-all duration-200 h-full group"
+                  className="group card-hairline block rounded-2xl p-6 h-full transition-all duration-200"
                 >
-                  <div
-                    className={`w-11 h-11 rounded-xl ${bgColor} flex items-center justify-center ${iconColor} mb-4`}
-                  >
+                  <div className="w-11 h-11 rounded-xl bg-landing-accent-soft flex items-center justify-center text-landing-accent mb-4">
                     <service.icon className="size-5" aria-hidden="true" />
                   </div>
                   <h3 className="text-base font-semibold text-landing-text mb-2 group-hover:text-landing-brand transition-colors">
@@ -318,8 +312,7 @@ function RelatedServices({
                   </span>
                 </Link>
               </AnimateOnScroll>
-            );
-          })}
+          ))}
         </div>
       </div>
     </section>
@@ -328,11 +321,11 @@ function RelatedServices({
 
 function FinalCTA() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-landing-surface to-landing-accent/30">
-      <div className="max-w-2xl mx-auto px-6 md:px-16 text-center">
+    <section className="grain relative overflow-hidden py-16 md:py-24 bg-gradient-to-b from-landing-surface to-landing-accent-soft">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-16 text-center">
         <AnimateOnScroll>
           <h2 className="text-2xl md:text-4xl font-semibold text-landing-text text-balance tracking-tight leading-[1.2]">
-            Ready to Take the Next Step?
+            Ready to take the next step?
           </h2>
           <p className="mt-4 text-lg text-landing-text-muted leading-relaxed text-balance">
             Book an appointment with Dr. Bubal Care today and receive trusted,
@@ -341,16 +334,16 @@ function FinalCTA() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/patient"
-              className="inline-flex items-center gap-2 bg-landing-brand text-white text-base font-semibold px-8 py-3.5 rounded-xl hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-200 shadow-sm shadow-landing-brand/20"
+              className="inline-flex items-center gap-2 bg-landing-brand text-white text-base font-semibold px-8 py-3.5 rounded-xl hover:bg-landing-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 focus-visible:ring-offset-2 active:scale-[0.98] transition-all duration-200 shadow-soft"
             >
-              Book Consultation
+              Book a consultation
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 border border-landing-border text-landing-text bg-card px-6 py-3.5 rounded-xl text-base font-semibold hover:bg-landing-surface-muted transition-colors duration-200"
+              className="inline-flex items-center gap-2 border border-landing-border text-landing-text bg-landing-surface-card px-6 py-3.5 rounded-xl text-base font-semibold hover:bg-landing-surface-muted transition-colors duration-200"
             >
-              Contact Us
+              Contact us
             </Link>
           </div>
         </AnimateOnScroll>

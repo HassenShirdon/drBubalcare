@@ -3,55 +3,63 @@
 import { useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { motion } from "motion/react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
 export default function PatientDisputePage() {
   const params = useParams()
   const router = useRouter()
+  const queryClient = useQueryClient()
   const caseId = params.id as string
   const [reason, setReason] = useState("")
-  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setSubmitting(true)
-    setError("")
-
-    try {
+  const disputeMutation = useMutation({
+    mutationFn: async (disputeReason: string) => {
       const res = await fetch(`/api/cases/${caseId}/disputes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reason }),
+        body: JSON.stringify({ reason: disputeReason }),
       })
 
       if (!res.ok) {
         const data = await res.json()
-        setError(typeof data.error === "string" ? data.error : "Failed to submit dispute")
-        return
+        throw new Error(typeof data.error === "string" ? data.error : "Failed to submit dispute")
       }
 
+      return res.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cases.detail(caseId) })
       router.push(`/patient/cases/${caseId}`)
-    } catch {
-      setError("An error occurred. Please try again.")
-    } finally {
-      setSubmitting(false)
-    }
+    },
+    onError: (err: Error) => {
+      setError(err.message)
+    },
+  })
+
+  const submitting = disputeMutation.isPending
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError("")
+    disputeMutation.mutate(reason)
   }
 
   return (
     <div className="p-4 md:p-8 space-y-5">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-[#1E3A5F] font-bold text-2xl">File a Dispute</h1>
-        <p className="text-[#64748B] text-sm mt-1">
+        <h1 className="text-pulse-navy font-bold text-2xl">File a Dispute</h1>
+        <p className="text-pulse-text-secondary text-sm mt-1">
           If you believe the specialist opinion is incorrect, please describe your concern below.
         </p>
       </motion.div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-[#0F172A] mb-1">
+          <label className="block text-sm font-medium text-pulse-text-primary mb-1">
             Reason for dispute
           </label>
           <Textarea
@@ -62,13 +70,13 @@ export default function PatientDisputePage() {
             required
             minLength={20}
           />
-          <p className="text-xs text-[#64748B] mt-1">
+          <p className="text-xs text-pulse-text-secondary mt-1">
             Minimum 20 characters. A peer specialist will review your case.
           </p>
         </div>
 
         {error && (
-          <p className="text-sm text-[#B91C1C]">{error}</p>
+          <p className="text-sm text-pulse-red">{error}</p>
         )}
 
         <div className="flex gap-3">

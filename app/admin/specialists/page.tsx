@@ -1,25 +1,17 @@
 "use client"
 
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import { Shield, BadgeCheck, BadgeX } from "lucide-react"
 import { DataTable } from "@/components/ui/data-table"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
-import { columns, type AdminSpecialist } from "./columns"
-
-type TabFilter = "all" | "verified" | "unverified"
+import { useAdminSpecialists } from "@/lib/hooks/use-admin"
+import { useAppStore } from "@/lib/stores/ui-store"
+import type { SpecialistsTab } from "@/lib/stores/slices/filters.slice"
+import { columns } from "./columns"
 
 export default function AdminSpecialistsPage() {
-  const [tabFilter, setTabFilter] = useState<TabFilter>("all")
-  const { data: res, isLoading } = useQuery<{ data: AdminSpecialist[]; total: number }>({
-    queryKey: ["admin-specialists"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/specialists")
-      if (!res.ok) throw new Error("Failed to fetch specialists")
-      return res.json()
-    },
-    staleTime: 60 * 1000,
-  })
+  const tabFilter = useAppStore((s) => s.specialistsTab)
+  const setTabFilter = useAppStore((s) => s.setSpecialistsTab)
+  const { data: res, isLoading } = useAdminSpecialists()
   const specialists = res?.data ?? []
 
   const all = specialists ?? []
@@ -32,7 +24,7 @@ export default function AdminSpecialistsPage() {
     return true
   })
 
-  const tabs: { key: TabFilter; label: string; icon: typeof Shield; count: number }[] = [
+  const tabs: { key: SpecialistsTab; label: string; icon: typeof Shield; count: number }[] = [
     { key: "all", label: "All", icon: Shield, count: all.length },
     { key: "verified", label: "Verified", icon: BadgeCheck, count: verifiedCount },
     { key: "unverified", label: "Pending", icon: BadgeX, count: pendingCount },
@@ -41,24 +33,26 @@ export default function AdminSpecialistsPage() {
   return (
     <div className="p-4 md:p-6 lg:p-8 space-y-6">
       <div>
-        <h1 className="text-xl md:text-2xl font-semibold text-admin-text tracking-tight">Specialist Management</h1>
-        <p className="text-sm text-admin-text-muted mt-1">Review, verify, and manage platform specialists.</p>
+        <h1 className="text-xl md:text-2xl font-semibold text-admin-text tracking-tight">Specialist management</h1>
+        <p className="text-sm text-admin-text-muted mt-1">Review, verify, and manage physicians in the network.</p>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2" role="tablist" aria-label="Filter specialists">
         {tabs.map((tab) => (
           <button
             key={tab.key}
+            role="tab"
+            aria-selected={tabFilter === tab.key}
             onClick={() => setTabFilter(tab.key)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-admin-accent-blue/40 ${
               tabFilter === tab.key
                 ? "bg-admin-brand text-white"
                 : "bg-admin-bg text-admin-text-faint hover:bg-admin-surface-elevated"
             }`}
           >
-            <tab.icon className="size-3.5" />
+            <tab.icon className="size-3.5" aria-hidden="true" />
             {tab.label}
-            <span className={`ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+            <span className={`ml-1 text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-md ${
               tabFilter === tab.key ? "bg-white/20" : "bg-admin-surface-elevated"
             }`}>
               {tab.count}

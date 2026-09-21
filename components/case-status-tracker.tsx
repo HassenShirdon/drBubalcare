@@ -3,11 +3,11 @@
 import { CheckCircle2, Clock, FileText } from 'lucide-react';
 
 const steps = [
-  { key: 'OPEN', label: 'Case Opened', icon: <FileText className="size-4" /> },
-  { key: 'AI_PRE_SCREENED', label: 'AI Pre-screened', icon: <Clock className="size-4" /> },
-  { key: 'UNDER_REVIEW', label: 'Under Review', icon: <Clock className="size-4" /> },
-  { key: 'OPINION_READY', label: 'Opinion Ready', icon: <CheckCircle2 className="size-4" /> },
-  { key: 'CLOSED', label: 'Closed', icon: <CheckCircle2 className="size-4" /> },
+  { key: 'OPEN', label: 'Case opened', icon: <FileText className="size-4" aria-hidden="true" /> },
+  { key: 'AI_PRE_SCREENED', label: 'AI pre-screened', icon: <Clock className="size-4" aria-hidden="true" /> },
+  { key: 'UNDER_REVIEW', label: 'Under review', icon: <Clock className="size-4" aria-hidden="true" /> },
+  { key: 'OPINION_READY', label: 'Opinion ready', icon: <CheckCircle2 className="size-4" aria-hidden="true" /> },
+  { key: 'CLOSED', label: 'Closed', icon: <CheckCircle2 className="size-4" aria-hidden="true" /> },
 ];
 
 const statusOrder: Record<string, number> = {
@@ -28,39 +28,44 @@ export function CaseStatusTracker({ currentStatus }: CaseStatusTrackerProps) {
   const isDisputed = currentStatus === 'DISPUTED';
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0]/60 shadow-sm p-6">
+    <div className="rounded-xl border border-pulse-border bg-pulse-surface p-6 shadow-soft">
       {isDisputed ? (
-        <div className="text-center py-4">
-          <div className="size-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-3">
-            <Clock className="size-6 text-red-500" />
+        <div className="py-4 text-center">
+          <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-lg bg-pulse-red-light">
+            <Clock className="size-6 text-pulse-red" aria-hidden="true" />
           </div>
-          <p className="font-medium text-red-600">Case Disputed</p>
-          <p className="text-sm text-[#64748B] mt-1">This case is under review by our team.</p>
+          <p className="font-medium text-pulse-red">Case disputed</p>
+          <p className="mt-1 text-sm text-pulse-text-secondary">
+            This case is under review by our team.
+          </p>
         </div>
       ) : (
         <div className="flex items-center justify-between">
           {steps.map((step, index) => {
             const isCompleted = index < currentStep;
             const isCurrent = index === currentStep;
-            const isPending = index > currentStep;
 
             return (
-              <div key={step.key} className="flex items-center flex-1 last:flex-initial">
+              <div key={step.key} className="flex flex-1 items-center last:flex-initial">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`size-8 rounded-full flex items-center justify-center transition-colors ${
+                    className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
                       isCompleted
-                        ? 'bg-[#15803D] text-white'
+                        ? 'bg-pulse-success text-white'
                         : isCurrent
-                        ? 'bg-[#1E3A5F] text-white ring-4 ring-[#1E3A5F]/20'
-                        : 'bg-[#F1F5F9] text-[#64748B]'
+                          ? 'bg-pulse-navy text-white ring-4 ring-pulse-navy/15'
+                          : 'bg-pulse-surface-elevated text-pulse-text-muted'
                     }`}
                   >
-                    {isCompleted ? <CheckCircle2 className="size-4" /> : step.icon}
+                    {isCompleted ? <CheckCircle2 className="size-4" aria-hidden="true" /> : step.icon}
                   </div>
                   <p
-                    className={`text-xs mt-2 text-center hidden sm:block ${
-                      isCurrent ? 'font-bold text-[#1E3A5F]' : isCompleted ? 'text-[#15803D]' : 'text-[#64748B]'
+                    className={`mt-2 hidden text-center text-xs sm:block ${
+                      isCurrent
+                        ? 'font-semibold text-pulse-navy'
+                        : isCompleted
+                          ? 'text-pulse-success'
+                          : 'text-pulse-text-muted'
                     }`}
                   >
                     {step.label}
@@ -68,8 +73,8 @@ export function CaseStatusTracker({ currentStatus }: CaseStatusTrackerProps) {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`flex-1 h-0.5 mx-2 ${
-                      index < currentStep ? 'bg-[#15803D]' : 'bg-[#F1F5F9]'
+                    className={`mx-2 h-0.5 flex-1 ${
+                      index < currentStep ? 'bg-pulse-success' : 'bg-pulse-surface-elevated'
                     }`}
                   />
                 )}

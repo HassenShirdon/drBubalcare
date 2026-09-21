@@ -37,28 +37,29 @@ export function AdminUserButton({ name, email }: AdminUserButtonProps) {
       <button
         data-slot="admin-user-btn"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-admin-text-faint hover:text-admin-text transition-colors"
+        aria-expanded={open}
+        className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm text-admin-text-faint transition-colors hover:text-admin-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-admin-accent-blue/40"
       >
-        <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white" style={{ background: 'var(--admin-brand)' }}>
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-admin-brand text-[11px] font-semibold text-white">
           {initials}
         </div>
-        <span className="hidden sm:inline max-w-[120px] truncate text-admin-text-faint">{name ?? email}</span>
-        <ChevronDown className={`size-3.5 text-admin-text-faint transition-transform ${open ? "rotate-180" : ""}`} />
+        <span className="hidden max-w-[120px] truncate text-admin-text-faint sm:inline">{name ?? email}</span>
+        <ChevronDown className={`size-3.5 text-admin-text-faint transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
       </button>
 
       {open && (
         <div
           data-slot="admin-user-dropdown"
-          className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-admin-border shadow-lg z-50 overflow-hidden bg-admin-surface"
+          className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-xl border border-admin-border bg-admin-surface shadow-lift"
         >
-          <div className="px-4 py-3 border-b border-admin-border">
+          <div className="border-b border-admin-border px-4 py-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold bg-admin-brand-light text-admin-accent-blue">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-admin-brand-light text-sm font-semibold text-admin-accent-blue">
                 {initials}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-medium truncate text-admin-text">{name ?? "Admin"}</p>
-                <p className="text-[11px] truncate text-admin-text-faint">{email}</p>
+                <p className="truncate text-sm font-medium text-admin-text">{name ?? "Admin"}</p>
+                <p className="truncate text-[11px] text-admin-text-faint">{email}</p>
               </div>
             </div>
           </div>
@@ -69,16 +70,16 @@ export function AdminUserButton({ name, email }: AdminUserButtonProps) {
                 setOpen(false)
                 router.push("/admin")
               }}
-              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-admin-text hover:bg-admin-surface-hover transition-colors"
+              className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-admin-text transition-colors hover:bg-admin-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-admin-accent-blue/40"
             >
-              <User className="size-4 text-admin-text-faint" />
+              <User className="size-4 text-admin-text-faint" aria-hidden="true" />
               Profile
             </button>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-admin-danger hover:bg-admin-danger-light transition-colors"
+              className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-admin-danger transition-colors hover:bg-admin-danger-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-admin-danger/40"
             >
-              <LogOut className="size-4" />
+              <LogOut className="size-4" aria-hidden="true" />
               Sign out
             </button>
           </div>

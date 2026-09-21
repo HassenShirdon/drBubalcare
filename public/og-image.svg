@@ -1,11 +1,17 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brandGradient" x1="140" y1="140" x2="220" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0A4AA1"/>
+      <stop offset="1" stop-color="#0DB07D"/>
+    </linearGradient>
+  </defs>
   <rect width="1200" height="630" fill="#ffffff"/>
-  <rect x="80" y="80" width="1040" height="470" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-  <circle cx="180" cy="180" r="40" fill="#1D4ED8" fill-opacity="0.1"/>
-  <path d="M165 180L175 190L195 170" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="240" y="175" font-family="system-ui, sans-serif" font-size="32" font-weight="600" fill="#0F172A">Dr Bubal Care</text>
-  <text x="240" y="210" font-family="system-ui, sans-serif" font-size="18" font-weight="400" fill="#64748B">Specialist medical opinions in 24–48 hours</text>
-  <text x="80" y="360" font-family="system-ui, sans-serif" font-size="52" font-weight="700" fill="#0F172A">A specialist opinion</text>
-  <text x="80" y="430" font-family="system-ui, sans-serif" font-size="52" font-weight="700" fill="#0F172A">on your diagnosis.</text>
-  <text x="80" y="510" font-family="system-ui, sans-serif" font-size="22" font-weight="400" fill="#64748B">Board-certified specialists · Plain-language reports · East Africa</text>
+  <rect x="80" y="80" width="1040" height="470" rx="24" fill="#F7F8FA" stroke="#E3E7EE" stroke-width="2"/>
+  <circle cx="180" cy="180" r="40" fill="url(#brandGradient)"/>
+  <text x="152" y="196" font-family="system-ui, sans-serif" font-size="34" font-weight="700" fill="#FFFFFF">DB</text>
+  <text x="240" y="175" font-family="system-ui, sans-serif" font-size="32" font-weight="600" fill="#002D62">Dr. Bubal Care</text>
+  <text x="240" y="210" font-family="system-ui, sans-serif" font-size="18" font-weight="400" fill="#48566B">A written medical opinion in 24–48 hours</text>
+  <text x="80" y="360" font-family="system-ui, sans-serif" font-size="52" font-weight="700" fill="#101828">A specialist opinion</text>
+  <text x="80" y="430" font-family="system-ui, sans-serif" font-size="52" font-weight="700" fill="#002D62">on your diagnosis.</text>
+  <text x="80" y="510" font-family="system-ui, sans-serif" font-size="22" font-weight="400" fill="#48566B">Board-certified physicians · Plain-language reports · East Africa</text>
 </svg>

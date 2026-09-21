@@ -89,100 +89,97 @@ export default async function DoctorDashboard() {
 
   const pendingReviewCount = pendingReviews.length;
 
+  const stats = [
+    { label: 'Total appointments', value: appointmentCount, icon: Calendar, tone: 'info' as const },
+    { label: 'Total patients', value: patientCount, icon: Users, tone: 'success' as const },
+    { label: 'Pending reviews', value: pendingReviewCount, icon: FlaskConical, tone: 'warning' as const },
+  ];
+
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-lg font-semibold" style={{ color: '#1E3A5F' }}>
+    <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-6 lg:p-8">
+      <header>
+        <h2 className="text-xl font-semibold tracking-tight text-pulse-navy md:text-2xl">
           Welcome back, Dr. {doctor.user.name ?? 'Doctor'}
-        </h1>
-        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>
+        </h2>
+        <p className="mt-0.5 text-sm text-pulse-text-secondary">
           {doctor.specialty} &middot; {doctor.experience}
         </p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-pulse-border bg-pulse-surface p-5 shadow-soft"
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`flex size-10 items-center justify-center rounded-lg ${
+                  stat.tone === 'info'
+                    ? 'bg-pulse-info-light text-pulse-info'
+                    : stat.tone === 'success'
+                      ? 'bg-pulse-success-light text-pulse-success'
+                      : 'bg-pulse-warning-light text-pulse-warning'
+                }`}
+              >
+                <stat.icon className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-mono text-2xl font-semibold tabular-nums text-pulse-text-primary">
+                  {stat.value}
+                </p>
+                <p className="text-xs text-pulse-text-muted">{stat.label}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
-              <Calendar className="size-5" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#0F172A' }}>{appointmentCount}</p>
-              <p className="text-xs" style={{ color: '#64748B' }}>Total Appointments</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#DCFCE7', color: '#22C55E' }}>
-              <Users className="size-5" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#0F172A' }}>{patientCount}</p>
-              <p className="text-xs" style={{ color: '#64748B' }}>Total Patients</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#FEF3C7', color: '#F59E0B' }}>
-              <FlaskConical className="size-5" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#0F172A' }}>{pendingReviewCount}</p>
-              <p className="text-xs" style={{ color: '#64748B' }}>Pending Reviews</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="rounded-lg shadow-sm p-5" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-sm flex items-center gap-2" style={{ color: '#1E3A5F' }}>
-              <Calendar className="size-4" style={{ color: '#3B82F6' }} />
-              Today&apos;s Schedule
-            </h2>
-            <span className="text-xs" style={{ color: '#64748B' }}>{formatDate(new Date())}</span>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <section className="rounded-xl border border-pulse-border bg-pulse-surface p-5 shadow-soft">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+              <Calendar className="size-4 text-pulse-info" aria-hidden="true" />
+              Today&apos;s schedule
+            </h3>
+            <span className="text-xs text-pulse-text-muted">{formatDate(new Date())}</span>
           </div>
 
           {appointments.length === 0 ? (
-            <div className="text-center py-12">
-              <Calendar className="size-12 mx-auto mb-3" style={{ color: '#94A3B8' }} />
-              <p className="text-sm font-semibold" style={{ color: '#0F172A' }}>No appointments today</p>
-              <p className="text-xs mt-1" style={{ color: '#64748B' }}>Your schedule will appear here</p>
+            <div className="py-12 text-center">
+              <Calendar className="mx-auto mb-3 size-12 text-pulse-text-muted" aria-hidden="true" />
+              <p className="text-sm font-semibold text-pulse-text-primary">No appointments today</p>
+              <p className="mt-1 text-xs text-pulse-text-muted">
+                Your schedule will appear here.
+              </p>
             </div>
           ) : (
             <ul className="space-y-2">
               {appointments.map((apt) => (
                 <li
                   key={apt.id}
-                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                  style={{ background: '#F1F5F9' }}
+                  className="flex items-center gap-3 rounded-lg bg-pulse-surface-elevated p-3"
                 >
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: '#DBEAFE', color: '#3B82F6' }}>
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pulse-navy-light text-xs font-semibold text-pulse-navy">
                     {apt.patient.name?.charAt(0) ?? 'P'}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm truncate" style={{ color: '#0F172A' }}>
-                      {apt.patient.name ?? 'Unknown Patient'}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-pulse-text-primary">
+                      {apt.patient.name ?? 'Unknown patient'}
                     </p>
-                    <p className="text-xs flex items-center gap-1" style={{ color: '#64748B' }}>
-                      <Clock className="size-3" />
+                    <p className="flex items-center gap-1 text-xs text-pulse-text-muted">
+                      <Clock className="size-3" aria-hidden="true" />
                       {formatTime(apt.time)}
                     </p>
                   </div>
                   <span
-                    className="text-xs font-medium px-2.5 py-0.5 rounded-full capitalize"
-                    style={{
-                      ...(apt.status === 'CONFIRMED'
-                        ? { background: '#DCFCE7', color: '#15803D' }
+                    className={`rounded-md px-2.5 py-0.5 text-xs font-medium capitalize ${
+                      apt.status === 'CONFIRMED'
+                        ? 'bg-pulse-success-light text-pulse-success'
                         : apt.status === 'SCHEDULED'
-                          ? { background: '#DBEAFE', color: '#1E40AF' }
-                          : { background: '#F1F5F9', color: '#64748B' }),
-                    }}
+                          ? 'bg-pulse-info-light text-pulse-info'
+                          : 'bg-pulse-surface-elevated text-pulse-text-muted'
+                    }`}
                   >
                     {apt.status.toLowerCase()}
                   </span>
@@ -190,53 +187,62 @@ export default async function DoctorDashboard() {
               ))}
             </ul>
           )}
-        </div>
+        </section>
 
-        <div className="rounded-lg shadow-sm p-5" style={{ background: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-sm flex items-center gap-2" style={{ color: '#1E3A5F' }}>
-              <FlaskConical className="size-4" style={{ color: '#3B82F6' }} />
-              Pending Lab Reviews
-            </h2>
+        <section className="rounded-xl border border-pulse-border bg-pulse-surface p-5 shadow-soft">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-pulse-navy">
+              <FlaskConical className="size-4 text-pulse-info" aria-hidden="true" />
+              Pending lab reviews
+            </h3>
             <Link
               href="/doctor/labs/review"
-              className="text-xs font-medium transition-colors"
-              style={{ color: '#3B82F6' }}
+              className="text-xs font-medium text-pulse-info transition-colors hover:text-pulse-info/80"
             >
               View all
             </Link>
           </div>
 
           {pendingReviews.length === 0 ? (
-            <div className="text-center py-12">
-              <CheckCircle2 className="size-12 mx-auto mb-3" style={{ color: '#22C55E', opacity: 0.5 }} />
-              <p className="text-sm font-semibold" style={{ color: '#0F172A' }}>All labs reviewed</p>
-              <p className="text-xs mt-1" style={{ color: '#64748B' }}>No pending reviews at this time</p>
+            <div className="py-12 text-center">
+              <CheckCircle2
+                className="mx-auto mb-3 size-12 text-pulse-success opacity-50"
+                aria-hidden="true"
+              />
+              <p className="text-sm font-semibold text-pulse-text-primary">All labs reviewed</p>
+              <p className="mt-1 text-xs text-pulse-text-muted">
+                No pending reviews at this time.
+              </p>
             </div>
           ) : (
             <ul className="space-y-2">
-              {pendingReviews.map((lab) => (
-                <li key={lab.id} className="flex items-center gap-3 p-3 rounded-lg transition-colors" style={{ background: '#F1F5F9' }}>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ background: '#FEF3C7', color: '#F59E0B' }}>
-                    <AlertCircle className="size-4" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm truncate" style={{ color: '#0F172A' }}>{lab.name}</p>
-                    <p className="text-xs" style={{ color: '#64748B' }}>
-                      {lab.patient.name ?? 'Unknown'} &middot; {formatDate(lab.date)}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-medium px-2.5 py-0.5 rounded-full" style={{ background: '#FEF3C7', color: '#B45309' }}>
-                      {lab.metrics.filter((m) => m.status !== 'NORMAL').length} flag
-                      {lab.metrics.filter((m) => m.status !== 'NORMAL').length !== 1 ? 's' : ''}
+              {pendingReviews.map((lab) => {
+                const flagged = lab.metrics.filter((m) => m.status !== 'NORMAL').length;
+                return (
+                  <li
+                    key={lab.id}
+                    className="flex items-center gap-3 rounded-lg bg-pulse-surface-elevated p-3"
+                  >
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pulse-warning-light text-pulse-warning">
+                      <AlertCircle className="size-4" aria-hidden="true" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-pulse-text-primary">
+                        {lab.name}
+                      </p>
+                      <p className="text-xs text-pulse-text-muted">
+                        {lab.patient.name ?? 'Unknown'} &middot; {formatDate(lab.date)}
+                      </p>
+                    </div>
+                    <span className="rounded-md bg-pulse-warning-light px-2.5 py-0.5 text-xs font-medium tabular-nums text-pulse-warning">
+                      {flagged} flag{flagged !== 1 ? 's' : ''}
                     </span>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );

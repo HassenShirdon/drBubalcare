@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useLabResults(take = 50, skip = 0) {
   return useQuery({
-    queryKey: ['lab-results', { take, skip }],
+    queryKey: queryKeys.labResults.list({ take, skip }),
     queryFn: async () => {
       const res = await fetch(`/api/lab-results?take=${take}&skip=${skip}`);
       if (!res.ok) throw new Error('Failed to fetch lab results');
@@ -16,7 +17,7 @@ export function useLabResults(take = 50, skip = 0) {
 
 export function useLabResult(id: string) {
   return useQuery({
-    queryKey: ['lab-results', id],
+    queryKey: queryKeys.labResults.detail(id),
     queryFn: async () => {
       const res = await fetch(`/api/lab-results/${id}`);
       if (!res.ok) throw new Error('Failed to fetch lab result');

@@ -10,7 +10,7 @@ const CHECKLIST_ITEMS = [
 
 export function TrustChecklist() {
   return (
-    <div className="bg-landing-surface-muted rounded-2xl p-7 md:p-8 border border-landing-border/60">
+    <div className="card-hairline rounded-2xl p-6 md:p-8">
       <h3 className="text-lg font-semibold text-landing-text mb-5">
         What you can expect
       </h3>
@@ -21,7 +21,7 @@ export function TrustChecklist() {
             className="flex items-start gap-3 text-base text-landing-text-muted"
           >
             <CheckCircle2
-              className="w-5 h-5 text-landing-success flex-shrink-0 mt-0.5"
+              className="w-5 h-5 text-landing-accent flex-shrink-0 mt-0.5"
               aria-hidden="true"
             />
             {item}

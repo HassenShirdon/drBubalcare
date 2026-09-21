@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const SITE = {
-  name: 'Dr Bubal Care',
-  url: 'https://drbubalcare.com',
+  name: 'Dr. Bubal Care',
+  url: 'https://www.drbubalcare.com',
   description: 'AI-assisted diagnostic coordination platform. Get board-certified specialist opinions on lab results, biopsies, and medical images in 24-48 hours.',
   ogImage: '/og-default.png',
 } as const;

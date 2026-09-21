@@ -2,19 +2,62 @@
 
 import { useState, useRef } from 'react';
 import { CloudUpload, FileText, X, Loader2, CheckCircle2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/lib/query-keys';
+
+export interface UploadedRecord {
+  id: string;
+  caseId: string;
+  fileUrl: string;
+  fileType: string;
+  fileName: string;
+  uploadedAt: string;
+}
 
 interface FileUploadProps {
   caseId: string;
-  onUploadComplete?: (records: any[]) => void;
+  onUploadComplete?: (records: UploadedRecord[]) => void;
 }
 
 export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+
+  const uploadMutation = useMutation<UploadedRecord[], Error, File[]>({
+    mutationFn: async (selectedFiles: File[]) => {
+      const formData = new FormData();
+      selectedFiles.forEach((file) => formData.append('files', file));
+
+      const res = await fetch(`/api/cases/${caseId}/records`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      return res.json();
+    },
+    onSuccess: (records) => {
+      setError(null);
+      setUploaded(true);
+      setFiles([]);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cases.detail(caseId) });
+      onUploadComplete?.(records);
+    },
+    onError: (err: Error) => {
+      setError(err.message);
+    },
+  });
+
+  const uploading = uploadMutation.isPending;
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -44,35 +87,10 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleUpload = async () => {
+  const handleUpload = () => {
     if (files.length === 0) return;
-
-    setUploading(true);
     setError(null);
-
-    try {
-      const formData = new FormData();
-      files.forEach((file) => formData.append('files', file));
-
-      const res = await fetch(`/api/cases/${caseId}/records`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Upload failed');
-      }
-
-      const records = await res.json();
-      setUploaded(true);
-      setFiles([]);
-      onUploadComplete?.(records);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setUploading(false);
-    }
+    uploadMutation.mutate(files);
   };
 
   if (uploaded) {
@@ -171,7 +189,7 @@ export function FileUpload({ caseId, onUploadComplete }: FileUploadProps) {
       )}
 
       {error && (
-        <div role="alert" className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-700 text-sm">
+        <div role="alert" className="rounded-xl border border-pulse-red/30 bg-pulse-red-light p-3 text-sm text-pulse-red">
           {error}
         </div>
       )}

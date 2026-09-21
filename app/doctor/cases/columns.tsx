@@ -15,21 +15,7 @@ export type DoctorCase = {
   opinions: { status: string }[]
 }
 
-const STATUS_COLORS: Record<string, { bg: string; color: string }> = {
-  OPEN: { bg: "#DBEAFE", color: "#1E40AF" },
-  AI_PRE_SCREENED: { bg: "#DBEAFE", color: "#1E40AF" },
-  UNDER_REVIEW: { bg: "#FEF3C7", color: "#B45309" },
-  OPINION_READY: { bg: "#DCFCE7", color: "#15803D" },
-  CLOSED: { bg: "#F1F5F9", color: "#64748B" },
-  DISPUTED: { bg: "#FEF2F2", color: "#B91C1C" },
-}
-
-const OPINION_COLORS: Record<string, { bg: string; color: string }> = {
-  DRAFT: { bg: "#FEF3C7", color: "#B45309" },
-  SIGNED: { bg: "#DCFCE7", color: "#15803D" },
-  DELIVERED: { bg: "#DBEAFE", color: "#1E40AF" },
-  NONE: { bg: "#F1F5F9", color: "#64748B" },
-}
+const FALLBACK_BADGE = 'bg-pulse-surface-elevated text-pulse-text-muted px-2.5 py-0.5 rounded-md text-xs font-medium'
 
 export const columns: ColumnDef<DoctorCase>[] = [
   {
@@ -39,12 +25,12 @@ export const columns: ColumnDef<DoctorCase>[] = [
       const patient = row.original.patient
       return (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0" style={{ background: "#DBEAFE", color: "#3B82F6" }}>
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-pulse-info-light text-xs font-semibold text-pulse-info">
             {patient.name?.charAt(0) ?? "P"}
           </div>
           <div>
-            <p className="font-medium text-sm" style={{ color: "#0F172A" }}>{patient.name ?? "Unknown"}</p>
-            <p className="text-xs" style={{ color: "#64748B" }}>
+            <p className="text-sm font-medium text-pulse-text-primary">{patient.name ?? "Unknown"}</p>
+            <p className="text-xs text-pulse-text-muted">
               {patient.age ?? "—"} yrs &middot; {patient.gender ?? "—"}
             </p>
           </div>
@@ -59,9 +45,9 @@ export const columns: ColumnDef<DoctorCase>[] = [
   },
   {
     accessorKey: "serviceType",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Service Type" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Service" />,
     cell: ({ row }) => (
-      <span className="text-sm" style={{ color: "#0F172A" }}>
+      <span className="text-sm text-pulse-text-primary">
         {SERVICE_TYPE_LABELS[row.original.serviceType] ?? row.original.serviceType}
       </span>
     ),
@@ -70,13 +56,10 @@ export const columns: ColumnDef<DoctorCase>[] = [
     accessorKey: "status",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
-      const colors = STATUS_COLORS[row.original.status] ?? { bg: "#F1F5F9", color: "#64748B" }
+      const config = CASE_STATUS_CONFIG[row.original.status]
       return (
-        <span
-          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-          style={{ background: colors.bg, color: colors.color }}
-        >
-          {row.original.status}
+        <span className={`inline-flex items-center ${config?.color ?? FALLBACK_BADGE}`}>
+          {config?.label ?? row.original.status}
         </span>
       )
     },
@@ -86,15 +69,11 @@ export const columns: ColumnDef<DoctorCase>[] = [
     id: "opinion",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Opinion" />,
     cell: ({ row }) => {
-      const opinion = row.original.opinions?.[0]
-      const status = opinion?.status ?? "NONE"
-      const colors = OPINION_COLORS[status] ?? OPINION_COLORS.NONE
+      const status = row.original.opinions?.[0]?.status ?? "NONE"
+      const config = OPINION_STATUS_CONFIG[status]
       return (
-        <span
-          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-          style={{ background: colors.bg, color: colors.color }}
-        >
-          {status === "NONE" ? "Not Started" : status}
+        <span className={`inline-flex items-center ${config?.color ?? FALLBACK_BADGE}`}>
+          {config?.label ?? "Not started"}
         </span>
       )
     },
@@ -103,7 +82,7 @@ export const columns: ColumnDef<DoctorCase>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,
     cell: ({ row }) => (
-      <span className="text-sm" style={{ color: "#64748B" }}>
+      <span className="text-sm tabular-nums text-pulse-text-secondary">
         {new Date(row.original.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
@@ -118,9 +97,10 @@ export const columns: ColumnDef<DoctorCase>[] = [
     cell: ({ row }) => (
       <Link
         href={`/doctor/cases/${row.original.id}`}
-        style={{ color: "#3B82F6" }}
+        aria-label="Open case"
+        className="inline-flex rounded-md p-1 text-pulse-info transition-colors hover:bg-pulse-info-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
       >
-        <ArrowRight className="size-4" />
+        <ArrowRight className="size-4" aria-hidden="true" />
       </Link>
     ),
     enableSorting: false,

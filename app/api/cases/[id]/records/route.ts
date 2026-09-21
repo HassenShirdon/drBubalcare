@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { writeFile, mkdir } from 'fs/promises';
+import { randomUUID } from 'crypto';
 import path from 'path';
 import { getBaseUrl } from '@/lib/app-url';
 
@@ -51,6 +52,7 @@ export async function POST(
   }
 
   const uploadedRecords = [];
+  const uploadDirReady = mkdir(UPLOAD_DIR, { recursive: true });
 
   for (const file of files) {
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -70,37 +72,36 @@ export async function POST(
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create unique filename
-    const timestamp = Date.now();
+    // Collision-proof unique ID: used as both the record id and the on-disk
+    // filename prefix, so concurrent uploads of the same original name never
+    // overwrite each other (Date.now() collided within the same millisecond).
+    const recordId = randomUUID();
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const diskFileName = `${timestamp}_${safeName}`;
+    const diskFileName = `${recordId}_${safeName}`;
     const filePath = path.join(UPLOAD_DIR, diskFileName);
 
     // Ensure upload directory exists
-    await mkdir(UPLOAD_DIR, { recursive: true });
+    await uploadDirReady;
 
     // Write file to disk
     await writeFile(filePath, buffer);
 
+    // Compute the file URL before the insert so the record is created in a
+    // single write (no create-then-update round-trip).
+    const fileUrl = `/api/records/${recordId}/file`;
+
     // Save to database — fileName stores the actual on-disk filename for retrieval
     const record = await prisma.caseRecord.create({
       data: {
+        id: recordId,
         caseId: id,
-        fileUrl: '',
+        fileUrl,
         fileType: file.type,
         fileName: diskFileName,
       },
     });
 
-    await prisma.caseRecord.update({
-      where: { id: record.id },
-      data: { fileUrl: `/api/records/${record.id}/file` },
-    });
-
-    uploadedRecords.push({
-      ...record,
-      fileUrl: `/api/records/${record.id}/file`,
-    });
+    uploadedRecords.push(record);
   }
 
   // After successful file upload, trigger AI pre-screening (fire and forget)

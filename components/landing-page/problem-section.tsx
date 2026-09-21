@@ -18,12 +18,12 @@ export default function ProblemSection() {
         <div className="grid gap-8 md:grid-cols-3">
           {PROBLEMS.map((problem, i) => (
             <AnimateOnScroll key={problem.label}>
-              <div className="bg-card rounded-2xl p-7 border border-landing-border/60 shadow-sm h-full">
-                <div className="w-12 h-12 rounded-xl bg-landing-accent flex items-center justify-center text-landing-brand mb-5">
+              <div className="card-hairline h-full rounded-2xl p-6 md:p-8">
+                <div className="w-12 h-12 rounded-xl bg-landing-accent-soft flex items-center justify-center text-landing-accent mb-5">
                   <problem.icon className="w-6 h-6" aria-hidden="true" />
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-3xl font-bold text-landing-brand leading-none">
+                  <span className="font-mono text-3xl font-semibold tabular-nums text-landing-brand leading-none">
                     {problem.stat}
                   </span>
                   <span className="text-sm font-medium text-landing-text-faint">

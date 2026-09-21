@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
   description:
-    "The terms and conditions governing your use of the Dr Bubal Care platform.",
+    "The terms and conditions governing your use of the Dr. Bubal Care platform.",
   alternates: {
     canonical: "/terms",
   },
@@ -18,7 +18,7 @@ export default function TermsPage() {
           href="/"
           className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
-          ← Back to home
+          â† Back to home
         </Link>
         <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Terms of Use
@@ -33,7 +33,7 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p>
-              By accessing or using the Dr Bubal Care platform, you agree to these Terms of Use and
+              By accessing or using the Dr. Bubal Care platform, you agree to these Terms of Use and
               our Privacy Policy. If you do not agree, please do not use the platform.
             </p>
           </section>
@@ -43,7 +43,7 @@ export default function TermsPage() {
               2. Medical Disclaimer
             </h2>
             <p>
-              Dr Bubal Care provides a coordination service that connects patients with
+              Dr. Bubal Care provides a coordination service that connects patients with
               board-certified physicians in our Global Doctors Network for written opinions. The
               opinions provided through our platform are educational and informational and do not
               replace a direct relationship between you and a qualified healthcare provider.
@@ -107,7 +107,7 @@ export default function TermsPage() {
               6. Intellectual Property
             </h2>
             <p>
-              All content, branding, software, and materials on the platform are owned by Dr Bubal
+              All content, branding, software, and materials on the platform are owned by Dr. Bubal
               Care or its licensors. You may not copy, modify, distribute, or reverse-engineer any
               part of the platform without our written permission.
             </p>
@@ -118,7 +118,7 @@ export default function TermsPage() {
               7. Limitation of Liability
             </h2>
             <p>
-              To the fullest extent permitted by law, Dr Bubal Care and its affiliates, officers,
+              To the fullest extent permitted by law, Dr. Bubal Care and its affiliates, officers,
               employees, and the physicians of our Global Doctors Network are not liable for
               indirect, incidental, or consequential damages arising from your use of the platform.
               Our total liability is limited to the amount you paid for the specific service at issue.

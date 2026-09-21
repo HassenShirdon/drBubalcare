@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useShallow } from 'zustand/react/shallow';
 import { appointmentSchema, type AppointmentInput } from '@/lib/schemas/appointment.schema';
 import { useAppointmentStore } from '@/lib/stores/appointment-store';
 
@@ -15,7 +16,29 @@ const SERVICE_LABELS: Record<string, { name: string; price: string }> = {
 };
 
 export default function DoctorProfile() {
-  const { step, selectedServiceId, selectedDate, selectedTime, nextStep, prevStep, selectService, selectDateTime, reset } = useAppointmentStore();
+  const {
+    step,
+    selectedServiceId,
+    selectedDate,
+    selectedTime,
+    nextStep,
+    prevStep,
+    selectService,
+    selectDateTime,
+    reset,
+  } = useAppointmentStore(
+    useShallow((s) => ({
+      step: s.step,
+      selectedServiceId: s.selectedServiceId,
+      selectedDate: s.selectedDate,
+      selectedTime: s.selectedTime,
+      nextStep: s.nextStep,
+      prevStep: s.prevStep,
+      selectService: s.selectService,
+      selectDateTime: s.selectDateTime,
+      reset: s.reset,
+    }))
+  );
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),

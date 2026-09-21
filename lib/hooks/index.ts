@@ -3,3 +3,4 @@ export * from './use-posts';
 export * from './use-doctor';
 export * from './use-cases';
 export * from './use-doctor-cases';
+export * from './use-admin';

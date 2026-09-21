@@ -178,9 +178,9 @@ const urgencyOptions = [
 
 function Label({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
-    <span className="block font-medium text-[#0F172A] text-sm mb-1.5">
+    <span className="block font-medium text-pulse-text-primary text-sm mb-1.5">
       {children}
-      {optional && <span className="font-normal text-[#94A3B8]"> (optional)</span>}
+      {optional && <span className="font-normal text-pulse-text-muted"> (optional)</span>}
     </span>
   );
 }
@@ -192,20 +192,20 @@ function TextInput(props: React.InputHTMLAttributes<HTMLInputElement> & { label:
   const errorId = error ? `${inputId}-error` : undefined;
   return (
     <div>
-      <label htmlFor={inputId} className="block font-medium text-[#0F172A] text-sm mb-1.5">
+      <label htmlFor={inputId} className="block font-medium text-pulse-text-primary text-sm mb-1.5">
         {label}
-        {optional && <span className="font-normal text-[#94A3B8]"> (optional)</span>}
+        {optional && <span className="font-normal text-pulse-text-muted"> (optional)</span>}
       </label>
       <input
         id={inputId}
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
-        className={`w-full h-11 rounded-xl border bg-white px-3.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] outline-none transition-colors focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F] ${
-          error ? 'border-[#B91C1C]' : 'border-[#E2E8F0]'
+        className={`w-full h-11 rounded-xl border bg-white px-3.5 text-sm text-pulse-text-primary placeholder:text-pulse-text-muted outline-none transition-colors focus:ring-2 focus:ring-pulse-navy/30 focus:border-pulse-navy ${
+          error ? 'border-pulse-red' : 'border-pulse-border'
         }`}
         {...rest}
       />
-      {error && <p id={errorId} className="text-[#B91C1C] text-xs mt-1.5">{error}</p>}
+      {error && <p id={errorId} className="text-pulse-red text-xs mt-1.5">{error}</p>}
     </div>
   );
 }
@@ -217,20 +217,20 @@ function TextArea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { l
   const errorId = error ? `${inputId}-error` : undefined;
   return (
     <div>
-      <label htmlFor={inputId} className="block font-medium text-[#0F172A] text-sm mb-1.5">
+      <label htmlFor={inputId} className="block font-medium text-pulse-text-primary text-sm mb-1.5">
         {label}
-        {optional && <span className="font-normal text-[#94A3B8]"> (optional)</span>}
+        {optional && <span className="font-normal text-pulse-text-muted"> (optional)</span>}
       </label>
       <textarea
         id={inputId}
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
-        className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] outline-none transition-colors focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F] resize-none ${
-          error ? 'border-[#B91C1C]' : 'border-[#E2E8F0]'
+        className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-pulse-text-primary placeholder:text-pulse-text-muted outline-none transition-colors focus:ring-2 focus:ring-pulse-navy/30 focus:border-pulse-navy resize-none ${
+          error ? 'border-pulse-red' : 'border-pulse-border'
         }`}
         {...rest}
       />
-      {error && <p id={errorId} className="text-[#B91C1C] text-xs mt-1.5">{error}</p>}
+      {error && <p id={errorId} className="text-pulse-red text-xs mt-1.5">{error}</p>}
     </div>
   );
 }
@@ -267,8 +267,8 @@ function CheckboxGroup({
               key={option.value}
               className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 cursor-pointer select-none transition-all text-sm font-medium ${
                 checked
-                  ? 'border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F]'
-                  : 'border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#1E3A5F]/30'
+                  ? 'border-pulse-navy bg-pulse-navy/5 text-pulse-navy'
+                  : 'border-pulse-border bg-white text-pulse-text-primary hover:border-pulse-navy/30'
               }`}
             >
               <input
@@ -281,7 +281,7 @@ function CheckboxGroup({
               <span
                 aria-hidden="true"
                 className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border transition-all ${
-                  checked ? 'border-[#1E3A5F] bg-[#1E3A5F] text-white' : 'border-[#CBD5E1] bg-white text-transparent'
+                  checked ? 'border-pulse-navy bg-pulse-navy text-white' : 'border-pulse-border-strong bg-white text-transparent'
                 }`}
               >
                 <Check className="size-3.5" strokeWidth={3} />
@@ -315,16 +315,16 @@ function RowBuilder({
   return (
     <div className="space-y-3">
       {(values ?? []).map((row, index) => (
-        <div key={index} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 space-y-3">
+        <div key={index} className="rounded-xl border border-pulse-border bg-pulse-bg p-4 space-y-3">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {fields.map((field) => (
               <div key={field.key} className={field.span === 2 ? 'sm:col-span-2' : ''}>
-                <label className="block text-xs font-medium text-[#64748B] mb-1">{field.label}</label>
+                <label className="block text-xs font-medium text-pulse-text-secondary mb-1">{field.label}</label>
                 <input
                   value={row[field.key] ?? ''}
                   onChange={(e) => update(index, field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full h-9 rounded-lg border border-[#E2E8F0] bg-white px-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 focus:border-[#1E3A5F]"
+                  className="w-full h-9 rounded-lg border border-pulse-border bg-white px-3 text-sm text-pulse-text-primary placeholder:text-pulse-text-muted outline-none focus:ring-2 focus:ring-pulse-navy/30 focus:border-pulse-navy"
                 />
               </div>
             ))}
@@ -332,7 +332,7 @@ function RowBuilder({
           <button
             type="button"
             onClick={() => remove(index)}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-[#B91C1C] hover:text-[#991B1B] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-pulse-red hover:text-pulse-red transition-colors"
           >
             <Trash2 className="size-3.5" />
             Remove
@@ -342,7 +342,7 @@ function RowBuilder({
       <button
         type="button"
         onClick={() => onChange([...values, { ...Object.fromEntries(fields.map((f) => [f.key, ''])) }])}
-        className="inline-flex items-center gap-2 rounded-xl border-2 border-dashed border-[#CBD5E1] px-4 py-2.5 text-sm font-medium text-[#1E3A5F] hover:border-[#1E3A5F]/40 hover:bg-[#1E3A5F]/5 transition-all"
+        className="inline-flex items-center gap-2 rounded-xl border-2 border-dashed border-pulse-border-strong px-4 py-2.5 text-sm font-medium text-pulse-navy hover:border-pulse-navy/40 hover:bg-pulse-navy/5 transition-all"
       >
         <Plus className="size-4" />
         {addLabel}
@@ -441,10 +441,10 @@ function SectionCard({
   return (
     <section className="space-y-4">
       <div className="flex items-center gap-3">
-        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#1E3A5F] text-xs font-bold text-white">
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-pulse-navy text-xs font-bold text-white">
           {number}
         </span>
-        <h2 className="font-bold text-[#1E3A5F] text-base">{title}</h2>
+        <h2 className="font-bold text-pulse-navy text-base">{title}</h2>
       </div>
       {children}
     </section>
@@ -453,7 +453,7 @@ function SectionCard({
 
 function AlertInfo({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-2.5 rounded-xl border border-[#DBEAFE] bg-[#EFF6FF]/60 px-3.5 py-3 text-xs text-[#1E40AF]">
+    <div className="flex items-start gap-2.5 rounded-xl border border-pulse-info-light bg-pulse-info-light/60 px-3.5 py-3 text-xs text-pulse-navy">
       <Info className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
       <span className="leading-relaxed">{children}</span>
     </div>
@@ -584,13 +584,13 @@ export default function NewCasePage() {
       case 0:
         return (
           <SectionCard number={1} title="About You">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-pulse-text-secondary">
               We collect only age and sex (not your name or date of birth) as clinical context for the
               reviewing specialist and our AI pre-screening, in line with our privacy practices.
             </p>
 
             <div>
-              <label htmlFor="case-age" className="block font-medium text-[#0F172A] text-sm mb-1.5">
+              <label htmlFor="case-age" className="block font-medium text-pulse-text-primary text-sm mb-1.5">
                 Age
               </label>
               <input
@@ -601,10 +601,10 @@ export default function NewCasePage() {
                 max={120}
                 placeholder="e.g. 34"
                 {...register('age', { valueAsNumber: true })}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
+                className="w-full rounded-xl border border-pulse-border bg-white px-3.5 py-2.5 text-sm text-pulse-text-primary placeholder:text-pulse-text-muted outline-none focus:border-pulse-navy focus:ring-2 focus:ring-pulse-navy/20 transition-all"
               />
               {formState.errors.age && (
-                <p className="text-[#B91C1C] text-xs mt-2">{formState.errors.age.message}</p>
+                <p className="text-pulse-red text-xs mt-2">{formState.errors.age.message}</p>
               )}
             </div>
 
@@ -620,8 +620,8 @@ export default function NewCasePage() {
                         key={opt.value}
                         className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 cursor-pointer select-none transition-all text-sm font-medium ${
                           field.value === opt.value
-                            ? 'border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F]'
-                            : 'border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#1E3A5F]/30'
+                            ? 'border-pulse-navy bg-pulse-navy/5 text-pulse-navy'
+                            : 'border-pulse-border bg-white text-pulse-text-primary hover:border-pulse-navy/30'
                         }`}
                       >
                         <input
@@ -634,11 +634,11 @@ export default function NewCasePage() {
                         <span
                           aria-hidden="true"
                           className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                            field.value === opt.value ? 'border-[#1E3A5F]' : 'border-[#CBD5E1]'
+                            field.value === opt.value ? 'border-pulse-navy' : 'border-pulse-border-strong'
                           }`}
                         >
                           {field.value === opt.value && (
-                            <span className="size-2.5 rounded-full bg-[#1E3A5F]" />
+                            <span className="size-2.5 rounded-full bg-pulse-navy" />
                           )}
                         </span>
                         {opt.label}
@@ -646,7 +646,7 @@ export default function NewCasePage() {
                     ))}
                   </div>
                   {formState.errors.sex && (
-                    <p className="text-[#B91C1C] text-xs mt-2">{formState.errors.sex.message}</p>
+                    <p className="text-pulse-red text-xs mt-2">{formState.errors.sex.message}</p>
                   )}
                 </div>
               )}
@@ -668,18 +668,18 @@ export default function NewCasePage() {
                       type="button"
                       onClick={() => form.setValue('serviceType', opt.value, { shouldValidate: true })}
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
-                        selected ? 'border-[#1E3A5F] bg-[#1E3A5F]/5' : 'border-[#E2E8F0] bg-white hover:border-[#1E3A5F]/30'
+                        selected ? 'border-pulse-navy bg-pulse-navy/5' : 'border-pulse-border bg-white hover:border-pulse-navy/30'
                       }`}
                     >
-                      <div className={`mb-2 ${selected ? 'text-[#1E3A5F]' : 'text-[#64748B]'}`}>{opt.icon}</div>
-                      <p className={`font-medium text-sm ${selected ? 'text-[#1E3A5F]' : 'text-[#0F172A]'}`}>{opt.label}</p>
-                      <p className="text-[#64748B] text-xs mt-1">{opt.description}</p>
+                      <div className={`mb-2 ${selected ? 'text-pulse-navy' : 'text-pulse-text-secondary'}`}>{opt.icon}</div>
+                      <p className={`font-medium text-sm ${selected ? 'text-pulse-navy' : 'text-pulse-text-primary'}`}>{opt.label}</p>
+                      <p className="text-pulse-text-secondary text-xs mt-1">{opt.description}</p>
                     </button>
                   );
                 })}
               </div>
               {formState.errors.serviceType && (
-                <p className="text-[#B91C1C] text-xs mt-2">{formState.errors.serviceType.message}</p>
+                <p className="text-pulse-red text-xs mt-2">{formState.errors.serviceType.message}</p>
               )}
             </div>
 
@@ -695,25 +695,25 @@ export default function NewCasePage() {
                         key={opt.value}
                         className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 cursor-pointer select-none transition-all text-sm font-medium ${
                           field.value === opt.value
-                            ? 'border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F]'
-                            : 'border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#1E3A5F]/30'
+                            ? 'border-pulse-navy bg-pulse-navy/5 text-pulse-navy'
+                            : 'border-pulse-border bg-white text-pulse-text-primary hover:border-pulse-navy/30'
                         }`}
                       >
                         <input type="radio" name="reviewType" checked={field.value === opt.value} onChange={() => field.onChange(opt.value)} className="sr-only" />
                         <span
                           aria-hidden="true"
                           className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                            field.value === opt.value ? 'border-[#1E3A5F]' : 'border-[#CBD5E1]'
+                            field.value === opt.value ? 'border-pulse-navy' : 'border-pulse-border-strong'
                           }`}
                         >
-                          {field.value === opt.value && <span className="size-2.5 rounded-full bg-[#1E3A5F]" />}
+                          {field.value === opt.value && <span className="size-2.5 rounded-full bg-pulse-navy" />}
                         </span>
                         {opt.label}
                       </label>
                     ))}
                   </div>
                   {formState.errors.reviewType && (
-                    <p className="text-[#B91C1C] text-xs mt-2">{formState.errors.reviewType.message}</p>
+                    <p className="text-pulse-red text-xs mt-2">{formState.errors.reviewType.message}</p>
                   )}
                 </div>
               )}
@@ -891,8 +891,8 @@ export default function NewCasePage() {
             />
 
             {watch('serviceType') === 'EUROPEAN_REFERRAL' && (
-              <div className="rounded-xl border border-[#DBEAFE] bg-[#EFF6FF]/60 p-4 space-y-4">
-                <p className="text-sm font-semibold text-[#1E3A5F]">Global Doctor Network referral details</p>
+              <div className="rounded-xl border border-pulse-info-light bg-pulse-info-light/60 p-4 space-y-4">
+                <p className="text-sm font-semibold text-pulse-navy">Global Doctor Network referral details</p>
                 <TextInput
                   label="Specialty requested"
                   optional
@@ -912,13 +912,13 @@ export default function NewCasePage() {
                             key={opt.value}
                             className={`flex items-center gap-2 rounded-xl border px-3.5 py-2 cursor-pointer select-none transition-all text-sm font-medium ${
                               field.value === opt.value
-                                ? 'border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F]'
-                                : 'border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#1E3A5F]/30'
+                                ? 'border-pulse-navy bg-pulse-navy/5 text-pulse-navy'
+                                : 'border-pulse-border bg-white text-pulse-text-primary hover:border-pulse-navy/30'
                             }`}
                           >
                             <input type="radio" name="referralUrgency" checked={field.value === opt.value} onChange={() => field.onChange(opt.value)} className="sr-only" />
-                            <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${field.value === opt.value ? 'border-[#1E3A5F]' : 'border-[#CBD5E1]'}`}>
-                              {field.value === opt.value && <span className="size-2.5 rounded-full bg-[#1E3A5F]" />}
+                            <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${field.value === opt.value ? 'border-pulse-navy' : 'border-pulse-border-strong'}`}>
+                              {field.value === opt.value && <span className="size-2.5 rounded-full bg-pulse-navy" />}
                             </span>
                             {opt.label}
                           </label>
@@ -952,7 +952,7 @@ export default function NewCasePage() {
             <div>
               <Label optional>Which documents will you upload?</Label>
               <CheckboxGroup name="documentsToUpload" options={documentOptions} {...bindCheckbox('documentsToUpload')} />
-              <p className="text-xs text-[#64748B] mt-2">
+              <p className="text-xs text-pulse-text-secondary mt-2">
                 You can upload the actual files right after the case is created.
               </p>
             </div>
@@ -976,9 +976,9 @@ export default function NewCasePage() {
             ).map((c) => {
               const checked = watch(c.key) === true;
               return (
-                <label key={c.key} className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-3 cursor-pointer select-none transition-all text-sm font-medium ${checked ? 'border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F]' : 'border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#1E3A5F]/30'}`}>
+                <label key={c.key} className={`flex items-start gap-2.5 rounded-xl border px-3.5 py-3 cursor-pointer select-none transition-all text-sm font-medium ${checked ? 'border-pulse-navy bg-pulse-navy/5 text-pulse-navy' : 'border-pulse-border bg-white text-pulse-text-primary hover:border-pulse-navy/30'}`}>
                   <input type="checkbox" checked={checked} onChange={() => form.setValue(c.key, !checked, { shouldValidate: true })} className="sr-only" />
-                  <span aria-hidden="true" className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border transition-all ${checked ? 'border-[#1E3A5F] bg-[#1E3A5F] text-white' : 'border-[#CBD5E1] bg-white text-transparent'}`}>
+                  <span aria-hidden="true" className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border transition-all ${checked ? 'border-pulse-navy bg-pulse-navy text-white' : 'border-pulse-border-strong bg-white text-transparent'}`}>
                     <Check className="size-3.5" strokeWidth={3} />
                   </span>
                   {c.label}
@@ -986,13 +986,13 @@ export default function NewCasePage() {
               );
             })}
             {formState.errors.consentedToReview && (
-              <p className="text-[#B91C1C] text-xs">{formState.errors.consentedToReview.message}</p>
+              <p className="text-pulse-red text-xs">{formState.errors.consentedToReview.message}</p>
             )}
             {formState.errors.confirmedAccuracy && (
-              <p className="text-[#B91C1C] text-xs">{formState.errors.confirmedAccuracy.message}</p>
+              <p className="text-pulse-red text-xs">{formState.errors.confirmedAccuracy.message}</p>
             )}
             {formState.errors.consentedToProcessing && (
-              <p className="text-[#B91C1C] text-xs">{formState.errors.consentedToProcessing.message}</p>
+              <p className="text-pulse-red text-xs">{formState.errors.consentedToProcessing.message}</p>
             )}
             <TextInput
               label="Patient / authorized representative signature (full name)"
@@ -1005,7 +1005,7 @@ export default function NewCasePage() {
               {...register('signatureName')}
             />
             {formState.errors.signatureName?.type === 'root' && (
-              <div role="alert" className="bg-[#FEF2F2] border border-[#FECACA] rounded-xl p-4 text-[#B91C1C] text-sm">
+              <div role="alert" className="bg-pulse-red-light border border-pulse-red rounded-xl p-4 text-pulse-red text-sm">
                 {formState.errors.signatureName.message}
               </div>
             )}
@@ -1025,21 +1025,21 @@ export default function NewCasePage() {
       >
         <Link
           href="/patient/cases"
-          className="inline-flex items-center gap-1 text-[#64748B] text-sm hover:text-[#1E3A5F] transition-colors mb-4"
+          className="inline-flex items-center gap-1 text-pulse-text-secondary text-sm hover:text-pulse-navy transition-colors mb-4"
         >
           <ArrowLeft className="size-4" />
           Back to cases
         </Link>
-        <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl">Patient Case Review</h1>
-        <p className="text-[#64748B] mt-1 text-sm">
+        <h1 className="text-pulse-navy font-bold text-2xl md:text-3xl">Patient Case Review</h1>
+        <p className="text-pulse-text-secondary mt-1 text-sm">
           Complete the case review form — your answers give the specialist and AI pre-screening the full clinical picture.
         </p>
       </motion.div>
 
       {/* Progress */}
       <div className="mt-6 mb-5">
-        <div className="flex items-center justify-between text-xs font-medium text-[#64748B] mb-2">
-          <span className="inline-flex items-center gap-1.5 text-[#1E3A5F] font-semibold">
+        <div className="flex items-center justify-between text-xs font-medium text-pulse-text-secondary mb-2">
+          <span className="inline-flex items-center gap-1.5 text-pulse-navy font-semibold">
             {steps[step].icon}
             {stepKeyToSchemaTitle[steps[step].key]}
           </span>
@@ -1050,9 +1050,9 @@ export default function NewCasePage() {
           aria-valuenow={progress}
           aria-valuemin={0}
           aria-valuemax={100}
-          className="h-2 rounded-full bg-[#E2E8F0] overflow-hidden"
+          className="h-2 rounded-full bg-pulse-border overflow-hidden"
         >
-          <div className="h-full rounded-full bg-[#1E3A5F] transition-all duration-300" style={{ width: `${progress}%` }} />
+          <div className="h-full rounded-full bg-pulse-navy transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
       </div>
 
@@ -1065,10 +1065,10 @@ export default function NewCasePage() {
             onClick={() => setStep(i)}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
               i === step
-                ? 'bg-[#1E3A5F] text-white'
+                ? 'bg-pulse-navy text-white'
                 : i < step
-                ? 'bg-[#DBEAFE] text-[#1E3A5F] hover:bg-[#BFDBFE]'
-                : 'bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0]'
+                ? 'bg-pulse-info-light text-pulse-navy hover:bg-pulse-info'
+                : 'bg-pulse-surface-elevated text-pulse-text-secondary hover:bg-pulse-border'
             }`}
           >
             {i < step ? <Check className="size-3" /> : <span>{i + 1}</span>}
@@ -1083,17 +1083,17 @@ export default function NewCasePage() {
           initial={prefersReducedMotion ? false : { opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.22, ease: 'easeOut' }}
-          className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-5 md:p-8"
+          className="bg-white rounded-2xl border border-pulse-border shadow-sm p-5 md:p-8"
         >
           {renderStep()}
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#E2E8F0]">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-pulse-border">
             <button
               type="button"
               onClick={goBack}
               disabled={step === 0 || saving}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-white px-5 py-2.5 text-sm font-medium text-[#1E3A5F] hover:bg-[#F8FAFC] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 rounded-xl border border-pulse-border bg-white px-5 py-2.5 text-sm font-medium text-pulse-navy hover:bg-pulse-bg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ArrowLeft className="size-4" />
               Back
@@ -1102,7 +1102,7 @@ export default function NewCasePage() {
             {step < steps.length - 1 ? (
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-[#1E3A5F] text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-[#1E3A5F]/90 transition-colors"
+                className="inline-flex items-center gap-2 bg-pulse-navy text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-pulse-navy/90 transition-colors"
               >
                 Continue
                 <ArrowRight className="size-4" />
@@ -1111,7 +1111,7 @@ export default function NewCasePage() {
               <button
                 type="submit"
                 disabled={saving || createCase.isPending}
-                className="inline-flex items-center gap-2 bg-[#15803D] text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-[#15803D]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 bg-pulse-success text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-pulse-success/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving || createCase.isPending ? (
                   <>
@@ -1133,7 +1133,7 @@ export default function NewCasePage() {
             )}
           </div>
 
-          <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#94A3B8]">
+          <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-pulse-text-muted">
             <Upload className="size-3.5" />
             After creating the case you can securely upload your records (PDF, JPEG, PNG, WebP — up to 50MB each).
           </p>

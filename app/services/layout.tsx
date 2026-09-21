@@ -1,5 +1,6 @@
-import Navigation from "@/components/landing-page/navigation";
+﻿import Navigation from "@/components/landing-page/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ServicesLayout({
   children,
@@ -15,7 +16,16 @@ export default function ServicesLayout({
       <footer className="bg-landing-brand w-full border-t border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto px-6 md:px-16 py-12">
           <div className="space-y-3 md:col-span-2">
-            <div className="text-xl font-bold text-white">Dr Bubal Care</div>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="Dr. Bubal Care logo"
+                width={48}
+                height={48}
+                className="h-12 w-12 rounded-full bg-white object-cover p-1"
+              />
+              <span className="text-xl font-bold text-white">Dr. Bubal Care</span>
+            </div>
             <p className="text-white/70 max-w-sm text-sm leading-relaxed">
               Connecting patients with the board-certified physicians of our
               Global Doctors Network for clear, written diagnostic opinions.
@@ -80,7 +90,7 @@ export default function ServicesLayout({
         </div>
         <div className="border-t border-white/10 py-5 text-center">
           <p className="text-white/50 text-sm">
-            &copy; {new Date().getFullYear()} Dr Bubal Care. All rights reserved.
+            &copy; {new Date().getFullYear()} Dr. Bubal Care. All rights reserved.
           </p>
         </div>
       </footer>

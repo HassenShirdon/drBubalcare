@@ -7,10 +7,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useLabResult } from '@/lib/hooks/use-lab-results';
 import type { MetricStatus } from '@/lib/generated/prisma/enums';
 
-const statusColor: Record<string, string> = {
-  NORMAL: 'bg-[#15803D]/10 text-[#15803D]',
-  HIGH: 'bg-[#B91C1C]/10 text-[#B91C1C]',
-  LOW: 'bg-[#B91C1C]/10 text-[#B91C1C]',
+const STATUS_BADGE: Record<string, string> = {
+  NORMAL: 'bg-pulse-success-light text-pulse-success',
+  HIGH: 'bg-pulse-red-light text-pulse-red',
+  LOW: 'bg-pulse-red-light text-pulse-red',
 };
 
 export default function LabResultDetails() {
@@ -19,17 +19,19 @@ export default function LabResultDetails() {
 
   if (isLoading) {
     return (
-      <div className="p-4 md:p-8 pb-24 md:pb-8 flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="animate-spin text-[#15803D]" size={32} />
+      <div className="flex min-h-[50vh] items-center justify-center p-4 md:p-8">
+        <Loader2 className="animate-spin text-pulse-info" size={32} aria-label="Loading lab result" />
       </div>
     );
   }
 
   if (!labResult) {
     return (
-      <div className="p-4 md:p-8 pb-24 md:pb-8 flex flex-col items-center justify-center min-h-[50vh] gap-4">
-        <p className="text-[#64748B] text-lg">Lab result not found.</p>
-        <Link href="/patient/labs" className="text-[#15803D] hover:underline text-sm">Back to Labs</Link>
+      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 p-4 md:p-8 pb-24">
+        <p className="text-lg text-pulse-text-secondary">Lab result not found.</p>
+        <Link href="/patient/labs" className="text-sm font-medium text-pulse-info hover:underline">
+          Back to labs
+        </Link>
       </div>
     );
   }
@@ -37,47 +39,75 @@ export default function LabResultDetails() {
   const dateStr = new Date(labResult.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="p-4 md:p-8 pb-24 md:pb-8 space-y-6">
-      <Link href="/patient/labs" className="inline-flex items-center gap-2 text-[#64748B] hover:text-[#1E3A5F] transition-colors mb-2">
-        <ArrowLeft className="text-sm" />
-        <span className="text-sm">Back to Labs</span>
+    <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8 pb-24 md:pb-8">
+      <Link
+        href="/patient/labs"
+        className="mb-2 inline-flex items-center gap-2 text-pulse-text-secondary transition-colors hover:text-pulse-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
+      >
+        <ArrowLeft className="size-4" aria-hidden="true" />
+        <span className="text-sm">Back to labs</span>
       </Link>
 
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col justify-between gap-4 md:flex-row md:items-end"
+      >
         <div>
-          <h1 className="text-[#1E3A5F] font-bold text-2xl md:text-3xl mb-1">{labResult.name}</h1>
-          <p className="text-[#64748B] text-sm">Tested on {dateStr} • Ordered by {labResult.doctor}</p>
+          <h1 className="mb-1 text-2xl font-semibold tracking-tight text-pulse-navy md:text-3xl">
+            {labResult.name}
+          </h1>
+          <p className="text-sm text-pulse-text-secondary">
+            Tested on {dateStr} &middot; Ordered by {labResult.doctor}
+          </p>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#1E3A5F] text-sm hover:bg-[#F1F5F9] transition-colors shadow-sm">
-            <Download className="text-sm" />
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="flex items-center gap-2 rounded-lg border border-pulse-border bg-pulse-surface px-4 py-2 text-sm font-medium text-pulse-navy shadow-soft transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
+          >
+            <Download className="size-4" aria-hidden="true" />
             Download PDF
           </button>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {/* Key Metrics */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-2">
           <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">Key Metrics</h2>
-            <div className="card border border-[#E2E8F0] shadow-sm bg-[#F8FAFC] overflow-hidden">
-              <div className="divide-y divide-[#E2E8F0]">
+            <h2 className="mb-4 text-lg font-semibold text-pulse-navy">Key metrics</h2>
+            <div className="overflow-hidden rounded-xl border border-pulse-border bg-pulse-surface shadow-soft">
+              <div className="divide-y divide-pulse-border">
                 {labResult.metrics?.map((metric: { id: string; name: string; value: number; unit: string; status: MetricStatus; referenceRange: string }) => (
                   <div
                     key={metric.id}
-                    className={`p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4${metric.status === 'HIGH' || metric.status === 'LOW' ? ' bg-[#B91C1C]/5' : ''}`}
+                    className={`flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center ${
+                      metric.status !== 'NORMAL' ? 'bg-pulse-red-light/50' : ''
+                    }`}
                   >
                     <div>
-                      <h3 className="font-bold text-[#1E3A5F] text-base">{metric.name}</h3>
-                      <p className="text-[#64748B] text-sm mt-0.5">Reference range: {metric.referenceRange}</p>
+                      <h3 className="text-base font-semibold text-pulse-navy">{metric.name}</h3>
+                      <p className="mt-0.5 text-sm text-pulse-text-muted">
+                        Reference range: {metric.referenceRange}
+                      </p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <span className={`font-bold text-2xl ${metric.status === 'NORMAL' ? 'text-[#1E3A5F]' : 'text-[#B91C1C]'}`}>{metric.value}</span>
-                        <span className="text-[#64748B] text-sm ml-1">{metric.unit}</span>
+                        <span
+                          className={`font-mono text-2xl font-semibold tabular-nums ${
+                            metric.status === 'NORMAL' ? 'text-pulse-navy' : 'text-pulse-red'
+                          }`}
+                        >
+                          {metric.value}
+                        </span>
+                        <span className="ml-1 text-sm text-pulse-text-secondary">{metric.unit}</span>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusColor[metric.status] || 'bg-[#15803D]/10 text-[#15803D]'}`}>
+                      <span
+                        className={`whitespace-nowrap rounded-md px-3 py-1 text-xs font-semibold ${
+                          STATUS_BADGE[metric.status] || STATUS_BADGE.NORMAL
+                        }`}
+                      >
                         {metric.status === 'HIGH' ? 'High' : metric.status === 'LOW' ? 'Low' : 'Normal'}
                       </span>
                     </div>
@@ -87,21 +117,20 @@ export default function LabResultDetails() {
             </div>
           </motion.section>
 
-          {/* Trend Chart */}
           {labResult.trends && labResult.trends.length > 0 && (
             <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">Historical Trend</h2>
-              <div className="card border border-[#E2E8F0] shadow-sm bg-[#F8FAFC] p-4 h-72">
+              <h2 className="mb-4 text-lg font-semibold text-pulse-navy">Historical trend</h2>
+              <div className="h-72 rounded-xl border border-pulse-border bg-pulse-surface p-4 shadow-soft">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={labResult.trends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748B' }} dy={10} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748B' }} domain={['dataMin - 0.5', 'dataMax + 0.5']} />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '8px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                      itemStyle={{ color: '#0F172A', fontWeight: 'bold' }}
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e3e7ee" />
+                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#48566b' }} dy={10} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#48566b' }} domain={['dataMin - 0.5', 'dataMax + 0.5']} />
+                    <Tooltip
+                      contentStyle={{ borderRadius: '10px', border: '1px solid #e3e7ee', boxShadow: '0 12px 24px -12px rgba(11, 54, 111, 0.28)' }}
+                      itemStyle={{ color: '#101828', fontWeight: 600 }}
                     />
-                    <Line type="monotone" dataKey="value" stroke="#00796B" strokeWidth={3} dot={{ r: 4, fill: '#00796B', strokeWidth: 2, stroke: '#FFFFFF' }} activeDot={{ r: 6 }} />
+                    <Line type="monotone" dataKey="value" stroke="#0f766e" strokeWidth={3} dot={{ r: 4, fill: '#0f766e', strokeWidth: 2, stroke: '#FFFFFF' }} activeDot={{ r: 6 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -109,21 +138,18 @@ export default function LabResultDetails() {
           )}
         </div>
 
-        {/* AI Interpretation */}
         {labResult.aiInterpretation && (
-          <motion.div className="space-y-6" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <section>
-              <h2 className="text-[#1E3A5F] font-bold text-lg mb-4 flex items-center gap-2">
-                <Sparkles className="text-[#15803D]" />
-                AI Interpretation
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <section className="rounded-xl border border-pulse-info/30 bg-pulse-info-light p-5">
+              <h2 className="mb-3 flex items-center gap-2 text-base font-semibold text-pulse-navy">
+                <Sparkles className="size-4 text-pulse-info" aria-hidden="true" />
+                AI-generated draft
               </h2>
-              <div className="card p-5 border border-[#DBEAFE] shadow-sm bg-gradient-to-br from-[#F8FAFC] to-[#DBEAFE]/20 relative overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#15803D]/5 rounded-full blur-2xl"></div>
-                
-                <div className="relative z-10 space-y-4">
-                  <p className="text-[#64748B] text-sm leading-relaxed">{labResult.aiInterpretation}</p>
-                </div>
-              </div>
+              <p className="text-sm leading-relaxed text-pulse-text-secondary">{labResult.aiInterpretation}</p>
+              <p className="mt-3 text-xs text-pulse-text-muted">
+                This is an AI draft, not a diagnosis. A board-certified physician reviews all
+                findings before they are final.
+              </p>
             </section>
           </motion.div>
         )}

@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { ColumnDef } from "@tanstack/react-table"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { MoreHorizontal, Eye, UserPlus, CheckCircle, Stethoscope } from "lucide-react"
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { queryKeys } from "@/lib/query-keys"
 import { CASE_STATUS_CONFIG, SERVICE_TYPE_LABELS } from "@/lib/constants"
 
 export type AdminCase = {
@@ -25,52 +26,90 @@ export type AdminCase = {
 
 type Specialist = { id: string; name: string | null; email: string; specialty: string }
 
+type SpecialistRow = { user: Specialist; specialty: string; verified: boolean }
+
 function CaseActions({ caseItem }: { caseItem: AdminCase }) {
   const [open, setOpen] = useState(false)
-  const [specialists, setSpecialists] = useState<Specialist[]>([])
-  const [loading, setLoading] = useState(false)
-  const [assigning, setAssigning] = useState<string | null>(null)
+  const queryClient = useQueryClient()
 
-  async function loadSpecialists() {
-    if (specialists.length > 0) return
-    const res = await fetch("/api/admin/specialists")
-    if (res.ok) {
-      const data = await res.json()
-      setSpecialists(
-        data
-          .filter((d: { verified: boolean }) => d.verified)
-          .map((d: { user: Specialist; specialty: string }) => ({
-            id: d.user.id,
-            name: d.user.name,
-            email: d.user.email,
-            specialty: d.specialty,
-          }))
-      )
-    }
-  }
+  // Lazy: only fetched the first time the dropdown is opened. Shares the
+  // ['admin-specialists'] cache with the specialists page and the raw
+  // endpoint shape { data, total } (the old code filtered the envelope
+  // directly, so the dropdown never populated after pagination was added).
+  const { data: res } = useQuery<{ data: SpecialistRow[]; total: number }>({
+    queryKey: queryKeys.admin.specialists,
+    queryFn: async () => {
+      const res = await fetch("/api/admin/specialists")
+      if (!res.ok) throw new Error("Failed to fetch specialists")
+      return res.json()
+    },
+    enabled: open,
+    staleTime: 60 * 1000,
+  })
 
-  async function assign(specialistId: string) {
-    setAssigning(specialistId)
-    try {
+  const specialists = (res?.data ?? [])
+    .filter((d) => d.verified)
+    .map(({ user, specialty }) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      specialty,
+    }))
+
+  const assignMutation = useMutation({
+    mutationFn: async ({ specialistId }: { specialistId: string; name: string | null; email: string }) => {
       const res = await fetch(`/api/admin/cases/${caseItem.id}/assign`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ specialistId }),
       })
-      if (res.ok) {
-        window.location.reload()
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body.error || "Failed to assign specialist")
       }
-    } finally {
-      setAssigning(null)
-    }
-  }
+      return res.json()
+    },
+    // Optimistic update: show the specialist + UNDER_REVIEW immediately,
+    // roll back if the assignment fails (e.g. case just closed or disputed)
+    onMutate: async ({ name, email }) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.admin.cases.list })
+      const previous = queryClient.getQueryData<{
+        data: AdminCase[]
+        total: number
+      }>(queryKeys.admin.cases.list)
+      queryClient.setQueryData<{
+        data: AdminCase[]
+        total: number
+      }>(queryKeys.admin.cases.list, (old) =>
+        old
+          ? {
+              ...old,
+              data: old.data.map((c) =>
+                c.id === caseItem.id
+                  ? { ...c, specialist: { name, email }, status: "UNDER_REVIEW" }
+                  : c
+              ),
+            }
+          : old
+      )
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(queryKeys.admin.cases.list, context.previous)
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.cases.list })
+    },
+  })
+
+  const assigning = assignMutation.variables?.specialistId ?? null
+  const isAssigning = assignMutation.isPending && assigning !== null
 
   return (
     <DropdownMenu
-      onOpenChange={(isOpen) => {
-        setOpen(isOpen)
-        if (isOpen) loadSpecialists()
-      }}
+      onOpenChange={(isOpen) => setOpen(isOpen)}
     >
       <DropdownMenuTrigger className="inline-flex items-center justify-center size-8 rounded-md text-admin-text-faint hover:bg-admin-surface-elevated hover:text-admin-text transition-colors cursor-pointer">
         <span className="sr-only">Open menu</span>
@@ -103,8 +142,15 @@ function CaseActions({ caseItem }: { caseItem: AdminCase }) {
                     return (
                       <button
                         key={s.id}
-                        onClick={() => assign(s.id)}
-                        disabled={assigning === s.id}
+                        onClick={() => {
+                          const specialist = specialists.find((sp) => sp.id === s.id)
+                          assignMutation.mutate({
+                            specialistId: s.id,
+                            name: specialist?.name ?? "Unknown",
+                            email: specialist?.email ?? "",
+                          })
+                        }}
+                        disabled={isAssigning && assigning === s.id}
                         className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-admin-surface-elevated transition-colors text-left disabled:opacity-50"
                       >
                         <div className="w-6 h-6 rounded-full bg-admin-brand-light flex items-center justify-center text-admin-accent-blue text-[9px] font-bold shrink-0">
@@ -119,7 +165,7 @@ function CaseActions({ caseItem }: { caseItem: AdminCase }) {
                             {s.specialty}
                           </p>
                         </div>
-                        {assigning === s.id && (
+                        {isAssigning && assigning === s.id && (
                           <CheckCircle className="size-3 text-admin-success shrink-0 animate-pulse" />
                         )}
                       </button>

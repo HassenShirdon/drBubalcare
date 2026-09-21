@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { ReactNode, useState } from 'react'
@@ -135,7 +135,7 @@ function PanelWordmark({ className }: { className?: string }) {
         />
       </span>
       <span className="text-lg font-semibold tracking-tight text-white">
-        Dr Bubal Care
+        Dr. Bubal Care
       </span>
     </Link>
   )
@@ -145,12 +145,7 @@ function DotGrid() {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 opacity-[0.05]"
-      style={{
-        backgroundImage:
-          'radial-gradient(circle at 25% 25%, white 1px, transparent 1px), radial-gradient(circle at 75% 75%, white 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }}
+      className="bg-dot-grid absolute inset-0 opacity-[0.05]"
     />
   )
 }
@@ -219,7 +214,7 @@ export function BrandPanel({ variant }: { variant: BrandPanelVariant }) {
                 </span>
                 <p className="text-sm text-white/80">
                   {step.title}
-                  <span className="text-white/50"> — {step.desc}</span>
+                  <span className="text-white/50"> â€” {step.desc}</span>
                 </p>
               </li>
             ))}
@@ -230,7 +225,7 @@ export function BrandPanel({ variant }: { variant: BrandPanelVariant }) {
               aria-hidden="true"
             />
             Every case closes with a human-signed written opinion. AI surfaces
-            what matters — specialists decide.
+            what matters â€” specialists decide.
           </p>
         </div>
       </motion.div>
@@ -260,7 +255,7 @@ export function AuthFormCard({
           href="/"
           className="text-lg font-semibold tracking-tight text-landing-brand"
         >
-          Dr Bubal Care
+          Dr. Bubal Care
         </Link>
         <ModeToggle />
       </header>

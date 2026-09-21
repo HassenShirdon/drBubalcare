@@ -20,14 +20,17 @@ vi.mock('@/lib/auth', () => ({
   authOptions: {},
 }));
 
-vi.mock('@/lib/db', () => ({
-  prisma: {
+vi.mock('@/lib/db', () => {
+  const db = {
+    $transaction: vi.fn(),
     case: {
       create: vi.fn(),
       findUnique: vi.fn(),
+      findUniqueOrThrow: vi.fn(),
       findFirst: vi.fn(),
       findMany: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
     },
     doctor: {
       findUnique: vi.fn(),
@@ -40,13 +43,26 @@ vi.mock('@/lib/db', () => ({
       update: vi.fn(),
       count: vi.fn(),
     },
-  },
-}));
+    auditLog: {
+      create: vi.fn(),
+    },
+  };
+  db.$transaction.mockImplementation((cb: (tx: typeof db) => unknown) => cb(db));
+  return { prisma: db };
+});
 
 vi.mock('@/lib/schemas/case.schema', () => ({
   createCaseSchema: {
     safeParse: vi.fn(),
   },
+}));
+
+vi.mock('@/lib/ai/summary', () => ({
+  generateSummary: vi.fn().mockResolvedValue(undefined),
+}));
+
+vi.mock('@/lib/ai/synthesis', () => ({
+  generateSynthesis: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/generated/prisma/enums', () => ({
@@ -121,7 +137,8 @@ describe('Specialist Opinion Workflow E2E', () => {
     vi.mocked(prisma.doctor.findFirst).mockResolvedValue({
       id: DOCTOR_PROFILE_ID, userId: DOCTOR_USER_ID, verified: true,
     } as any);
-    vi.mocked(prisma.case.update).mockResolvedValue({
+    vi.mocked(prisma.case.updateMany).mockResolvedValue({ count: 1 } as any);
+    vi.mocked(prisma.case.findUniqueOrThrow).mockResolvedValue({
       id: CASE_ID, patientId: PATIENT_ID, specialistId: DOCTOR_USER_ID, status: 'UNDER_REVIEW',
     } as any);
 
@@ -176,8 +193,9 @@ describe('Specialist Opinion Workflow E2E', () => {
       id: CASE_ID, status: 'OPINION_READY',
     } as any);
 
+    const SIGNED_CONTENT = '## Clinical Findings\nFindings indicate mild abnormalities.\n\n## Impression\nLikely benign.\n\n## Recommended Next Steps\nSchedule follow-up in 3 months.';
     const signRes = await saveOpinion(
-      createRequest({ content: 'Final: findings indicate mild abnormalities', sign: true }),
+      createRequest({ content: SIGNED_CONTENT, sign: true }),
       params(CASE_ID),
     );
     expect(signRes.status).toBe(200);

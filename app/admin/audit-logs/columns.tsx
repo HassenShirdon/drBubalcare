@@ -21,18 +21,19 @@ function ActionBadge({ action }: { action: string }) {
     LOGIN: 'bg-admin-brand-light text-admin-accent-blue',
     LOGOUT: 'bg-admin-surface-elevated text-admin-text-faint',
     REGISTER: 'bg-admin-success-light text-admin-success',
-    CASE_CREATE: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
+    CASE_CREATE: 'bg-admin-surface-elevated text-admin-text',
     CASE_STATUS_CHANGE: 'bg-admin-warning-light text-admin-warning',
     DISPUTE_FILED: 'bg-admin-danger-light text-admin-danger',
     DISPUTE_RESOLVED: 'bg-admin-success-light text-admin-success',
     OPINION_SIGNED: 'bg-admin-success-light text-admin-success',
-    DATA_EXPORT_REQUESTED: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
+    DATA_EXPORT_REQUESTED: 'bg-admin-warning-light text-admin-warning',
     DATA_DELETION_REQUESTED: 'bg-admin-danger-light text-admin-danger',
   }
   const color = colors[action] ?? 'bg-admin-surface-elevated text-admin-text-faint'
+  const label = action.replace(/_/g, ' ').toLowerCase().replace(/^./, (c) => c.toUpperCase())
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
-      {action.replace(/_/g, ' ')}
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${color}`}>
+      {label}
     </span>
   )
 }

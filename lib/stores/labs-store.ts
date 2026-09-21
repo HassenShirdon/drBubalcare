@@ -1,11 +1,5 @@
-import { create } from 'zustand';
+import { useAppStore } from './root-store';
 
-interface LabsState {
-  filterStatus: string | null;
-  setFilterStatus: (status: string | null) => void;
-}
-
-export const useLabsStore = create<LabsState>((set) => ({
-  filterStatus: null,
-  setFilterStatus: (status) => set({ filterStatus: status }),
-}));
+// Backward-compatible alias — the labs filter now lives in the combined
+// root store (filters slice) but keeps its own hook name.
+export const useLabsStore = useAppStore;

@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useDoctorCases() {
   return useQuery({
-    queryKey: ['doctor-cases'],
+    queryKey: queryKeys.doctor.cases.all,
     queryFn: async () => {
       const res = await fetch('/api/doctor/cases');
       if (!res.ok) throw new Error('Failed to fetch cases');
@@ -14,7 +15,7 @@ export function useDoctorCases() {
 
 export function useDoctorCase(id: string) {
   return useQuery({
-    queryKey: ['doctor-case', id],
+    queryKey: queryKeys.doctor.cases.detail(id),
     queryFn: async () => {
       const res = await fetch(`/api/doctor/cases/${id}`);
       if (!res.ok) throw new Error('Failed to fetch case');
@@ -50,8 +51,8 @@ export function useSubmitOpinion() {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['doctor-cases'] });
-      queryClient.invalidateQueries({ queryKey: ['doctor-case'] });
+      // 'all' prefix-matches both the list and every detail key
+      queryClient.invalidateQueries({ queryKey: queryKeys.doctor.cases.all });
     },
   });
 }

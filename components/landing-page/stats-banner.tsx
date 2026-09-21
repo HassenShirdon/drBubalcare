@@ -3,19 +3,19 @@ import { STATS } from "@/components/landing-page/data";
 
 export default function StatsBanner() {
   return (
-    <section className="py-20 md:py-24 bg-card">
+    <section className="py-20 md:py-24 bg-landing-surface-card">
       <div className="max-w-7xl mx-auto px-6 md:px-16">
-        <div className="bg-landing-brand rounded-3xl p-10 md:p-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 divide-y md:divide-y-0 md:divide-x divide-white/20">
+        <div className="grain relative overflow-hidden bg-landing-brand rounded-3xl p-10 md:p-12 shadow-lift">
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 divide-y md:divide-y-0 md:divide-x divide-white/20">
             {STATS.map((stat) => (
               <div
                 key={stat.label}
                 className="text-center px-3 pt-6 md:pt-0 first:pt-0"
               >
-                <div className="text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
+                <div className="font-mono text-3xl lg:text-4xl font-semibold tabular-nums text-white mb-2 tracking-tight">
                   {stat.value}
                 </div>
-                <div className="text-xs text-white/70 uppercase tracking-wider font-medium">
+                <div className="text-sm text-white/70 font-medium">
                   {stat.label}
                 </div>
               </div>

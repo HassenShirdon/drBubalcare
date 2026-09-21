@@ -1,13 +1,2 @@
-import { create } from 'zustand';
-
-interface UIState {
-  sidebarOpen: boolean;
-  toggleSidebar: () => void;
-  setSidebarOpen: (open: boolean) => void;
-}
-
-export const useAppStore = create<UIState>((set) => ({
-  sidebarOpen: false,
-  toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
-  setSidebarOpen: (open) => set({ sidebarOpen: open }),
-}));
+export { useAppStore } from './root-store';
+export type { RootState } from './root-store';

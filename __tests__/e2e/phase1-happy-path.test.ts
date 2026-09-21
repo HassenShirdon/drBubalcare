@@ -18,14 +18,18 @@ vi.mock('@/lib/auth', () => ({
   authOptions: {},
 }));
 
-vi.mock('@/lib/db', () => ({
-  prisma: {
+vi.mock('@/lib/db', () => {
+  const db = {
+    $transaction: vi.fn(),
     case: {
       create: vi.fn(),
       findUnique: vi.fn(),
+      findUniqueOrThrow: vi.fn(),
       findFirst: vi.fn(),
       findMany: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
+      delete: vi.fn(),
       count: vi.fn(),
     },
     caseRecord: {
@@ -51,8 +55,13 @@ vi.mock('@/lib/db', () => ({
     plainLanguageSummary: {
       create: vi.fn(),
     },
-  },
-}));
+    auditLog: {
+      create: vi.fn(),
+    },
+  };
+  db.$transaction.mockImplementation((cb: (tx: typeof db) => unknown) => cb(db));
+  return { prisma: db };
+});
 
 vi.mock('@/lib/schemas/case.schema', () => ({
   createCaseSchema: {
@@ -84,8 +93,17 @@ vi.mock('fs/promises', () => ({
   mkdir: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('@/lib/ai/summary', () => ({
+  generateSummary: vi.fn().mockResolvedValue(undefined),
+}));
+
+vi.mock('@/lib/ai/synthesis', () => ({
+  generateSynthesis: vi.fn().mockResolvedValue(undefined),
+}));
+
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
+import { generateSummary } from '@/lib/ai/summary';
 import { createCaseSchema } from '@/lib/schemas/case.schema';
 import { GET as listCases, POST as createCase } from '@/app/api/cases/route';
 import { PATCH as verifyDoctor } from '@/app/api/admin/specialists/[id]/verify/route';
@@ -178,7 +196,8 @@ describe('Phase 1 Happy Path E2E', () => {
     vi.mocked(prisma.doctor.findFirst).mockResolvedValue({
       id: DOCTOR_PROFILE_ID, userId: DOCTOR_USER_ID, verified: true,
     } as any);
-    vi.mocked(prisma.case.update).mockResolvedValue({
+    vi.mocked(prisma.case.updateMany).mockResolvedValue({ count: 1 } as any);
+    vi.mocked(prisma.case.findUniqueOrThrow).mockResolvedValue({
       id: CASE_ID, patientId: PATIENT_ID, specialistId: DOCTOR_USER_ID, status: 'UNDER_REVIEW',
     } as any);
 
@@ -232,12 +251,8 @@ describe('Phase 1 Happy Path E2E', () => {
     );
     expect(draftRes.status).toBe(200);
 
-    // Verify no summary fetch triggered on draft save
-    const draftFetchCalls = vi.mocked(global.fetch).mock.calls;
-    const draftSummaryCalls = draftFetchCalls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('/api/ai/summary/'),
-    );
-    expect(draftSummaryCalls).toHaveLength(0);
+    // Verify no summary generation triggered on draft save
+    expect(generateSummary).not.toHaveBeenCalled();
 
     // ─── Step 6: Doctor signs opinion → triggers summary generation ───
     vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', DOCTOR_USER_ID) as any);
@@ -255,29 +270,15 @@ describe('Phase 1 Happy Path E2E', () => {
       id: CASE_ID, status: 'OPINION_READY',
     } as any);
 
+    const SIGNED_CONTENT = '## Clinical Findings\nFindings indicate mild abnormalities.\n\n## Impression\nLikely benign.\n\n## Recommended Next Steps\nSchedule follow-up in 3 months.';
     const signRes = await saveOpinion(
-      createRequest({ content: 'Final: findings indicate mild abnormalities', sign: true }),
+      createRequest({ content: SIGNED_CONTENT, sign: true }),
       params(CASE_ID),
     );
     expect(signRes.status).toBe(200);
 
-    // Verify plain-language summary fetch was triggered (fire and forget)
-    const allFetchCalls = vi.mocked(global.fetch).mock.calls;
-    const summaryCalls = allFetchCalls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('/api/ai/summary/'),
-    );
-    expect(summaryCalls.length).toBeGreaterThanOrEqual(1);
-    expect(summaryCalls[0][0]).toBe(
-      `http://localhost:3000/api/ai/summary/${OPINION_ID}`,
-    );
-    expect(summaryCalls[0][1]).toEqual(
-      expect.objectContaining({
-        method: 'POST',
-        headers: expect.objectContaining({
-          'x-internal-secret': 'test-secret',
-        }),
-      }),
-    );
+    // Verify plain-language summary generation was triggered (fire and forget)
+    expect(generateSummary).toHaveBeenCalledWith(OPINION_ID);
 
     // ─── Step 7: Patient views case with AI prescreen data ───
     vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
@@ -362,10 +363,7 @@ describe('Phase 1 Happy Path E2E', () => {
     );
     expect(draftRes.status).toBe(200);
 
-    const summaryCalls = vi.mocked(global.fetch).mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('/api/ai/summary/'),
-    );
-    expect(summaryCalls).toHaveLength(0);
+    expect(generateSummary).not.toHaveBeenCalled();
   });
 
   it('rejects file upload on closed case with 400', async () => {
@@ -412,16 +410,11 @@ describe('Phase 1 Happy Path E2E', () => {
       capturedDiskFileName = args.data.fileName;
       return {
         id: 'record-file-1', caseId: CASE_ID,
-        fileUrl: '', fileType: 'image/jpeg', fileName: args.data.fileName,
+        fileUrl: '/api/records/record-file-1/file', fileType: 'image/jpeg',
+        fileName: args.data.fileName,
         uploadedAt: new Date(),
       };
     }) as any);
-    vi.mocked(prisma.caseRecord.update).mockResolvedValue({
-      id: 'record-file-1', caseId: CASE_ID,
-      fileUrl: '/api/records/record-file-1/file', fileType: 'image/jpeg',
-      fileName: capturedDiskFileName || 'timestamped_filename',
-      uploadedAt: new Date(),
-    } as any);
     vi.mocked(prisma.caseRecord.count).mockResolvedValue(1);
 
     const uploadRes = await uploadRecords(
@@ -433,8 +426,8 @@ describe('Phase 1 Happy Path E2E', () => {
     const records = await uploadRes.json();
     expect(records).toHaveLength(1);
 
-    // fileName should be the timestamped on-disk name, not the original name
-    expect(records[0].fileName).toMatch(/^\d+_patient_mri\.dcm$/);
+    // fileName should be the UUID-prefixed on-disk name, not the original name
+    expect(records[0].fileName).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_patient_mri\.dcm$/i);
     expect(records[0].fileUrl).toMatch(/^\/api\/records\/.+\/file$/);
   });
 

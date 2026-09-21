@@ -1,32 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { AlertTriangle, Bell, Clock, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
+import { useAdminEdgeCases, type UnmatchedCase } from "@/lib/hooks/use-admin"
 import Link from "next/link"
-
-type UnmatchedCase = {
-  id: string
-  serviceType: string
-  createdAt: string
-  patient: { name: string | null; email: string }
-}
 
 export default function AdminEdgeCasesPage() {
   const [alertMessage, setAlertMessage] = useState("")
   const [alertCaseId, setAlertCaseId] = useState<string | null>(null)
 
-  const { data, isLoading } = useQuery<{ cases: UnmatchedCase[] }>({
-    queryKey: ["admin-edge-cases"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/edge-cases/pending")
-      if (!res.ok) throw new Error("Failed to fetch edge cases")
-      return res.json()
-    },
-    staleTime: 30 * 1000,
-  })
+  const { data, isLoading } = useAdminEdgeCases()
 
   const urgentAlertMutation = useMutation({
     mutationFn: async ({ caseId, message }: { caseId: string; message: string }) => {

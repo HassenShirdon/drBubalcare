@@ -3,25 +3,17 @@
 import { motion } from "motion/react"
 import { DataTable } from "@/components/ui/data-table"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
-import { useQuery } from "@tanstack/react-query"
-import { columns, type DoctorPatient } from "./columns"
+import { useDoctorPatients } from "@/lib/hooks/use-doctor"
+import { columns } from "./columns"
 
 export default function DoctorPatientsPage() {
-  const { data: patients, isLoading } = useQuery<DoctorPatient[]>({
-    queryKey: ["doctor-patients"],
-    queryFn: async () => {
-      const res = await fetch("/api/doctor/patients")
-      if (!res.ok) throw new Error("Failed to fetch patients")
-      return res.json()
-    },
-    staleTime: 5 * 60 * 1000,
-  })
+  const { data: patients, isLoading } = useDoctorPatients()
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-6 lg:p-8">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="font-semibold text-xl" style={{ color: '#1E3A5F' }}>My Patients</h1>
-        <p className="text-sm mt-0.5" style={{ color: '#64748B' }}>Patients you&apos;ve consulted with</p>
+        <h2 className="text-xl font-semibold tracking-tight text-pulse-navy">My patients</h2>
+        <p className="mt-0.5 text-sm text-pulse-text-secondary">Patients you have consulted with.</p>
       </motion.div>
 
       {isLoading ? (

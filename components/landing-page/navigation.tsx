@@ -1,7 +1,8 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { Menu, X, LogIn, LogOut, LayoutDashboard, Stethoscope, ChevronDown } from 'lucide-react'
 import { ModeToggle } from "@/components/mode-toggle"
@@ -39,13 +40,23 @@ export default function Navigation() {
   const signedIn = status === 'authenticated'
 
   return (
-    <nav className="relative z-50 w-full border-b border-landing-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-10 h-16 lg:h-18">
+    <nav className="relative z-50 w-full border-b border-landing-border/40 bg-landing-surface/85 backdrop-blur-md supports-[backdrop-filter]:bg-landing-surface/70">
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-16 h-16 lg:h-18">
         <Link
           href="/"
-          className="text-lg font-semibold tracking-tight text-landing-brand shrink-0"
+          className="flex items-center gap-2.5 shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40"
         >
-          Dr Bubal Care
+          <Image
+            src="/logo.png"
+            alt="Dr. Bubal Care logo"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-full object-cover"
+            priority
+          />
+          <span className="text-lg font-semibold tracking-tight text-landing-brand">
+            Dr. Bubal Care
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1 mx-6 overflow-visible">
@@ -80,7 +91,7 @@ export default function Navigation() {
             </button>
 
             {servicesOpen ? (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-64 bg-card border border-landing-border/60 rounded-xl shadow-lg py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-64 bg-landing-surface-card border border-landing-border/60 rounded-xl shadow-lift py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                 {SERVICE_LIST.map((service) => (
                   <Link
                     key={service.link}
@@ -104,7 +115,7 @@ export default function Navigation() {
             <div className="flex items-center gap-2">
               <Link
                 href={roleDashboard(session?.user?.role as string | undefined)}
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-landing-border text-landing-brand bg-card/70 hover:bg-landing-brand hover:text-white transition-all duration-200"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-landing-border text-landing-brand bg-landing-surface-card/70 hover:bg-landing-brand hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 transition-all duration-200"
               >
                 <LayoutDashboard className="size-3.5" />
                 {roleLabel(session?.user?.role as string | undefined)}
@@ -122,7 +133,7 @@ export default function Navigation() {
             <div className="flex items-center gap-2">
               <Link
                 href="/auth/signup/doctor"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-lg border border-landing-border text-landing-text-faint bg-card/70 hover:border-landing-brand hover:text-landing-brand transition-all duration-200"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-lg border border-landing-border text-landing-text-faint bg-landing-surface-card/70 hover:border-landing-brand hover:text-landing-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 transition-all duration-200"
               >
                 <Stethoscope className="size-3.5" />
                 For Physicians
@@ -136,9 +147,9 @@ export default function Navigation() {
               </Link>
               <Link
                 href="/auth/signup/patient"
-                className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-landing-brand text-white hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-200 shadow-sm"
+                className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-landing-brand text-white hover:bg-landing-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 focus-visible:ring-offset-2 active:scale-[0.98] transition-all duration-200 shadow-soft"
               >
-                Start a Case
+                Start a case
               </Link>
             </div>
           )}
@@ -160,7 +171,7 @@ export default function Navigation() {
       </div>
 
       {mobileOpen ? (
-        <div className="md:hidden border-t border-landing-border/40 bg-background/95 backdrop-blur-md">
+        <div className="md:hidden border-t border-landing-border/40 bg-landing-surface/95 backdrop-blur-md">
           <div className="px-6 py-4 space-y-1 max-w-7xl mx-auto">
             {links.map((link) => (
               <a
@@ -249,7 +260,7 @@ export default function Navigation() {
                   className="block text-center text-sm font-semibold px-5 py-3 rounded-lg bg-landing-brand text-white hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-150"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Start a Case
+                  Start a case
                 </Link>
               </div>
             )}

@@ -9,44 +9,39 @@ export async function GET() {
     const doctor = await prisma.doctor.findUnique({ where: { userId: auth.userId } });
     if (!doctor) return notFound('Doctor profile');
 
-    const appointments = await prisma.appointment.findMany({
+    // Aggregate distinct patients with two bounded queries instead of loading
+    // up to 500 full appointment rows (each with a patient include) into memory.
+    const grouped = await prisma.appointment.groupBy({
+      by: ['patientId'],
       where: { doctorId: doctor.id },
-      include: {
-        patient: { select: { id: true, name: true, age: true, gender: true } },
-      },
-      orderBy: { date: 'desc' },
-      take: 500,
+      _count: { patientId: true },
+      _max: { date: true },
     });
 
-    const patientMap = new Map<string, {
-      id: string;
-      name: string;
-      age: number | null;
-      gender: string | null;
-      appointmentCount: number;
-      lastVisit: Date;
-    }>();
+    const patientIds = grouped.map((g) => g.patientId);
+    const users = patientIds.length
+      ? await prisma.user.findMany({
+          where: { id: { in: patientIds } },
+          select: { id: true, name: true, age: true, gender: true },
+        })
+      : [];
+    const userById = new Map(users.map((u) => [u.id, u]));
 
-    for (const apt of appointments) {
-      const existing = patientMap.get(apt.patientId);
-      if (existing) {
-        existing.appointmentCount++;
-        if (apt.date > existing.lastVisit) existing.lastVisit = apt.date;
-      } else {
-        patientMap.set(apt.patientId, {
-          id: apt.patient.id,
-          name: apt.patient.name ?? 'Unknown',
-          age: apt.patient.age,
-          gender: apt.patient.gender,
-          appointmentCount: 1,
-          lastVisit: apt.date,
-        });
-      }
-    }
-
-    const patients = Array.from(patientMap.values()).sort(
-      (a, b) => b.lastVisit.getTime() - a.lastVisit.getTime()
-    );
+    const patients = grouped
+      .map((g) => {
+        const user = userById.get(g.patientId);
+        if (!user) return null;
+        return {
+          id: user.id,
+          name: user.name ?? 'Unknown',
+          age: user.age,
+          gender: user.gender,
+          appointmentCount: g._count.patientId,
+          lastVisit: g._max.date ?? new Date(0),
+        };
+      })
+      .filter((p): p is NonNullable<typeof p> => p !== null)
+      .sort((a, b) => b.lastVisit.getTime() - a.lastVisit.getTime());
 
     return ok(patients, 'private, no-store');
   } catch (error) {

@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { Prisma } from '@/lib/generated/prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { serverError } from '@/lib/api-helpers';
 import { createCaseSchema } from '@/lib/schemas/case.schema';
 import { intakeSchema } from '@/lib/schemas/intake.schema';
 import { z } from 'zod';
@@ -151,61 +152,71 @@ export async function POST(request: Request) {
 
   let result: Record<string, unknown> = caseRecord;
 
-  // Persist the full case-review intake form when provided
-  if (intake) {
-    const intakeRecord = await prisma.caseIntake.create({
-      data: {
-        caseId: caseRecord.id,
-        age: intake.age ?? null,
-        sex: intake.sex ?? null,
-        serviceType: intake.serviceType,
-        reviewType: intake.reviewType,
-        reasonForRequest: intake.reasonForRequest,
-        mainConcern: intake.mainConcern,
-        diagnosis: intake.diagnosis || null,
-        onsetDate: intake.onsetDate || null,
-        mainSymptoms: intake.mainSymptoms || null,
-        courseOfCondition: intake.courseOfCondition || null,
-        medicalHistory: intake.medicalHistory,
-        previousOperations: intake.previousOperations || null,
-        medications: intake.medications.length ? intake.medications : Prisma.JsonNull,
-        medicationAllergies: intake.medicationAllergies || null,
-        labTests: intake.labTests.length ? intake.labTests : Prisma.JsonNull,
-        imagingTypes: intake.imagingTypes,
-        imagingFindings: intake.imagingFindings || null,
-        previousOpinions: intake.previousOpinions || null,
-        questionsForReview: intake.questionsForReview || null,
-        lifestyleFactors: intake.lifestyleFactors,
-        lifestyleNotes: intake.lifestyleNotes || null,
-        familyHistory: intake.familyHistory,
-        patientGoals: intake.patientGoals || null,
-        outcomeDecision: intake.outcomeDecision || null,
-        documentsToUpload: intake.documentsToUpload,
-        requestedSpecialty: intake.requestedSpecialty || null,
-        referralReason: intake.referralReason || null,
-        referralUrgency: intake.referralUrgency || null,
-        country: intake.country || null,
-        preferredLanguage: intake.preferredLanguage || null,
-        phone: intake.phone || null,
-        preferredCommunication: intake.preferredCommunication,
-        consentedToReview: intake.consentedToReview,
-        confirmedAccuracy: intake.confirmedAccuracy,
-        consentedToProcessing: intake.consentedToProcessing,
-        signatureName: intake.signatureName,
-      },
-    });
-    result = { ...caseRecord, intake: intakeRecord };
-  }
+  // The intake and referral creates run separately (adapter limitation). If
+  // either fails, roll back the case row so no orphaned case is left behind.
+  try {
+    // Persist the full case-review intake form when provided
+    if (intake) {
+      const intakeRecord = await prisma.caseIntake.create({
+        data: {
+          caseId: caseRecord.id,
+          age: intake.age ?? null,
+          sex: intake.sex ?? null,
+          serviceType: intake.serviceType,
+          reviewType: intake.reviewType,
+          reasonForRequest: intake.reasonForRequest,
+          mainConcern: intake.mainConcern,
+          diagnosis: intake.diagnosis || null,
+          onsetDate: intake.onsetDate || null,
+          mainSymptoms: intake.mainSymptoms || null,
+          courseOfCondition: intake.courseOfCondition || null,
+          medicalHistory: intake.medicalHistory,
+          previousOperations: intake.previousOperations || null,
+          medications: intake.medications.length ? intake.medications : Prisma.JsonNull,
+          medicationAllergies: intake.medicationAllergies || null,
+          labTests: intake.labTests.length ? intake.labTests : Prisma.JsonNull,
+          imagingTypes: intake.imagingTypes,
+          imagingFindings: intake.imagingFindings || null,
+          previousOpinions: intake.previousOpinions || null,
+          questionsForReview: intake.questionsForReview || null,
+          lifestyleFactors: intake.lifestyleFactors,
+          lifestyleNotes: intake.lifestyleNotes || null,
+          familyHistory: intake.familyHistory,
+          patientGoals: intake.patientGoals || null,
+          outcomeDecision: intake.outcomeDecision || null,
+          documentsToUpload: intake.documentsToUpload,
+          requestedSpecialty: intake.requestedSpecialty || null,
+          referralReason: intake.referralReason || null,
+          referralUrgency: intake.referralUrgency || null,
+          country: intake.country || null,
+          preferredLanguage: intake.preferredLanguage || null,
+          phone: intake.phone || null,
+          preferredCommunication: intake.preferredCommunication,
+          consentedToReview: intake.consentedToReview,
+          confirmedAccuracy: intake.confirmedAccuracy,
+          consentedToProcessing: intake.consentedToProcessing,
+          signatureName: intake.signatureName,
+        },
+      });
+      result = { ...caseRecord, intake: intakeRecord };
+    }
 
-  // If EUROPEAN_REFERRAL, create the referral coordination in a separate query
-  if (parsed.data.serviceType === 'EUROPEAN_REFERRAL') {
-    const rc = await prisma.referralCoordination.create({
-      data: {
-        caseId: caseRecord.id,
-        referralStatus: 'SEARCHING',
-      },
+    // If EUROPEAN_REFERRAL, create the referral coordination in a separate query
+    if (parsed.data.serviceType === 'EUROPEAN_REFERRAL') {
+      const rc = await prisma.referralCoordination.create({
+        data: {
+          caseId: caseRecord.id,
+          referralStatus: 'SEARCHING',
+        },
+      });
+      result = { ...result, referralCoordination: rc };
+    }
+  } catch (error) {
+    await prisma.case.delete({ where: { id: caseRecord.id } }).catch(() => {
+      // Best-effort rollback; if deletion fails the edge-cases monitor will
+      // surface the orphaned case.
     });
-    result = { ...result, referralCoordination: rc };
+    return serverError(error);
   }
 
   return NextResponse.json(result, {

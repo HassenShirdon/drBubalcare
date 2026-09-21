@@ -1,4 +1,4 @@
-import {
+﻿import {
   Baby,
   Globe,
   Heart,
@@ -165,7 +165,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     relatedServices: ["laboratory-diagnostic-center", "medical-nutrition-therapy"],
     seo: {
-      title: "Medical Second Opinion Center | Dr Bubal Care",
+      title: "Medical Second Opinion Center | Dr. Bubal Care",
       description:
         "Get an independent review of your diagnosis and treatment plan from board-certified physicians in our Global Doctors Network. Treatment review, diagnosis verification, medication review, and more.",
       keywords: [
@@ -272,7 +272,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     relatedServices: ["medical-second-opinion", "medical-nutrition-therapy"],
     seo: {
-      title: "Laboratory & Diagnostic Center | Dr Bubal Care",
+      title: "Laboratory & Diagnostic Center | Dr. Bubal Care",
       description:
         "Professional interpretation of lab tests, MRI, CT scans, and ECGs. Understand your results with clear explanations from board-certified physicians in our Global Doctors Network.",
       keywords: [
@@ -385,7 +385,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     relatedServices: ["child-health-development", "womens-health-fertility"],
     seo: {
-      title: "Medical Nutrition Therapy Center | Dr Bubal Care",
+      title: "Medical Nutrition Therapy Center | Dr. Bubal Care",
       description:
         "Personalized nutrition therapy for diabetes, kidney disease, pregnancy, weight management, and more. Evidence-based dietary guidance from our Global Doctors Network.",
       keywords: [
@@ -522,7 +522,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     relatedServices: ["womens-health-fertility", "medical-nutrition-therapy"],
     seo: {
-      title: "Child Health & Development Center | Dr Bubal Care",
+      title: "Child Health & Development Center | Dr. Bubal Care",
       description:
         "Supporting healthy growth from pregnancy through adolescence. Breastfeeding, child nutrition, growth monitoring, vaccination, and developmental support.",
       keywords: [
@@ -647,7 +647,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     relatedServices: ["child-health-development", "medical-nutrition-therapy"],
     seo: {
-      title: "Women's Health & Fertility Center | Dr Bubal Care",
+      title: "Women's Health & Fertility Center | Dr. Bubal Care",
       description:
         "Evidence-based reproductive health guidance, fertility education, PCOS management, pregnancy planning, and women's wellness from board-certified physicians in our Global Doctors Network.",
       keywords: [

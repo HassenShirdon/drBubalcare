@@ -1,19 +1,9 @@
-'use client';
+﻿'use client';
 
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
-
-interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  coverImage: string | null;
-  category: string | null;
-  publishedAt: string | null;
-}
+import { useLatestPosts } from '@/lib/hooks/use-posts';
 
 function NewsSkeleton() {
   return (
@@ -60,34 +50,10 @@ function NewsError({ onRetry }: { onRetry: () => void }) {
 }
 
 export default function LatestNewsClient() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
+  const { data: posts = [], isPending, isError, refetch } = useLatestPosts();
 
-  const fetchNews = () => {
-    setError(false);
-    setLoaded(false);
-    fetch('/api/news/latest')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch');
-        return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-        setLoaded(true);
-      })
-      .catch(() => {
-        setError(true);
-        setLoaded(true);
-      });
-  };
-
-  useEffect(() => {
-    fetchNews();
-  }, []);
-
-  if (!loaded) return <NewsSkeleton />;
-  if (error) return <NewsError onRetry={fetchNews} />;
+  if (isPending) return <NewsSkeleton />;
+  if (isError) return <NewsError onRetry={() => refetch()} />;
   if (posts.length === 0) return null;
 
   return (
@@ -115,7 +81,7 @@ export default function LatestNewsClient() {
             <Link
               key={post.id}
               href={`/news/${post.slug}`}
-              className="group bg-card rounded-2xl border border-landing-border/60 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
+              className="group card-hairline rounded-2xl overflow-hidden flex flex-col hover:-translate-y-1 transition-all duration-300"
             >
               {post.coverImage
                 ? (
@@ -137,12 +103,12 @@ export default function LatestNewsClient() {
               <div className="p-6 flex flex-col flex-grow">
                 {post.category
                   ? (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-blue-600/10 px-2 py-0.5 rounded w-fit mb-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-landing-accent bg-landing-accent-soft px-2 py-0.5 rounded w-fit mb-3">
                       {post.category}
                     </span>
                   )
                   : null}
-                <h3 className="text-lg font-bold text-landing-brand mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg font-semibold text-landing-brand mb-2 group-hover:text-landing-accent transition-colors">
                   {post.title}
                 </h3>
                 {post.excerpt
@@ -163,7 +129,7 @@ export default function LatestNewsClient() {
                         })
                       : ''}
                   </div>
-                  <span className="text-blue-600 text-sm font-semibold inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span className="text-landing-accent text-sm font-semibold inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                     Read <ArrowRight className="size-3.5" />
                   </span>
                 </div>

@@ -21,7 +21,12 @@ export async function PATCH(
 
   const { id } = await params;
 
-  const body = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid or empty request body' }, { status: 400 });
+  }
   const parsed = assignSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
@@ -40,13 +45,26 @@ export async function PATCH(
     }
   }
 
-  const updated = await prisma.case.update({
-    where: { id },
+  // Atomic conditional update: the where clause re-checks the case status at
+  // the database level, so a concurrent transition to CLOSED/DISPUTED between
+  // the lookup above and this write cannot produce an invalid assignment
+  // (TOCTOU race) — updateMany returns count 0 if the guard fails.
+  const result = await prisma.case.updateMany({
+    where: { id, status: { notIn: ['CLOSED', 'DISPUTED'] } },
     data: {
       specialistId: parsed.data.specialistId || null,
       status: parsed.data.specialistId ? 'UNDER_REVIEW' : 'OPEN',
     },
   });
+
+  if (result.count === 0) {
+    return NextResponse.json(
+      { error: 'Case is closed or disputed and cannot be reassigned' },
+      { status: 400 }
+    );
+  }
+
+  const updated = await prisma.case.findUniqueOrThrow({ where: { id } });
 
   logAuditEvent({
     userId: session.user.id,

@@ -1,200 +1,201 @@
-"use client"
+﻿"use client"
+
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { Stethoscope, LayoutDashboard, Users, Calendar, FlaskConical, Plus, HelpCircle, LogOut, Menu, Bell, Briefcase, X } from 'lucide-react';
+import { useAppStore } from '@/lib/stores/ui-store';
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  FlaskConical,
+  HelpCircle,
+  LogOut,
+  Menu,
+  Bell,
+  Briefcase,
+  X,
+} from 'lucide-react';
+
+const MAIN_ITEMS = [
+  { href: '/doctor', label: 'Overview', icon: LayoutDashboard },
+  { href: '/doctor/cases', label: 'My cases', icon: Briefcase },
+  { href: '/doctor/patients', label: 'Patients', icon: Users },
+  { href: '/doctor/schedule', label: 'Schedule', icon: Calendar },
+];
+
+const CLINICAL_ITEMS = [
+  { href: '/doctor/labs/review', label: 'Lab reviews', icon: FlaskConical },
+];
+
+const SUPPORT_ITEMS = [
+  { href: '/#contact', label: 'Help and support', icon: HelpCircle, danger: false },
+  { href: '/api/auth/signout', label: 'Log out', icon: LogOut, danger: true },
+];
+
+function isActive(pathname: string, href: string) {
+  return href === '/doctor' ? pathname === '/doctor' : pathname.startsWith(href);
+}
+
+function sectionTitle(pathname: string) {
+  if (pathname.startsWith('/doctor/cases/')) return 'Case detail';
+  if (pathname.startsWith('/doctor/cases')) return 'My cases';
+  if (pathname.startsWith('/doctor/patients')) return 'Patients';
+  if (pathname.startsWith('/doctor/schedule')) return 'Schedule';
+  if (pathname.startsWith('/doctor/labs')) return 'Lab reviews';
+  return 'Overview';
+}
 
 export function DoctorLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const user = session?.user;
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const sidebarOpen = useAppStore((s) => s.sidebarOpen);
+  const setSidebarOpen = useAppStore((s) => s.setSidebarOpen);
   const pathname = usePathname();
 
-  const navItems = [
-    { href: '/doctor', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/doctor/cases', label: 'My Cases', icon: Briefcase },
-    { href: '/doctor/patients', label: 'Patients', icon: Users },
-    { href: '/doctor/schedule', label: 'Schedule', icon: Calendar },
-  ];
+  const linkClass = (active: boolean) =>
+    `flex items-center gap-3 rounded-lg border-l-2 px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40 ${
+      active
+        ? 'border-pulse-info bg-pulse-info-light font-semibold text-pulse-navy'
+        : 'border-transparent font-medium text-pulse-text-secondary hover:bg-pulse-surface-elevated hover:text-pulse-text-primary'
+    }`;
 
-  const clinicalItems = [
-    { href: '/doctor/labs/review', label: 'Lab Reviews', icon: FlaskConical },
-  ];
+  const NavGroup = ({
+    items,
+    onNavigate,
+  }: {
+    items: { href: string; label: string; icon: typeof LayoutDashboard; danger?: boolean }[];
+    onNavigate?: () => void;
+  }) => (
+    <ul className="space-y-1">
+      {items.map((item) => {
+        const active = isActive(pathname, item.href);
+        return (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              onClick={onNavigate}
+              aria-current={active ? 'page' : undefined}
+              className={
+                item.danger
+                  ? 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-pulse-text-secondary transition-colors hover:bg-pulse-red-light hover:text-pulse-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-red/30'
+                  : linkClass(active)
+              }
+            >
+              <item.icon
+                className={`size-[18px] ${
+                  active ? 'text-pulse-info' : 'text-pulse-text-muted'
+                }`}
+                aria-hidden="true"
+              />
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
 
-  const supportItems = [
-    { href: '#', label: 'Help Center', icon: HelpCircle },
-    { href: '/api/auth/signout', label: 'Logout', icon: LogOut, danger: true },
-  ];
-
-  const SidebarContent = ({ showLogo = true }: { showLogo?: boolean }) => (
-    <nav className="h-full w-full flex flex-col py-4 px-3" style={{ background: '#FFFFFF' }}>
+  const SidebarContent = ({ showLogo = true, onNavigate }: { showLogo?: boolean; onNavigate?: () => void }) => (
+    <nav className="flex h-full w-full flex-col bg-pulse-surface px-3 py-4">
       {showLogo && (
-        <div className="mb-6 px-2 flex items-center space-x-2.5">
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: '#1E3A5F' }}>
-            <Stethoscope className="size-4" />
+        <div className="mb-6 flex items-center gap-3 px-2">
+          <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
+            <Image src="/logo.png" alt="Dr. Bubal Care logo" width={36} height={36} className="h-full w-full object-cover" />
           </div>
           <div>
-            <h1 className="font-semibold text-sm" style={{ color: '#1E3A5F' }}>Dr Bubal Care</h1>
-            <p className="text-[11px]" style={{ color: '#8D99AE' }}>Clinical Portal</p>
+            <p className="text-sm font-semibold leading-none text-pulse-navy">Dr. Bubal Care</p>
+            <p className="mt-1 text-xs text-pulse-text-muted">Clinical portal</p>
           </div>
         </div>
       )}
-      
-      <div className="mb-2">
-        <p className="px-3 mb-2 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#64748B' }}>Main</p>
-        <ul className="space-y-1">
-          {navItems.map((item) => {
-            const isActive = item.href === '/doctor' 
-              ? pathname === '/doctor'
-              : pathname.startsWith(item.href);
-            return (
-              <li key={item.href}>
-                <Link 
-                  href={item.href} 
-                  className="flex items-center space-x-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors duration-150"
-                  style={{
-                    background: isActive ? 'rgba(30, 58, 95, 0.08)' : 'transparent',
-                    color: isActive ? '#3B82F6' : '#64748B',
-                    borderLeft: isActive ? '2px solid #3B82F6' : '2px solid transparent',
-                  }}
-                >
-                  <item.icon className="size-[18px]" />
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+
+      <NavGroup items={MAIN_ITEMS} onNavigate={onNavigate} />
+
+      <div className="mt-6">
+        <p className="mb-2 px-3 text-xs font-medium text-pulse-text-muted">Clinical</p>
+        <NavGroup items={CLINICAL_ITEMS} onNavigate={onNavigate} />
       </div>
-      
-      <div className="mb-2">
-        <p className="px-3 mb-2 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#64748B' }}>Clinical</p>
-        <ul className="space-y-1">
-          {clinicalItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <li key={item.href}>
-                <Link 
-                  href={item.href} 
-                  className="flex items-center space-x-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors duration-150"
-                  style={{
-                    background: isActive ? 'rgba(30, 58, 95, 0.08)' : 'transparent',
-                    color: isActive ? '#3B82F6' : '#64748B',
-                    borderLeft: isActive ? '2px solid #3B82F6' : '2px solid transparent',
-                  }}
-                >
-                  <item.icon className="size-[18px]" />
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      
-      <div className="mt-auto mb-4 px-1">
-        <button 
-          type="button" 
-          className="w-full text-white py-2.5 px-3 rounded-md text-[13px] font-medium hover:opacity-90 transition-colors flex items-center justify-center space-x-2"
-          style={{ background: '#1E3A5F', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
-        >
-          <Plus className="size-3.5" aria-hidden="true" />
-          <span>New Consultation</span>
-        </button>
-      </div>
-      
-      <div>
-        <p className="px-3 mb-2 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#64748B' }}>Support</p>
-        <ul className="space-y-1">
-          {supportItems.map((item) => (
-            <li key={item.href}>
-              <Link 
-                href={item.href} 
-                className="flex items-center space-x-2.5 px-3 py-2 text-[13px] font-medium rounded-md transition-colors duration-150"
-                style={{
-                  color: item.danger ? '#E63946' : '#64748B',
-                }}
-              >
-                <item.icon className="size-[18px]" />
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+
+      <div className="mt-auto border-t border-pulse-border pt-4">
+        <p className="mb-2 px-3 text-xs font-medium text-pulse-text-muted">Support</p>
+        <NavGroup items={SUPPORT_ITEMS} onNavigate={onNavigate} />
       </div>
     </nav>
   );
 
   return (
-    <div className="pulsepoint min-h-screen flex antialiased" style={{ background: '#F8FAFC', color: '#0F172A' }}>
-      {/* Desktop Sidebar */}
-      <aside className="h-screen w-60 fixed left-0 top-0 z-50 hidden md:flex flex-col border-r" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
+    <div className="pulsepoint flex min-h-[100dvh] bg-pulse-bg text-pulse-text-primary antialiased">
+      <aside className="fixed left-0 top-0 z-50 hidden h-[100dvh] w-64 flex-col border-r border-pulse-border bg-pulse-surface md:flex">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
-      {mobileOpen && (
+      {sidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
-          <div 
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-            onClick={() => setMobileOpen(false)}
+          <div
+            className="absolute inset-0 bg-pulse-navy/40 backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
           />
-          <aside className="absolute left-0 top-0 h-full w-64 shadow-xl flex flex-col" style={{ background: '#FFFFFF' }}>
-            <div className="flex items-center justify-between px-3 py-4 border-b" style={{ borderColor: '#E2E8F0' }}>
-              <div className="flex items-center space-x-2.5">
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white" style={{ background: '#1E3A5F' }}>
-                  <Stethoscope className="size-4" />
+          <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-pulse-surface shadow-lift">
+            <div className="flex items-center justify-between border-b border-pulse-border px-3 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center overflow-hidden rounded-full">
+                  <Image src="/logo.png" alt="Dr. Bubal Care logo" width={36} height={36} className="h-full w-full object-cover" />
                 </div>
                 <div>
-                  <h1 className="font-semibold text-sm" style={{ color: '#1E3A5F' }}>Dr Bubal Care</h1>
-                  <p className="text-[11px]" style={{ color: '#8D99AE' }}>Clinical Portal</p>
+                  <p className="text-sm font-semibold leading-none text-pulse-navy">Dr. Bubal Care</p>
+                  <p className="mt-1 text-xs text-pulse-text-muted">Clinical portal</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setMobileOpen(false)}
-                className="p-1.5 transition-colors"
-                style={{ color: '#8D99AE' }}
+              <button
+            onClick={() => setSidebarOpen(false)}
+                className="rounded-lg p-1.5 text-pulse-text-muted transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
                 aria-label="Close menu"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto">
-        <SidebarContent showLogo={false} />
+              <SidebarContent showLogo={false} onNavigate={() => setSidebarOpen(false)} />
             </div>
           </aside>
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col md:ml-60 w-full min-h-screen">
-        {/* Top Bar */}
-        <header className="sticky top-0 z-40 flex justify-between items-center h-14 px-4 md:px-6 border-b" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
-          <button 
-            className="md:hidden p-1.5 transition-colors" 
-            style={{ color: '#8D99AE' }}
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-            aria-expanded={mobileOpen}
-          >
-            <Menu className="size-5" aria-hidden="true" />
-          </button>
-          
-          <div className="flex items-center">
-            <h2 className="font-semibold text-base" style={{ color: '#1E3A5F' }}>Dashboard</h2>
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button className="transition-colors relative p-1.5" style={{ color: '#8D99AE' }} aria-label="Notifications">
-              <Bell className="size-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 rounded-full" style={{ background: '#E63946' }}></span>
+      <div className="flex min-h-[100dvh] w-full flex-1 flex-col md:ml-64">
+        <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-pulse-border bg-pulse-surface px-4 md:px-6">
+          <div className="flex items-center gap-3">
+            <button
+              className="rounded-lg p-1.5 text-pulse-text-muted transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40 md:hidden"
+              aria-label="Open menu"
+              onClick={() => setSidebarOpen(true)}
+              aria-expanded={sidebarOpen}
+            >
+              <Menu className="size-5" aria-hidden="true" />
             </button>
-            <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold" style={{ background: '#1E3A5F' }}>
+            <h1 className="text-base font-semibold text-pulse-navy">{sectionTitle(pathname)}</h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              className="relative rounded-lg p-1.5 text-pulse-text-secondary transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
+              aria-label="Notifications"
+            >
+              <Bell className="size-5" aria-hidden="true" />
+              <span
+                className="absolute right-1 top-1 size-2 rounded-full bg-pulse-red"
+                aria-hidden="true"
+              />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="hidden text-sm text-pulse-text-primary lg:block">
+                {user?.name ?? 'Doctor'}
+              </span>
+              <div className="flex size-8 items-center justify-center rounded-lg bg-pulse-navy text-sm font-semibold text-white">
                 {user?.name ? user.name.charAt(0).toUpperCase() : 'D'}
               </div>
-              <span className="hidden lg:block text-sm" style={{ color: '#0F172A' }}>{user?.name ?? 'Doctor'}</span>
             </div>
           </div>
         </header>

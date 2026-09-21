@@ -188,6 +188,23 @@ Register → Verify Credentials → Set Availability → Receive Cases → Write
 * Read: All `cases`, `audit_logs`, platform metrics
 * Write: Case status overrides, dispute resolution, specialist verification
 
+### Client State Architecture (Zustand + TanStack Query)
+
+Dr. Bubal Care splits client-side state into two strictly separated layers:
+
+| Layer | Library | Location | Owns |
+|-------|---------|----------|------|
+| **Server state** | TanStack Query v5 | `lib/hooks/use-*.ts` | Cases, lab results, opinions, disputes, specialists, posts, consent — anything fetched from `/api` |
+| **Client/UI state** | Zustand v5 | `lib/stores/` (slices in `lib/stores/slices/`) | Sidebar, booking wizard, table tab filters — anything the user creates in the UI |
+
+**Rules of thumb:**
+
+* **Server data → TanStack Query.** All query keys come from the factory in `lib/query-keys.ts` (`queryKeys.cases.detail(id)` etc.). Never hand-write a queryKey string. New endpoints get a hook in `lib/hooks/`, not an inline `useQuery` in a page.
+* **UI state → Zustand.** Add slices to `lib/stores/slices/` and combine them in `root-store.ts`. Subscribe with selectors (`useAppStore((s) => s.field)`), use `useShallow` when selecting multiple fields.
+* **Never copy query results into a Zustand store.** Duplicating server state causes drift and manual invalidation bugs. Derive from the query instead.
+* **Cache hygiene:** the whole query cache is cleared on session change (`SessionCacheReset` in `app/Providers.tsx`) so PHI never leaks between accounts on shared browsers. Mutations that mutate a visible list use optimistic updates with rollback (`onMutate`/`onError`/`onSettled`).
+* **PHI-safe persistence:** the only persisted client state is the booking wizard (`dbc-booking-wizard`, sessionStorage) via `partialize` — it contains only service/date/time strings. Never persist names, DOB, MRN, or clinical content in client storage, and never persist to `localStorage`.
+
 ---
 
 ## 7. Security & Compliance (GDPR + HIPAA)

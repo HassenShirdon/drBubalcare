@@ -1,183 +1,231 @@
-"use client"
+﻿"use client"
+
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { Plus, LayoutDashboard, Calendar, FlaskConical, UserSearch, HelpCircle, LogOut, Menu, Search, Bell, Stethoscope, Dna, FileText, Briefcase } from 'lucide-react';
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useAppStore } from '@/lib/stores/ui-store';
+import {
+  Plus,
+  LayoutDashboard,
+  FlaskConical,
+  UserSearch,
+  HelpCircle,
+  LogOut,
+  Menu,
+  Search,
+  Bell,
+  Stethoscope,
+  Dna,
+  FileText,
+  Briefcase,
+  X,
+} from 'lucide-react';
+
+const NAV_ITEMS = [
+  { href: '/patient', label: 'Overview', icon: LayoutDashboard },
+  { href: '/patient/cases', label: 'My cases', icon: Briefcase },
+  { href: '/patient/labs', label: 'Lab portal', icon: FlaskConical },
+  { href: '/directory', label: 'Find a physician', icon: UserSearch },
+];
+
+const MOBILE_NAV = [
+  { href: '/directory', label: 'Find', icon: Search },
+  { href: '/patient', label: 'Overview', icon: Stethoscope },
+  { href: '/patient/cases', label: 'Cases', icon: FileText },
+  { href: '/patient/labs', label: 'Labs', icon: Dna },
+];
+
+function isActive(pathname: string, href: string) {
+  return href === '/patient' ? pathname === '/patient' : pathname.startsWith(href);
+}
+
+function sectionTitle(pathname: string) {
+  if (pathname.startsWith('/patient/cases/new')) return 'New case';
+  if (pathname.startsWith('/patient/cases')) return 'My cases';
+  if (pathname.startsWith('/patient/labs')) return 'Lab portal';
+  if (pathname.startsWith('/patient/settings')) return 'Settings';
+  return 'Overview';
+}
 
 export function PatientLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const user = session?.user;
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const sidebarOpen = useAppStore((s) => s.sidebarOpen);
+  const setSidebarOpen = useAppStore((s) => s.setSidebarOpen);
+
+  const navList = (onNavigate?: () => void) => (
+    <ul className="flex-1 space-y-1">
+      {NAV_ITEMS.map((item) => {
+        const active = isActive(pathname, item.href);
+        return (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              onClick={onNavigate}
+              aria-current={active ? 'page' : undefined}
+              className={`flex items-center gap-3 rounded-lg border-l-2 px-3 py-2.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40 ${
+                active
+                  ? 'border-pulse-info bg-pulse-info-light font-semibold text-pulse-navy'
+                  : 'border-transparent font-medium text-pulse-text-secondary hover:bg-pulse-surface-elevated hover:text-pulse-text-primary'
+              }`}
+            >
+              <item.icon
+                size={18}
+                className={active ? 'text-pulse-info' : 'text-pulse-text-muted'}
+                aria-hidden="true"
+              />
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
 
   return (
-    <div className="pulsepoint min-h-screen flex antialiased" style={{ background: '#F8FAFC', color: '#0F172A' }}>
-      {/* SideNavBar (Desktop) */}
-      <nav className="hidden md:flex h-screen w-64 fixed left-0 top-0 z-50 flex-col py-4 px-3 border-r" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
-        <div className="flex items-center gap-3 mb-10 px-2">
-          <div className="w-8 h-8 rounded-md flex items-center justify-center text-white font-bold text-sm" style={{ background: '#1E3A5F' }}>TB</div>
+    <div className="pulsepoint flex min-h-[100dvh] bg-pulse-bg text-pulse-text-primary antialiased">
+      <nav className="fixed left-0 top-0 z-50 hidden h-[100dvh] w-64 flex-col border-r border-pulse-border bg-pulse-surface px-3 py-4 md:flex">
+        <div className="mb-8 flex items-center gap-3 px-2">
+          <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
+            <Image src="/logo.png" alt="Dr. Bubal Care logo" width={36} height={36} className="h-full w-full object-cover" />
+          </div>
           <div>
-            <h1 className="font-bold text-lg leading-none" style={{ color: '#1E3A5F' }}>Dr Bubal Care</h1>
-            <p className="text-[11px] mt-1" style={{ color: '#8D99AE' }}>Patient Portal</p>
+            <p className="text-sm font-semibold leading-none text-pulse-navy">Dr. Bubal Care</p>
+            <p className="mt-1 text-xs text-pulse-text-muted">Patient portal</p>
           </div>
         </div>
-        
-        <Link 
-          href="/patient/cases/new" 
-          className="w-full text-white text-sm rounded-md py-3 px-4 flex items-center justify-center gap-2 mb-8 hover:opacity-90 transition-colors"
-          style={{ background: '#1E3A5F', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
+
+        <Link
+          href="/patient/cases/new"
+          className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-pulse-navy px-4 py-3 text-sm font-semibold text-white shadow-soft transition-colors hover:bg-pulse-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-navy/40 focus-visible:ring-offset-2"
         >
-          <Plus className="text-base" />
-          New Consultation
+          <Plus className="size-4" aria-hidden="true" />
+          Start a case
         </Link>
-        
-        <ul className="flex-1 space-y-1">
-          <li>
-            <Link 
-              href="/patient" 
-              className="flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition-colors"
-              style={{ 
-                color: '#3B82F6', 
-                background: 'rgba(30, 58, 95, 0.08)',
-                borderLeft: '2px solid #3B82F6'
-              }}
-            >
-              <LayoutDashboard size={18} />
-              <span className="text-sm">Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-              <Calendar size={18} />
-              <span className="text-sm">Appointments</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/patient/cases" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-              <Briefcase size={18} />
-              <span className="text-sm">My Cases</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/patient/labs" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-              <FlaskConical size={18} />
-              <span className="text-sm">Lab Portal</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/directory" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-              <UserSearch size={18} />
-              <span className="text-sm">Directory</span>
-            </Link>
-          </li>
-        </ul>
-        <div className="mt-auto pt-4 border-t space-y-1" style={{ borderColor: '#E2E8F0' }}>
-          <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-            <HelpCircle size={18} />
-            <span className="text-sm">Help Center</span>
+
+        {navList()}
+
+        <div className="mt-auto space-y-1 border-t border-pulse-border pt-4">
+          <Link
+            href="/#contact"
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-pulse-text-secondary transition-colors hover:bg-pulse-surface-elevated hover:text-pulse-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
+          >
+            <HelpCircle size={18} className="text-pulse-text-muted" aria-hidden="true" />
+            <span>Help and support</span>
           </Link>
-          <Link href="/api/auth/signout" className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors" style={{ color: '#64748B' }}>
-            <LogOut size={18} />
-            <span className="text-sm">Logout</span>
+          <Link
+            href="/api/auth/signout"
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-pulse-text-secondary transition-colors hover:bg-pulse-red-light hover:text-pulse-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-red/30"
+          >
+            <LogOut size={18} className="text-pulse-text-muted" aria-hidden="true" />
+            <span>Log out</span>
           </Link>
         </div>
       </nav>
 
-      {/* Mobile Sidebar Overlay */}
-      {mobileOpen && (
+      {sidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
-          <div 
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-            onClick={() => setMobileOpen(false)}
+          <div
+            className="absolute inset-0 bg-pulse-navy/40 backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
           />
-          <aside className="absolute left-0 top-0 h-full w-64 shadow-xl flex flex-col" style={{ background: '#FFFFFF' }}>
-            <div className="flex items-center justify-between px-3 py-4 border-b" style={{ borderColor: '#E2E8F0' }}>
+          <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-pulse-surface shadow-lift">
+            <div className="flex items-center justify-between border-b border-pulse-border px-3 py-4">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-md flex items-center justify-center text-white font-bold text-sm" style={{ background: '#1E3A5F' }}>TB</div>
+                <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                  <Image src="/logo.png" alt="Dr. Bubal Care logo" width={36} height={36} className="h-full w-full object-cover" />
+                </div>
                 <div>
-                  <h1 className="font-bold text-sm leading-none" style={{ color: '#1E3A5F' }}>Dr Bubal Care</h1>
-                  <p className="text-[11px] mt-1" style={{ color: '#8D99AE' }}>Patient Portal</p>
+                  <p className="text-sm font-semibold leading-none text-pulse-navy">Dr. Bubal Care</p>
+                  <p className="mt-1 text-xs text-pulse-text-muted">Patient portal</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setMobileOpen(false)}
-                className="p-1.5 transition-colors"
-                style={{ color: '#8D99AE' }}
+              <button
+            onClick={() => setSidebarOpen(false)}
+                className="rounded-lg p-1.5 text-pulse-text-muted transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
                 aria-label="Close menu"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto py-4 px-3">
-              <ul className="space-y-1">
-                <li><Link href="/patient" className="flex items-center gap-3 px-3 py-2.5 rounded-md" style={{ color: '#3B82F6' }}><LayoutDashboard size={18} /><span className="text-sm font-medium">Dashboard</span></Link></li>
-                <li><Link href="/patient/cases" className="flex items-center gap-3 px-3 py-2.5 rounded-md" style={{ color: '#64748B' }}><Briefcase size={18} /><span className="text-sm font-medium">My Cases</span></Link></li>
-                <li><Link href="/patient/labs" className="flex items-center gap-3 px-3 py-2.5 rounded-md" style={{ color: '#64748B' }}><FlaskConical size={18} /><span className="text-sm font-medium">Lab Portal</span></Link></li>
-                <li><Link href="/directory" className="flex items-center gap-3 px-3 py-2.5 rounded-md" style={{ color: '#64748B' }}><UserSearch size={18} /><span className="text-sm font-medium">Directory</span></Link></li>
-              </ul>
+            <div className="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+              {navList(() => setSidebarOpen(false))}
             </div>
           </aside>
         </div>
       )}
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
-        {/* TopAppBar */}
-        <header className="sticky top-0 z-40 flex justify-between items-center h-14 px-4 md:px-6 border-b" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
+      <div className="flex min-h-[100dvh] w-full flex-1 flex-col md:ml-64">
+        <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-pulse-border bg-pulse-surface px-4 md:px-6">
           <div className="flex items-center gap-4">
-            <button 
-              className="md:hidden p-1.5 transition-colors" 
-              style={{ color: '#8D99AE' }}
+            <button
+              className="rounded-lg p-1.5 text-pulse-text-muted transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40 md:hidden"
               aria-label="Open menu"
-              onClick={() => setMobileOpen(true)}
+              onClick={() => setSidebarOpen(true)}
             >
-              <Menu size={20} />
+              <Menu size={20} aria-hidden="true" />
             </button>
-            <h2 className="font-bold text-xl" style={{ color: '#1E3A5F' }}>Patient Portal</h2>
+            <h1 className="text-base font-semibold text-pulse-navy">{sectionTitle(pathname)}</h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center rounded-full px-4 py-2 border" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
-              <Search className="mr-2 text-sm" style={{ color: '#8D99AE' }} aria-hidden="true" />
-              <label htmlFor="patient-search" className="sr-only">Search records, messages</label>
-              <input id="patient-search" type="text" placeholder="Search records, messages…" className="bg-transparent border-none focus:ring-0 text-sm w-48 outline-none" style={{ color: '#0F172A' }} />
+            <div className="hidden items-center rounded-lg border border-pulse-border bg-pulse-bg px-3 py-2 md:flex">
+              <Search className="mr-2 size-4 text-pulse-text-muted" aria-hidden="true" />
+              <label htmlFor="patient-search" className="sr-only">
+                Search records and messages
+              </label>
+              <input
+                id="patient-search"
+                type="text"
+                placeholder="Search records, messages"
+                className="w-48 border-none bg-transparent text-sm text-pulse-text-primary outline-none placeholder:text-pulse-text-muted focus:ring-0"
+              />
             </div>
-            <button className="transition-colors relative p-2" style={{ color: '#3B82F6' }} aria-label="Notifications">
+            <button
+              className="relative rounded-lg p-2 text-pulse-text-secondary transition-colors hover:bg-pulse-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pulse-info/40"
+              aria-label="Notifications"
+            >
               <Bell size={20} aria-hidden="true" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: '#E63946' }} aria-hidden="true"></span>
+              <span
+                className="absolute right-1.5 top-1.5 size-2 rounded-full bg-pulse-red"
+                aria-hidden="true"
+              />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-sm hidden md:inline" style={{ color: '#0F172A' }}>{user?.name ?? 'Patient'}</span>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: '#1E3A5F' }}>
+              <span className="hidden text-sm text-pulse-text-primary md:inline">
+                {user?.name ?? 'Patient'}
+              </span>
+              <div className="flex size-8 items-center justify-center rounded-lg bg-pulse-navy text-sm font-semibold text-white">
                 {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
             </div>
           </div>
         </header>
 
-        {/* Main Content */}
         <main id="main-content" className="flex-1">
           {children}
         </main>
       </div>
 
-      {/* Bottom Nav (Mobile) */}
-      <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe border-t md:hidden" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
-        <Link href="/directory" className="flex flex-col items-center justify-center p-2 rounded-lg" style={{ color: '#8D99AE' }}>
-          <Search className="mb-1" size={20} />
-          <span className="text-[11px]">Find Doc</span>
-        </Link>
-        <Link href="/patient" className="flex flex-col items-center justify-center font-bold p-2 rounded-lg" style={{ color: '#3B82F6' }}>
-          <Stethoscope className="mb-1" size={20} />
-          <span className="text-[11px]">My Care</span>
-        </Link>
-        <Link href="/patient/cases" className="flex flex-col items-center justify-center p-2 rounded-lg" style={{ color: '#8D99AE' }}>
-          <FileText className="mb-1" size={20} />
-          <span className="text-[11px]">Cases</span>
-        </Link>
-        <Link href="/patient/labs" className="flex flex-col items-center justify-center p-2 rounded-lg" style={{ color: '#8D99AE' }}>
-          <Dna className="mb-1" size={20} />
-          <span className="text-[11px]">Labs</span>
-        </Link>
+      <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-pulse-border bg-pulse-surface px-4 py-2 md:hidden">
+        {MOBILE_NAV.map((item) => {
+          const active = isActive(pathname, item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? 'page' : undefined}
+              className={`flex flex-col items-center justify-center rounded-lg p-2 transition-colors ${
+                active ? 'font-semibold text-pulse-info' : 'text-pulse-text-muted'
+              }`}
+            >
+              <item.icon className="mb-1" size={20} aria-hidden="true" />
+              <span className="text-[11px]">{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );

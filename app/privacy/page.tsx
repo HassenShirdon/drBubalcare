@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "How Dr Bubal Care collects, uses, stores, and protects your personal and health information.",
+    "How Dr. Bubal Care collects, uses, stores, and protects your personal and health information.",
   alternates: {
     canonical: "/privacy",
   },
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           href="/"
           className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
-          ← Back to home
+          â† Back to home
         </Link>
         <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Privacy Policy
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
               1. Introduction
             </h2>
             <p>
-              Dr Bubal Care (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is committed to
+              Dr. Bubal Care (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is committed to
               protecting your privacy. This Privacy Policy explains how we collect, use, disclose,
               and safeguard your information when you use our telehealth and diagnostic coordination
               platform.

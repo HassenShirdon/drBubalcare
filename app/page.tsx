@@ -1,4 +1,4 @@
-import Navigation from "@/components/landing-page/navigation";
+﻿import Navigation from "@/components/landing-page/navigation";
 import HeroSection from "@/components/landing-page/hero-section";
 import ProblemSection from "@/components/landing-page/problem-section";
 import HowItWorks from "@/components/landing-page/how-it-works";
@@ -9,6 +9,7 @@ import StatsBanner from "@/components/landing-page/stats-banner";
 import { SocialProofSection } from "@/components/landing-page/social-proof-section";
 import CTASection from "@/components/landing-page/cta-section";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
@@ -20,7 +21,7 @@ const ContactSection = dynamic(
   () => import("@/components/landing-page/contact-section")
 );
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://drbubalcare.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.drbubalcare.com";
 
 export default function Home() {
   const structuredData = {
@@ -28,14 +29,14 @@ export default function Home() {
     "@graph": [
       {
         "@type": "Organization",
-        name: "Dr Bubal Care",
+        name: "Dr. Bubal Care",
         url: baseUrl,
-        logo: `${baseUrl}/logo.svg`,
+        logo: `${baseUrl}/logo.png`,
         description:
           "AI-assisted diagnostic coordination platform connecting patients with board-certified physicians in our Global Doctors Network for written medical opinions.",
         contactPoint: {
           "@type": "ContactPoint",
-          telephone: "+1-800-555-1234",
+          telephone: "+1-312-847-1928",
           contactType: "Patient Support",
           availableLanguage: ["English"],
         },
@@ -43,7 +44,7 @@ export default function Home() {
       },
       {
         "@type": "MedicalWebPage",
-        name: "Dr Bubal Care - Expert Medical Opinions from the Global Doctors Network",
+        name: "Dr. Bubal Care - Expert Medical Opinions from the Global Doctors Network",
         url: baseUrl,
         description:
           "Connect with board-certified doctors in our Global Doctors Network for plain-language diagnostic opinions. Upload lab results, scans, or slides.",
@@ -91,8 +92,17 @@ export default function Home() {
       <footer className="bg-landing-brand w-full border-t border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto px-6 md:px-16 py-12">
           <div className="space-y-3 md:col-span-2">
-            <div className="text-xl font-bold text-white">
-              Dr Bubal Care
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="Dr. Bubal Care logo"
+                width={48}
+                height={48}
+                className="h-12 w-12 rounded-full bg-white object-cover p-1"
+              />
+              <span className="text-xl font-bold text-white">
+                Dr. Bubal Care
+              </span>
             </div>
             <p className="text-white/70 max-w-sm text-sm leading-relaxed">
               Connecting patients in East Africa with the board-certified
@@ -101,30 +111,30 @@ export default function Home() {
             </p>
           </div>
           <div className="space-y-3">
-            <h4 className="text-xs text-white/50 uppercase tracking-wider font-semibold">
-              Navigation
+            <h4 className="text-sm font-semibold text-white/70">
+              Explore
             </h4>
             <nav className="flex flex-col space-y-1.5">
               <a
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="#home"
               >
                 Home
               </a>
               <a
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="#services"
               >
                 Services
               </a>
               <a
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="#about"
               >
                 About
               </a>
               <Link
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="/news"
               >
                 News
@@ -132,24 +142,24 @@ export default function Home() {
             </nav>
           </div>
           <div className="space-y-3">
-            <h4 className="text-xs text-white/50 uppercase tracking-wider font-semibold">
+            <h4 className="text-sm font-semibold text-white/70">
               Legal
             </h4>
             <nav className="flex flex-col space-y-1.5">
               <Link
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="/privacy"
               >
                 Privacy Policy
               </Link>
               <Link
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="/terms"
               >
                 Terms of Use
               </Link>
               <Link
-                className="text-white/70 hover:text-white transition-colors text-sm w-fit"
+                className="text-white/70 hover:text-white transition-colors text-sm w-fit rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 href="/patient-rights"
               >
                 Patient Rights
@@ -157,10 +167,18 @@ export default function Home() {
             </nav>
           </div>
         </div>
-        <div className="border-t border-white/10 py-5 text-center">
-          <p className="text-white/50 text-sm">
-            &copy; {new Date().getFullYear()} Dr Bubal Care. All rights reserved.
-          </p>
+        <div className="border-t border-white/10 py-5">
+          <div className="max-w-7xl mx-auto px-6 md:px-16 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-white/60 text-sm">
+              &copy; {new Date().getFullYear()} Dr. Bubal Care. All rights reserved.
+            </p>
+            <a
+              href="#home"
+              className="text-white/70 hover:text-white transition-colors text-sm font-medium rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            >
+              Back to top
+            </a>
+          </div>
         </div>
       </footer>
     </div>

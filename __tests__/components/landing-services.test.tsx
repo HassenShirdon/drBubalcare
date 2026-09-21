@@ -5,6 +5,7 @@ import ServicesSection from '@/components/landing-page/services-section';
 import { SERVICES } from '@/components/landing-page/data';
 
 vi.mock('motion/react', () => ({
+  useReducedMotion: () => false,
   motion: {
     section: ({ children, className }: any) => <section className={className}>{children}</section>,
     div: ({ children, className }: any) => <div className={className}>{children}</div>,
@@ -14,7 +15,7 @@ vi.mock('motion/react', () => ({
 describe('ServicesSection', () => {
   it('renders the services section with heading', () => {
     render(<ServicesSection />);
-    expect(screen.getAllByText('Our Services').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Our services').length).toBeGreaterThan(0);
   });
 
   it('shows service titles from data.ts', () => {

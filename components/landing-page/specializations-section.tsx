@@ -18,43 +18,22 @@ export default function SpecializationsSection() {
           </p>
         </AnimateOnScroll>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {SPECIALIZATIONS.map((spec, i) => {
-            const bgClasses = [
-              "bg-landing-accent",
-              "bg-landing-success/20",
-              "bg-landing-accent",
-              "bg-landing-success/20",
-              "bg-landing-accent",
-            ];
-            const iconColors = [
-              "text-landing-brand",
-              "text-landing-success",
-              "text-landing-brand",
-              "text-landing-success",
-              "text-landing-brand",
-            ];
-
-            return (
-              <AnimateOnScroll key={spec.title}>
-                <div className="bg-card rounded-2xl p-6 border border-landing-border/60 shadow-sm hover:shadow-md transition-shadow duration-200 h-full flex flex-col items-center text-center">
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
-                      bgClasses[i % bgClasses.length]
-                    } ${iconColors[i % iconColors.length]}`}
-                  >
-                    <spec.icon className="w-6 h-6" aria-hidden="true" />
-                  </div>
-                  <h3 className="text-sm font-semibold text-landing-text mb-1">
-                    {spec.title}
-                  </h3>
-                  <p className="text-xs text-landing-text-faint leading-relaxed line-clamp-2">
-                    {spec.description}
-                  </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+          {SPECIALIZATIONS.map((spec) => (
+            <AnimateOnScroll key={spec.title}>
+              <div className="flex h-full flex-col items-center rounded-2xl border border-landing-border/60 p-5 text-center transition-colors duration-200 hover:border-landing-brand/30 hover:bg-landing-surface-card">
+                <div className="mb-3 flex w-10 h-10 items-center justify-center rounded-xl bg-landing-accent-soft text-landing-accent">
+                  <spec.icon className="w-5 h-5" aria-hidden="true" />
                 </div>
-              </AnimateOnScroll>
-            );
-          })}
+                <h3 className="text-sm font-semibold text-landing-text mb-1">
+                  {spec.title}
+                </h3>
+                <p className="text-xs text-landing-text-faint leading-relaxed line-clamp-2">
+                  {spec.description}
+                </p>
+              </div>
+            </AnimateOnScroll>
+          ))}
         </div>
       </div>
     </section>

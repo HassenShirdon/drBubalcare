@@ -1,9 +1,9 @@
-import { type Metadata } from "next";
+﻿import { type Metadata } from "next";
 import { SERVICE_PAGES } from "@/components/landing-page/service-pages-data";
 import { ServicePageTemplate } from "@/components/service-page-template";
 
 const content = SERVICE_PAGES["womens-health-fertility"];
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://drbubalcare.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.drbubalcare.com";
 
 export const metadata: Metadata = {
   title: content.seo.title,
@@ -35,7 +35,7 @@ export default function WomensHealthPage() {
     medicalSpecialty: "Gynecology",
     provider: {
       "@type": "Organization",
-      name: "Dr Bubal Care",
+      name: "Dr. Bubal Care",
       url: baseUrl,
     },
   };

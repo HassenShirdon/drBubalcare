@@ -6,7 +6,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-20 md:py-28 bg-card border-y border-landing-border/50"
+      className="py-20 md:py-28 bg-landing-surface-card border-y border-landing-border/50"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <AnimateOnScroll className="max-w-2xl mb-14">
@@ -27,7 +27,7 @@ export default function HowItWorks() {
               key={step.title}
               className="relative text-center md:text-left"
             >
-              <div className="w-14 h-14 rounded-2xl bg-landing-accent flex items-center justify-center text-landing-brand mx-auto md:mx-0 relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-landing-accent-soft flex items-center justify-center text-landing-accent mx-auto md:mx-0 relative z-10">
                 <step.icon className="w-6 h-6" aria-hidden="true" />
               </div>
               <div className="mt-5">
@@ -45,9 +45,9 @@ export default function HowItWorks() {
         <div className="text-center mt-12">
           <Link
             href="/patient"
-            className="inline-flex items-center justify-center bg-landing-brand text-white rounded-xl px-8 py-3.5 text-base font-semibold hover:bg-landing-brand/90 active:scale-[0.98] transition-all duration-200 shadow-sm shadow-landing-brand/20"
+            className="inline-flex items-center justify-center bg-landing-brand text-white rounded-xl px-8 py-3.5 text-base font-semibold hover:bg-landing-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-landing-brand/40 focus-visible:ring-offset-2 active:scale-[0.98] transition-all duration-200 shadow-soft"
           >
-            Start a Case
+            Start a case
           </Link>
         </div>
       </div>

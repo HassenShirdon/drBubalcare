@@ -1,20 +1,12 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
 import { DataTable } from "@/components/ui/data-table"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
-import { columns, type DataRequestEntry } from "./columns"
+import { useAdminDataRequests } from "@/lib/hooks/use-admin"
+import { columns } from "./columns"
 
 export default function AdminDataRequestsPage() {
-  const { data: res, isLoading } = useQuery<{ data: DataRequestEntry[]; total: number }>({
-    queryKey: ["admin-data-requests"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/data-requests")
-      if (!res.ok) throw new Error("Failed to fetch data requests")
-      return res.json()
-    },
-    staleTime: 60 * 1000,
-  })
+  const { data: res, isLoading } = useAdminDataRequests()
 
   const requests = res?.data ?? []
 

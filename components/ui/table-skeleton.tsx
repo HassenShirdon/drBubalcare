@@ -10,7 +10,7 @@ interface TableSkeletonProps {
 
 function Shimmer({ className }: { className?: string }) {
   return (
-    <div className={`relative overflow-hidden rounded ${className ?? ""}`} style={{ background: 'var(--admin-border)' }}>
+    <div className={`relative overflow-hidden rounded bg-admin-border ${className ?? ""}`}>
       <motion.div
         className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-white/5"
         animate={{ translateX: ["0%", "100%"] }}

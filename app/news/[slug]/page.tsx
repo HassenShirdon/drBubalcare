@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+﻿import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,7 +23,7 @@ export default async function PostPage({
       <nav className="bg-white/80 backdrop-blur-md border-b border-[#E2E8F0]/50 fixed top-0 w-full z-50">
         <div className="flex justify-between items-center max-w-4xl mx-auto px-6 md:px-16 py-4">
           <Link href="/" className="text-2xl font-bold text-[#1E3A5F]">
-            Dr Bubal Care
+            Dr. Bubal Care
           </Link>
         </div>
       </nav>

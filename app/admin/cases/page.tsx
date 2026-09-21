@@ -1,20 +1,12 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
 import { DataTable } from "@/components/ui/data-table"
 import { TableSkeleton } from "@/components/ui/table-skeleton"
-import { columns, type AdminCase } from "./columns"
+import { useAdminCases } from "@/lib/hooks/use-admin"
+import { columns } from "./columns"
 
 export default function AdminCasesPage() {
-  const { data: res, isLoading } = useQuery<{ data: AdminCase[]; total: number }>({
-    queryKey: ["admin-cases"],
-    queryFn: async () => {
-      const res = await fetch("/api/admin/cases")
-      if (!res.ok) throw new Error("Failed to fetch cases")
-      return res.json()
-    },
-    staleTime: 60 * 1000,
-  })
+  const { data: res, isLoading } = useAdminCases()
 
   const cases = res?.data ?? []
 

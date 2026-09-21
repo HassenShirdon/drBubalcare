@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Patient Rights",
   description:
-    "Your rights as a patient using the Dr Bubal Care diagnostic coordination platform.",
+    "Your rights as a patient using the Dr. Bubal Care diagnostic coordination platform.",
   alternates: {
     canonical: "/patient-rights",
   },
@@ -18,7 +18,7 @@ export default function PatientRightsPage() {
           href="/"
           className="text-sm font-medium text-[#1E3A5F] hover:text-[#1E3A5F] transition-colors"
         >
-          ← Back to home
+          â† Back to home
         </Link>
         <h1 className="text-3xl md:text-4xl font-semibold text-[#0F172A] mt-6 mb-8 tracking-tight">
           Patient Rights
@@ -29,7 +29,7 @@ export default function PatientRightsPage() {
           </p>
 
           <p className="mb-8">
-            At Dr Bubal Care, we believe every patient deserves clarity, respect, and control over
+            At Dr. Bubal Care, we believe every patient deserves clarity, respect, and control over
             their medical information. The following rights apply to everyone who uses our platform.
           </p>
 
@@ -105,7 +105,7 @@ export default function PatientRightsPage() {
               7. Right to Timely Communication
             </h2>
             <p>
-              We aim to deliver written opinions from our Global Doctors Network within 24–48 hours
+              We aim to deliver written opinions from our Global Doctors Network within 24â€“48 hours
               for standard cases. If a delay is expected, you will be notified with a revised timeline
               and the reason for the delay.
             </p>
