@@ -62,7 +62,7 @@ import { AUDIT_ACTIONS } from '@/lib/audit/logger';
 describe('Doctor Opinion API', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(checkRateLimit).mockReturnValue({ allowed: true, remaining: 19, resetAt: Date.now() + 60000 });
+    vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, remaining: 19, resetAt: Date.now() + 60000 });
   });
 
   describe('GET', () => {
@@ -199,7 +199,7 @@ describe('Doctor Opinion API', () => {
 
     it('rejects when rate limited', async () => {
       vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', DOCTOR_ID));
-      vi.mocked(checkRateLimit).mockReturnValue({ allowed: false, remaining: 0, resetAt: Date.now() + 60000 });
+      vi.mocked(checkRateLimit).mockResolvedValue({ allowed: false, remaining: 0, resetAt: Date.now() + 60000 });
 
       const res = await POST(createRequestWithBody({ content: VALID_CONTENT, sign: false }), idParamsRequest(CASE_ID));
       expect(res.status).toBe(400);

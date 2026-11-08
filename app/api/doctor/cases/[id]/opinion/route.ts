@@ -3,8 +3,7 @@ import { requireDoctor, serverError, notFound, badRequest, ok } from '@/lib/api-
 import { checkRateLimit } from '@/lib/rate-limit';
 import { logAuditEvent, AUDIT_ACTIONS } from '@/lib/audit/logger';
 import { OpinionStatus } from '@/lib/generated/prisma/enums';
-import { generateSummary } from '@/lib/ai/summary';
-import { generateSynthesis } from '@/lib/ai/synthesis';
+import { tasks } from '@trigger.dev/sdk';
 import { z } from 'zod';
 
 const CONTENT_MAX_LENGTH = 100_000;
@@ -59,7 +58,7 @@ export async function POST(
     const auth = await requireDoctor();
     if (!auth.ok) return auth.response;
 
-    const rateCheck = checkRateLimit(`opinion:${auth.userId}`, 20, 60_000);
+    const rateCheck = await checkRateLimit(`opinion:${auth.userId}`, 20, 60_000);
     if (!rateCheck.allowed) {
       return badRequest('Too many requests. Please slow down.');
     }
@@ -140,7 +139,9 @@ export async function POST(
 
     // Fire-and-forget AI triggers (after transaction commits)
     if (parsed.data.sign) {
-      generateSummary(opinion.id).catch((err) => console.error('Summary generation failed:', err));
+      tasks
+        .trigger('ai-summary', { opinionId: opinion.id })
+        .catch((err) => console.error('Summary trigger failed:', err));
 
       const signedCount = await prisma.specialistOpinion.count({
         where: { caseId: id, status: 'SIGNED' },
@@ -151,7 +152,9 @@ export async function POST(
           where: { caseId: id },
         });
         if (!existingSynth) {
-          generateSynthesis(id).catch((err) => console.error('Synthesis generation failed:', err));
+          tasks
+            .trigger('ai-synthesis', { caseId: id })
+            .catch((err) => console.error('Synthesis trigger failed:', err));
         }
       }
     }

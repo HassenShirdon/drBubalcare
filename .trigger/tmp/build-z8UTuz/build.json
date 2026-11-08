@@ -1,0 +1,166 @@
+{
+  "build": {
+  },
+  "cliPackageVersion": "4.6.3",
+  "config": {
+    "dirs": [
+      "./trigger/tasks"
+    ],
+    "project": "proj_vqvrevlyccwiuylcprrb"
+  },
+  "configPath": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger.config.mjs",
+  "contentHash": "5c2b8d77103ca5eca9938c3fde7a312c",
+  "customConditions": [
+  ],
+  "deploy": {
+    "env": {
+    }
+  },
+  "environment": "dev",
+  "externals": [
+    {
+      "name": "import-in-the-middle",
+      "version": "3.5.1"
+    }
+  ],
+  "files": [
+    {
+      "entry": "trigger/tasks/maintenance.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\maintenance.mjs"
+    },
+    {
+      "entry": "trigger/tasks/ai-prescreen.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-prescreen.mjs"
+    },
+    {
+      "entry": "trigger/tasks/ai-routing.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-routing.mjs"
+    },
+    {
+      "entry": "trigger/tasks/ai-summary.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-summary.mjs"
+    },
+    {
+      "entry": "trigger/tasks/ai-synthesis.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-synthesis.mjs"
+    },
+    {
+      "entry": "trigger/tasks/ai-trends.ts",
+      "out": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-trends.mjs"
+    }
+  ],
+  "indexWorkerEntryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs",
+  "otelImportHook": {
+    "include": [
+    ]
+  },
+  "outputHashes": {
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-JUPALWCH.mjs": "XDMRC3RA+kU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-JUPALWCH.mjs.map": "+FZE3ylvjXM",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-KOYVPRES.mjs": "jWn8RJuJsCU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-KOYVPRES.mjs.map": "26+2307KC2c",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-L6IQHB2I.mjs": "Y790WFE/9oA",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-L6IQHB2I.mjs.map": "fW9yPU6J/Lc",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-M366MOAD.mjs": "M2199zAZkC0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-M366MOAD.mjs.map": "jy3s3f0EQD0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-N2VJDWOE.mjs": "KyivX79zRfg",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-N2VJDWOE.mjs.map": "uGW+lNe5Zz4",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-RCYOSZSD.mjs": "238QkQ3V7Aw",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-RCYOSZSD.mjs.map": "NIrRHQ6W0Lg",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-RV4KBN5L.mjs": "76WmF+lBjl0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-RV4KBN5L.mjs.map": "I9u8hZinP1c",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-TICLPGBB.mjs": "k5etjvTb5xs",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-TICLPGBB.mjs.map": "R2rAbGg1PW8",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UMS4ZFS3.mjs": "/6NauEQtHgc",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UMS4ZFS3.mjs.map": "hsGhB/yE2XU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UT4CBAZP.mjs": "cOGVtIkzhk0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UT4CBAZP.mjs.map": "V/q4gxvhg0c",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UTPLH5KB.mjs": "RSvqmMG/41U",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\chunk-UTPLH5KB.mjs.map": "x07vN6f6nfc",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\crypto.node-6SXZHOR5.mjs": "C94zT4tBUTo",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\crypto.node-6SXZHOR5.mjs.map": "pwtlqW5LG6A",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\esm-4SVT6NA4.mjs": "JJvM3ZRLJxo",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\esm-4SVT6NA4.mjs.map": "uuvelps5tsQ",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-bsd-LK5EX65G.mjs": "4o8PbeY3zRM",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-bsd-LK5EX65G.mjs.map": "b33q2d7NXAs",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-darwin-AXOFREA4.mjs": "rOU0Q+qERSY",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-darwin-AXOFREA4.mjs.map": "MZIAvjWdpxM",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-linux-NJN6MBSO.mjs": "P6Q0exkvDec",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-linux-NJN6MBSO.mjs.map": "jElRX7JnBeM",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-unsupported-5FEAZT7I.mjs": "4Kndi9+yMlU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-unsupported-5FEAZT7I.mjs.map": "FVUyCNMS++8",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-win-IGS6M2TZ.mjs": "CPP2HXq69LA",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\getMachineId-win-IGS6M2TZ.mjs.map": "FmsVGlBxoLo",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs": "i9KH/shvP90",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs.map": "njIlE3Z0LXU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs": "BhHuM0POJuQ",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs.map": "xScYplDgxis",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\query_compiler_fast_bg.postgresql-DCQCDAPU.mjs": "u5n7Z+Dwehk",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\query_compiler_fast_bg.postgresql-DCQCDAPU.mjs.map": "MFkYikP6PB8",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\query_compiler_fast_bg.postgresql.wasm-base64-AWSBTRV2.mjs": "vfZssx0FSNw",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\query_compiler_fast_bg.postgresql.wasm-base64-AWSBTRV2.mjs.map": "IWg/Eq2HQrw",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\s2s-ML6PNEGB.mjs": "TKmzySLFUtE",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\s2s-ML6PNEGB.mjs.map": "pJlwekLTQ+g",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\token-AEODNUOI.mjs": "QKJa0SJsEXg",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\token-AEODNUOI.mjs.map": "2c3c7MMQ96o",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\token-util-4W42PUD4.mjs": "j4VyF3YmHZc",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\token-util-4W42PUD4.mjs.map": "0b4tlwmkM3g",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger.config.mjs": "XDov/yDNLQE",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger.config.mjs.map": "LqZTJkbAThg",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-prescreen.mjs": "oRSg7Cjy1lU",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-prescreen.mjs.map": "exuHqrQj+h0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-routing.mjs": "NJfNuLSr/xA",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-routing.mjs.map": "fZydH8DYhc0",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-summary.mjs": "SCD3iXHBZF4",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-summary.mjs.map": "d7qrmCObo5Y",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-synthesis.mjs": "u9Ry8qjN/u4",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-synthesis.mjs.map": "L8Wo+EjtFc8",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-trends.mjs": "Zlh0KlOoCxE",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-trends.mjs.map": "w+pd9HsjD1E",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\maintenance.mjs": "K/21EH+dNL4",
+    "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\maintenance.mjs.map": "EW+7SsaEeZo"
+  },
+  "outputPath": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz",
+  "packageVersion": "4.6.3",
+  "runWorkerEntryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs",
+  "runtime": "node",
+  "sources": {
+    "package.json": {
+      "contentHash": "3a46fffa3f250fa61ab936e871335104",
+      "contents": "eJyNVsuO4ygU3ddXWFk3OHacV0kj1WK+IxKB2zEVDDQXuyrd6n8fgbFN6hHNyvY9B7jPg/88FcVKsw5Wz8WKWavAr34E2wAOpdHBvKYVXY9W6+TAfCB710M0IXfSelw9F3+eiqIoVgKGsErDuy/C+4/RfO6lEjMQvwpCfO/OxjJ+nWjomfMzbfxKkJI6IoDxLVk9YLQOMr5l1mfX6wUpwleOcjOAYxe4pxSEzMDkEvDeSX97Zr2Q8SyrbVfEr4KQ+CQKBlD/tPLSTsvE+RkBYsge3wvrJHasDCbqcfVUFH9j/gRY0AI0l5Al8YVJguJaGguaybDHqaFrWu2m3V/ODIH0snTAeHTqVNFdqlPAW2OuP43rSgdoVChnJG1pk5GSU0ww68ERDWPFT3t6+MziSsJYgQ+4Zxo949fRF/KrB3dLh1XritbfET07q5j+04HWFd0sPGk9syW8e9ChC4nsUqFOG1rvHzGV1Nf/RbSKcWiNEuAe8FvfqQew7R6AS2W+xmNzgyNX+TXLycsFHBUwlChiUA3d5YSbBSzP3N2sf8W0xTqrS2/RM2xLxzwo2aVj6nmc7zggJKY22hwXQmq+PV3TTTXP8sczZ6e4YohkYE4yzYGw3rcmzE5krumeVgsT32d/ZqswHvQw+rGnzdI7srPGeSI18S2QTgqhpobYLstVz6UAks9EvVmC6YxPmnaqatrUy/ZBbUb7lm5pfWePUaQRrBtabe9A30IHmOJr6Dygsw/VMU/42PnCdN9B0DE5ttyOHun2HgxDTcJUT1N4t5y3zPmpKMclOAe/eungi+QdgqYsNAQt0tH1YQGwZYLrlIEqy6dnUr1JLUgHbp7PTIT8G2FadswD4Th1V6Y/PQLBm+YkjKXTTBH0xsFnNfttxDQiW7qfc/y7R8+Sy9sQSpPr6vDv19I63h/l+HB83HgRO8Vub05eWl9OV0vwJevRlylsjlhag36KrXmoiETA4I1Rkw5X602+J6CX+kKUPDvmbuUr4NwmcfrW31Kzbt/RTS63H4g9giMwTCJeBTnJPIhywts08Vtaf9IaZQTDaRSqPa2bDwRtxFi9ev0ByZw8fgXNsWZwuJVfsbSqv0idDfUuV5yX8e4up1ubDIfJQVrNXqR/hgAc722EG/1TXsikAKMAzAtfcXKsPuZCNd6Jny/DrDfueyKT809S7pMUNndqFbMT/65SQQ7LivS3kwUaGv/p79N/mw+jLQ=="
+    },
+    "trigger.config.ts": {
+      "contentHash": "0d9a9d5a990257ccbd46b11689f83ba1",
+      "contents": "eJxVUD1PwzAQ3fMrTp5AqpqICgZ3KaJLJdjYUIWc+BwddexwvoSWqv8dJSSILufT+7j3ZGrayAJnsOgo4FMMjmq4gOPYgNoIU10jLy32ebIHtc4yPI4Oi850Xq58N+cMoOX4gZVoUMP23n/2jL0/VdUXdSdftcylWmQAljhpeFPLfArJxaRDUvuB9LF+xh69BuVjPeobc9x2bIRi0LB6KIoBZBQmTBqGZAAMpvRod2GLvQZnfMLFSExtZ9147VEEm1aShtViRim8UoOxk114SRrui9+YyXHFrYp/pDOVRNZwNwNsgo0NfaMG4W5qcRmecZQdefvX+igYEsUw/Md+0lxu19kP/0R+JA=="
+    },
+    "trigger/tasks/ai-prescreen.ts": {
+      "contentHash": "9ae0dce26d89d8df12d5480fbfeabd87",
+      "contents": "eJxlkbFug0AQRHu+YoRcgESMi1QgrDQp0qXIB/gCC17ZvrP2jpAI3b9HHGCkpDmdtPtmRrN8uxtxGOGUvWThtfBoxdwQvzjhriPZN/SV2+YSlxGv+x1pEuXoXcjWQqQ3Kr/yZ644v6+juIwi+g5gbbR1UPzAPpS9oArGyRgB3BSIFT9tcBYB0usCyv7oGsmIWll6a+ALrP8C1gnrDj5FdcQkhMVLyN6NtoQKalDs/idPZo20jALGLZIV2lunXG9xrPB8OKSLMODOYgZoGvAqYiQ5bTW0iq/UoDUSsmE3zvIeA7szFsHd+MfCn9IyiPs5xZw13GO/nCGZehHTO9ZdnGHrYU0u5HrRj0GGR4nUFHDSE/xk4rNoYn4BxQuoXg=="
+    },
+    "trigger/tasks/ai-routing.ts": {
+      "contentHash": "148bf98f042139c9cedd621baff87421",
+      "contents": "eJx1kEFugzAQRfc+xS/KAiQa9kapss2mi7YHiIsNHYXY0dg0rZDvXoFJUkXKzpLnvT9/6HhyHDAiKH9ARMvuiGwbmLrO8Fqb78rrQ1YLugweVWi+3k+mIdWTDzem6umzUlSxGwLZLquFMD8z1DjrAxS9pZ+PKWozJ+ajAEhLZIqeL2ApAB6shPK/tkE+olHe7DSixOUt4QOT7RALbF4wabDksPFDH7CBOisK9/vmiS9qMSPUIn9KxHqeNPo2u9PFYk5u15v1WbHN968O/naCBUTreF4PqzGlRInVuNjZKO8s2S7ui3qRsgkD22upEtMJjJZoVe9NiSsjcW9BTJKYejw0BR5M+W/Z6XSP+yZrLEUsavEHHj21wQ=="
+    },
+    "trigger/tasks/ai-summary.ts": {
+      "contentHash": "dd6b4f26c21ef12f0c9f8562acfc3182",
+      "contents": "eJxdkMtugzAQRff+iiuUBUg0ZNEViCibLrpuPyBuGMgowY7GpjRF/vcqPNIoy5Hn3HM93F6seAzw2p0QUIttEe28cNOQrCv6zlx1igrFy2JDhkR7+ujaVsv1n8nO/JVpztz0EBVK0c8IHaxxHppn5POmKkdjPCiAqxyR5pcFTBUgncmh3dUcEA+wFzZszXuFkONhzOG8sGkQEpRb3MIw24TcxRpHKKF7zf65d3wPSQo1clwjXqi189p3DtsSr5tNMicD/ii2h6EebyJW4v1yhTmdrUGt+UwVaitLUayGuy2gZ3/EnL8anoxhnxSjK0ylhHwn5vHPKaY78S9VObx0hHBDQqpCUqg/t6idJQ=="
+    },
+    "trigger/tasks/ai-synthesis.ts": {
+      "contentHash": "58321e4e7bc01b0ea0aed104d53c01db",
+      "contents": "eJxlkDFuwkAQRfs9xZdFYUsEU6SyZZQmRerkAGzw2IyAXTQ7jkOsvXuEsUFKupF23n9/h09nL4oBasMBEY34E5IXFW5bklVNX3moD0lpeF5syZFYpfeL0z0FDg8qP/JnbjkP81NSGkPfI7jzLigs37GPq7AavelgAK4LJJafHvDSANK5AjZc3A7pgJ0N9FYjFpjnAkGFXYuYodrgGoTJJRTO3gVCBdtb1v/N01tGVpoR4wbpDK2CWu0CNhWe1+tsCgZ0L76Hox6vIl7S7eMMUzx7h8bykWo0XsaaWAw3U0TPuseUvRj+2OI2K0dPvBUS0k7c/a9LzLf5obqASkeIVyAuTcxK8wuFvJqG"
+    },
+    "trigger/tasks/ai-trends.ts": {
+      "contentHash": "f1822e6fadc81442cbf4cf2145fdd83d",
+      "contents": "eJxtjsFOw0AMRO/7FaOcEik0942C4Nh7f2DJmmA12Va2A5Ro/x0l0NIDR2v85g1P55MYFljQIzJe5TSheDLhYSDZRXpvNB6L1vH1caBEEowOQik+pzBelPWPbEZ+aQI3tsZatM7R50b2p6SGwBunh1XXbdZycQBHjyLwwy9WO0Dm5BH0knqUC87BmJLtI7LH3emhJpwG5ArdI9YuXF3bOFJ0CB+B7f/p5a2qat1GC9ks6V5S/3R9UfQwmanGRCbcq79JdiOlwd6QWwfk2uWqdd886HbC"
+    },
+    "trigger/tasks/maintenance.ts": {
+      "contentHash": "cc9c863022330a415811481ce207a9a4",
+      "contents": "eJyFkdFKwzAUhu/7FD+9ase6KuJNR0XQaxHUB4jJsQttk5Kczsnou0u7bJapjNzlfP8h3x/ddtYx9vByQ6pvyGPAh7Mt4nt2uqrIrRRtc6/qeB3pIy03JOs30woeYw/Cz3N5o99zUhVlchzkntxWS5rnaUeyZ3omo7SpHqkh1tac76hU52bpiHZTXFrj+fCEJ/vSkdSi0Z5fha9R/oisWPg62UeAVgXiic+MzfwpES8jQDprCsSL/PoWi8OZ7l1vCgj/ZSSSFOUdxk2A+BSa//JP0vUEOOLemWNHpAqw6wnDOB2W0ZCei4QujiVc0Ah0pgI+d7jCzWWB0J7tDaMMOv98xy+lwKkTUYRFc7tv5r7DMw=="
+    },
+    "tsconfig.json": {
+      "contentHash": "c50ff6bf1167426dbbf91d643815f73d",
+      "contents": "eJxdUcFqAjEUvAv+Q8hxsbttLwVPheKhUim0RxHJbh6amk1C8qIr4r+Xl7iL7mnfzkyGN28u0wljvLGtUxr8t0NlTeBzdiGcMY7C7wD5nPHF7+vzyxuf3Qitaj5nay5ty2eMPqVC8KLWQP8QDHTIN71caG1PS3JGH6FHw0G5L1V/7KE5jCg8OyD5erAI6FWDI5mxi1aNQQgrK6OGT4PgrRuxbeIo0m3JR+IHgtWR7kCSOhqpwQ8aT+wRlsGaVe9zb66C1QJBZnKc9y90ZOo8BPBHGFyVaTy0YFDo0Qun406lRtYZYX01Ob5oU5KUo8eveRgO5wTu7zpljL9XRSqvrAq+yWh6dE1PaB0dJSQJOT+BOZayxEDNFkVVPI4dzSUJq9Ra1UvyBhy6OzsrYdvejjOjfOJ88mq3xy1CyLY0PHkIUZPHdHKdTv4BL0W5qA=="
+    }
+  },
+  "target": "dev"
+}

@@ -33,88 +33,68 @@ export type BrandPanelVariant = 'signin' | 'patient' | 'doctor'
 const PANEL_CONTENT: Record<
   BrandPanelVariant,
   {
-    eyebrow: string
     headline: string
     trust: { icon: LucideIcon; label: string; desc: string }[]
-    steps: { title: string; desc: string }[]
   }
 > = {
   signin: {
-    eyebrow: 'Secure portal access',
     headline: 'One secure door. Three dedicated portals.',
     trust: [
       {
         icon: Globe,
-        label: 'Global Doctors Network',
-        desc: 'Every opinion is written by a verified, board-certified physician in the relevant subspecialty.',
+        label: 'Global doctors network',
+        desc: 'Opinions written by verified, board-certified physicians.',
       },
       {
         icon: Clock,
-        label: '24-48 Hour Opinions',
-        desc: 'Most cases receive a written opinion within 24-48 hours of submission.',
+        label: '24-48 hour opinions',
+        desc: 'Most cases receive a written opinion within two days.',
       },
       {
         icon: Shield,
-        label: 'HIPAA & GDPR Secure',
-        desc: 'Medical data is encrypted at rest and in transit. Never shared.',
+        label: 'HIPAA & GDPR secure',
+        desc: 'Encrypted at rest and in transit. Never shared.',
       },
-    ],
-    steps: [
-      { title: 'Submit your case', desc: 'Upload records securely' },
-      { title: 'Specialist review', desc: 'Matched by subspecialty' },
-      { title: 'Signed opinion', desc: 'Delivered to your portal' },
     ],
   },
   patient: {
-    eyebrow: 'For patients',
     headline: 'Your results, explained in plain language.',
     trust: [
       {
         icon: Stethoscope,
         label: 'Board-certified specialists',
-        desc: 'Matched to the physician with the right subspecialty for your case.',
+        desc: 'Matched to the right subspecialty for your case.',
       },
       {
         icon: ClipboardCheck,
         label: 'Plain-language opinions',
-        desc: 'Findings, impression and next steps written without medical jargon.',
+        desc: 'Findings and next steps without medical jargon.',
       },
       {
         icon: Shield,
         label: 'Encrypted & confidential',
-        desc: 'Files are encrypted on upload. Your records are never shared.',
+        desc: 'Files are encrypted on upload. Never shared.',
       },
-    ],
-    steps: [
-      { title: 'Upload records', desc: 'Slides, scans or lab reports' },
-      { title: 'Specialist review', desc: 'Written within 24-48 hours' },
-      { title: 'Opinion delivered', desc: 'With a plain-language summary' },
     ],
   },
   doctor: {
-    eyebrow: 'For physicians',
-    headline: 'Focus on medicine. We coordinate everything else.',
+    headline: 'Focus on medicine. We handle the coordination.',
     trust: [
       {
         icon: Sparkles,
         label: 'AI pre-screening attached',
-        desc: 'Key findings are surfaced before you open each case. You decide.',
+        desc: 'Key findings surfaced before you open a case.',
       },
       {
         icon: Clock,
         label: 'You set the cadence',
-        desc: 'Choose your subspecialties, available hours and case capacity.',
+        desc: 'Your subspecialties, hours and case capacity.',
       },
       {
         icon: ShieldCheck,
         label: 'Verified peers only',
-        desc: 'Credentials and registration numbers checked before cases arrive.',
+        desc: 'Credentials checked before cases arrive.',
       },
-    ],
-    steps: [
-      { title: 'Verify credentials', desc: 'Within 24-48 hours' },
-      { title: 'Receive matched cases', desc: 'Routed by subspecialty' },
-      { title: 'Write & sign', desc: 'Your signature closes the case' },
     ],
   },
 }
@@ -124,17 +104,17 @@ function PanelWordmark({ className }: { className?: string }) {
     <Link
       href="/"
       className={cn(
-        'group inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/60',
+        'group inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-auth-panel-fg/60',
         className
       )}
     >
-      <span className="flex size-8 items-center justify-center rounded-xl bg-white/10">
+      <span className="flex size-8 items-center justify-center rounded-xl bg-auth-panel-chip">
         <Stethoscope
-          className="size-4 text-white"
+          className="size-4 text-auth-panel-fg"
           aria-hidden="true"
         />
       </span>
-      <span className="text-lg font-semibold tracking-tight text-white">
+      <span className="text-lg font-semibold tracking-tight text-auth-panel-fg">
         Dr. Bubal Care
       </span>
     </Link>
@@ -155,45 +135,44 @@ export function BrandPanel({ variant }: { variant: BrandPanelVariant }) {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <aside className="relative hidden overflow-hidden bg-landing-brand lg:flex lg:w-[45%] xl:w-1/2 lg:items-center dark:border-r dark:border-landing-border dark:bg-landing-surface-muted">
+    <aside className="relative hidden overflow-hidden bg-auth-panel lg:flex lg:w-[45%] xl:w-1/2 lg:items-center dark:border-r dark:border-landing-border">
       <DotGrid />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-32 -left-32 size-[480px] rounded-full bg-landing-accent/20 blur-3xl"
+        className="pointer-events-none absolute -bottom-32 -left-32 size-[480px] rounded-full bg-landing-accent/15 blur-3xl"
       />
 
       <motion.div
         initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="relative z-10 flex w-full flex-col gap-12 p-12 xl:p-16"
+        className="relative z-10 flex w-full flex-col gap-14 p-12 xl:p-16"
       >
         <PanelWordmark />
 
         <div className="max-w-md">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white/80">
-            <span
-              aria-hidden="true"
-              className="size-1.5 rounded-full bg-landing-accent"
-            />
-            {content.eyebrow}
-          </span>
-          <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight text-balance text-white xl:text-4xl">
+          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-balance text-auth-panel-fg xl:text-4xl">
             {content.headline}
           </h2>
+          <span
+            aria-hidden="true"
+            className="mt-6 block h-1 w-14 rounded-full bg-brand-gradient"
+          />
 
-          <ul className="mt-10 space-y-5">
+          <ul className="mt-10 space-y-6">
             {content.trust.map((item) => (
               <li key={item.label} className="flex items-start gap-3.5">
-                <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-landing-accent text-landing-brand dark:bg-white/10 dark:text-white">
+                <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-auth-panel-accent text-auth-panel-accent-fg">
                   <item.icon
                     className="size-4.5"
                     aria-hidden="true"
                   />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-white">{item.label}</p>
-                  <p className="mt-0.5 text-sm leading-relaxed text-white/60">
+                  <p className="text-sm font-medium text-auth-panel-fg">
+                    {item.label}
+                  </p>
+                  <p className="mt-0.5 text-sm leading-relaxed text-auth-panel-muted">
                     {item.desc}
                   </p>
                 </div>
@@ -202,30 +181,16 @@ export function BrandPanel({ variant }: { variant: BrandPanelVariant }) {
           </ul>
         </div>
 
-        <div className="max-w-md border-t border-white/15 pt-8">
-          <p className="text-xs font-semibold uppercase tracking-wider text-white/50">
-            How it works
-          </p>
-          <ol className="mt-4 space-y-3">
-            {content.steps.map((step, i) => (
-              <li key={step.title} className="flex items-center gap-3">
-                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-white">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-white/80">
-                  {step.title}
-                  <span className="text-white/50"> â€” {step.desc}</span>
-                </p>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-6 flex items-start gap-2 text-xs leading-relaxed text-white/50">
+        <div className="max-w-md border-t border-auth-panel-border pt-7">
+          <p className="flex items-start gap-2.5 text-xs leading-relaxed text-auth-panel-muted">
             <ShieldCheck
-              className="mt-0.5 size-3.5 shrink-0"
+              className="mt-0.5 size-3.5 shrink-0 text-auth-panel-faint"
               aria-hidden="true"
             />
-            Every case closes with a human-signed written opinion. AI surfaces
-            what matters â€” specialists decide.
+            <span>
+              Every case closes with a human-signed written opinion. AI
+              surfaces what matters, specialists decide.
+            </span>
           </p>
         </div>
       </motion.div>
@@ -239,14 +204,52 @@ export function AuthFormCard({
   subtitle,
   children,
   footer,
+  framed = false,
+  titleClassName,
 }: {
   badge: string
   title: string
   subtitle?: string
   children: ReactNode
   footer?: ReactNode
+  framed?: boolean
+  titleClassName?: string
 }) {
   const prefersReducedMotion = useReducedMotion()
+
+  const content = (
+    <>
+      <span
+        className={cn(
+          'inline-flex items-center gap-2 rounded-full border border-landing-border bg-card px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-landing-brand',
+          framed && 'bg-landing-surface'
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className="size-1.5 rounded-full bg-landing-accent"
+        />
+        {badge}
+      </span>
+      <h1
+        className={cn(
+          'mt-4 text-2xl font-semibold tracking-tight text-balance text-foreground sm:text-3xl',
+          titleClassName
+        )}
+      >
+        {title}
+      </h1>
+      {subtitle && (
+        <p className="mt-2.5 text-[15px] leading-relaxed text-landing-text-muted text-balance">
+          {subtitle}
+        </p>
+      )}
+
+      <div className="mt-8">{children}</div>
+
+      {footer && <div className="mt-8 space-y-3">{footer}</div>}
+    </>
+  )
 
   return (
     <div className="flex min-h-dvh flex-1 flex-col bg-landing-surface">
@@ -271,25 +274,13 @@ export function AuthFormCard({
             <ModeToggle />
           </div>
 
-          <span className="inline-flex items-center gap-2 rounded-full border border-landing-border bg-card px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-landing-brand">
-            <span
-              aria-hidden="true"
-              className="size-1.5 rounded-full bg-landing-accent"
-            />
-            {badge}
-          </span>
-          <h1 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-foreground sm:text-3xl">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="mt-2.5 text-[15px] leading-relaxed text-landing-text-muted text-balance">
-              {subtitle}
-            </p>
+          {framed ? (
+            <div className="rounded-2xl border border-landing-border bg-landing-surface-card p-6 shadow-lift sm:p-8">
+              {content}
+            </div>
+          ) : (
+            content
           )}
-
-          <div className="mt-8">{children}</div>
-
-          {footer && <div className="mt-8 space-y-3">{footer}</div>}
         </motion.div>
       </main>
 
@@ -607,7 +598,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-landing-brand px-6 text-sm font-semibold text-white shadow-sm shadow-landing-brand/20 transition-all duration-200 hover:bg-landing-brand/90 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60 dark:text-landing-surface"
+      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-landing-brand px-6 text-sm font-semibold text-primary-foreground shadow-sm shadow-landing-brand/20 transition-all duration-200 hover:bg-landing-brand/90 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60"
     >
       {pending ? (
         <>

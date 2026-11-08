@@ -1,0 +1,125 @@
+{
+  "configPath": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger.config.mjs",
+  "customConditions": [
+  ],
+  "prompts": [
+  ],
+  "queues": [
+  ],
+  "runtime": "node",
+  "runtimeVersion": "24.18.0",
+  "skills": [
+  ],
+  "tasks": [
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\maintenance.mjs",
+      "filePath": "trigger/tasks/maintenance.ts",
+      "id": "check-no-specialist",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      },
+      "schedule": {
+        "cron": "*/15 * * * *",
+        "timezone": "UTC"
+      },
+      "triggerSource": "schedule"
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\maintenance.mjs",
+      "filePath": "trigger/tasks/maintenance.ts",
+      "id": "execute-deletion",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      },
+      "schedule": {
+        "cron": "0 3 * * *",
+        "timezone": "UTC"
+      },
+      "triggerSource": "schedule"
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-prescreen.mjs",
+      "filePath": "trigger/tasks/ai-prescreen.ts",
+      "id": "ai-prescreen",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      }
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-routing.mjs",
+      "filePath": "trigger/tasks/ai-routing.ts",
+      "id": "ai-routing",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      }
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-summary.mjs",
+      "filePath": "trigger/tasks/ai-summary.ts",
+      "id": "ai-summary",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      }
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-synthesis.mjs",
+      "filePath": "trigger/tasks/ai-synthesis.ts",
+      "id": "ai-synthesis",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      }
+    },
+    {
+      "entryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\trigger\\tasks\\ai-trends.mjs",
+      "filePath": "trigger/tasks/ai-trends.ts",
+      "id": "ai-trends",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 30000,
+        "minTimeoutInMs": 5000,
+        "randomize": true
+      }
+    }
+  ],
+  "timings": {
+    "trigger/tasks/ai-prescreen.ts": 500.60859999999957,
+    "trigger/tasks/ai-routing.ts": 8.259200000000419,
+    "trigger/tasks/ai-summary.ts": 9.34270000000106,
+    "trigger/tasks/ai-synthesis.ts": 22.377699999999095,
+    "trigger/tasks/ai-trends.ts": 7.9297999999998865,
+    "trigger/tasks/maintenance.ts": 239.16399999999976
+  },
+  "workerEntryPoint": "C:\\Users\\hasse\\Desktop\\drBubalcare\\.trigger\\tmp\\build-z8UTuz\\node_modules\\.pnpm\\trigger.dev@4.6.3_typescrip_971ecc520afc7a2dd6ebda46efc121d9\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs"
+}

@@ -276,6 +276,7 @@ export type UserWhereInput = {
   disputes?: Prisma.DisputeListRelationFilter
   consentRecords?: Prisma.ConsentRecordListRelationFilter
   deletionRequests?: Prisma.DataDeletionRequestListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -302,6 +303,7 @@ export type UserOrderByWithRelationInput = {
   disputes?: Prisma.DisputeOrderByRelationAggregateInput
   consentRecords?: Prisma.ConsentRecordOrderByRelationAggregateInput
   deletionRequests?: Prisma.DataDeletionRequestOrderByRelationAggregateInput
+  passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -331,6 +333,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   disputes?: Prisma.DisputeListRelationFilter
   consentRecords?: Prisma.ConsentRecordListRelationFilter
   deletionRequests?: Prisma.DataDeletionRequestListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -393,6 +396,7 @@ export type UserCreateInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -419,6 +423,7 @@ export type UserUncheckedCreateInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -445,6 +450,7 @@ export type UserUpdateInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -471,6 +477,7 @@ export type UserUncheckedUpdateInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -601,6 +608,20 @@ export type NullableIntFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutPasswordResetTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPasswordResetTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  upsert?: Prisma.UserUpsertWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPasswordResetTokensInput, Prisma.UserUpdateWithoutPasswordResetTokensInput>, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
 }
 
 export type UserCreateNestedOneWithoutPostsInput = {
@@ -773,6 +794,126 @@ export type UserUpdateOneRequiredWithoutDeletionRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDeletionRequestsInput, Prisma.UserUpdateWithoutDeletionRequestsInput>, Prisma.UserUncheckedUpdateWithoutDeletionRequestsInput>
 }
 
+export type UserCreateWithoutPasswordResetTokensInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+}
+
+export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  role?: $Enums.Role
+  age?: number | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patientAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutPatientInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutPatientInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  cases?: Prisma.CaseUncheckedCreateNestedManyWithoutPatientInput
+  specialistCases?: Prisma.CaseUncheckedCreateNestedManyWithoutSpecialistInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedCreateNestedManyWithoutSpecialistInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
+  disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+}
+
+export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpsertWithoutPasswordResetTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPasswordResetTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  age?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patientAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutPatientNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  cases?: Prisma.CaseUncheckedUpdateManyWithoutPatientNestedInput
+  specialistCases?: Prisma.CaseUncheckedUpdateManyWithoutSpecialistNestedInput
+  specialistOpinions?: Prisma.SpecialistOpinionUncheckedUpdateManyWithoutSpecialistNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
+  disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+}
+
 export type UserCreateWithoutPostsInput = {
   id?: string
   name?: string | null
@@ -796,6 +937,7 @@ export type UserCreateWithoutPostsInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -821,6 +963,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -862,6 +1005,7 @@ export type UserUpdateWithoutPostsInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -887,6 +1031,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDoctorProfileInput = {
@@ -912,6 +1057,7 @@ export type UserCreateWithoutDoctorProfileInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDoctorProfileInput = {
@@ -937,6 +1083,7 @@ export type UserUncheckedCreateWithoutDoctorProfileInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDoctorProfileInput = {
@@ -978,6 +1125,7 @@ export type UserUpdateWithoutDoctorProfileInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDoctorProfileInput = {
@@ -1003,6 +1151,7 @@ export type UserUncheckedUpdateWithoutDoctorProfileInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLabResultsInput = {
@@ -1028,6 +1177,7 @@ export type UserCreateWithoutLabResultsInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLabResultsInput = {
@@ -1053,6 +1203,7 @@ export type UserUncheckedCreateWithoutLabResultsInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLabResultsInput = {
@@ -1094,6 +1245,7 @@ export type UserUpdateWithoutLabResultsInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLabResultsInput = {
@@ -1119,6 +1271,7 @@ export type UserUncheckedUpdateWithoutLabResultsInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPatientAppointmentsInput = {
@@ -1144,6 +1297,7 @@ export type UserCreateWithoutPatientAppointmentsInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPatientAppointmentsInput = {
@@ -1169,6 +1323,7 @@ export type UserUncheckedCreateWithoutPatientAppointmentsInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPatientAppointmentsInput = {
@@ -1210,6 +1365,7 @@ export type UserUpdateWithoutPatientAppointmentsInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientAppointmentsInput = {
@@ -1235,6 +1391,7 @@ export type UserUncheckedUpdateWithoutPatientAppointmentsInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCasesInput = {
@@ -1260,6 +1417,7 @@ export type UserCreateWithoutCasesInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCasesInput = {
@@ -1285,6 +1443,7 @@ export type UserUncheckedCreateWithoutCasesInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCasesInput = {
@@ -1315,6 +1474,7 @@ export type UserCreateWithoutSpecialistCasesInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSpecialistCasesInput = {
@@ -1340,6 +1500,7 @@ export type UserUncheckedCreateWithoutSpecialistCasesInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSpecialistCasesInput = {
@@ -1381,6 +1542,7 @@ export type UserUpdateWithoutCasesInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCasesInput = {
@@ -1406,6 +1568,7 @@ export type UserUncheckedUpdateWithoutCasesInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutSpecialistCasesInput = {
@@ -1442,6 +1605,7 @@ export type UserUpdateWithoutSpecialistCasesInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSpecialistCasesInput = {
@@ -1467,6 +1631,7 @@ export type UserUncheckedUpdateWithoutSpecialistCasesInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSpecialistOpinionsInput = {
@@ -1492,6 +1657,7 @@ export type UserCreateWithoutSpecialistOpinionsInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSpecialistOpinionsInput = {
@@ -1517,6 +1683,7 @@ export type UserUncheckedCreateWithoutSpecialistOpinionsInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSpecialistOpinionsInput = {
@@ -1558,6 +1725,7 @@ export type UserUpdateWithoutSpecialistOpinionsInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSpecialistOpinionsInput = {
@@ -1583,6 +1751,7 @@ export type UserUncheckedUpdateWithoutSpecialistOpinionsInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrendAnalysesInput = {
@@ -1608,6 +1777,7 @@ export type UserCreateWithoutTrendAnalysesInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrendAnalysesInput = {
@@ -1633,6 +1803,7 @@ export type UserUncheckedCreateWithoutTrendAnalysesInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrendAnalysesInput = {
@@ -1674,6 +1845,7 @@ export type UserUpdateWithoutTrendAnalysesInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrendAnalysesInput = {
@@ -1699,6 +1871,7 @@ export type UserUncheckedUpdateWithoutTrendAnalysesInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -1724,6 +1897,7 @@ export type UserCreateWithoutAuditLogsInput = {
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1749,6 +1923,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1790,6 +1965,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1815,6 +1991,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDisputesInput = {
@@ -1840,6 +2017,7 @@ export type UserCreateWithoutDisputesInput = {
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDisputesInput = {
@@ -1865,6 +2043,7 @@ export type UserUncheckedCreateWithoutDisputesInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDisputesInput = {
@@ -1906,6 +2085,7 @@ export type UserUpdateWithoutDisputesInput = {
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDisputesInput = {
@@ -1931,6 +2111,7 @@ export type UserUncheckedUpdateWithoutDisputesInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConsentRecordsInput = {
@@ -1956,6 +2137,7 @@ export type UserCreateWithoutConsentRecordsInput = {
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConsentRecordsInput = {
@@ -1981,6 +2163,7 @@ export type UserUncheckedCreateWithoutConsentRecordsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConsentRecordsInput = {
@@ -2022,6 +2205,7 @@ export type UserUpdateWithoutConsentRecordsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConsentRecordsInput = {
@@ -2047,6 +2231,7 @@ export type UserUncheckedUpdateWithoutConsentRecordsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   deletionRequests?: Prisma.DataDeletionRequestUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDeletionRequestsInput = {
@@ -2072,6 +2257,7 @@ export type UserCreateWithoutDeletionRequestsInput = {
   trendAnalyses?: Prisma.TrendAnalysisCreateNestedManyWithoutPatientInput
   disputes?: Prisma.DisputeCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDeletionRequestsInput = {
@@ -2097,6 +2283,7 @@ export type UserUncheckedCreateWithoutDeletionRequestsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedCreateNestedManyWithoutPatientInput
   disputes?: Prisma.DisputeUncheckedCreateNestedManyWithoutPatientInput
   consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutPatientInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDeletionRequestsInput = {
@@ -2138,6 +2325,7 @@ export type UserUpdateWithoutDeletionRequestsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUpdateManyWithoutPatientNestedInput
   disputes?: Prisma.DisputeUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
@@ -2163,6 +2351,7 @@ export type UserUncheckedUpdateWithoutDeletionRequestsInput = {
   trendAnalyses?: Prisma.TrendAnalysisUncheckedUpdateManyWithoutPatientNestedInput
   disputes?: Prisma.DisputeUncheckedUpdateManyWithoutPatientNestedInput
   consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutPatientNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2182,6 +2371,7 @@ export type UserCountOutputType = {
   disputes: number
   consentRecords: number
   deletionRequests: number
+  passwordResetTokens: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2196,6 +2386,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   disputes?: boolean | UserCountOutputTypeCountDisputesArgs
   consentRecords?: boolean | UserCountOutputTypeCountConsentRecordsArgs
   deletionRequests?: boolean | UserCountOutputTypeCountDeletionRequestsArgs
+  passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
 }
 
 /**
@@ -2285,6 +2476,13 @@ export type UserCountOutputTypeCountDeletionRequestsArgs<ExtArgs extends runtime
   where?: Prisma.DataDeletionRequestWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetTokenWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2310,6 +2508,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   disputes?: boolean | Prisma.User$disputesArgs<ExtArgs>
   consentRecords?: boolean | Prisma.User$consentRecordsArgs<ExtArgs>
   deletionRequests?: boolean | Prisma.User$deletionRequestsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2369,6 +2568,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   disputes?: boolean | Prisma.User$disputesArgs<ExtArgs>
   consentRecords?: boolean | Prisma.User$consentRecordsArgs<ExtArgs>
   deletionRequests?: boolean | Prisma.User$deletionRequestsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2389,6 +2589,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     disputes: Prisma.$DisputePayload<ExtArgs>[]
     consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
     deletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
+    passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2808,6 +3009,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   disputes<T extends Prisma.User$disputesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$disputesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DisputePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   consentRecords<T extends Prisma.User$consentRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deletionRequests<T extends Prisma.User$deletionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3521,6 +3723,30 @@ export type User$deletionRequestsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DataDeletionRequestScalarFieldEnum | Prisma.DataDeletionRequestScalarFieldEnum[]
+}
+
+/**
+ * User.passwordResetTokens
+ */
+export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
 }
 
 /**

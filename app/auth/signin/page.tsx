@@ -9,7 +9,6 @@ import { Loader2, Mail, Stethoscope, UserRound } from 'lucide-react'
 import { signInSchema, type SignInInput } from '@/lib/schemas/auth.schema'
 import {
   AuthFormCard,
-  AuthLinkRow,
   BrandPanel,
   FormAlert,
   PasswordTextField,
@@ -59,6 +58,8 @@ function SignInForm() {
         badge="Secure sign in"
         title="Welcome back"
         subtitle="One account for the whole network — patients, physicians and administrators sign in here."
+        framed
+        titleClassName="text-3xl sm:text-4xl"
       >
         <form
           onSubmit={handleSubmit(handleSignIn)}
@@ -75,6 +76,7 @@ function SignInForm() {
             autoComplete="email"
             placeholder="you@example.com"
             error={errors.email?.message}
+            className="bg-landing-surface"
             {...register('email')}
           />
 
@@ -84,9 +86,10 @@ function SignInForm() {
             autoComplete="current-password"
             placeholder="Enter your password"
             error={errors.password?.message}
+            className="bg-landing-surface"
             action={
               <Link
-                href="#"
+                href="/auth/forgot-password"
                 className="text-xs font-medium text-landing-brand underline-offset-4 hover:underline"
               >
                 Forgot password?
@@ -95,28 +98,56 @@ function SignInForm() {
             {...register('password')}
           />
 
-          <SubmitButton pending={isSubmitting}>Sign In</SubmitButton>
+          <div className="pt-1">
+            <SubmitButton pending={isSubmitting}>Sign in</SubmitButton>
+          </div>
         </form>
 
-        <div className="mt-8 space-y-3">
-          <AuthLinkRow
-            href="/auth/signup/patient"
-            icon={UserRound}
-            label="Create a patient account"
-            sub="Start your first case in minutes"
-          />
-          <AuthLinkRow
-            href="/auth/signup/doctor"
-            icon={Stethoscope}
-            label="Join as a physician"
-            sub="Credential verification within 24-48 hours"
-          />
-        </div>
+        <div className="mt-8">
+          <div className="flex items-center gap-3">
+            <span aria-hidden="true" className="h-px flex-1 bg-landing-border" />
+            <span className="text-xs font-medium text-landing-text-faint">
+              New to Dr. Bubal Care?
+            </span>
+            <span aria-hidden="true" className="h-px flex-1 bg-landing-border" />
+          </div>
 
-        <p className="mt-6 text-center text-sm text-landing-text-muted">
-          Already registered? Your portal opens automatically based on your
-          role.
-        </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/auth/signup/patient"
+              className="group flex items-center gap-3 rounded-xl border border-landing-border bg-landing-surface px-4 py-3 transition-all duration-200 hover:border-landing-brand/40 hover:bg-landing-surface-muted active:scale-[0.99]"
+            >
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-landing-accent-soft text-landing-brand">
+                <UserRound className="size-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-medium text-foreground">
+                  Patient account
+                </span>
+                <span className="block truncate text-xs text-landing-text-faint">
+                  Start a case in minutes
+                </span>
+              </span>
+            </Link>
+
+            <Link
+              href="/auth/signup/doctor"
+              className="group flex items-center gap-3 rounded-xl border border-landing-border bg-landing-surface px-4 py-3 transition-all duration-200 hover:border-landing-brand/40 hover:bg-landing-surface-muted active:scale-[0.99]"
+            >
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-landing-accent-soft text-landing-brand">
+                <Stethoscope className="size-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-medium text-foreground">
+                  Join as physician
+                </span>
+                <span className="block truncate text-xs text-landing-text-faint">
+                  Verified within 48 hours
+                </span>
+              </span>
+            </Link>
+          </div>
+        </div>
       </AuthFormCard>
     </div>
   )

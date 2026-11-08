@@ -1,7 +1,10 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { getClientIp } from '@/lib/client-ip';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,6 +16,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+
+        const headerStore = await headers();
+        const ip = getClientIp(headerStore);
+        const rateCheck = await checkRateLimit(`signin:${ip}`, 10, 60_000);
+        if (!rateCheck.allowed) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
@@ -67,6 +75,8 @@ export const authOptions: NextAuthOptions = {
       // After sign-in, redirect to the correct portal based on role
       try {
         const parsedUrl = new URL(url, baseUrl);
+        const base = new URL(baseUrl);
+        if (parsedUrl.origin !== base.origin) return base.href;
         // If URL is already within a portal path, respect it
         if (parsedUrl.pathname.startsWith('/patient') ||
             parsedUrl.pathname.startsWith('/doctor') ||

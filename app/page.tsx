@@ -2,6 +2,7 @@
 import HeroSection from "@/components/landing-page/hero-section";
 import ProblemSection from "@/components/landing-page/problem-section";
 import HowItWorks from "@/components/landing-page/how-it-works";
+import VideoDemoSection from "@/components/landing-page/video-demo-section";
 import SpecializationsSection from "@/components/landing-page/specializations-section";
 import ServicesSection from "@/components/landing-page/services-section";
 import TrustSection from "@/components/landing-page/trust-section";
@@ -76,6 +77,7 @@ export default function Home() {
       <main id="main-content">
         <ProblemSection />
         <HowItWorks />
+        <VideoDemoSection />
         <SpecializationsSection />
         <ServicesSection />
         <TrustSection />

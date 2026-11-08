@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { tasks } from '@trigger.dev/sdk';
 import { writeFile, mkdir } from 'fs/promises';
 import { randomUUID } from 'crypto';
 import path from 'path';
-import { getBaseUrl } from '@/lib/app-url';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'private', 'uploads');
 const ALLOWED_TYPES = [
@@ -109,12 +109,9 @@ export async function POST(
   if (caseRecord.serviceType !== 'EUROPEAN_REFERRAL') {
     const recordCount = await prisma.caseRecord.count({ where: { caseId: id } });
     if (recordCount === 1) {
-      fetch(`${getBaseUrl()}/api/ai/prescreen/${id}`, {
-        method: "POST",
-        headers: {
-          "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
-        },
-      }).catch((err) => console.error("Pre-screening trigger failed:", err));
+      tasks
+        .trigger('ai-prescreen', { caseId: id })
+        .catch((err) => console.error('Pre-screening trigger failed:', err));
     }
   }
 

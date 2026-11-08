@@ -13,6 +13,11 @@
       "type": "http",
       "url": "https://mcp.neon.tech/mcp",
       "enabled": true
+    },
+    "resend": {
+      "type": "remote",
+      "url": "https://mcp.resend.com/mcp",
+      "enabled": true
     }
   },
   "tools": {

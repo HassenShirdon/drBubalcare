@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, LockKeyhole, ShieldCheck, Timer } from "lucide-react";
+import { ArrowRight, Globe, LockKeyhole, ShieldCheck, Timer } from "lucide-react";
 
 const ASSURANCES = [
   { icon: ShieldCheck, label: "Board-certified reviewers" },
@@ -164,15 +164,15 @@ export default function HeroSection() {
             </div>
 
             <div className="mt-6 flex items-center gap-3 border-t border-landing-border/70 pt-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-landing-surface-muted text-xs font-semibold text-landing-brand">
-                AM
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-landing-surface-muted text-landing-brand">
+                <Globe className="size-4" aria-hidden="true" />
               </span>
               <div className="leading-tight">
                 <p className="text-sm font-semibold text-landing-text">
-                  Dr. A. Mensah
+                  Global Doctors Network
                 </p>
                 <p className="text-xs text-landing-text-faint">
-                  Board-certified · Hematopathology
+                  Board-certified physicians
                 </p>
               </div>
               <span className="ml-auto text-[11px] font-medium text-landing-text-faint">

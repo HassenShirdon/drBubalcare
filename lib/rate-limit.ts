@@ -1,36 +1,50 @@
-const store = new Map<string, { count: number; resetAt: number }>();
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
-const WINDOW_MS = 60_000; // 1 minute
+const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 10;
 
-export function checkRateLimit(key: string, maxRequests = MAX_REQUESTS, windowMs = WINDOW_MS): {
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null;
+
+const limiters = new Map<string, Ratelimit>();
+
+function getLimiter(client: Redis, keyPrefix: string, maxRequests: number, windowMs: number): Ratelimit {
+  const cacheKey = `${keyPrefix}:${maxRequests}:${windowMs}`;
+  let limiter = limiters.get(cacheKey);
+  if (!limiter) {
+    limiter = new Ratelimit({
+      redis: client,
+      limiter: Ratelimit.fixedWindow(maxRequests, `${windowMs} ms`),
+      prefix: `dbc:${keyPrefix}`,
+    });
+    limiters.set(cacheKey, limiter);
+  }
+  return limiter;
+}
+
+export type RateLimitResult = {
   allowed: boolean;
   remaining: number;
   resetAt: number;
-} {
-  const now = Date.now();
-  const entry = store.get(key);
+};
 
-  if (!entry || now > entry.resetAt) {
-    store.set(key, { count: 1, resetAt: now + windowMs });
-    return { allowed: true, remaining: maxRequests - 1, resetAt: now + windowMs };
+export async function checkRateLimit(
+  key: string,
+  maxRequests = MAX_REQUESTS,
+  windowMs = WINDOW_MS,
+): Promise<RateLimitResult> {
+  if (!redis) {
+    return { allowed: true, remaining: maxRequests, resetAt: Date.now() + windowMs };
   }
-
-  entry.count += 1;
-
-  if (entry.count > maxRequests) {
-    return { allowed: false, remaining: 0, resetAt: entry.resetAt };
-  }
-
-  return { allowed: true, remaining: maxRequests - entry.count, resetAt: entry.resetAt };
-}
-
-// Cleanup stale entries every 5 minutes
-if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, entry] of store) {
-      if (now > entry.resetAt) store.delete(key);
-    }
-  }, 300_000);
+  const [prefix, ...rest] = key.split(':');
+  const identifier = rest.join(':');
+  const limiter = getLimiter(redis, prefix, maxRequests, windowMs);
+  const { success, remaining, reset } = await limiter.limit(identifier);
+  return { allowed: success, remaining, resetAt: reset };
 }

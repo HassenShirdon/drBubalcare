@@ -284,14 +284,6 @@ export const TESTIMONIALS: {
   },
 ] as const;
 
-export const SPECIALISTS: { name: string; specialty: string }[] = [
-  { name: "Dr. A. Mensah", specialty: "Hematopathologist" },
-  { name: "Dr. K. Okafor", specialty: "Diagnostic Radiologist" },
-  { name: "Dr. P. Njeri", specialty: "Cytopathologist" },
-  { name: "Dr. S. Abebe", specialty: "Dermatopathologist" },
-  { name: "Dr. L. Mwangi", specialty: "Oncologist" },
-] as const;
-
 export const FAQ: { question: string; answer: string }[] = [
   {
     question: "How much does it cost?",

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getBaseUrl } from '@/lib/app-url';
+import { tasks } from '@trigger.dev/sdk';
 import { z } from 'zod';
 
 const labMetricSchema = z.object({
@@ -78,12 +78,9 @@ export async function POST(request: Request) {
     include: { metrics: true },
   });
 
-  fetch(`${getBaseUrl()}/api/ai/trends/${userId}/analyze`, {
-    method: 'POST',
-    headers: {
-      'x-internal-secret': process.env.INTERNAL_API_SECRET || '',
-    },
-  }).catch((err) => console.error('Trend analysis trigger failed:', err));
+  tasks
+    .trigger('ai-trends', { patientId: userId })
+    .catch((err) => console.error('Trend analysis trigger failed:', err));
 
   return NextResponse.json(labResult, { status: 201 });
 }

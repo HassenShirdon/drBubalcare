@@ -228,6 +228,16 @@
   --color-landing-accent-soft: var(--landing-accent-soft);
   --color-landing-border: var(--landing-border);
   --color-landing-success: var(--landing-success);
+
+  /* Auth portal semantic tokens */
+  --color-auth-panel: var(--auth-panel-bg);
+  --color-auth-panel-fg: var(--auth-panel-fg);
+  --color-auth-panel-muted: var(--auth-panel-fg-muted);
+  --color-auth-panel-faint: var(--auth-panel-fg-faint);
+  --color-auth-panel-border: var(--auth-panel-border);
+  --color-auth-panel-chip: var(--auth-panel-chip);
+  --color-auth-panel-accent: var(--auth-panel-accent);
+  --color-auth-panel-accent-fg: var(--auth-panel-accent-fg);
   
   /* Admin portal semantic tokens */
   --color-admin-bg: var(--admin-bg);
@@ -307,6 +317,16 @@
   --landing-border: #e3e7ee;
   --landing-success: #15803d;
 
+  /* Auth portal brand panel (navy side of the split layout) */
+  --auth-panel-bg: #002D62;
+  --auth-panel-fg: #ffffff;
+  --auth-panel-fg-muted: #aebcd6;
+  --auth-panel-fg-faint: #7d92b5;
+  --auth-panel-border: rgba(255, 255, 255, 0.16);
+  --auth-panel-chip: rgba(255, 255, 255, 0.10);
+  --auth-panel-accent: #0DB07D;
+  --auth-panel-accent-fg: #002D62;
+
   /* Admin portal light mode */
   --admin-bg: #f7f8fa;
   --admin-surface: #ffffff;
@@ -383,6 +403,16 @@
   --landing-accent-soft: #0f2d22;
   --landing-border: #1e293b;
   --landing-success: #34d399;
+
+  /* Auth portal brand panel dark mode */
+  --auth-panel-bg: #0f1a2e;
+  --auth-panel-fg: #f1f5f9;
+  --auth-panel-fg-muted: #9aa8bb;
+  --auth-panel-fg-faint: #6b7a8f;
+  --auth-panel-border: #1e293b;
+  --auth-panel-chip: rgba(255, 255, 255, 0.06);
+  --auth-panel-accent: rgba(52, 216, 153, 0.12);
+  --auth-panel-accent-fg: #34d899;
 
   /* Admin portal dark mode */
   --admin-bg: #0b1628;

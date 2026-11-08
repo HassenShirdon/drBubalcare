@@ -22,7 +22,7 @@ export async function registerPatient(formData: FormData) {
   const headerStore = await headers();
   const ip = headerStore.get('x-forwarded-for') || headerStore.get('x-real-ip') || 'unknown';
   const rateLimitKey = `register:${ip}`;
-  const rateCheck = checkRateLimit(rateLimitKey, 5, 60_000);
+  const rateCheck = await checkRateLimit(rateLimitKey, 5, 60_000);
   if (!rateCheck.allowed) {
     return { error: { email: ['Too many registration attempts. Please try again later.'] } };
   }
@@ -55,7 +55,7 @@ export async function registerDoctor(formData: FormData) {
   const headerStore = await headers();
   const ip = headerStore.get('x-forwarded-for') || headerStore.get('x-real-ip') || 'unknown';
   const rateLimitKey = `register:${ip}`;
-  const rateCheck = checkRateLimit(rateLimitKey, 5, 60_000);
+  const rateCheck = await checkRateLimit(rateLimitKey, 5, 60_000);
   if (!rateCheck.allowed) {
     return { error: { email: ['Too many registration attempts. Please try again later.'] } };
   }
