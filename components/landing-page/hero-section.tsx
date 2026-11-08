@@ -1,8 +1,15 @@
 ﻿"use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Globe, LockKeyhole, ShieldCheck, Timer } from "lucide-react";
+import {
+  ArrowRight,
+  LockKeyhole,
+  Play,
+  ShieldCheck,
+  Timer,
+} from "lucide-react";
 
 const ASSURANCES = [
   { icon: ShieldCheck, label: "Board-certified reviewers" },
@@ -10,8 +17,15 @@ const ASSURANCES = [
   { icon: Timer, label: "24-48h written opinion" },
 ] as const;
 
+// Set NEXT_PUBLIC_DEMO_YOUTUBE_ID to the 11-char YouTube video ID
+// (the part after ?v=) to activate the embed. While empty, a lightweight
+// "coming soon" placeholder renders and no YouTube resources are loaded.
+const DEMO_YOUTUBE_ID = process.env.NEXT_PUBLIC_DEMO_YOUTUBE_ID || "";
+
 export default function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
+  const [playing, setPlaying] = useState(false);
+  const hasVideo = DEMO_YOUTUBE_ID.length > 0;
 
   const enter = (delay: number) =>
     prefersReducedMotion
@@ -105,80 +119,64 @@ export default function HeroSection() {
             className="absolute inset-x-6 -bottom-4 top-6 -rotate-2 rounded-3xl border border-landing-border/60 bg-landing-surface-muted"
             aria-hidden="true"
           />
-          <div className="shadow-lift relative rounded-3xl border border-landing-border/70 bg-landing-surface-card p-6 md:p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-landing-brand text-[11px] font-semibold tracking-wide text-white">
-                  DB
-                </span>
-                <div className="leading-tight">
-                  <p className="font-mono text-xs tabular-nums text-landing-text-faint">
-                    CASE #DBC-4821
-                  </p>
-                  <p className="text-sm font-medium text-landing-text">
-                    Hematopathology review
-                  </p>
-                </div>
-              </div>
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-landing-success/12 px-2 py-1 text-[11px] font-semibold tracking-wide text-landing-success">
-                <span className="h-1.5 w-1.5 rounded-full bg-landing-success" />
-                Opinion ready
-              </span>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <p className="text-xs font-semibold tracking-[0.1em] text-landing-text-faint">
-                PLAIN-LANGUAGE SUMMARY
-              </p>
-              <p className="text-[15px] leading-relaxed text-landing-text-muted">
-                Your blood counts show a mild iron deficiency, not the bone
-                marrow condition your first report suggested. No further imaging
-                is needed right now.
-              </p>
-            </div>
-
-            <div className="mt-6 space-y-2.5 border-t border-landing-border/70 pt-5">
-              {[
-                { label: "Hemoglobin", value: "11.2 g/dL", tone: "warn" as const },
-                { label: "Ferritin", value: "9 ng/mL", tone: "warn" as const },
-                { label: "Platelets", value: "248 x10⁹/L", tone: "ok" as const },
-              ].map((row) => (
+          <div className="shadow-lift relative overflow-hidden rounded-3xl border border-landing-border/70 bg-landing-brand">
+            {hasVideo && playing ? (
+              <iframe
+                className="aspect-video w-full"
+                src={`https://www.youtube-nocookie.com/embed/${DEMO_YOUTUBE_ID}?autoplay=1&rel=0`}
+                title="Dr. Bubal Care demo video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => hasVideo && setPlaying(true)}
+                disabled={!hasVideo}
+                className="group relative flex aspect-video w-full flex-col items-center justify-center overflow-hidden disabled:cursor-default"
+                aria-label={
+                  hasVideo ? "Play demo video" : "Demo video coming soon"
+                }
+              >
                 <div
-                  key={row.label}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span className="text-landing-text-muted">{row.label}</span>
-                  <span className="flex items-center gap-2 font-mono tabular-nums text-landing-text">
-                    {row.value}
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        row.tone === "warn"
-                          ? "bg-landing-accent"
-                          : "bg-landing-success"
-                      }`}
-                      aria-hidden="true"
-                    />
-                  </span>
-                </div>
-              ))}
-            </div>
+                  className="bg-dot-grid absolute inset-0 opacity-[0.06]"
+                  aria-hidden="true"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-24 right-[-8%] h-72 w-72 rounded-full bg-landing-accent/20 blur-3xl"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-24 left-[-8%] h-72 w-72 rounded-full bg-landing-accent-alt/30 blur-3xl"
+                />
 
-            <div className="mt-6 flex items-center gap-3 border-t border-landing-border/70 pt-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-landing-surface-muted text-landing-brand">
-                <Globe className="size-4" aria-hidden="true" />
-              </span>
-              <div className="leading-tight">
-                <p className="text-sm font-semibold text-landing-text">
-                  Global Doctors Network
+                <span
+                  className={`relative flex size-16 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur transition-transform duration-200 ${
+                    hasVideo
+                      ? "group-hover:scale-105 group-focus-visible:scale-105"
+                      : ""
+                  }`}
+                >
+                  <Play
+                    className="ml-0.5 size-6 fill-white text-white"
+                    aria-hidden="true"
+                  />
+                </span>
+                <p className="relative mt-5 text-sm font-semibold text-white">
+                  Watch the demo
                 </p>
-                <p className="text-xs text-landing-text-faint">
-                  Board-certified physicians
+                <p className="relative mt-1 text-xs text-white/60">
+                  See the full journey, from upload to written opinion
                 </p>
-              </div>
-              <span className="ml-auto text-[11px] font-medium text-landing-text-faint">
-                Signed
-              </span>
-            </div>
+                {!hasVideo && (
+                  <span className="relative mt-4 rounded-full border border-white/20 px-3 py-1 text-[11px] font-medium tracking-wide text-white/60">
+                    Demo video coming soon
+                  </span>
+                )}
+              </button>
+            )}
           </div>
         </motion.div>
       </div>
