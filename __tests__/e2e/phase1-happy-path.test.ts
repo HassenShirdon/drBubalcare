@@ -101,9 +101,13 @@ vi.mock('@/lib/ai/synthesis', () => ({
   generateSynthesis: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('@trigger.dev/sdk', () => ({
+  tasks: { trigger: vi.fn().mockResolvedValue(undefined) },
+}));
+
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
-import { generateSummary } from '@/lib/ai/summary';
+import { tasks } from '@trigger.dev/sdk';
 import { createCaseSchema } from '@/lib/schemas/case.schema';
 import { GET as listCases, POST as createCase } from '@/app/api/cases/route';
 import { PATCH as verifyDoctor } from '@/app/api/admin/specialists/[id]/verify/route';
@@ -222,16 +226,8 @@ describe('Phase 1 Happy Path E2E', () => {
     );
     expect(uploadRes.status).toBe(201);
 
-    // Verify AI pre-screening fetch was triggered (fire and forget)
-    expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:3000/api/ai/prescreen/case-1',
-      expect.objectContaining({
-        method: 'POST',
-        headers: expect.objectContaining({
-          'x-internal-secret': 'test-secret',
-        }),
-      }),
-    );
+    // Verify AI pre-screening was triggered (fire and forget)
+    expect(tasks.trigger).toHaveBeenCalledWith('ai-prescreen', { caseId: CASE_ID });
 
     // ─── Step 5: Doctor saves draft opinion ───
     vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', DOCTOR_USER_ID) as any);
@@ -252,7 +248,7 @@ describe('Phase 1 Happy Path E2E', () => {
     expect(draftRes.status).toBe(200);
 
     // Verify no summary generation triggered on draft save
-    expect(generateSummary).not.toHaveBeenCalled();
+    expect(tasks.trigger).not.toHaveBeenCalledWith('ai-summary', expect.anything());
 
     // ─── Step 6: Doctor signs opinion → triggers summary generation ───
     vi.mocked(getServerSession).mockResolvedValue(mockSession('DOCTOR', DOCTOR_USER_ID) as any);
@@ -278,7 +274,7 @@ describe('Phase 1 Happy Path E2E', () => {
     expect(signRes.status).toBe(200);
 
     // Verify plain-language summary generation was triggered (fire and forget)
-    expect(generateSummary).toHaveBeenCalledWith(OPINION_ID);
+    expect(tasks.trigger).toHaveBeenCalledWith('ai-summary', { opinionId: OPINION_ID });
 
     // ─── Step 7: Patient views case with AI prescreen data ───
     vi.mocked(getServerSession).mockResolvedValue(mockSession('PATIENT', PATIENT_ID) as any);
@@ -339,10 +335,7 @@ describe('Phase 1 Happy Path E2E', () => {
     expect(uploadRes.status).toBe(201);
 
     // Verify AI pre-screening was NOT triggered for second upload
-    const prescreenCalls = vi.mocked(global.fetch).mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('/api/ai/prescreen/'),
-    );
-    expect(prescreenCalls).toHaveLength(0);
+    expect(tasks.trigger).not.toHaveBeenCalledWith('ai-prescreen', expect.anything());
   });
 
   it('does not trigger summary generation on draft save', async () => {
@@ -363,7 +356,7 @@ describe('Phase 1 Happy Path E2E', () => {
     );
     expect(draftRes.status).toBe(200);
 
-    expect(generateSummary).not.toHaveBeenCalled();
+    expect(tasks.trigger).not.toHaveBeenCalledWith('ai-summary', expect.anything());
   });
 
   it('rejects file upload on closed case with 400', async () => {

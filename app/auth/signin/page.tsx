@@ -51,7 +51,7 @@ function SignInForm() {
   }
 
   return (
-    <div className="grid min-h-dvh bg-landing-surface lg:grid-cols-[45%_55%] xl:grid-cols-2">
+    <div className="grid min-h-dvh bg-landing-surface lg:grid-cols-2">
       <BrandPanel variant="signin" />
 
       <AuthFormCard

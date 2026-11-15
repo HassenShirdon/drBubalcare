@@ -135,7 +135,7 @@ export function BrandPanel({ variant }: { variant: BrandPanelVariant }) {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <aside className="relative hidden overflow-hidden bg-auth-panel lg:flex lg:w-[45%] xl:w-1/2 lg:items-center dark:border-r dark:border-landing-border">
+    <aside className="relative hidden overflow-hidden bg-auth-panel lg:flex lg:items-center dark:border-r dark:border-landing-border">
       <DotGrid />
       <div
         aria-hidden="true"

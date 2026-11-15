@@ -83,6 +83,9 @@ service-account*.json
 # --- Vercel ---
 .vercel
 
+# --- Trigger.dev ---
+.trigger/
+
 # --- Python (if any) ---
 __pycache__/
 *.pyc

@@ -6,6 +6,9 @@ on:
     branches: [ main, master ]
 jobs:
   test:
+    # Skip E2E when CI secrets are not configured (e.g. E2E_SECRET, DATABASE_URL).
+    # The job turns back on automatically once the secret is added.
+    if: ${{ secrets.E2E_SECRET != '' }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +17,7 @@ jobs:
       with:
         node-version: lts/*
     - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
+      run: npm install -g pnpm@11.17.0 && pnpm install
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
     - name: Run Playwright tests

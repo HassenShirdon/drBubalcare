@@ -50,12 +50,15 @@ vi.mock('@/lib/ai/synthesis', () => ({
   generateSynthesis: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('@trigger.dev/sdk', () => ({
+  tasks: { trigger: vi.fn().mockResolvedValue(undefined) },
+}));
+
 import { GET, POST } from '@/app/api/doctor/cases/[id]/opinion/route';
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
 import { checkRateLimit } from '@/lib/rate-limit';
-import { generateSummary } from '@/lib/ai/summary';
-import { generateSynthesis } from '@/lib/ai/synthesis';
+import { tasks } from '@trigger.dev/sdk';
 import { mockSession, idParamsRequest, createRequestWithBody } from '../helpers';
 import { AUDIT_ACTIONS } from '@/lib/audit/logger';
 
@@ -235,7 +238,7 @@ describe('Doctor Opinion API', () => {
 
       await POST(createRequestWithBody({ content: VALID_CONTENT, sign: true }), idParamsRequest(CASE_ID));
 
-      expect(generateSummary).toHaveBeenCalledWith('op-1');
+      expect(tasks.trigger).toHaveBeenCalledWith('ai-summary', { opinionId: 'op-1' });
     });
   });
 });

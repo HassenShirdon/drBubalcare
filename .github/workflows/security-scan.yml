@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@11.17.0
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run dependency audit
@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@11.17.0
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Generate Prisma client
@@ -55,7 +55,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@11.17.0
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run unit tests
