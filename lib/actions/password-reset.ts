@@ -28,6 +28,17 @@ export type RequestPasswordResetResult =
 export async function requestPasswordReset(
   formData: FormData,
 ): Promise<RequestPasswordResetResult> {
+  try {
+    return await requestPasswordResetInternal(formData);
+  } catch (error) {
+    console.error('[password-reset] Unexpected error requesting reset:', error);
+    return { error: { email: ['Something went wrong. Please try again later.'] } };
+  }
+}
+
+async function requestPasswordResetInternal(
+  formData: FormData,
+): Promise<RequestPasswordResetResult> {
   const raw = Object.fromEntries(formData);
   const parsed = forgotPasswordSchema.safeParse(raw);
 

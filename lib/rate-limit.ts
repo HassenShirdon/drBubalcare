@@ -45,6 +45,13 @@ export async function checkRateLimit(
   const [prefix, ...rest] = key.split(':');
   const identifier = rest.join(':');
   const limiter = getLimiter(redis, prefix, maxRequests, windowMs);
-  const { success, remaining, reset } = await limiter.limit(identifier);
-  return { allowed: success, remaining, resetAt: reset };
+  try {
+    const { success, remaining, reset } = await limiter.limit(identifier);
+    return { allowed: success, remaining, resetAt: reset };
+  } catch (error) {
+    // Fail-open: an unreachable rate limiter must never block sign-in,
+    // registration or password reset. Log and allow the request.
+    console.error(`[rate-limit] Upstash unreachable for "${key}":`, error);
+    return { allowed: true, remaining: maxRequests, resetAt: Date.now() + windowMs };
+  }
 }
