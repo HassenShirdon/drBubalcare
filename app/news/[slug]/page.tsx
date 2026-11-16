@@ -3,7 +3,23 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, ArrowLeft, Tag } from 'lucide-react';
+import {
+  unstable_cacheTag as cacheTag,
+  unstable_cacheLife as cacheLife,
+} from 'next/cache';
 import { NewsContent } from './news-content';
+
+async function getPost(slug: string) {
+  'use cache';
+  cacheTag('news');
+  cacheTag(`news:${slug}`);
+  cacheLife('minutes');
+
+  return prisma.post.findUnique({
+    where: { slug, published: true },
+    include: { author: { select: { name: true } } },
+  });
+}
 
 export default async function PostPage({
   params,
@@ -11,10 +27,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({
-    where: { slug, published: true },
-    include: { author: { select: { name: true } } },
-  });
+  const post = await getPost(slug);
 
   if (!post) notFound();
 

@@ -12,6 +12,7 @@ const links = [
   { label: 'Home', href: '#home' },
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'About', href: '#about' },
+  { label: 'Blog', href: '/news' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -60,15 +61,18 @@ export default function Navigation() {
         </Link>
 
         <div className="hidden md:flex items-center gap-1 mx-6 overflow-visible">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-landing-text-faint hover:text-landing-brand transition-colors px-3 py-2 rounded-lg hover:bg-landing-surface-muted/60 whitespace-nowrap"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const className = 'text-sm text-landing-text-faint hover:text-landing-brand transition-colors px-3 py-2 rounded-lg hover:bg-landing-surface-muted/60 whitespace-nowrap'
+            return link.href.startsWith('/') ? (
+              <Link key={link.href} href={link.href} className={className}>
+                {link.label}
+              </Link>
+            ) : (
+              <a key={link.href} href={link.href} className={className}>
+                {link.label}
+              </a>
+            )
+          })}
 
           <div
             className="relative"
@@ -173,16 +177,28 @@ export default function Navigation() {
       {mobileOpen ? (
         <div className="md:hidden border-t border-landing-border/40 bg-landing-surface/95 backdrop-blur-md">
           <div className="px-6 py-4 space-y-1 max-w-7xl mx-auto">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="block text-base text-landing-text-faint hover:text-landing-brand transition-colors px-3 py-2.5 rounded-lg hover:bg-landing-surface-muted"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link) => {
+              const className = 'block text-base text-landing-text-faint hover:text-landing-brand transition-colors px-3 py-2.5 rounded-lg hover:bg-landing-surface-muted'
+              return link.href.startsWith('/') ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={className}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={className}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+              )
+            })}
 
             <div>
               <button
