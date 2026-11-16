@@ -12,10 +12,8 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-
-const LatestNewsClient = dynamic(
-  () => import("@/components/latest-news-client")
-);
+import LatestNews from "@/components/latest-news";
+import LatestNewsSkeleton from "@/components/latest-news-skeleton";
 
 const ContactSection = dynamic(
   () => import("@/components/landing-page/contact-section")
@@ -81,8 +79,8 @@ export default function Home() {
         <TrustSection />
         <StatsBanner />
         <SocialProofSection />
-        <Suspense fallback={null}>
-          <LatestNewsClient />
+        <Suspense fallback={<LatestNewsSkeleton />}>
+          <LatestNews />
         </Suspense>
         <CTASection />
         <Suspense fallback={null}>
